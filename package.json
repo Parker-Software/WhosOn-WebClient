@@ -1,0 +1,25 @@
+{
+  "name": "wo-webclient",
+  "version": "1.0.0",
+  "description": "whoson webclient",
+  "main": "gulpfile.js",
+  "dependencies": {
+    "bulma": "^0.7.5",
+    "del": "^5.0.0",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "util": "^0.12.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://parkersoftware@dev.azure.com/parkersoftware/WO-Webclient/_git/WO-Webclient"
+  },
+  "author": "Parker Software",
+  "license": "ISC",
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.10.2"
+  }
+}
