@@ -10,7 +10,12 @@
             self._connection.Connect(self._state.connectionAddress);
 
             self._connection.On("Connected", (e) => {
-                self._auth.Login("Jamie", "pslt0pmans", "Jamie", "Dev");
+                if(self._state.userName != null && self._state.password != null) {
+                    self._auth.Login(self._state.userName,
+                        self._state.password,
+                        self._state.displayName,
+                        self._state.department);
+                }
             });
 
             self._connection.On("LoggedIn", (e) => {

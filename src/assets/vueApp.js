@@ -13,6 +13,8 @@
                     connectionAddress: "ws://192.168.10.152:8013",
                     userName: null,
                     password: null,
+                    displayName: null,
+                    department: null,
                     loggedIn: false,
                     userInfo: null,
                     currentChat: null,
@@ -26,13 +28,12 @@
                 mutations: {
                     init(state) {
                         var previousSettings = sessionStorage.getItem("woClient");
-                        console.log("previous app state");
-                        console.log(previousSettings);
-
-
                         if(previousSettings) {
                             var settings = JSON.parse(previousSettings);
-                            console.log(settings);
+                            state.userName = settings.userName;
+                            state.password = settings.password;
+                            state.displayName = settings.displayName;
+                            state.department = settings.department;
                         }
                     },
                     setChats(state, chats) {
