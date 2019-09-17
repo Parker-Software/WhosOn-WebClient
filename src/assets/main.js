@@ -1,6 +1,6 @@
 (function(){
     class Main {
-        constructor(rdyCallback) {
+        constructor() {
             var self = this;
 
             self._state = woServices.Vue._state;
@@ -10,7 +10,7 @@
             self._connection.Connect(self._state.connectionAddress);
 
             self._connection.On("Connected", (e) => {
-               if(rdyCallback != null) rdyCallback(); 
+                self._auth.Login("Jamie", "pslt0pmans", "Jamie", "Dev");
             });
 
             self._connection.On("LoggedIn", (e) => {
@@ -23,7 +23,5 @@
         }
     }
 
-    var main = new Main(() => {
-        woServices.Authentication.Login("Jamie", "pslt0pmans", "Jamie", "Dev");
-    });
+    var main = new Main();
 })();
