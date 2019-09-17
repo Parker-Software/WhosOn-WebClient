@@ -20,6 +20,10 @@
   "author": "Parker Software",
   "license": "ISC",
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.10.2"
+    "@fortawesome/fontawesome-free": "^5.10.2",
+    "browser-sync": "^2.26.7",
+    "bulma-extensions": "^6.2.7",
+    "gulp-sass": "^4.0.2",
+    "node-sass": "^4.12.0"
   }
 }

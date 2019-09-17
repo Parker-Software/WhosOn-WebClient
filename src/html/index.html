@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Test</title>
+
+    <meta charset="UTF-8">
+
+    <meta name="language" content="en-EN">
+
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="columns is-fixed-top header is-marginless" id="app-header">
+        <div class="column is-12 has-text-centered">
+            <h1 class="is-size-5">{username} | WhosOn</h1>
+        </div>
+    </div>
+
+    <div class="columns" id="app-content">
+        <div class="column is-1 is-fullheight" id="navigation">
+            <aside class="menu">
+
+                <ul class="menu-list">
+                    <li>
+                        <a class="" href="#">
+                            <span class="icon">
+                                <i class="fas fa-user"></i>
+                            </span>
+                            <br>
+                            My Status
+                        </a>
+                    </li>
+                    <li>
+                        <a class="is-active" href="index.html">
+                            <span class="icon">
+                                <i class="fas fa-comment-dots"></i>
+                            </span>
+                            <br>
+                            Chats
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="#" data-show="quickview" data-target="quickviewDefault">
+                            <span class="icon">
+                                <i class="fas fa-users"></i>
+                            </span>
+                            <br>
+                            users
+                        </a>
+                    </li>
+
+                </ul>
+
+            </aside>
+            <aside class="menu menu-bottom">
+                <ul class="menu-list">
+                    <li>
+                        <a class="" href="#">
+                            <span class="icon">
+                                <i class="fas fa-sliders-h"></i>
+                            </span>
+                            <br>
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <a class="" href="#">
+                            <span class="icon">
+                                <i class="fas fa-cog"></i>
+                            </span>
+                            <br>
+                            Options
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="column is-11" id="page-content">
+            <div class="content-body">
+                <div class="columns" style="height: 100%">
+                    <div class="column is-3 is-fullheight active-chats">
+                        <div class="content-header">
+                            <h5 class="title is-4">Active Chats</h5>
+                        </div>
+                        <ul>
+                            <li>
+                                A Chat
+                            </li>
+                            <li>
+                                A Chat
+                            </li>
+                            <li>
+                                A Chat
+                            </li>
+                            <li>
+                                A Chat
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="column is-9 col-pad chat-area is-hidden">
+                        <div class="logo">
+                            <i class="far fa-comment"></i>
+                            <br>
+                            <p>No Active Chats</p>
+                        </div>
+                    </div>
+                    <div class="column is-9 chat-area">
+                        <div class="">
+                            <div class="columns">
+                                <div class="column is-narrow">
+                                    <figure class="image is-64x64">
+                                        <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
+                                            class="is-rounded">
+                                        <div class="status online"><i class="fas fa-circle"></i></div>
+                                    </figure>
+                                </div>
+                                <div class="column is-6">
+                                    <div class="chat-header" style="margin-top: 15px;">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{visitorname}</strong> (Waiting) <br>
+                                                <small>{sitename}</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tabs">
+                                <ul>
+                                    <li class="is-active"><a>Conversation</a></li>
+                                    <li><a>Previous Chats</a></li>
+                                    <li><a>Visitor</a></li>
+                                    <li><a>Contact</a></li>
+                                </ul>
+                            </div>
+                            <br>
+                        </div>
+                        <div class="active-chat" id="Conversation">
+                            <div class="columns is-desktop ">
+                                <div class="column is-12 is-scrollable message-list">
+                                    <div class="columns is-gapless chat-message chat-right">
+                                        <div class="column is-11">
+                                            <div class="notification operator">
+                                                Lorem ipsum dolor sit amet, consectetur
+                                                adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus
+                                                    mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum
+                                                rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
+                                                <a>felis venenatis</a> efficitur. Sit amet,
+                                                consectetur adipiscing elit
+                                            </div>
+                                        </div>
+                                        <div class="column is-1 time-col" style="margin: auto;">
+                                            11:03 am
+                                        </div>
+                                    </div>
+                                    <div class="columns is-gapless chat-message">
+                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
+                                            <time >11:07 am</time>
+                                        </div>
+                                        <div class="column is-11 ">
+                                            <div class="notification visitor">
+                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae
+                                                posuere eros, vitae pulvinar lectus. Aliquam convallis vulputate augue
+                                                non pharetra. Nulla volutpat sed mauris sed dapibus.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="columns is-gapless chat-message">
+                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
+                                            11:10 am
+                                        </div>
+                                        <div class="column is-11">
+                                            <div class="notification visitor">
+                                                Nulla volutpat sed mauris sed dapibus.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="columns is-gapless chat-message chat-right">
+                                        <div class="column is-11">
+                                            <div class="notification operator">
+                                                Cras consectetur odio lorem, lacinia vulputate lorem rhoncus in. In
+                                                pharetra sagittis malesuada. Maecenas vel nisl accumsan nibh viverra
+                                                commodo. Nulla at ante convallis, dignissim dolor sit amet, sollicitudin
+                                                lectus. Cras sodales id neque nec finibus.
+                                            </div>
+                                        </div>
+                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
+                                            11:03 am
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <section class="reply-container">
+                            <div class="column is-full">
+                                <textarea class="textarea" placeholder="Enter your reply"
+                                    style="resize: none;"></textarea>
+                            </div>
+                            <div class="column is-full" style="padding-top:0px;">
+                                <div class="is-pulled-right chat-icons">
+                                    <i class="fas fa-smile"></i>
+                                    <i class="fas fa-comment-dots"></i>
+                                    <i class="fas fa-paperclip"></i>
+                                    <i class="fas fa-download"></i>
+
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+    <div id="quickviewDefault" class="quickview">
+        <header class="quickview-header">
+            <p class="title">Users</p>
+            <span class="delete" data-dismiss="quickview"></span>
+        </header>
+
+        <div class="quickview-body">
+            <div class="quickview-block">
+                <ul class="menu-list">
+                    <li>
+                        <div class="container">
+                            <div class="column is-12">
+                                <div class="box">
+                                    <article class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-64x64">
+                                                <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
+                                                    class="is-rounded">
+                                                <div class="status online"><i class="fas fa-circle"></i></div>
+                                            </figure>
+                                        </div>
+                                        <div class="media-content" style="margin-top: 15px;">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{username}</strong> <br>
+                                                    <small>Taking to: {visitorname}</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                    <li>
+                        <div class="container">
+                            <div class="column is-12">
+                                <div class="box">
+                                    <article class="media">
+                                        <div class="media-left">
+                                            <figure class="image is-64x64">
+                                                <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
+                                                    class="is-rounded">
+                                                <div class="status busy"><i class="fas fa-circle"></i></div>
+                                            </figure>
+                                        </div>
+                                        <div class="media-content" style="margin-top: 15px;">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{username}</strong> <br>
+                                                    <small>Busy</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+    <script type="text/javascript"
+        src="https://wikiki.github.io/node_modules/bulma-extensions/bulma-quickview/dist/js/bulma-quickview.min.js"></script>
+    <script type="text/javascript">
+        bulmaQuickview.attach();
+    </script>
+
+
+</body>
+
+</html>
