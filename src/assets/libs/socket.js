@@ -3,8 +3,6 @@
         constructor() {
             super();
             var self = this;
-
-            self.DebugTitle = "WebSocket:";
             self.Connected = false;
 
             var address = window.location.hostname;
@@ -14,7 +12,6 @@
         Connect(address) {
             var self = this;
             var addressToConnectTo = address || self._connAddress;
-            console.log(`${self.DebugTitle} connecting to ${addressToConnectTo}`);
             self._socket = new WebSocket(addressToConnectTo);
             self._socket.onopen = (e) => {
                 self.Connected = true;
@@ -36,9 +33,6 @@
         Send(cmdName, params) {
             var self = this;
 
-            console.log(`${self.DebugTitle} sending message - ${cmdName}`);
-            console.log(params);
-
             self._socket.send(
                 JSON.stringify(
                 {
@@ -50,7 +44,6 @@
 
         Close() {
             var self = this;
-            console.log(`${self.DebugTitle} closing socket`);
             self._socket.close(1000, "Socket Closing");
         }
     }

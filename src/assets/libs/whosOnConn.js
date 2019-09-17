@@ -11,6 +11,7 @@
 
             self.Socket.On("Message", (e) => {
                 var data = JSON.parse(e);
+                console.log(data);
                 switch(data.EventName) {
                     case "connected":
                         self.Call("LoggedIn", data);
