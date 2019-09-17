@@ -26,7 +26,7 @@
                     uploadedFiles: null
                 },
                 mutations: {
-                    init(state) {
+                    getPreviousLoginInfo(state) {
                         var previousSettings = sessionStorage.getItem("woClient");
                         if(previousSettings) {
                             var settings = JSON.parse(previousSettings);
@@ -48,7 +48,7 @@
                 el: "#app",
                 store: self._store,
                 beforeCreate() {
-                    this.$store.commit("init");
+                    this.$store.commit("getPreviousLoginInfo");
                 }
             }); 
         }
