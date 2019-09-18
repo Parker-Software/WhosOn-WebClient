@@ -41,6 +41,11 @@ function moveHTML(){
     .pipe(dest("./dist/"));
 }
 
+function moveJS() {
+  return src(["./src/assets/*.js", "./src/components/*.js", "./src/assets/libs/*.js", "./src/assets/third-party/*.js"])
+    .pipe(dest("./dist/assets/js/"))
+}
+
 function moveImages(){
     return src("./src/assets/images/*.*")
     .pipe(dest("./dist/assets/images/"));
@@ -60,6 +65,8 @@ function watchFiles() {
     watch("./src/style/**/*", scss);
     watch("./src/assets/images/*", moveImages);
     watch("./src/html/*", moveHTML);
+    watch("./src/assets/**/*.js", moveJS);
+    watch("./src/components/*.js", moveJS)
     watch(
       [
         "./dist/assets/**/*",
@@ -79,6 +86,7 @@ exports.moveImages = moveImages;
 exports.monitor = monitor;
 exports.moveFonts = moveFonts;
 exports.moveVendor = moveVendor;
+exports.moveJS = moveJS;
 
-exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor]);
+exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor, moveJS]);
 
