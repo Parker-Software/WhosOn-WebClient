@@ -7,6 +7,13 @@
             self._connection = woServices.WhosOnConn;
             self._auth = woServices.Authentication;
 
+            self._loginView = woServices.LoginView;
+
+
+            self._loginView.On("Loaded", () => {
+                console.log("Login View Was Loaded");
+            });
+
             self._connection.Connect(self._state.connectionAddress);
 
             self._connection.On("Connected", (e) => {
