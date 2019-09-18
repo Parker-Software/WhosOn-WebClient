@@ -63,7 +63,7 @@
 
             </aside>
             <aside class="menu menu-bottom">
-                <ul class="menu-list">                
+                <ul class="menu-list">
                     <li>
                         <a class="" href="#">
                             <span class="icon">
@@ -203,30 +203,39 @@
                                 </div>
                                 <div class="column is-5 .no-pad-right ">
                                     <div class="chat-header-icons is-pulled-right">
-                                        <span class="fa-stack fa-2x">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-times fa-stack-1x fa-inverse" style="color:#fff;"></i>
-                                        </span>
-                                        <a href="#" data-show="quickview" data-target="quickviewDefault">
+                                        <a href="#" class="tooltip" data-tooltip="Close this chat">
                                             <span class="fa-stack fa-2x">
                                                 <i class="fas fa-circle fa-stack-2x"></i>
-                                                <i class="fas fa-users fa-stack-1x fa-inverse" style="color:#fff;"></i>
+                                                <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                                             </span>
                                         </a>
 
-                                        <span class="fa-stack fa-2x">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-graduation-cap fa-stack-1x fa-inverse"
-                                                style="color:#fff;"></i>
-                                        </span>
-                                        <span class="fa-stack fa-2x">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-envelope fa-stack-1x fa-inverse" style="color:#fff;"></i>
-                                        </span>
-                                        <span class="fa-stack fa-2x">
-                                            <i class="fas fa-circle fa-stack-2x"></i>
-                                            <i class="fas fa-ban fa-stack-1x fa-inverse" style="color:#fff;"></i>
-                                        </span>
+                                        <a href="#" data-show="quickview" data-target="quickviewDefault" class="tooltip" data-tooltip="Show transfer list">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-circle fa-stack-2x"></i>
+                                                <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="tooltip" data-tooltip="Request monitor">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-circle fa-stack-2x"></i>
+                                                <i class="fas fa-graduation-cap fa-stack-1x fa-inverse white"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="tooltip" data-tooltip="Email transcript">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-circle fa-stack-2x"></i>
+                                                <i class="fas fa-envelope fa-stack-1x fa-inverse white"></i>
+                                            </span>
+                                        </a>
+                                        <a href="#" class="tooltip" data-tooltip="Show block options">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-circle fa-stack-2x"></i>
+                                                <i class="fas fa-ban fa-stack-1x fa-inverse white"></i>
+                                            </span>
+                                        </a>
+
+
 
                                     </div>
                                 </div>
@@ -237,30 +246,31 @@
                                     <li><a>Previous Chats</a></li>
                                     <li><a>Visitor</a></li>
                                     <li><a>Contact</a></li>
+                                    <li><a>CRM</a></li>
                                 </ul>
                             </div>
-                         
+
                         </div>
                         <div class="survey-block">
-                                <div class="container is-fluid">                                   
-                                    <h3 class="subtitle is-4">Survey Results</h3>                                  
-                                        <div class="columns is-gapless">
-                                            <div class="column is-6">
-                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>   
-                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
-                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
-                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>                                                 
-                                            </div>
-                                            <div class="column is-6">
-                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>   
-                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
-                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
-                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>                                                 
-                                                </div>
-                                        </div>
+                            <div class="container is-fluid">
+                                <h3 class="subtitle is-4">Survey Results</h3>
+                                <div class="columns is-gapless">
+                                    <div class="column is-6">
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                    </div>
+                                    <div class="column is-6">
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                        <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>
+                                    </div>
                                 </div>
-                                   
                             </div>
+
+                        </div>
                         <div class="active-chat" id="Conversation">
                             <div class="columns is-desktop ">
                                 <div class="column is-12 is-scrollable message-list">
@@ -403,7 +413,10 @@
                             <div class="column is-full" style="padding-top:0px;">
                                 <div class="is-pulled-right chat-icons">
                                     <i class="fas fa-smile"></i>
-                                    <i class="fas fa-comment-dots"></i>
+                                    <a href="#" data-show="quickview" data-target="responsesView">
+                                        <i class="fas fa-comment-dots"></i>
+                                    </a>
+
                                     <i class="fas fa-paperclip"></i>
                                     <i class="fas fa-download"></i>
 
@@ -418,6 +431,7 @@
 
 
     </div>
+    <!-- transfer side bar -->
     <div id="quickviewDefault" class="quickview">
         <header class="quickview-header">
             <p class="title">Transfer Chat</p>
@@ -486,6 +500,78 @@
         </div>
 
     </div>
+    <!-- transfer side bar end -->
+
+    <!-- responses side bar -->
+    <div id="responsesView" class="quickview">
+        <header class="quickview-header">
+            <p class="title">Canned Responses</p>
+            <span class="delete" data-dismiss="quickview"></span>
+        </header>
+
+        <div class="quickview-body">
+            <div class="quickview-block">
+                <div class="container">
+                    <div class="column is-12">
+                        <div class="field">
+                            <p class="control has-icons-left has-icons-right">
+                                <input class="input" type="text" placeholder="Search Canned Responses">
+                                <span class="icon is-small is-right">
+                                    <i class="fas fa-search"></i>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <ul class="menu-list">
+                    <li>
+                        <!-- canned response item -->
+                        <div class="container">
+                            <div class="column is-12">
+                                <div class="box clickable">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <span class="response"><strong>{responsename}</strong> </span>
+                                                    <small>{responsecontent}</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- canned response item end -->
+                    </li>
+                    <li>
+                        <!-- canned response item -->
+                        <div class="container">
+                            <div class="column is-12">
+                                <div class="box clickable">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <span class="response"><strong>{responsename}</strong> </span>
+                                                    <small>{responsecontent}</small>
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                    </article>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- canned response item end -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- responses side bar end -->
 
     <script type="text/javascript" src="assets/vendor/bulma/bulma-quickview.min.js"></script>
     <script type="text/javascript">
