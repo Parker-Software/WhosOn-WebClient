@@ -1,7 +1,6 @@
 (function() {
-    class VueApp extends EventEmitter {
+    class VueApp {
         constructor() {
-            super();
 
             var self = this;
             self._store = new Vuex.Store({
@@ -11,10 +10,10 @@
                     lang: "en",
                     platform: "WebClient",
                     connectionAddress: "ws://192.168.10.152:8013",
-                    userName: null,
-                    password: null,
-                    displayName: null,
-                    department: null,
+                    userName: "Jamie",
+                    password: "pslt0pmans",
+                    displayName: "Jamie",
+                    department: "dev",
                     loggedIn: false,
                     userInfo: null,
                     currentChat: null,

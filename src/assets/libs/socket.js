@@ -1,8 +1,11 @@
 (function(){
-    class Socket extends EventEmitter {
+    class Socket {
         constructor() {
-            super();
             var self = this;
+
+            self.Hooks = woServices.Hooks;
+            self.SocketEvents = woServices.HookEvents.Socket;
+
             self.Connected = false;
 
             var address = window.location.hostname;
@@ -15,18 +18,21 @@
             self._socket = new WebSocket(addressToConnectTo);
             self._socket.onopen = (e) => {
                 self.Connected = true;
-                self.Call("Opened", e);
+                self.Hooks.Call(self.SocketEvents.Opened, e);
             }
+
             self._socket.onmessage = (e) => {
-                self.Call("Message", e.data);
+                self.Hooks.Call(self.SocketEvents.Message, e.data);
             }
+
             self._socket.onclose = (e) => {
                 self.Connected = false;
 
-                self.Call("Closed", e);
+                self.Hooks.Call(self.SocketEvents.Closed, e);
             }
+
             self._socket.onerror = (e) => {
-                self.Call("Error", e);
+                self.Hooks.Call(self.SocketEvents.Error, e);
             }
         }
 

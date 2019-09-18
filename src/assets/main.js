@@ -3,34 +3,28 @@
         constructor() {
             var self = this;
 
+            var hooks = woServices.Hooks;
+            var connEvents = woServices.HookEvents.Connection;
+            var auth = woServices.Authentication;
+
             self._state = woServices.Vue._state;
             self._connection = woServices.WhosOnConn;
-            self._auth = woServices.Authentication;
-
-            self._loginView = woServices.LoginView;
-
-
-            self._loginView.On("Loaded", () => {
-                console.log("Login View Was Loaded");
-            });
-
+            
             self._connection.Connect(self._state.connectionAddress);
 
-            self._connection.On("Connected", (e) => {
+            hooks.Register(connEvents.Error, (e) => {
+                console.log("Error Occured");
+            });
+
+            hooks.Register(connEvents.Connected, (e) => {
+                console.log("Connected");
+
                 if(self._state.userName != null && self._state.password != null) {
-                    self._auth.Login(self._state.userName,
+                    auth.Login(self._state.userName,
                         self._state.password,
                         self._state.displayName,
                         self._state.department);
                 }
-            });
-
-            self._connection.On("LoggedIn", (e) => {
-                console.log("Logged Into WhosOn");
-            });
-
-            self._connection.On("ChatClosed", (e) => {
-
             });
         }
     }
