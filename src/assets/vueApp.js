@@ -26,7 +26,10 @@
                     uploadedFiles: null
                 },
                 mutations: {
-                    getPreviousLoginInfo(state) {
+                    init(state) {
+
+                        state.connectionAddress = state.connectionAddress || `ws://${window.location.hostname}:8013`;
+
                         var previousSettings = sessionStorage.getItem("woClient");
                         if(previousSettings) {
                             var settings = JSON.parse(previousSettings);
@@ -48,7 +51,7 @@
                 el: "#app",
                 store: self._store,
                 beforeCreate() {
-                    this.$store.commit("getPreviousLoginInfo");
+                    this.$store.commit("init");
                 }
             }); 
         }
