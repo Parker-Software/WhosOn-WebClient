@@ -1,0 +1,149 @@
+.chat-message {
+    width:65%;
+}
+
+.chat-right{
+    float:right;
+}
+
+.quickview {
+    z-index:1000;
+}
+
+.status-border {
+    border-left: 4px solid $ThemeTextColor;
+}
+
+.chat-info {
+    box-shadow: none !important;
+    margin-bottom:4px;
+
+    &.is-selected{
+        background-color: #e5e6f3;
+    }
+
+    &:hover{
+        background-color: #e5e6f3;
+        cursor: pointer;
+    }
+}
+
+.quickview, .quickview-body{
+    height:100vh;
+}
+
+textarea {
+    resize: none;
+  }
+
+.visitor {  
+    background-color: $ThemeChatLineBackgroundVisitor;
+    margin-left:10px;
+}
+
+.operator {
+    background-color: $ThemeChatLineBackgroundOperator;
+    margin-right:10px;
+}
+
+.chat-header-icons {
+     margin-top: -4px;
+     font-size: 0.6rem;
+    i {
+        color:$ThemeRoundButtonFill;
+        opacity: 0.8;
+        padding-left:2px;
+    }
+}
+
+.chat-icons{
+    font-size: 1.4rem;
+    i {
+        color:$FontColor;
+        opacity: 0.8;
+        padding-left:4px;
+
+        
+    }
+
+    
+}
+
+
+.is-horizontal-center {
+    justify-content: center;
+  }
+.active-chats{
+    background-color: #fff;
+    
+}
+
+.time-col{
+    margin: auto;
+    min-width: 70px;
+}
+
+.chat-area{
+    height:100vh;
+    position: relative;
+    background-color: $ThemeChatBackground;
+    p{
+        color:$FontColor;
+        font-weight: bold;
+        font-size: 1.2rem;
+    }
+    .tabs {
+        margin-bottom: 0 !important;
+    }
+
+    .subtitle {
+        margin-bottom: 3px;   
+    }
+
+    .survey-block {
+        background-color: $ThemeChatSurveyBackground;
+        padding: 4px 4px;
+        margin-bottom: 2px;
+        z-index:999;
+        max-height: 96px;
+    overflow-y: auto;
+    }
+    .logo {
+        position: absolute;
+        left: 50%;
+        margin-left: -50px;
+        top: 50%;
+        margin-top: -50px;
+        text-align: center;
+        i {
+            font-size: 8rem;
+            color:$ChatViewSeperator;
+        }
+      }
+      .reply-container {
+        position: absolute;
+        bottom:54px;
+        padding-right:24px;
+        width:100%;
+        background-color: $ThemeChatBackground;
+        z-index:999;
+    }
+}
+
+.visitor-typing {
+    padding-top:0;
+    padding-bottom:0;
+    margin-bottom: -12px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color:$ThemeTextColor;
+}
+
+.active-chat {
+    .message-list {
+        height: 61vh;
+        overflow-y: auto;
+        margin-top:10px;
+    }
+}
+
