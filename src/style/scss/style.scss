@@ -1,12 +1,14 @@
 @charset "utf-8";
 @import "./variables.scss";
 @import "../../../node_modules/bulma/bulma.sass";
-@import "./components/bulma-quickview.sass";
+@import "../../../node_modules/bulma-extensions/bulma-quickview/dist/css/bulma-quickview.sass";
+@import "../../../node_modules/bulma-extensions/bulma-switch/src/sass/index.sass";
 @import "./fontawesome/fontawesome.scss";
 @import "./fontawesome/regular.scss";
 @import "./fontawesome/solid.scss";
 @import "./components/padding.scss";
 @import "./themes/light.scss";
+@import "./components/login.scss";
 @import "./components/user.scss";
 @import "./components/lists.scss";
 @import "./components/chat.scss";
