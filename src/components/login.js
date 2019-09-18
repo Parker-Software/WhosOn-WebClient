@@ -1,5 +1,9 @@
 
 (function(){
+    var hooks = woServices.Hooks;
+    var events = woServices.HookEvents;
+    var connEvents = events.Connection;
+
     Vue.component('login', {
         data: function () {
             return {
@@ -11,8 +15,12 @@
         <input type="submit" value="Login" v-on:click="onSubmit"></div>`,
         methods: {
             onSubmit() {
-                woServices.Hooks.Call(woServices.HookEvents.Login.SubmitClicked, "test");
+                hooks.Call(events.Login.SubmitClicked, "test");
             }
         }
+    });
+
+    hooks.Register(connEvents.LoggedIn, () => {
+        
     });
 })();
