@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <div class="columns is-fixed-top header is-marginless" id="app-header">
+        <div class="column is-12 has-text-centered">
+            <h1 class="is-size-5">WhosOn</h1>
+        </div>
+    </div>
+    <section class="hero wo-login is-fullheight">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <div class="column is-4 is-offset-4">
+                    <div class="box">
+                        <figure class="avatar" style="margin-bottom: 4px;">
+                            <i class="fas fa-user fa-7x"></i>
+                        </figure>
+                        <form>
+                            <div class="field">
+                                <div class="control">
+                                    <label>Username</label>
+                                    <input class="input" type="text" autofocus="">
+                                </div>
+                            </div>
+
+                            <div class="field">
+
+                                <div class="control">
+                                    <label>Password</label>
+                                    <input class="input" type="password">
+                                </div>
+                            </div>                           
+                            <button class="button is-block">Login</button>
+                        </form>
+                    </div>
+                    <div class="field has-text-left" style="padding-left:20px;">
+                        <input id="RememberMe" type="checkbox" name="RememberMe" class="switch is-rounded"
+                            checked="checked">
+                        <label for="RememberMe">Keep me signed in</label>
+                    </div>
+                    <div class="field has-text-left" style="padding-left:20px;">
+                        <input id="advSettings" type="checkbox" name="advSettings" class="switch is-rounded">
+                        <label for="advSettings">Advanced settings</label>
+                    </div>
+                    <!-- toggle is-hidden  -->
+                    <div class="box advSettings">                        
+                        <div class="field">
+                            <div class="control">
+                                <label>Your name:</label>
+                                <input class="input" type="text" autofocus="">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <label>Department:</label>
+                                <input class="input" type="text" autofocus="">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <label>Authentication string:</label>
+                                <input class="input" type="text" autofocus="">
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="footer-bar" style="position: fixed; bottom:5px; width: 100%; text-align: center;">
+            <!-- needs like to settings portal -->
+            <a href="#">Reset your password</a>
+            <br>
+            <p>Copyright &copy; Parker Software 2019</p>
+        </div>
+</body>
+
+</html>

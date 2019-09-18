@@ -1,0 +1,41 @@
+
+
+.wo-login {
+    background-color: $ThemeChatBackground;
+
+    .box{
+        border:none;
+        background-color: transparent;
+        box-shadow: none;
+
+        i{
+            color: $ThemeTitleBackground;
+        }
+        button{
+            background-color: $ThemeTitleBackground;
+            color: #fff;
+            padding-left:20px;
+            padding-right:20px;
+        }
+
+      
+
+       
+    }
+
+    .switch[type="checkbox"] + label {
+        font-size: 0.8rem; 
+    } 
+
+    .switch[type="checkbox"]:checked + label {
+        font-size: 0.8rem;
+        &::before {
+            background: $ThemeTitleBackground !important;
+        }
+    }
+
+    .advSettings {
+        border-top: 1px solid $ThemeTitleBackground;
+        text-align: left;
+    }
+}
