@@ -17,6 +17,8 @@
                     loggedIn: false,
                     userInfo: null,
                     currentChat: null,
+                    activeChatCount: 0,
+                    users: null,
                     chats: null,
                     rights: null,
                     sites: null,
@@ -40,6 +42,16 @@
                     },
                     setChats(state, chats) {
                         state.chats = chats;
+                        state.activeChatCount = state.chats.length;
+                    },
+                    setSites(state, sites) {
+                        state.sites = sites;
+                    },
+                    setUserInfo(state, info) {
+                        state.userInfo = info;
+                    },
+                    setCurrentUsers(state, users) {
+                        state.users = users;
                     }
                 }
             });

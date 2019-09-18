@@ -26,6 +26,24 @@
                         self._state.department);
                 }
             });
+
+            hooks.Register(connEvents.CurrentChats, (e) => {
+                var chats = e.Data.Chats;
+
+                woServices.Vue._store.commit("setChats", chats);
+            });
+
+            hooks.Register(connEvents.UserSites, (e) => {
+                woServices.Vue._store.commit("setSites", e.Data.Sites);
+            });
+
+            hooks.Register(connEvents.UserInfo, (e) => {
+                woServices.Vue._store.commit("setUserInfo", e.Data.MyUser);
+            });
+
+            hooks.Register(connEvents.CurrentUsersOnline, (e) => {
+                woServices.Vue._store.commit("setCurrentUsers", e.Data.Clients);
+            });
         }
     }
 
