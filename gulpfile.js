@@ -52,8 +52,8 @@ function moveFonts(){
 }
 
 function moveVendor(){
-  return src("./node_modules/bulma-extensions/bulma-quickview/dist/js/bulma-quickview.min.js")
-  .pipe(dest("./dist/assets/js/"));
+  return src("./src/assets/vendor/**/*.js")
+  .pipe(dest("./dist/assets/vendor/"));
 }
 
 function watchFiles() {

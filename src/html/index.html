@@ -50,7 +50,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="" href="#" data-show="quickview" data-target="quickviewDefault">
+                        <a class="" href="#">
                             <span class="icon">
                                 <i class="fas fa-users"></i>
                             </span>
@@ -63,16 +63,7 @@
 
             </aside>
             <aside class="menu menu-bottom">
-                <ul class="menu-list">
-                    <li>
-                        <a class="" href="#">
-                            <span class="icon">
-                                <i class="fas fa-sliders-h"></i>
-                            </span>
-                            <br>
-                            Settings
-                        </a>
-                    </li>
+                <ul class="menu-list">                
                     <li>
                         <a class="" href="#">
                             <span class="icon">
@@ -90,20 +81,96 @@
                 <div class="columns" style="height: 100%">
                     <div class="column is-3 is-fullheight active-chats">
                         <div class="content-header">
-                            <h5 class="title is-4">Active Chats</h5>
+                            <h5 class="title is-4">Active Chats: {activechatscount}</h5>
                         </div>
                         <ul>
                             <li>
-                                A Chat
+                                <!-- chat visitor block -->
+                                <div class="box status-border chat-info is-selected">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{visitorname}</strong>
+                                                    <br>
+                                                    <small>{geoip}</small>
+                                                    <br>
+                                                    <small><strong>{site}</strong></small>
+                                                    <br>
+                                                    <!-- takling to, waiting etc -->
+                                                    <small><strong>{chatstatus}</strong></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <!-- chat visitor block end -->
                             </li>
                             <li>
-                                A Chat
+                                <!-- chat visitor block -->
+                                <div class="box status-border chat-info">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{visitorname}</strong>
+                                                    <br>
+                                                    <small>{geoip}</small>
+                                                    <br>
+                                                    <small><strong>{site}</strong></small>
+                                                    <br>
+                                                    <!-- takling to, waiting etc -->
+                                                    <small><strong>{chatstatus}</strong></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <!-- chat visitor block end -->
                             </li>
                             <li>
-                                A Chat
+                                <!-- chat visitor block -->
+                                <div class="box status-border chat-info">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{visitorname}</strong>
+                                                    <br>
+                                                    <small>{geoip}</small>
+                                                    <br>
+                                                    <small><strong>{site}</strong></small>
+                                                    <br>
+                                                    <!-- takling to, waiting etc -->
+                                                    <small><strong>{chatstatus}</strong></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <!-- chat visitor block end -->
                             </li>
                             <li>
-                                A Chat
+                                <!-- chat visitor block -->
+                                <div class="box status-border chat-info">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>{visitorname}</strong>
+                                                    <br>
+                                                    <small>{geoip}</small>
+                                                    <br>
+                                                    <small><strong>{site}</strong></small>
+                                                    <br>
+                                                    <!-- takling to, waiting etc -->
+                                                    <small><strong>{chatstatus}</strong></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                                <!-- chat visitor block end -->
                             </li>
                         </ul>
                     </div>
@@ -125,13 +192,42 @@
                                     </figure>
                                 </div>
                                 <div class="column is-6">
-                                    <div class="chat-header" style="margin-top: 15px;">
+                                    <div class="chat-header" style="margin-top: 4px;">
                                         <div class="content">
                                             <p>
                                                 <strong>{visitorname}</strong> (Waiting) <br>
                                                 <small>{sitename}</small>
                                             </p>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="column is-5 .no-pad-right ">
+                                    <div class="chat-header-icons is-pulled-right">
+                                        <span class="fa-stack fa-2x">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fas fa-times fa-stack-1x fa-inverse" style="color:#fff;"></i>
+                                        </span>
+                                        <a href="#" data-show="quickview" data-target="quickviewDefault">
+                                            <span class="fa-stack fa-2x">
+                                                <i class="fas fa-circle fa-stack-2x"></i>
+                                                <i class="fas fa-users fa-stack-1x fa-inverse" style="color:#fff;"></i>
+                                            </span>
+                                        </a>
+
+                                        <span class="fa-stack fa-2x">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fas fa-graduation-cap fa-stack-1x fa-inverse"
+                                                style="color:#fff;"></i>
+                                        </span>
+                                        <span class="fa-stack fa-2x">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fas fa-envelope fa-stack-1x fa-inverse" style="color:#fff;"></i>
+                                        </span>
+                                        <span class="fa-stack fa-2x">
+                                            <i class="fas fa-circle fa-stack-2x"></i>
+                                            <i class="fas fa-ban fa-stack-1x fa-inverse" style="color:#fff;"></i>
+                                        </span>
+
                                     </div>
                                 </div>
                             </div>
@@ -143,68 +239,163 @@
                                     <li><a>Contact</a></li>
                                 </ul>
                             </div>
-                            <br>
+                         
                         </div>
+                        <div class="survey-block">
+                                <div class="container is-fluid">                                   
+                                    <h3 class="subtitle is-4">Survey Results</h3>                                  
+                                        <div class="columns is-gapless">
+                                            <div class="column is-6">
+                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>   
+                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
+                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
+                                                <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>                                                 
+                                            </div>
+                                            <div class="column is-6">
+                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>   
+                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
+                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span> 
+                                                    <span class="is-flex"><strong>{surveyfield}</strong>: {surveyresult}</span>                                                 
+                                                </div>
+                                        </div>
+                                </div>
+                                   
+                            </div>
                         <div class="active-chat" id="Conversation">
                             <div class="columns is-desktop ">
                                 <div class="column is-12 is-scrollable message-list">
-                                    <div class="columns is-gapless chat-message chat-right">
-                                        <div class="column is-11">
+                                    <!-- Operator block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-5"></div>
+                                        <div class="column is-6">
                                             <div class="notification operator">
-                                                Lorem ipsum dolor sit amet, consectetur
-                                                adipiscing elit lorem ipsum dolor. <strong>Pellentesque risus
-                                                    mi</strong>, tempus quis placerat ut, porta nec nulla. Vestibulum
-                                                rhoncus ac ex sit amet fringilla. Nullam gravida purus diam, et dictum
-                                                <a>felis venenatis</a> efficitur. Sit amet,
-                                                consectetur adipiscing elit
-                                            </div>
-                                        </div>
-                                        <div class="column is-1 time-col" style="margin: auto;">
-                                            11:03 am
-                                        </div>
-                                    </div>
-                                    <div class="columns is-gapless chat-message">
-                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
-                                            <time >11:07 am</time>
-                                        </div>
-                                        <div class="column is-11 ">
-                                            <div class="notification visitor">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vitae
-                                                posuere eros, vitae pulvinar lectus. Aliquam convallis vulputate augue
-                                                non pharetra. Nulla volutpat sed mauris sed dapibus.
+                                                My oath is between Captain Kargan and myself. Your only concern is with
+                                                how you obey my orders. Or do you prefer the rank of prisoner to that of
+                                                lieutenant?
+                                                I will obey your orders. I will serve this ship as First Officer. And in
+                                                an attack against the Enterprise,
+                                                I will die with this crew. But I will not break my oath of loyalty to
+                                                Starfleet.
                                             </div>
                                         </div>
 
-                                    </div>
-                                    <div class="columns is-gapless chat-message">
-                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
-                                            11:10 am
+                                        <div class="column is-1 time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            11:03:46
                                         </div>
-                                        <div class="column is-11">
+                                    </div>
+                                    <!-- Operator block End -->
+                                    <!-- Visitor block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-6">
                                             <div class="notification visitor">
-                                                Nulla volutpat sed mauris sed dapibus.
+                                                But I will not break my oath of loyalty to Starfleet. This should be
+                                                interesting.
+                                                When has justice ever been as simple as a rule book? How long can two
+                                                people talk about nothing?
+                                            </div>
+                                        </div>
+                                        <div class="column is-5"></div>
+                                        <div class="column is-1 is-flex time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            <time>11:07:36</time>
+                                        </div>
+                                    </div>
+                                    <!-- Visitor block End -->
+                                    <!-- Operator block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-5"></div>
+                                        <div class="column is-6">
+                                            <div class="notification operator">
+                                                Computer, belay that order. We could cause a diplomatic crisis. Take the
+                                                ship into the Neutral Zone Is it my imagination, or have tempers become
+                                                a little frayed on the ship lately?
                                             </div>
                                         </div>
 
+                                        <div class="column is-1 time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            11:13:13
+                                        </div>
                                     </div>
-                                    <div class="columns is-gapless chat-message chat-right">
-                                        <div class="column is-11">
+                                    <!-- Operator block End -->
+                                    <!-- Operator block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-5"></div>
+                                        <div class="column is-6">
                                             <div class="notification operator">
-                                                Cras consectetur odio lorem, lacinia vulputate lorem rhoncus in. In
-                                                pharetra sagittis malesuada. Maecenas vel nisl accumsan nibh viverra
-                                                commodo. Nulla at ante convallis, dignissim dolor sit amet, sollicitudin
-                                                lectus. Cras sodales id neque nec finibus.
+                                                Now we know what they mean by 'advanced' tactical training.
                                             </div>
                                         </div>
-                                        <div class="column is-1 is-flex time-col" style="margin: auto;">
-                                            11:03 am
+
+                                        <div class="column is-1 time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            11:16:36
                                         </div>
                                     </div>
+                                    <!-- Operator block End -->
+                                    <!-- Visitor block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-6">
+                                            <div class="notification visitor">
+                                                I recommend you don't fire until you're within 40,000 kilometers.
+                                                Captain, why are we out here chasing comets? Mr. Crusher, ready a
+                                                collision course with the Borg ship.
+                                            </div>
+                                        </div>
+                                        <div class="column is-5"></div>
+                                        <div class="column is-1 is-flex time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            <time>11:20:21</time>
+                                        </div>
+                                    </div>
+                                    <!-- Visitor block End -->
+                                    <!-- Operator block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-5"></div>
+                                        <div class="column is-6">
+                                            <div class="notification operator">
+                                                The Federation's gone; the Borg is everywhere!
+                                                Some days you get the bear, and some days the bear gets you. Sorry,
+                                                Data.
+                                                What? We're not at all alike!
+                                            </div>
+                                        </div>
+
+                                        <div class="column is-1 time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            11:16:36
+                                        </div>
+                                    </div>
+                                    <!-- Operator block End -->
+                                    <!-- Operator block -->
+                                    <div class="columns is-gapless">
+                                        <div class="column is-5"></div>
+                                        <div class="column is-6">
+                                            <div class="notification operator">
+                                                Your head is not an artifact! When has justice ever been as simple as a
+                                                rule book?
+                                                Why don't we just give everybody a promotion and call it a night -
+                                                'Commander'? A surprise party? Mr. Worf, I hate surprise parties. I
+                                                would *never* do that to you.
+                                            </div>
+                                        </div>
+
+                                        <div class="column is-1 time-col"
+                                            style="margin: auto;flex-direction: column;text-align: center;">
+                                            11:22:36
+                                        </div>
+                                    </div>
+                                    <!-- Operator block End -->
                                 </div>
+
                             </div>
 
                         </div>
                         <section class="reply-container">
+                            <div class="column is-full visitor-typing">
+                                <span>{visitorname} is typing...</span>
+                            </div>
                             <div class="column is-full">
                                 <textarea class="textarea" placeholder="Enter your reply"
                                     style="resize: none;"></textarea>
@@ -229,7 +420,7 @@
     </div>
     <div id="quickviewDefault" class="quickview">
         <header class="quickview-header">
-            <p class="title">Users</p>
+            <p class="title">Transfer Chat</p>
             <span class="delete" data-dismiss="quickview"></span>
         </header>
 
@@ -296,10 +487,9 @@
 
     </div>
 
-    <script type="text/javascript"
-        src="https://wikiki.github.io/node_modules/bulma-extensions/bulma-quickview/dist/js/bulma-quickview.min.js"></script>
+    <script type="text/javascript" src="assets/vendor/bulma/bulma-quickview.min.js"></script>
     <script type="text/javascript">
-        bulmaQuickview.attach();
+        bulmaQuickview.attach();       
     </script>
 
 
