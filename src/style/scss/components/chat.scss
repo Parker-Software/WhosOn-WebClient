@@ -49,10 +49,25 @@ textarea {
 .chat-header-icons {
      margin-top: -4px;
      font-size: 0.6rem;
+     a{
+
+        &:hover{
+            i{
+                color:$ThemeRoundButtonHover;
+                &.white {
+                    color: $ThemeToolbarText;
+                }
+            }
+       
+        }
+     }
     i {
         color:$ThemeRoundButtonFill;
         opacity: 0.8;
-        padding-left:2px;
+        padding-left:2px;      
+    }
+    .white {
+        color: $ThemeToolbarText;
     }
 }
 
@@ -136,7 +151,7 @@ textarea {
     margin-bottom: -12px;
     font-weight: bold;
     font-size: 0.8rem;
-    color:$ThemeTextColor;
+    color:$ThemeRoundButtonFill;
 }
 
 .active-chat {
@@ -144,6 +159,22 @@ textarea {
         height: 61vh;
         overflow-y: auto;
         margin-top:10px;
+    }
+}
+
+.response{
+    margin-bottom: 4px;
+    border-bottom: 1px solid $ThemeChatBackground;
+    width:100%;
+    display: block;
+}
+.clickable {
+  border-radius: 4px !important;
+
+    &:hover{
+        background-color: #e5e6f3;
+        cursor: pointer;
+
     }
 }
 
