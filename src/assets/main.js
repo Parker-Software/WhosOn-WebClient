@@ -1,11 +1,11 @@
-(function(){
+(function(services){
     class Main {
         constructor() {
             var self = this;
 
-            var hooks = woServices.Hooks;
-            var connEvents = woServices.HookEvents.Connection;
-            var auth = woServices.Authentication;
+            var hooks = services.Hooks;
+            var connEvents = services.HookEvents.Connection;
+            var auth = services.Authentication;
 
             self._state = woServices.Store.state;
             self._connection = woServices.WhosOnConn;
@@ -30,22 +30,22 @@
             hooks.Register(connEvents.CurrentChats, (e) => {
                 var chats = e.Data.Chats;
 
-                woServices.Vue._store.commit("setChats", chats);
+                services.Vue._store.commit("setChats", chats);
             });
 
             hooks.Register(connEvents.UserSites, (e) => {
-                woServices.Vue._store.commit("setSites", e.Data.Sites);
+                services.Vue._store.commit("setSites", e.Data.Sites);
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
-                woServices.Vue._store.commit("setUserInfo", e.Data.MyUser);
+                services.Vue._store.commit("setUserInfo", e.Data.MyUser);
             });
 
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
-                woServices.Vue._store.commit("setCurrentUsers", e.Data.Clients);
+                services.Vue._store.commit("setCurrentUsers", e.Data.Clients);
             });
         }
     }
 
     var main = new Main();
-})();
+})(woServices);

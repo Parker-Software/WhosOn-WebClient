@@ -1,4 +1,4 @@
-(function(){
+(function(services){
     class Authentication {
 
         constructor() {
@@ -36,5 +36,5 @@
         }
     }
 
-    woServices.Add("Authentication", new Authentication());
-})();
+    services.Add("Authentication", new Authentication());
+})(woServices);

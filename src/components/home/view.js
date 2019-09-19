@@ -1,6 +1,6 @@
-(function(){
-    var hooks = woServices.Hooks;
-    var events = woServices.HookEvents;
+(function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
     var connEvents = events.Connection;
 
     Vue.component('homeview', {
@@ -20,4 +20,4 @@
             </section>
             `
     });
-})();
+})(woServices);

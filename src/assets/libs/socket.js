@@ -1,10 +1,10 @@
-(function(){
+(function(services){
     class Socket {
         constructor() {
             var self = this;
 
-            self.Hooks = woServices.Hooks;
-            self.SocketEvents = woServices.HookEvents.Socket;
+            self.Hooks = services.Hooks;
+            self.SocketEvents = services.HookEvents.Socket;
 
             self.Connected = false;
 
@@ -54,5 +54,5 @@
         }
     }
 
-    woServices.Add("Socket", new Socket());
-})();
+    services.Add("Socket", new Socket());
+})(woServices);

@@ -1,4 +1,4 @@
-(function(){
+(function(services){
     Vue.component('homenav', {
         template: `
             <div class="column is-1 is-fullheight" id="navigation" style="user-select:none">
@@ -49,9 +49,6 @@
                 </ul>
             </aside>
         </div>`,
-        beforeCreate() {
-            console.log("Navigation on start")
-        },
         methods: {
             viewStatus() {
                 console.log("View Status Page")
@@ -64,4 +61,4 @@
             }
         }
     });
-})();
+})(woServices);

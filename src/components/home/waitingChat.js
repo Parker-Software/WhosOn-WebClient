@@ -1,8 +1,4 @@
-(function(){
-    var hooks = woServices.Hooks;
-    var events = woServices.HookEvents;
-    var connEvents = events.Connection;
-
+(function(services){
     Vue.component('homeWaitingChat', {
         props: [
             'name',
@@ -33,4 +29,4 @@
             </li>
             `
     });
-})();
+})(woServices);

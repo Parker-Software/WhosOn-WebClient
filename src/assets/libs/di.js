@@ -1,11 +1,7 @@
-var woServices;
-
-(function(){
-    class Services {
-        Add(type, instance) {
+var woServices = (function(services){
+    return {
+        Add: function(type, instance) {
             this[type] = instance;
         }
     }
-
-    woServices = new Services();
 })();

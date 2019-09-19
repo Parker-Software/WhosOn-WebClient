@@ -1,13 +1,13 @@
-(function() {
+(function(services) {
     class WhosOnConnection {
         constructor() {
             var self = this;
 
-            self.Socket = woServices.Socket;
+            self.Socket = services.Socket;
 
-            var hooks = woServices.Hooks;
-            var socketEvents = woServices.HookEvents.Socket;
-            var serverEvents = woServices.HookEvents.Connection;
+            var hooks = services.Hooks;
+            var socketEvents = services.HookEvents.Socket;
+            var serverEvents = services.HookEvents.Connection;
 
             hooks.Register(socketEvents.Opened, (e) => {
                 hooks.Call(serverEvents.Connected, e);
@@ -67,4 +67,4 @@
         }
     }
     woServices.Add("WhosOnConn", new WhosOnConnection());
-})();
+})(woServices);

@@ -1,4 +1,4 @@
-(function(){
+(function(services){
     Vue.component('homeheader', {
         template: `
             <div class="columns is-fixed-top header is-marginless" id="app-header">
@@ -7,4 +7,4 @@
                 </div>
             </div>`
     });
-})();
+})(woServices);

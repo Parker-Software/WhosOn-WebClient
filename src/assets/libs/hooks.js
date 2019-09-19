@@ -1,5 +1,5 @@
 
-(function() {
+(function(services) {
     var HookEvents = {
         Socket: {
             Opened: "SocketOpened",
@@ -90,6 +90,6 @@
         }
     }
 
-    woServices.Add("Hooks", new Hooks());
-    woServices.Add("HookEvents", HookEvents);
-})();
+    services.Add("Hooks", new Hooks());
+    services.Add("HookEvents", HookEvents);
+})(woServices);
