@@ -5,7 +5,7 @@
             var self = this;
 
             self._connection = woServices.WhosOnConn;
-            self._state = woServices.Vue._state;
+            self._state = woServices.Store.state;
 
             self._authString = self._state.authString;
             self._version = self._state.version;

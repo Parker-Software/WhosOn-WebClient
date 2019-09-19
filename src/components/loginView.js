@@ -4,7 +4,13 @@
     var events = woServices.HookEvents;
     var connEvents = events.Connection;
 
-    Vue.component('login', {
+    var userName;
+    var password;
+    var displayName;
+    var department;
+    var authString;
+
+    Vue.component(woServices.Store.state.loginViewName, {
         data: function () {
             return {
                 
@@ -73,14 +79,16 @@
                                     </div>
                                 </div>
                             </div>
-                        
+                        </div>
+                        <div id="errorMessage">
+
                         </div>
                     </div>
                 </div>
             </section>
             <div class="footer-bar" style="position: fixed; bottom:5px; width: 100%; text-align: center;">
                 <!-- needs like to settings portal -->
-                <a href="#">Reset your password</a>
+                <a >Reset your password</a>
                 <br>
                 <p>Copyright &copy; Parker Software 2019</p>
             </div>
@@ -88,31 +96,56 @@
         `,
         beforeCreate() {
             hooks.Register(connEvents.MessageFromServer, (e) => {
-                //TO DO show error message
-                console.log("Log in failed:" + e.Data)
+
+                var errorMessage;
+                
+                switch(e.Data)
+                {
+                    case "No username specified.":
+                        errorMessage = "Please enter your username."    
+                    break;
+                    case "No password specified.":
+                        errorMessage = "Please enter your password."
+                    break;  
+                    case "You must specify a display name.":
+                        errorMessage = "Please specify your name."
+                    break;
+                    case "Invalid credentials entered. Please check your login details.":
+                        errorMessage = e.Data;
+                    break;
+                }
+
+                if (errorMessage != null)
+                {
+                    document.getElementById("passwordInput").value = "";
+                    document.getElementById("errorMessage").innerText = e.Data;
+                }
             });
 
-            hooks.Register(connEvents.LoggedIn, () => {
-                console.log("Logged In");
+            hooks.Register(connEvents.LoggedIn, () => {                
+                woServices.Store.commit("saveLoginDetails", { userName, password, displayName, department });
+                document.getElementById("loginPage").style.visibility = "hidden"
+                document.getElementById("advSettingsBox").style.visibility = "hidden";
             });
         },
         methods: {
             onSubmit() {
-                var userName = document.getElementById("userNameInput").value;
-                var password = document.getElementById("passwordInput").value;
-                var name = document.getElementById("nameInput").value;
-                var department = document.getElementById("departmentInput").value;
-                var authString = document.getElementById("authStringInput").value;
+                userName = document.getElementById("userNameInput").value;
+                password = document.getElementById("passwordInput").value;
+                displayName = document.getElementById("nameInput").value;
+                department = document.getElementById("departmentInput").value;
+                authString = document.getElementById("authStringInput").value;
 
-
-                woServices.Authentication.Login(userName, password, name, department);
-                //hooks.Call(events.Login.SubmitClicked, {"UserName":userName, "Password":password, "Name":name, "Department":department, "AuthString":authString });
+                woServices.Authentication.Login(userName, password, displayName, department);
             },
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
                 var advSettingsArea = document.getElementById("advSettingsBox");
                 if (advSettingsToggle.checked == true) advSettingsArea.style.visibility = "visible";
                 if (advSettingsToggle.checked == false) advSettingsArea.style.visibility = "hidden";
+            },
+            resetPasswordRedirect() {
+
             }
         }
     });
