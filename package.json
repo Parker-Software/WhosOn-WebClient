@@ -6,7 +6,6 @@
   "dependencies": {
     "bulma": "^0.7.5",
     "del": "^5.0.0",
-    "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
     "util": "^0.12.1"
   },
@@ -23,6 +22,7 @@
     "@fortawesome/fontawesome-free": "^5.10.2",
     "browser-sync": "^2.26.7",
     "bulma-extensions": "^6.2.7",
+    "gulp": "^4.0.2",
     "gulp-sass": "^4.0.2",
     "node-sass": "^4.12.0"
   }
