@@ -5,7 +5,6 @@
 
             var hooks = services.Hooks;
             var connEvents = services.HookEvents.Connection;
-            var auth = services.Authentication;
 
             self._state = services.Store.state;
             self._connection = services.WhosOnConn;
@@ -17,13 +16,27 @@
             });
 
             hooks.Register(connEvents.CurrentChats, (e) => {
-                var chats = e.Data.Chats;
+                var rawChats = e.Data.Chats;
+                var chats = {};
+
+                for(var i = 0; i < rawChats.length; i++) {
+                    var rawChat = rawChats[i];
+                    chats[rawChat.ChatUid] = rawChat;
+                }
 
                 services.Store.commit("setChats", chats);
             });
 
             hooks.Register(connEvents.UserSites, (e) => {
-                services.Store.commit("setSites", e.Data.Sites);
+                var rawSites = e.Data.Sites;
+                var sites = {};
+
+                for(var i = 0; i < rawSites.length; i++) {
+                    var rawSite = rawSites[i];
+                    sites[rawSite.SiteKey] = rawSite;
+                }
+
+                services.Store.commit("setSites", sites);
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
@@ -32,6 +45,18 @@
 
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
                 services.Store.commit("setCurrentUsers", e.Data.Clients);
+            });
+
+            hooks.Register(connEvents.ChatClosed, (e) => {
+                services.Store.commit("removeChat", e.Data);
+            });
+
+            hooks.Register(connEvents.ChatRequested, (e) => {
+                services.Store.commit("addChat", e.Data);
+            });
+
+            hooks.Register(connEvents.ChatChanged, (e) => {
+                services.Store.commit("chatChanged", e.Data);
             });
         }
     }

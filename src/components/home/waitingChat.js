@@ -4,11 +4,12 @@
             'name',
             'geoip',
             'site',
-            'chatstatus'
+            'chatstatus',
+            'waitingWarning'
         ],
         template: `
             <li>
-                <div class="box status-border chat-info is-selected">
+                <div :class="{ longWait: waitingWarning }" class="box status-border chat-info is-selected">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">

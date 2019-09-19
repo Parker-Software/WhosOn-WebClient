@@ -27,15 +27,20 @@
             self._chatWaitingTimer = setInterval(() => {
                 var chats = services.Store.state.chats;
 
-                if(chats != null && chats.length > 0) {
-                    for(var i = 0; i < chats.length; i++) {
-                        var chat = chats[i];
+                if(chats != null && Object.keys(chats).length > 0) {
+                    Object.keys(chats).forEach((v) => {
+                        var chat = chats[v];
                         if(chat.TalkingTo == null || chat.TalkingTo == "") {
                             chat.WaitedSecs++;
+
+                            if(chat.WaitedSecs > 10) {
+                                chat.waitingWarning = true;
+                            }
+
                             chat.WaitedFor = chat.WaitedSecs.toFormattedWaitTime();
-                            console.log(chat.WaitedFor);
+                            chat.Status = chat.WaitedFor;
                         }
-                    }
+                    });
                 }
             }, 1000);
         }
