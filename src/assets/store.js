@@ -16,7 +16,7 @@
             userInfo: null,
             currentChat: null,
             preRenderedChats: {},
-            chats: null,
+            chats: {},
             rights: null,
             sites: null,
             skills: null,
@@ -29,7 +29,6 @@
         },
         mutations: {
             init(state) {
-
                 state.connectionAddress = state.connectionAddress || `ws://${window.location.hostname}:8013`;
                 state.settingsPortalAddress = state.settingsPortalAddress || `https://${window.location.hostname}/settings/ForgottenPassword.aspx`;
 
@@ -43,16 +42,18 @@
                 }
             },
             setChat(state, chat) {
-                state.chats[chat.ChatUid] = chat;
+
             },
             setChats(state, chats) { 
                 state.chats = services.ChatFactory.FromChatting(chats, state.sites, state.users);
                 state.activeChatCount = Object.keys(state.chats).length; 
             }, 
             removeChat(state, data) {
-                var chat = state.chats[data];
+                var chat = state.chats.find((v) => v.ChatUID == data);
                 if(chat != null) {
-                    Vue.delete(state.chats, data);
+                    var idx = state.chats.indexOf(chat);
+                    state.chats.splice(idx, 1);
+
                     state.activeChatCount = Object.keys(state.chats).length;
                 }
             },
@@ -66,19 +67,16 @@
                 state.preRenderedChats[chatNum] = {visitorName, domain, dept};
             },
             chatChanged(state, data) {
-                console.log("Chat Changed");
-                console.log(data);
-
-                var newChat = state.preRenderedChats[data.Number];
+               var newChat = state.preRenderedChats[data.Number];
                 if (newChat != null) {
-                    console.log(newChat);
+                    var chat = services.ChatFactory.FromChatChangedNew(data, newChat, state.sites, state.users);
+                    state.chats.push(chat);
+                    state.activeChatCount = Object.keys(state.chats).length;
                     Vue.delete(state.preRenderedChats, data.Number);
                 } else {
-                    var chat = state.chats[data.ChatUID];
-                    console.log(chat);
+                    var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
+                    services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
                 }
-
-                state.chats.push(data);
             },
             setSites(state, sites) { 
                 state.sites = sites; 

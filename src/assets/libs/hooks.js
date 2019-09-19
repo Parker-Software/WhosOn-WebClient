@@ -59,6 +59,9 @@
         },
         Login: {
             SubmitClicked: "SubmitClicked"
+        },
+        Home: {
+            ChatClicked: "homeChatClicked"
         }
     }
     

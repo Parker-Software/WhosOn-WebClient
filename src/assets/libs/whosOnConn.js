@@ -54,6 +54,14 @@
             ]);
         }
 
+        AcceptChat(chatNum) {
+            var self = this;
+
+            self.Socket.Send("Chat", [
+                chatNum
+            ]);
+        }
+
         Logout() {
             var self = this;
 
