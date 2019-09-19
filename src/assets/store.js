@@ -6,7 +6,7 @@
             version: "0.1",
             lang: "en",
             platform: "WebClient",
-            connectionAddress: "ws://10.10.1.171:8013",
+            connectionAddress: "ws://192.168.10.152:8013",
             userName: null,
             password: null,
             displayName: null,
@@ -15,6 +15,7 @@
             users: null,
             userInfo: null,
             currentChat: null,
+            preRenderedChats: {},
             chats: null,
             rights: null,
             sites: null,
@@ -41,23 +42,44 @@
                     state.department = settings.department;
                 }
             },
+            setChat(state, chat) {
+                state.chats[chat.ChatUid] = chat;
+            },
             setChats(state, chats) { 
-                for(var i = 0; i < chats.length; i++) { 
-                    var chat = chats[i]; 
-
-                    var site = state.sites.find((v) => v.SiteKey == chat.SiteKey); 
-                    chat.SiteName = site.Name; 
-
-                    if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
-                        var op = state.users.find((v) => v.Connection == chat.TalkingToClientConnection); 
-                        chat.TalkingTo = op.Username; 
-                        chat.Status = `Talking to ${chat.TalkingTo}`; 
-                    } 
-                } 
-
-                state.chats = chats; 
-                state.activeChatCount = state.chats.length; 
+                state.chats = services.ChatFactory.FromChatting(chats, state.sites, state.users);
+                state.activeChatCount = Object.keys(state.chats).length; 
             }, 
+            removeChat(state, data) {
+                var chat = state.chats[data];
+                if(chat != null) {
+                    Vue.delete(state.chats, data);
+                    state.activeChatCount = Object.keys(state.chats).length;
+                }
+            },
+            addChat(state, data) {
+                var info = data.split(":");
+                var chatNum = info[0];
+                var domain = info[1];
+                var visitorName = info[2];
+                var dept = info[3];
+
+                state.preRenderedChats[chatNum] = {visitorName, domain, dept};
+            },
+            chatChanged(state, data) {
+                console.log("Chat Changed");
+                console.log(data);
+
+                var newChat = state.preRenderedChats[data.Number];
+                if (newChat != null) {
+                    console.log(newChat);
+                    Vue.delete(state.preRenderedChats, data.Number);
+                } else {
+                    var chat = state.chats[data.ChatUID];
+                    console.log(chat);
+                }
+
+                state.chats.push(data);
+            },
             setSites(state, sites) { 
                 state.sites = sites; 
             }, 
