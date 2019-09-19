@@ -3,6 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var connEvents = events.Connection;
+    var state = services.Store.state;
 
     var userName;
     var password;
@@ -10,7 +11,7 @@
     var department;
     var authString;
 
-    Vue.component(services.Store.state.loginViewName, {
+    Vue.component(state.loginViewName, {
         data: function () {
             return {
                 
@@ -87,8 +88,7 @@
                 </div>
             </section>
             <div class="footer-bar" style="position: fixed; bottom:5px; width: 100%; text-align: center;">
-                <!-- needs like to settings portal -->
-                <a >Reset your password</a>
+                <a v-on:click="resetPasswordRedirect">Reset your password</a>
                 <br>
                 <p>Copyright &copy; Parker Software 2019</p>
             </div>
@@ -122,10 +122,25 @@
                 }
             });
 
-            hooks.Register(connEvents.LoggedIn, () => {                
+            hooks.Register(connEvents.LoggedIn, () => {              
                 services.Store.commit("saveLoginDetails", { userName, password, displayName, department });
-                document.getElementById("loginPage").style.visibility = "hidden"
+                document.getElementById("loginPage").style.display = "none";
                 document.getElementById("advSettingsBox").style.visibility = "hidden";
+            });
+
+            hooks.Register(connEvents.Connected, (e) => {
+                if(state.userName != null && state.userName != "" && state.password != null && state.password != "") {
+
+                    userName = state.userName;
+                    password = state.password;
+                    displayName = state.displayName;
+                    department = state.department;
+
+                    services.Authentication.Login(state.userName,
+                        state.password,
+                        state.displayName,
+                        state.department);
+                }
             });
         },
         methods: {
@@ -145,12 +160,8 @@
                 if (advSettingsToggle.checked == false) advSettingsArea.style.visibility = "hidden";
             },
             resetPasswordRedirect() {
-
+                window.location = state.resetPasswordRedirect;
             }
         }
-    });
-
-    hooks.Register(connEvents.LoggedIn, () => {
-        
     });
 })(woServices);

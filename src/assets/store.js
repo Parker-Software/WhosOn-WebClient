@@ -72,6 +72,8 @@
                 state.password = loginDetails.password;
                 state.displayName = loginDetails.displayName;
                 state.department = loginDetails.department;
+                console.log(loginDetails);
+                console.log(state);
                 sessionStorage.setItem("woClient", JSON.stringify(loginDetails))
             }
         }
