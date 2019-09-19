@@ -5,7 +5,7 @@
 
     Vue.component(services.Store.state.homeViewName, {
         template: `
-            <section id="homeView">
+            <section v-bind:id="this.$store.state.homeViewName">
                 <homeheader></homeheader>
                 <div class="columns" id="app-content">
                     <homenav></homenav>

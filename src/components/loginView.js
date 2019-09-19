@@ -19,7 +19,7 @@
         },
         template:
         `
-        <div id=loginPage>           
+        <div v-bind:id="this.$store.state.loginViewName">           
             <div class="columns is-fixed-top header is-marginless" id="app-header">
                 <div class="column is-12 has-text-centered">
                     <h1 class="is-size-5">WhosOn</h1>
@@ -124,8 +124,6 @@
 
             hooks.Register(connEvents.LoggedIn, () => {              
                 services.Store.commit("saveLoginDetails", { userName, password, displayName, department });
-                document.getElementById("loginPage").style.display = "none";
-                document.getElementById("advSettingsBox").style.visibility = "hidden";
             });
 
             hooks.Register(connEvents.Connected, (e) => {
