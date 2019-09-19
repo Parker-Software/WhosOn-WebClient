@@ -1,7 +1,7 @@
 
-(function(){
-    var hooks = woServices.Hooks;
-    var events = woServices.HookEvents;
+(function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
     var connEvents = events.Connection;
 
     Vue.component('login', {
@@ -105,7 +105,7 @@
                 var authString = document.getElementById("authStringInput").value;
 
 
-                woServices.Authentication.Login(userName, password, name, department);
+                services.Authentication.Login(userName, password, name, department);
                 //hooks.Call(events.Login.SubmitClicked, {"UserName":userName, "Password":password, "Name":name, "Department":department, "AuthString":authString });
             },
             toggleAdvancedSettings() {
@@ -120,4 +120,4 @@
     hooks.Register(connEvents.LoggedIn, () => {
         
     });
-})();
+})(woServices);

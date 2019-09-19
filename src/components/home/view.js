@@ -3,7 +3,7 @@
     var events = services.HookEvents;
     var connEvents = events.Connection;
 
-    Vue.component('homeview', {
+    Vue.component(services.Store.state.homeViewName, {
         template: `
             <section id="homeView">
                 <homeheader></homeheader>

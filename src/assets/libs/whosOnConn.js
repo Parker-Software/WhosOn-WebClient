@@ -66,5 +66,5 @@
             self.Socket.Close();
         }
     }
-    woServices.Add("WhosOnConn", new WhosOnConnection());
+    services.Add("WhosOnConn", new WhosOnConnection());
 })(woServices);

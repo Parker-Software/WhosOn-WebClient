@@ -4,8 +4,8 @@
         constructor() {
             var self = this;
 
-            self._connection = woServices.WhosOnConn;
-            self._state = woServices.Store.state;
+            self._connection = services.WhosOnConn;
+            self._state = services.Store.state;
 
             self._authString = self._state.authString;
             self._version = self._state.version;

@@ -7,8 +7,8 @@
             var connEvents = services.HookEvents.Connection;
             var auth = services.Authentication;
 
-            self._state = woServices.Store.state;
-            self._connection = woServices.WhosOnConn;
+            self._state = services.Store.state;
+            self._connection = services.WhosOnConn;
             
             self._connection.Connect(self._state.connectionAddress);
 

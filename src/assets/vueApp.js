@@ -18,14 +18,14 @@
             var self = this;
             self._main = new Vue({
                 el: "#app",
-                store: woServices.Store,
+                store: services.Store,
                 beforeCreate() {
                     this.$store.commit("init");
                 }
             }); 
 
             self._chatWaitingTimer = setInterval(() => {
-                var chats = self._state.chats;
+                var chats = services.Store.state.chats;
 
                 if(chats != null && chats.length > 0) {
                     for(var i = 0; i < chats.length; i++) {
