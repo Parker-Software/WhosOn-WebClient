@@ -20,7 +20,7 @@ function browserSync(done) {
   }
 
 function clean() {
-    return del(["dist/**/*.*"]);
+    return del(["dist"]);
 }
 
 function scss(){
@@ -42,7 +42,7 @@ function moveHTML(){
 }
 
 function moveJS() {
-  return src(["./src/assets/*.js", "./src/components/*.js", "./src/assets/libs/*.js", "./src/assets/third-party/*.js"])
+  return src(["./src/assets/libs/**/*.js", "./src/components/**/*.js", "./src/assets/*.js"])
     .pipe(dest("./dist/assets/js/"))
 }
 
@@ -66,7 +66,7 @@ function watchFiles() {
     watch("./src/assets/images/*", moveImages);
     watch("./src/html/*", moveHTML);
     watch("./src/assets/**/*.js", moveJS);
-    watch("./src/components/*.js", moveJS)
+    watch("./src/components/**/*.js", moveJS)
     watch(
       [
         "./dist/assets/**/*",

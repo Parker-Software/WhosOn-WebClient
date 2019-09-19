@@ -1,7 +1,7 @@
 
-(function(){
-    var hooks = woServices.Hooks;
-    var events = woServices.HookEvents;
+(function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
     var connEvents = events.Connection;
 
     var userName;
@@ -10,7 +10,7 @@
     var department;
     var authString;
 
-    Vue.component(woServices.Store.state.loginViewName, {
+    Vue.component(services.Store.state.loginViewName, {
         data: function () {
             return {
                 
@@ -123,7 +123,7 @@
             });
 
             hooks.Register(connEvents.LoggedIn, () => {                
-                woServices.Store.commit("saveLoginDetails", { userName, password, displayName, department });
+                services.Store.commit("saveLoginDetails", { userName, password, displayName, department });
                 document.getElementById("loginPage").style.visibility = "hidden"
                 document.getElementById("advSettingsBox").style.visibility = "hidden";
             });
@@ -136,7 +136,7 @@
                 department = document.getElementById("departmentInput").value;
                 authString = document.getElementById("authStringInput").value;
 
-                woServices.Authentication.Login(userName, password, displayName, department);
+                services.Authentication.Login(userName, password, displayName, department);
             },
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
@@ -153,4 +153,4 @@
     hooks.Register(connEvents.LoggedIn, () => {
         
     });
-})();
+})(woServices);

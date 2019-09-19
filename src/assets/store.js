@@ -1,6 +1,6 @@
 
-(function() {
-    woServices.Add("Store", new Vuex.Store({
+(function(services) {
+    services.Add("Store", new Vuex.Store({
         state: {
             authString: "PSLHOSTED",
             version: "0.1",
@@ -12,6 +12,7 @@
             displayName: null,
             department: "dev",
             loggedIn: false,
+            users: null,
             userInfo: null,
             currentChat: null,
             chats: null,
@@ -40,8 +41,31 @@
                     state.department = settings.department;
                 }
             },
-            setChats(state, chats) {
-                state.chats = chats;
+            setChats(state, chats) { 
+                for(var i = 0; i < chats.length; i++) { 
+                    var chat = chats[i]; 
+
+                    var site = state.sites.find((v) => v.SiteKey == chat.SiteKey); 
+                    chat.SiteName = site.Name; 
+
+                    if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
+                        var op = state.users.find((v) => v.Connection == chat.TalkingToClientConnection); 
+                        chat.TalkingTo = op.Username; 
+                        chat.Status = `Talking to ${chat.TalkingTo}`; 
+                    } 
+                } 
+
+                state.chats = chats; 
+                state.activeChatCount = state.chats.length; 
+            }, 
+            setSites(state, sites) { 
+                state.sites = sites; 
+            }, 
+            setUserInfo(state, info) { 
+                state.userInfo = info; 
+            }, 
+            setCurrentUsers(state, users) { 
+                state.users = users; 
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
@@ -52,4 +76,4 @@
             }
         }
     }));
-})();
+})(woServices);
