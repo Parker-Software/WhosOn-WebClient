@@ -40,6 +40,13 @@
         methods: {
             onClicked(chatNum) {
                 var chats = state.chats;
+                var localChatMessage = {};
+                Object.keys(state.chatMessages).forEach((key) => {
+                    var chatMessage = state.chatMessages[key];
+                    if(key == chatNum) {
+                        localChatMessage = chatMessage;
+                    }
+                });
                 
                 Object.keys(chats).forEach((key) => {
                     var chat = chats[key];
@@ -52,7 +59,7 @@
                     }
                 });
 
-                hooks.Call(chatEvents.ChatClicked, chatNum);
+                hooks.Call(chatEvents.ChatClicked, {chatNum, localChatMessage});
             }
         }
     });

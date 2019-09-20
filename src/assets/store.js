@@ -15,8 +15,9 @@
             users: null,
             userInfo: null,
             currentChat: null,
-            preRenderedChats: {},
-            chats: {},
+            preRenderedChats: [],
+            chats: [],
+            chatMessages: {},
             rights: null,
             sites: null,
             skills: null,
@@ -89,6 +90,12 @@
             },
             userChanged(state, user) {
                 console.log(user);
+            },
+            chatMessage(state, msg) {
+                var messages = state.chatMessages[msg.Header];
+                if(messages == null) state.chatMessages[msg.Header] = [];
+
+                state.chatMessages[msg.Header].push(msg.Data);
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
