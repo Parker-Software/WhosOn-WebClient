@@ -2,6 +2,7 @@ const { src, dest, series, watch, parallel } = require("gulp");
 var eslint = require("gulp-eslint");
 var del = require("del");
 var sass = require("gulp-sass");
+const concat = require("gulp-concat");
 const browsersync = require("browser-sync").create();
 
 function browserSync(done) {
@@ -41,9 +42,22 @@ function moveHTML(){
     .pipe(dest("./dist/"));
 }
 
+function packLibs(){
+  return src(["./src/assets/libs/**/*.js", "./src/assets/store.js","./src/assets/chatFactory.js"])
+  .pipe(concat("libs.js"))
+  .pipe(dest("./dist/assets/js/"))
+}
+
+function packComponents(){
+  return src("./src/components/**/*.js")
+  .pipe(concat("components.js"))
+  .pipe(dest("./dist/assets/js/"))
+}
+
 function moveJS() {
-  return src(["./src/assets/libs/**/*.js", "./src/components/**/*.js", "./src/assets/*.js"])
-    .pipe(dest("./dist/assets/js/"))
+  return src(["./src/assets/vueApp.js", "./src/assets/authentication.js", "./src/assets/main.js", "./src/assets/stateManager.js"])  
+  .pipe(concat("main.js"))
+  .pipe(dest("./dist/assets/js/"))
 }
 
 function moveImages(){
@@ -87,6 +101,9 @@ exports.monitor = monitor;
 exports.moveFonts = moveFonts;
 exports.moveVendor = moveVendor;
 exports.moveJS = moveJS;
+exports.packLibs = packLibs;
+exports.packComponents = packComponents;
 
-exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor, moveJS]);
+exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor, 
+                          packLibs, packComponents, moveJS]);
 
