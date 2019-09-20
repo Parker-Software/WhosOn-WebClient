@@ -1,7 +1,7 @@
 (function(services){
     Vue.component('homeActiveChats', {
         template: `
-        <div class="column is-3 is-fullheight active-chats">
+        <div class="column is-3 is-fullheight active-chats" id="homeActiveChats">
             <div class="content-header">
                 <h5 class="title is-4">Active Chats: {{this.$store.state.activeChatCount}}</h5>
             </div>

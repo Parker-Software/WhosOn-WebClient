@@ -104,9 +104,7 @@
                 var department = document.getElementById("departmentInput").value;
                 var authString = document.getElementById("authStringInput").value;
 
-
                 services.Authentication.Login(userName, password, name, department);
-                //hooks.Call(events.Login.SubmitClicked, {"UserName":userName, "Password":password, "Name":name, "Department":department, "AuthString":authString });
             },
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
