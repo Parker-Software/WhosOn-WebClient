@@ -3,8 +3,11 @@
     var events = services.HookEvents;
     var navEvents = events.Navigation;
 
-    var myStatus = document.getElementById("homeMyStatus");
-    var activeChats = document.getElementById("homeActiveChats");
+    var myStatusId = "homeMyStatus";
+    var myStatusNavId = "myStatusNavButton";
+
+    var activeChatsId = "homeActiveChats";
+    var activeChatsNavId = "chatsNavButton";
 
     Vue.component(services.Store.state.homeViewName, {
         template: `
@@ -29,14 +32,14 @@
             beforeCreate() {
                 hooks.Register(navEvents.MyStatus, (e) => {
                     hideAll();
-                    document.getElementById("homeMyStatus").style.display = "block";
-                    document.getElementById("myStatusNavButton").firstChild.classList.add("is-active");
+                    document.getElementById(myStatusId).style.display = "block";
+                    document.getElementById(myStatusNavId).firstChild.classList.add("is-active");
                 });
 
                 hooks.Register(navEvents.Chats, (e) => {
                     hideAll();
-                    document.getElementById("homeActiveChats").style.display = "block";
-                    document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
+                    document.getElementById(activeChatsId).style.display = "block";
+                    document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
                 });
 
                 hooks.Register(navEvents.Users, (e) => {
@@ -48,11 +51,11 @@
                 });
 
                 function hideAll() {
-                    document.getElementById("homeMyStatus").style.display = "none";
-                    document.getElementById("myStatusNavButton").firstChild.classList.remove("is-active");
+                    document.getElementById(myStatusId).style.display = "none";
+                    document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
 
-                    document.getElementById("homeActiveChats").style.display = "none";
-                    document.getElementById("chatsNavButton").firstChild.classList.remove("is-active");
+                    document.getElementById(activeChatsId).style.display = "none";
+                    document.getElementById(activeChatsNavId).firstChild.classList.remove("is-active");
                 };
             }
     });
