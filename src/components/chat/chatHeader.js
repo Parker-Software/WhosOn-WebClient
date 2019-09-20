@@ -27,7 +27,7 @@
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
                     </a>
-
+                    <!--
                     <a href="#" data-show="quickview" data-target="quickviewDefault" class="tooltip" data-tooltip="Show transfer list">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -51,7 +51,7 @@
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-ban fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
+                    </a>-->
 
 
 

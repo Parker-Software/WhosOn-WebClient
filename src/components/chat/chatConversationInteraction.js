@@ -11,13 +11,13 @@
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons">
-                    <i class="fas fa-smile"></i>
+                    <!--<i class="fas fa-smile"></i>
                     <a href="#" data-show="quickview" data-target="responsesView">
                         <i class="fas fa-comment-dots"></i>
                     </a>
 
                     <i class="fas fa-paperclip"></i>
-                    <i class="fas fa-download"></i>
+                    <i class="fas fa-download"></i>-->
 
                 </div>
             </div>
