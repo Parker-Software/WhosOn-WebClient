@@ -10,6 +10,7 @@
             Connected: "ConnectionConnected",
             Disconnected: "ConnectionDisconnected",
             Error: "ConnectionError",
+            NewChat: "NewChat",
             LoggedIn: "connected",
             MessageFromServer: "msg",
             CurrentUserRights: "rights",
@@ -66,7 +67,8 @@
             Options: "Options"
         },
         Chat: {
-            ChatClicked: "homeChatClicked"
+            ChatClicked: "homeChatClicked",
+            AcceptChat: "homeAcceptChat"
         }
     }
     

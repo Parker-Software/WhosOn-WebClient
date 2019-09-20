@@ -6,15 +6,20 @@
             var hooks = services.Hooks;
             var connEvents = services.HookEvents.Connection;
 
-            self._state = services.Store.state;
-            self._connection = services.WhosOnConn;
-            
-            self._connection.Connect(self._state.connectionAddress);
+            var state = services.Store.state;
+            var connection = services.WhosOnConn;
+            connection.Connect(state.connectionAddress);
 
             hooks.Register(connEvents.Error, (e) => {
                 console.log("Error Occured");
             });
 
+            hooks.Register(connEvents.NewChat, (chatInfo) => {
+                services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
+                    window.focus();
+                    hooks.Call(services.HookEvents.Chat.AcceptChat, chatInfo.Number);
+                });
+            });
         }
     }
 

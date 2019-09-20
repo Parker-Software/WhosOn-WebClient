@@ -39,27 +39,7 @@
             `,
         methods: {
             onClicked(chatNum) {
-                var chats = state.chats;
-                var localChatMessage = {};
-                Object.keys(state.chatMessages).forEach((key) => {
-                    var chatMessage = state.chatMessages[key];
-                    if(key == chatNum) {
-                        localChatMessage = chatMessage;
-                    }
-                });
-                
-                Object.keys(chats).forEach((key) => {
-                    var chat = chats[key];
-                    if(chat.Number == chatNum) {
-                        chat.IsActiveChat = true;
-                        state.currentChat = chat;
-                        services.WhosOnConn.AcceptChat(chatNum);
-                    } else {
-                        chat.IsActiveChat = false;
-                    }
-                });
-
-                hooks.Call(chatEvents.ChatClicked, {chatNum, localChatMessage});
+                hooks.Call(chatEvents.AcceptChat, chatNum);
             }
         }
     });

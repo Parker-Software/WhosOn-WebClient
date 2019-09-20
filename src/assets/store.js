@@ -1,12 +1,15 @@
 
 (function(services) {
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+
     services.Add("Store", new Vuex.Store({
         state: {
-            authString: "PSLDEV01",
+            authString: "PSLHOSTED",
             version: "0.1",
             lang: "en",
             platform: "WebClient",
-            connectionAddress: "ws://pslwin19pj.whoson.com:8013",
+            connectionAddress: "ws://192.168.10.152:8013",
             userName: null,
             password: null,
             displayName: "Test",
@@ -76,6 +79,8 @@
                     state.chats.push(chat);
                     state.activeChatCount = Object.keys(state.chats).length;
                     Vue.delete(state.preRenderedChats, data.Number);
+
+                    hooks.Call(events.Connection.NewChat, chat);
                 } else {
                     var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
                     services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
