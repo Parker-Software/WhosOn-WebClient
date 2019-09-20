@@ -33,7 +33,7 @@
                         if(chat.TalkingTo == null || chat.TalkingTo == "") {
                             chat.WaitedSecs++;
 
-                            if(chat.WaitedSecs > 10) {
+                            if(chat.WaitedSecs > 30) {
                                 chat.WaitingWarning = true;
                             }
 
