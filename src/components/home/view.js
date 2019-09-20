@@ -10,10 +10,9 @@
                 <div class="columns" id="app-content">
                     <homenav></homenav>
                     <div class="column is-11" id="page-content">
-                        <div class="content-body">
-                            <div class="columns" style="height: 100%">
-                                <homeActiveChats></homeActiveChats>
-                            </div>
+                        <div class="columns">
+                            <homeActiveChats></homeActiveChats>
+                            <homeChatView></homeChatView>
                         </div>
                     </div>
                 </div>
