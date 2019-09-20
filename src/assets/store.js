@@ -108,8 +108,10 @@
             chatMessage(state, msg) {
                 var messages = state.chatMessages[msg.Header];
                 if(messages == null) state.chatMessages[msg.Header] = [];
-
                 state.chatMessages[msg.Header].push(msg.Data);
+
+                const ref = {...state.chatMessages};
+                state.chatMessages = ref;
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
