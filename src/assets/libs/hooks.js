@@ -65,7 +65,7 @@
             Users: "Users",
             Options: "Options"
         },
-        Home: {
+        Chat: {
             ChatClicked: "homeChatClicked"
         }
     }

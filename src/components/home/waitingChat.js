@@ -1,4 +1,10 @@
 (function(services){
+    var state = services.Store.state;
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+    var chatEvents = events.Chat;
+
+
     Vue.component('homeWaitingChat', {
         props: [
             'chatNum',
@@ -33,7 +39,6 @@
             `,
         methods: {
             onClicked(chatNum) {
-                var state = services.Store.state;
                 var chats = state.chats;
                 
                 Object.keys(chats).forEach((key) => {
@@ -46,6 +51,8 @@
                         chat.IsActiveChat = false;
                     }
                 });
+
+                hooks.Call(chatEvents.ChatClicked, chatNum);
             }
         }
     });
