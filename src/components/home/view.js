@@ -10,6 +10,9 @@
     var activeChatsId = "homeActiveChats";
     var activeChatsNavId = "chatsNavButton";
 
+    var chatAreaId = "homeChatArea";
+    var noChatsId = "homeNoChatsArea";
+
     Vue.component(services.Store.state.homeViewName, {
         template: `
             <section v-bind:id="this.$store.state.homeViewName">
@@ -29,18 +32,19 @@
                 </div>
             </section>
             `,
-
+            mounted() {
+                hideAll();
+                showNoActiveChats();
+            },
             beforeCreate() {
                 hooks.Register(navEvents.MyStatus, (e) => {
                     hideAll();
-                    document.getElementById(myStatusId).style.display = "block";
-                    document.getElementById(myStatusNavId).firstChild.classList.add("is-active");
+                    showStatus();
                 });
 
                 hooks.Register(navEvents.Chats, (e) => {
                     hideAll();
-                    document.getElementById(activeChatsId).style.display = "block";
-                    document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
+                    showNoActiveChats();
                 });
 
                 hooks.Register(navEvents.Users, (e) => {
@@ -73,15 +77,39 @@
                     });
 
                     hooks.Call(events.Chat.ChatClicked, {chatNum, localChatMessage});
+
+                    showActiveChats();
                 });
-
-                function hideAll() {
-                    document.getElementById(myStatusId).style.display = "none";
-                    document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
-
-                    document.getElementById(activeChatsId).style.display = "none";
-                    document.getElementById(activeChatsNavId).firstChild.classList.remove("is-active");
-                };
             }
     });
+
+    function hideAll() {
+        document.getElementById(myStatusId).style.display = "none";
+        document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
+
+        document.getElementById(activeChatsId).style.display = "none";
+        document.getElementById(activeChatsNavId).firstChild.classList.remove("is-active");
+
+        document.getElementById(chatAreaId).style.display = "none";
+        document.getElementById(noChatsId).style.display = "none";
+    };
+
+    function showStatus() {
+        document.getElementById(myStatusId).style.display = "block";
+        document.getElementById(myStatusNavId).firstChild.classList.add("is-active");
+    }
+
+    function showNoActiveChats() {
+        document.getElementById(activeChatsId).style.display = "block";
+        document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
+        document.getElementById(chatAreaId).style.display = "none";
+        document.getElementById(noChatsId).style.display = "block";
+    }
+
+    function showActiveChats() {
+        document.getElementById(activeChatsId).style.display = "block";
+        document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
+        document.getElementById(noChatsId).style.display = "none";
+        document.getElementById(chatAreaId).style.display = "block";
+    }
 })(woServices);

@@ -104,7 +104,7 @@
             chatMessage(state, msg) {
                 var messages = state.chatMessages[msg.Header];
                 if(messages == null) state.chatMessages[msg.Header] = [];
-                state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: Date.now().getTime() / 1000});
+                state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
 
                 const ref = {...state.chatMessages};
                 state.chatMessages = ref;
@@ -112,7 +112,7 @@
             currentChat(state, info) {
                 var chatNum = info.chatNum;
                 var chat = info.data;
-                
+
                 state.chatMessages[chatNum] = [];
 
                 for(var i = 0; i < chat.Lines.length; i++) {

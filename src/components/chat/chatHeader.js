@@ -13,8 +13,8 @@
                 <div class="chat-header" style="margin-top: 4px;">
                     <div class="content">
                         <p>
-                            <strong>{visitorname}</strong> (Waiting) <br>
-                            <small>{sitename}</small>
+                            <strong>{{this.$store.state.currentChat.Name}}</strong><br>
+                            <small>{{this.$store.state.currentChat.SiteName}}</small>
                         </p>
                     </div>
                 </div>
