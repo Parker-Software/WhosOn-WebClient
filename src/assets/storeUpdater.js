@@ -39,6 +39,17 @@
 
             hooks.Register(connEvents.ChatMessage, (e) => {
                 services.Store.commit("chatMessage", e);
+            });
+
+            hooks.Register(connEvents.CurrentChat, (e) => {
+                var chatInfo = e.Header.split(":");
+                var siteKey = chatInfo[0];
+                var ip = chatInfo[1];
+                var sessId = chatInfo[2];
+                var chatId = chatInfo[3];
+                var chatNum = chatInfo[4];
+
+                services.Store.commit("currentChat", { chatNum, data: e.Data});
             })
         }
     }

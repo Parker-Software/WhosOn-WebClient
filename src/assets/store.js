@@ -30,8 +30,7 @@
             settingsPortalAddress: null,
             loginViewName: "loginview",
             homeViewName: "homeview",
-            connectingViewName: "connectingview",
-            status: "Online"
+            connectingViewName: "connectingview"
         },
         mutations: {
             init(state) {
@@ -46,9 +45,6 @@
                     state.displayName = settings.displayName;
                     state.department = settings.department;
                 }
-            },
-            setChat(state, chat) {
-
             },
             setChats(state, chats) { 
                 state.chats = services.ChatFactory.FromChatting(chats, state.sites, state.users);
@@ -108,8 +104,23 @@
             chatMessage(state, msg) {
                 var messages = state.chatMessages[msg.Header];
                 if(messages == null) state.chatMessages[msg.Header] = [];
-                state.chatMessages[msg.Header].push(msg.Data);
+                state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: Date.now().getTime() / 1000});
 
+                const ref = {...state.chatMessages};
+                state.chatMessages = ref;
+            },
+            currentChat(state, info) {
+                var chatNum = info.chatNum;
+                var chat = info.data;
+                
+                state.chatMessages[chatNum] = [];
+
+                for(var i = 0; i < chat.Lines.length; i++) {
+                    var line = chat.Lines[i];
+                    var parsedDate = new Date(line.Dated);
+                    state.chatMessages[chatNum].push({ code:line.OperatorIndex, msg:line.Message, date: parsedDate.getTime() / 1000});
+                }
+                
                 const ref = {...state.chatMessages};
                 state.chatMessages = ref;
             },
