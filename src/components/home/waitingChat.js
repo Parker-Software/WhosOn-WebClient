@@ -33,7 +33,19 @@
             `,
         methods: {
             onClicked(chatNum) {
-               services.WhosOnConn.AcceptChat(chatNum);
+                var state = services.Store.state;
+                var chats = state.chats;
+                
+                Object.keys(chats).forEach((key) => {
+                    var chat = chats[key];
+                    if(chat.Number == chatNum) {
+                        chat.IsActiveChat = true;
+                        state.currentChat = chat;
+                        services.WhosOnConn.AcceptChat(chatNum);
+                    } else {
+                        chat.IsActiveChat = false;
+                    }
+                });
             }
         }
     });

@@ -93,9 +93,9 @@
             setActiveChat(state, activeChat) {
                 Object.keys(state.chats).forEach((key) => {
                     var chat = state.chats[key];
-
                     if(chat.ChatUID == activeChat.ChatUID) {
                         chat.IsActiveChat = true;
+                        state.currentChat = chat;
                     } else {
                         chat.IsActiveChat = false;
                     }
