@@ -2,14 +2,14 @@
 (function(services) {
     services.Add("Store", new Vuex.Store({
         state: {
-            authString: "PSLHOSTED",
+            authString: "PSLDEV01",
             version: "0.1",
             lang: "en",
             platform: "WebClient",
-            connectionAddress: "ws://192.168.10.152:8013",
+            connectionAddress: "ws://pslwin19pj.whoson.com:8013",
             userName: null,
             password: null,
-            displayName: null,
+            displayName: "Test",
             department: "dev",
             loggedIn: false,
             users: null,
@@ -27,7 +27,8 @@
             settingsPortalAddress: null,
             loginViewName: "loginview",
             homeViewName: "homeview",
-            connectingViewName: "connectingview"
+            connectingViewName: "connectingview",
+            status: "Online"
         },
         mutations: {
             init(state) {

@@ -25,72 +25,63 @@
                     <h1 class="is-size-5">WhosOn</h1>
                 </div>
             </div>
-            <section class="hero wo-login is-fullheight">
-                <div class="hero-body">
-                    <div class="container has-text-centered">
-                        <div class="column is-4 is-offset-4">
-                            <div class="box">
-                                <figure class="avatar" style="margin-bottom: 4px;">
-                                    <i class="fas fa-user fa-7x"></i>
-                                </figure>
-                                <form>
-                                    <div class="field">
-                                        <div class="control">
-                                            <label>Username</label>
-                                            <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" placeholder="Username" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <label>Password</label>
-                                            <input  v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
-                                        </div>
-                                    </div>                           
-                                    <input type="button" class="button is-block" v-on:click="onSubmit" value="Login">
-                                </form>
-                            </div>
-                            <div class="field has-text-left" style="padding-left:20px;">
-                                <input id="RememberMe" type="checkbox" name="RememberMe" class="switch is-rounded"
-                                    checked="checked">
-                                <label for="RememberMe">Keep me signed in</label>
-                            </div>
-                            <div class="field has-text-left" style="padding-left:20px;">
-                                <input id="advSettings" type="checkbox" name="advSettings" class="switch is-rounded" v-on:change="toggleAdvancedSettings">
-                                <label for="advSettings">Advanced settings</label>
-                            </div>
-                            <!-- toggle is-hidden  -->
-                            <div class="box advSettings" id="advSettingsBox" style="visibility: hidden;">                        
-                                <div class="field">
-                                    <div class="control">
-                                        <label>Your name:</label>
-                                        <input class="input" type="text" id="nameInput" autofocus="">
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="control">
-                                        <label>Department:</label>
-                                        <input class="input" type="text" id="departmentInput" autofocus="">
-                                    </div>
-                                </div>
-                                <div class="field">
-                                    <div class="control">
-                                        <label>Authentication string:</label>
-                                        <input class="input" type="text" id="authStringInput" autofocus="">
-                                    </div>
-                                </div>
+            <section class="wo-login">
+            <div class="container has-text-centered">
+            <div class="column is-4 is-offset-4">
+                <div class="box">
+                    <figure class="avatar" style="margin-bottom: 4px;">
+                        <i class="fas fa-user fa-7x"></i>
+                    </figure>
+                    <form>
+                        <div class="field">
+                            <div class="control">
+                                <label>Username</label>
+                                <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" required>
                             </div>
                         </div>
-                        <div id="errorMessage">
 
+                        <div class="field">
+                            <div class="control">
+                                <label>Password</label>
+                                <input v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
+                            </div>
+                        </div>                        
+                        <input type="button" class="button is-block btn-login" v-on:click="onSubmit" value="Login">                        
+                    </form>
+                    <div class="notification is-danger wo-error is-hidden"></div>
+                </div>
+                <div class="field has-text-left" style="padding-left:20px;">
+                    <input id="RememberMe" type="checkbox" name="RememberMe" class="switch is-rounded"
+                        checked="checked">
+                    <label for="RememberMe">Keep me signed in</label>
+                </div>
+                <div class="field has-text-left" style="padding-left:20px;">
+                    <input id="advSettings" type="checkbox" name="advSettings" class="switch is-rounded" v-on:change="toggleAdvancedSettings">
+                    <label for="advSettings">Advanced settings</label>
+                </div>
+                <!-- toggle is-hidden  -->
+                <div class="box advSettings" id="advSettingsBox" style="visibility: hidden;">  
+                    <div class="field">
+                        <div class="control">
+                            <label>Department:</label>
+                            <input class="input" type="text" id="departmentInput" autofocus="">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <label>Authentication string:</label>
+                            <input class="input" type="text" id="authStringInput" autofocus="">
                         </div>
                     </div>
                 </div>
+            </div>
+            
+        </div>
             </section>
-            <div class="footer-bar" style="position: fixed; bottom:5px; width: 100%; text-align: center;">
+            <div class="footer-bar" style="position: fixed;width: 100%; text-align: center;">
                 <a v-on:click="resetPasswordRedirect">Reset your password</a>
                 <br>
-                <p>Copyright &copy; Parker Software 2019</p>
+                <p style="bottom:5px; ">Copyright &copy; Parker Software 2019</p>
             </div>
         </div>
         `,
@@ -98,18 +89,20 @@
             hooks.Register(connEvents.MessageFromServer, (e) => {
 
                 var errorMessage;
-                
+                var username = document.getElementById("userNameInput");           
+                var password = document.getElementById("passwordInput");
+               
+
                 switch(e.Data)
                 {
                     case "No username specified.":
-                        errorMessage = "Please enter your username."    
+                        errorMessage = "Please enter your username." 
+                        username.classList.toggle("is-danger");
                     break;
                     case "No password specified.":
                         errorMessage = "Please enter your password."
-                    break;  
-                    case "You must specify a display name.":
-                        errorMessage = "Please specify your name."
-                    break;
+                        password.classList.toggle("is-danger");
+                    break;                    
                     case "Invalid credentials entered. Please check your login details.":
                         errorMessage = e.Data;
                     break;
@@ -120,8 +113,10 @@
 
                 if (errorMessage != null)
                 {
-                    document.getElementById("passwordInput").value = "";
-                    document.getElementById("errorMessage").innerText = e.Data;
+                    document.getElementById("passwordInput").value = "";                  
+                    var woError = document.getElementsByClassName("wo-error")[0];
+                    woError.innerText = e.Data;
+                    woError.classList.remove("is-hidden"); 
                 }
             });
 
@@ -147,14 +142,19 @@
         methods: {
             onSubmit() {
                 userName = document.getElementById("userNameInput").value;
-                password = document.getElementById("passwordInput").value;
-                displayName = document.getElementById("nameInput").value;
+                password = document.getElementById("passwordInput").value;              
                 department = document.getElementById("departmentInput").value;
-                authString = document.getElementById("authStringInput").value;
+                authString = document.getElementById("authStringInput").value;    
+                
+                var list = document.getElementsByTagName("input");
+               
+                for (let index = 0; index < list.length; index++) {
+                    list[index].classList.remove("is-danger");                    
+                }
+                var woError = document.getElementsByClassName("wo-error")[0];            
+                woError.classList.add("is-hidden");
 
-                if(displayName == "") displayName = userName;
-
-                services.Authentication.Login(userName, password, displayName, department);
+                services.Authentication.Login(userName, password, userName, department);
             },
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
