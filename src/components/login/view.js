@@ -7,7 +7,6 @@
 
     var userName;
     var password;
-    var displayName;
     var department;
     var authString;
 
@@ -121,7 +120,7 @@
             });
 
             hooks.Register(connEvents.LoggedIn, () => {              
-                services.Store.commit("saveLoginDetails", { userName, password, displayName, department });
+                services.Store.commit("saveLoginDetails", { userName, password, department });
             });
 
             hooks.Register(connEvents.Connected, (e) => {
@@ -129,13 +128,12 @@
 
                     userName = state.userName;
                     password = state.password;
-                    displayName = state.displayName;
                     department = state.department;
 
-                    services.Authentication.Login(state.userName,
-                        state.password,
-                        state.displayName,
-                        state.department);
+                    services.Authentication.Login(userName,
+                        password,
+                        userName,
+                        department);
                 }
             });
         },
