@@ -1,10 +1,15 @@
 (function(services){
+
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+    var navEvents = events.Navigation;
+
     Vue.component('homenav', {
         template: `
             <div class="column is-1 is-fullheight" id="navigation" style="user-select:none">
             <aside class="menu">
                 <ul class="menu-list">
-                    <li @click="viewStatus()">
+                    <li @click="viewStatus()" id="myStatusNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
@@ -13,8 +18,8 @@
                             My Status
                         </a>
                     </li>
-                    <li @click="viewChats()">
-                        <a class="is-active">
+                    <li @click="viewChats()" id="chatsNavButton">
+                        <a id="chatsNavButton" class="is-active">
                             <span class="icon">
                                 <i class="fas fa-comment-dots"></i>
                             </span>
@@ -22,7 +27,7 @@
                             Chats
                         </a>
                     </li>
-                    <li @click="viewUsers()">
+                    <li @click="viewUsers()" id="usersNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-users"></i>
@@ -37,7 +42,7 @@
             </aside>
             <aside class="menu menu-bottom">
                 <ul class="menu-list">
-                    <li>
+                    <li @click="viewOptions()" id="optionsNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-cog"></i>
@@ -51,13 +56,16 @@
         </div>`,
         methods: {
             viewStatus() {
-                console.log("View Status Page")
+                hooks.Call(navEvents.MyStatus, "");
             },
             viewChats() {
-                console.log("View Chats Page");
+                hooks.Call(navEvents.Chats, "");
             },
             viewUsers() {
-                console.log("ViewUSers");
+                hooks.Call(navEvents.Users, "");
+            },
+            viewOptions() {
+                hooks.Call(navEvents.Options, "");
             }
         }
     });

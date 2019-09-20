@@ -60,6 +60,13 @@
         Login: {
             SubmitClicked: "SubmitClicked"
         },
+        Navigation: {
+            MyStatus: "MyStatus",
+            Chats: "Chats",
+            Users: "Users",
+            Options: "Options"
+        },
+        },
         Home: {
             ChatClicked: "homeChatClicked"
         }

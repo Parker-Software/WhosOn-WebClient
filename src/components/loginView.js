@@ -113,6 +113,9 @@
                     case "Invalid credentials entered. Please check your login details.":
                         errorMessage = e.Data;
                     break;
+                    case "User already logged in.":    
+                    errorMessage = e.Data;               
+                    break;
                 }
 
                 if (errorMessage != null)
