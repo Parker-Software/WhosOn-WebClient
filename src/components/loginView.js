@@ -37,14 +37,14 @@
                                     <div class="field">
                                         <div class="control">
                                             <label>Username</label>
-                                            <input class="input" type="text" id="userNameInput" autofocus="" name="username" placeholder="Username" required>
+                                            <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" placeholder="Username" required>
                                         </div>
                                     </div>
 
                                     <div class="field">
                                         <div class="control">
                                             <label>Password</label>
-                                            <input class="input" type="password" id="passwordInput">
+                                            <input  v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
                                         </div>
                                     </div>                           
                                     <input type="button" class="button is-block" v-on:click="onSubmit" value="Login">
@@ -151,6 +151,8 @@
                 displayName = document.getElementById("nameInput").value;
                 department = document.getElementById("departmentInput").value;
                 authString = document.getElementById("authStringInput").value;
+
+                if(displayName == "") displayName = userName;
 
                 services.Authentication.Login(userName, password, displayName, department);
             },
