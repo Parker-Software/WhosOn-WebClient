@@ -37,6 +37,8 @@
             this.SiteName = "";
             this.TalkingTo = "";
             this.Status = "";
+            this.WaitingWarning = false;
+            this.IsActiveChat = false;
         }
     }
 
@@ -63,16 +65,8 @@
                                     rawchat.VisitorSessionId,
                                     rawchat.WaitedSecs);
 
-                var site = sites[chat.SiteKey];
-                chat.SiteName = site.Name; 
-
-                if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
-                    var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
-                    chat.TalkingTo = op.Username; 
-                    chat.Status = `Talking to ${chat.TalkingTo}`; 
-                } else {
-                    chat.Status = chat.WaitedSecs.toFormattedWaitTime();
-                }
+                
+                AddAdditionalChatInfo(chat, sites, operators);
 
                 newChats[key] = chat;
             });
@@ -97,16 +91,7 @@
                 rawChat.VisitorSessionID,
                 rawChat.WaitedSecs);
 
-            var site = sites[chat.SiteKey];
-            chat.SiteName = site.Name; 
-
-            if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
-                var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
-                chat.TalkingTo = op.Username; 
-                chat.Status = `Talking to ${chat.TalkingTo}`; 
-            } else {
-                chat.Status = chat.WaitedSecs.toFormattedWaitTime();
-            }
+            AddAdditionalChatInfo(chat, sites, operators);
 
             return chat;
         }
@@ -127,18 +112,26 @@
             chat.VisitorSessionID = rawChat.VisitorSessionID,
             chat.WaitedSecs = rawChat.WaitedSecs
 
-            var site = sites[chat.SiteKey];
-            chat.SiteName = site.Name; 
-
-            if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
-                var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
-                chat.TalkingTo = op.Username; 
-                chat.Status = `Talking to ${chat.TalkingTo}`; 
-            } else {
-                chat.Status = chat.WaitedSecs.toFormattedWaitTime();
-            }
+            AddAdditionalChatInfo(chat, sites, operators);
 
             return chat;
+        }
+    }
+
+    function AddAdditionalChatInfo(chat, sites, operators) {
+        var site = sites[chat.SiteKey];
+        chat.SiteName = site.Name; 
+
+        if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
+            var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
+            chat.TalkingTo = op.Username; 
+            chat.Status = `Talking to ${chat.TalkingTo}`; 
+        } else {
+            chat.Status = chat.WaitedSecs.toFormattedWaitTime();
+
+            if(chat.WaitedSecs > 30 ) {
+                chat.WaitingWarning = true;
+            }
         }
     }
 

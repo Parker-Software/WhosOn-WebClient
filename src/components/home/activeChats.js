@@ -6,7 +6,15 @@
                 <h5 class="title is-4">Active Chats: {{this.$store.state.activeChatCount}}</h5>
             </div>
             <ul v-for="item of this.$store.state.chats">
-                <homeWaitingChat v-bind:key="item.ChatUID" :chatNum="item.Number" :name="item.Name" :geoip="item.Location" :site="item.SiteName" :chatstatus="item.Status" :waitingWarning="item.waitingWarning"></homeWaitingChat>
+                <homeWaitingChat 
+                    :chatNum="item.Number"
+                    :name="item.Name"
+                    :geoip="item.Location"
+                    :site="item.SiteName" 
+                    :chatstatus="item.Status" 
+                    :waitingWarning="item.WaitingWarning" 
+                    :isSelected="item.IsActiveChat">
+                </homeWaitingChat>
             </ul>
         </div>
             `

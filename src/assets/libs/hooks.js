@@ -33,7 +33,7 @@
             ChatAccepted: "chataccepted",
             ForcedChatAccept: "acceptchat",
             PreChatSurvey: "prechatsurvey",
-            ExistingChat: "currentchat",
+            CurrentChat: "currentchat",
             ChatTransfered: "transfer",
             ChatMessage: "message",
             VisitorTyping: "1",
@@ -65,10 +65,6 @@
             Chats: "Chats",
             Users: "Users",
             Options: "Options"
-        },
-        },
-        Home: {
-            ChatClicked: "homeChatClicked"
         }
     }
     

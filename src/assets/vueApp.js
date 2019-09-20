@@ -34,7 +34,7 @@
                             chat.WaitedSecs++;
 
                             if(chat.WaitedSecs > 10) {
-                                chat.waitingWarning = true;
+                                chat.WaitingWarning = true;
                             }
 
                             chat.WaitedFor = chat.WaitedSecs.toFormattedWaitTime();

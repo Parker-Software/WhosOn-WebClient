@@ -32,6 +32,14 @@
             hooks.Register(connEvents.ChatChanged, (e) => {
                 services.Store.commit("chatChanged", e.Data);
             });
+
+            hooks.Register(connEvents.UserStatusChanged, (e) => {
+                services.Store.commit("userChanged", e.Data);
+            });
+
+            hooks.Register(connEvents.CurrentChat, (e) => {
+                services.Store.commit("setActiveChat", e.Data);
+            });
         }
     }
 
