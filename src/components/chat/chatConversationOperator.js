@@ -1,7 +1,8 @@
 (function(services){
     Vue.component('chatConversationOperator', {
         props: [
-            'message'
+            'message',
+            'timeStamp'
         ],
         template: `
         <div class="columns is-gapless">
@@ -14,7 +15,7 @@
 
             <div class="column is-1 time-col"
                 style="margin: auto;flex-direction: column;text-align: center;">
-                11:03:46
+                {{timeStamp}}
             </div>
         </div>
         `
