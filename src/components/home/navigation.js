@@ -33,7 +33,7 @@
                                 <i class="fas fa-users"></i>
                             </span>
                             <br>
-                            users
+                            Team
                         </a>
                     </li>
 
