@@ -16,27 +16,11 @@
             });
 
             hooks.Register(connEvents.CurrentChats, (e) => {
-                var rawChats = e.Data.Chats;
-                var chats = {};
-
-                for(var i = 0; i < rawChats.length; i++) {
-                    var rawChat = rawChats[i];
-                    chats[rawChat.ChatUid] = rawChat;
-                }
-
-                services.Store.commit("setChats", chats);
+                services.Store.commit("setChats", e.Data.Chats);
             });
 
             hooks.Register(connEvents.UserSites, (e) => {
-                var rawSites = e.Data.Sites;
-                var sites = {};
-
-                for(var i = 0; i < rawSites.length; i++) {
-                    var rawSite = rawSites[i];
-                    sites[rawSite.SiteKey] = rawSite;
-                }
-
-                services.Store.commit("setSites", sites);
+                services.Store.commit("setSites", e.Data.Sites);
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {

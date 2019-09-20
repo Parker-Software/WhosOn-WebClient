@@ -1,6 +1,7 @@
 (function(services){
     Vue.component('homeWaitingChat', {
         props: [
+            'chatNum',
             'name',
             'geoip',
             'site',
@@ -8,7 +9,7 @@
             'waitingWarning'
         ],
         template: `
-            <li>
+            <li @click="onClicked(chatNum)">
                 <div :class="{ longWait: waitingWarning }" class="box status-border chat-info is-selected">
                     <article class="media">
                         <div class="media-content">
@@ -28,6 +29,11 @@
                     </article>
                 </div>
             </li>
-            `
+            `,
+        methods: {
+            onClicked(chatNum) {
+               services.WhosOnConn.AcceptChat(chatNum);
+            }
+        }
     });
 })(woServices);
