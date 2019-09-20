@@ -95,9 +95,9 @@
                     var chat = state.chats[key];
 
                     if(chat.ChatUID == activeChat.ChatUID) {
-                        chat.IsActiveChat = "true";
+                        chat.IsActiveChat = true;
                     } else {
-                        chat.IsActiveChat = "false";
+                        chat.IsActiveChat = false;
                     }
                 });
 
