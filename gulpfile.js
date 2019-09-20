@@ -43,7 +43,7 @@ function moveHTML(){
 }
 
 function packLibs(){
-  return src(["./src/assets/libs/**/*.js", "./src/assets/store.js","./src/assets/chatFactory.js"])
+  return src(["./src/assets/libs/**/*.js", "./src/assets/store.js","./src/assets/chatFactory.js", "./src/assets/storeUpdater.js"])
   .pipe(concat("libs.js"))
   .pipe(dest("./dist/assets/js/"))
 }
