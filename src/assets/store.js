@@ -106,8 +106,7 @@
                 if(messages == null) state.chatMessages[msg.Header] = [];
                 state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
 
-                const ref = {...state.chatMessages};
-                state.chatMessages = ref;
+                state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
             },
             currentChat(state, info) {
                 var chatNum = info.chatNum;
@@ -121,8 +120,7 @@
                     state.chatMessages[chatNum].push({ code:line.OperatorIndex, msg:line.Message, date: parsedDate.getTime() / 1000});
                 }
                 
-                const ref = {...state.chatMessages};
-                state.chatMessages = ref;
+                state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
