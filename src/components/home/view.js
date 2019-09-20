@@ -2,6 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var navEvents = events.Navigation;
+    var state = services.Store.state;
 
     var myStatusId = "homeMyStatus";
     var myStatusNavId = "myStatusNavButton";
@@ -48,6 +49,30 @@
 
                 hooks.Register(navEvents.Options, (e) => {
                     console.log("Options Clicked");
+                });
+
+                hooks.Register(events.Chat.AcceptChat, (chatNum) => {
+                    var chats = state.chats;
+                    var localChatMessage = {};
+                    Object.keys(state.chatMessages).forEach((key) => {
+                        var chatMessage = state.chatMessages[key];
+                        if(key == chatNum) {
+                            localChatMessage = chatMessage;
+                        }
+                    });
+                    
+                    Object.keys(chats).forEach((key) => {
+                        var chat = chats[key];
+                        if(chat.Number == chatNum) {
+                            chat.IsActiveChat = true;
+                            state.currentChat = chat;
+                            services.WhosOnConn.AcceptChat(chatNum);
+                        } else {
+                            chat.IsActiveChat = false;
+                        }
+                    });
+
+                    hooks.Call(event.Chat.ChatClicked, {chatNum, localChatMessage});
                 });
 
                 function hideAll() {
