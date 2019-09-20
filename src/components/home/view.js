@@ -72,7 +72,7 @@
                         }
                     });
 
-                    hooks.Call(event.Chat.ChatClicked, {chatNum, localChatMessage});
+                    hooks.Call(events.Chat.ChatClicked, {chatNum, localChatMessage});
                 });
 
                 function hideAll() {

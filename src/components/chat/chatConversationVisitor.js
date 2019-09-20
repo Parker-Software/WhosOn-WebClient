@@ -1,13 +1,13 @@
 (function(services){
     Vue.component('chatConversationVisitor', {
+        props: [
+            'message'
+        ],
         template: `
         <div class="columns is-gapless">
             <div class="column is-6">
                 <div class="notification visitor">
-                    But I will not break my oath of loyalty to Starfleet. This should be
-                    interesting.
-                    When has justice ever been as simple as a rule book? How long can two
-                    people talk about nothing?
+                    {{message}}
                 </div>
             </div>
             <div class="column is-5"></div>
