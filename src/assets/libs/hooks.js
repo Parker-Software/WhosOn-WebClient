@@ -1,4 +1,3 @@
-
 (function(services) {
     var HookEvents = {
         Socket: {
@@ -65,10 +64,12 @@
             Chats: "Chats",
             Users: "Users",
             Options: "Options"
+        },
+        Home: {
+            ChatClicked: "homeChatClicked"
         }
     }
     
-
     class Hooks {
         constructor() {
             var self = this;
