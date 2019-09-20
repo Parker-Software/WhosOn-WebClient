@@ -87,6 +87,22 @@
             setCurrentUsers(state, users) { 
                 state.users = users; 
             },
+            userChanged(state, user) {
+                console.log(user);
+            },
+            setActiveChat(state, activeChat) {
+                Object.keys(state.chats).forEach((key) => {
+                    var chat = state.chats[key];
+
+                    if(chat.ChatUID == activeChat.ChatUID) {
+                        chat.IsActiveChat = "true";
+                    } else {
+                        chat.IsActiveChat = "false";
+                    }
+                });
+
+                console.log(state.chats);
+            },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
                 state.password = loginDetails.password;

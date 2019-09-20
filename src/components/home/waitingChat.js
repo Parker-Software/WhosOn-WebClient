@@ -6,11 +6,12 @@
             'geoip',
             'site',
             'chatstatus',
-            'waitingWarning'
+            'waitingWarning',
+            'isSelected'
         ],
         template: `
             <li @click="onClicked(chatNum)">
-                <div :class="{ longWait: waitingWarning }" class="box status-border chat-info is-selected">
+                <div :class="{'is-selected':isSelected}" class="box status-border chat-info">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
@@ -22,7 +23,7 @@
                                     <small><strong>{{site}}</strong></small>
                                     <br>
                                     <!-- takling to, waiting etc -->
-                                    <small><strong>{{chatstatus}}</strong></small>
+                                    <small><strong  :class="{'chat-waiting-warning':waitingWarning}">{{chatstatus}}</strong></small>
                                 </p>
                             </div>
                         </div>
