@@ -14,6 +14,7 @@
             loggedIn: false,
             users: null,
             userInfo: null,
+            currentStatus: 0,
             currentChat: null,
             preRenderedChats: [],
             chats: [],
@@ -88,8 +89,15 @@
             setCurrentUsers(state, users) { 
                 state.users = users; 
             },
-            userChanged(state, user) {
-                console.log(user);
+            userChanged(state, changedUser) {
+                var user = state.users.find((v) => v.Username == changedUser.Username);
+                if(user != null) {
+                    user = changedUser;
+
+                    if(user.Username == state.userName) {
+                        state.currentStatus = user.Status;
+                    }
+                }
             },
             chatMessage(state, msg) {
                 var messages = state.chatMessages[msg.Header];
@@ -102,8 +110,6 @@
                 state.password = loginDetails.password;
                 state.displayName = loginDetails.displayName;
                 state.department = loginDetails.department;
-                console.log(loginDetails);
-                console.log(state);
                 sessionStorage.setItem("woClient", JSON.stringify(loginDetails))
             }
         }
