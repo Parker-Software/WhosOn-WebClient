@@ -23,6 +23,11 @@
             });
 
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
+                for(var i = 0; i < e.Data.Clients.length; i++) {
+                    var client = e.Data.Clients[i];
+                    services.WhosOnConn.GetUserPhoto(client.Username);
+                }
+
                 services.Store.commit("setCurrentUsers", e.Data.Clients);
             });
 
@@ -69,6 +74,10 @@
 
             hooks.Register(connEvents.VisitorTypingOff, (e) => {
                 services.Store.commit("visitorTypingOff", e)
+            });
+
+            hooks.Register(connEvents.UserPhoto, (e) => {
+                services.Store.commit("userphoto", e);
             });
         }
     }

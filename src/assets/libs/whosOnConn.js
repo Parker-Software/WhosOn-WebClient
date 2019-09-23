@@ -77,6 +77,14 @@
             ]);
         }
 
+        GetUserPhoto(userName) {
+            var self = this;
+
+            self.Socket.Send("getuserphotos", [
+                userName
+            ]);
+        }
+
         ChangeStatus(newstatus) {
             var self = this;
             var status = 0;

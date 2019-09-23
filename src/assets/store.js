@@ -108,7 +108,15 @@
             userChanged(state, changedUser) {
                 var user = state.users.find((v) => v.Username == changedUser.Username);
                 if(user != null) {
-                    user = changedUser;
+                    user.Status = changedUser.Status;
+                    user.Chats = changedUser.Chats;
+                    user.Admin = changedUser.Admin;
+                    user.IPAddress = changedUser.IPAddress;
+                    user.Lang = changedUser.Lang;
+                    user.MaxChats = changedUser.MaxChats;
+                    user.Name = changedUser.Name;
+
+                    
 
                     if(user.Username == state.userName) {
                         state.currentStatus = user.Status;
@@ -185,6 +193,17 @@
                 state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatUID]));
                 state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
                 state.currentChatTypingstate = false;
+            },
+            userphoto(state, userPhotoData) {
+
+                var user = userPhotoData.Header;
+                var data = userPhotoData.Data;
+
+                var foundUser = state.users.find((v) => v.Username == user);
+
+                if(foundUser != null) {
+                    foundUser.Photo = data;
+                } 
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
