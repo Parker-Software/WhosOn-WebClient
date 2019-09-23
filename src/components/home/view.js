@@ -57,27 +57,21 @@
 
                 hooks.Register(events.Chat.AcceptChat, (chatNum) => {
                     var chats = state.chats;
-                    var localChatMessage = {};
-                    Object.keys(state.chatMessages).forEach((key) => {
-                        var chatMessage = state.chatMessages[key];
-                        if(key == chatNum) {
-                            localChatMessage = chatMessage;
-                        }
-                    });
-                    
                     Object.keys(chats).forEach((key) => {
                         var chat = chats[key];
                         if(chat.Number == chatNum) {
                             chat.IsActiveChat = true;
                             state.currentChat = chat;
+
+                            if(state.chatMessages[chat.Number] != null) {
+                                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chat.Number]));
+                            }
+
                             services.WhosOnConn.AcceptChat(chatNum);
                         } else {
                             chat.IsActiveChat = false;
                         }
                     });
-
-                    hooks.Call(events.Chat.ChatClicked, {chatNum, localChatMessage});
-
                     showActiveChats();
                 });
             }

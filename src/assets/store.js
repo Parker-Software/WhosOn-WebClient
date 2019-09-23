@@ -20,6 +20,7 @@
             currentStatus: 0,
             currentChat: {},
             preRenderedChats: [],
+            currentChatMessages: [],
             chats: [],
             chatMessages: {},
             rights: null,
@@ -107,6 +108,15 @@
                 state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
+                
+
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+
+                if(hasCurrentChat) {
+                    if(state.currentChat.Number == msg.Header) {
+                        state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[msg.Header]));
+                    }
+                }
             },
             currentChat(state, info) {
                 var chatNum = info.chatNum;
@@ -121,6 +131,8 @@
                 }
                 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
+                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatNum]));
+
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
