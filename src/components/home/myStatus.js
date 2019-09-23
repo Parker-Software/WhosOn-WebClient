@@ -29,15 +29,19 @@
             },
             setToOnline() {
                 hooks.Call(hookEvents.Home.StatusChanged, "online");
+                hooks.Call(hookEvents.Home.StatusClosed);
             },
             setToBusy() {
                 hooks.Call(hookEvents.Home.StatusChanged, "busy");
+                hooks.Call(hookEvents.Home.StatusClosed);
             },
             setToBRB() {
                 hooks.Call(hookEvents.Home.StatusChanged, "brb");
+                hooks.Call(hookEvents.Home.StatusClosed);
             },
             setToAway() {
                 hooks.Call(hookEvents.Home.StatusChanged, "away");
+                hooks.Call(hookEvents.Home.StatusClosed);
             }
         }
     });
