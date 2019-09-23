@@ -94,7 +94,7 @@ textarea {
   }
 .active-chats{
     background-color: #fff;
- 
+    
 }
 
 .time-col{
@@ -106,6 +106,8 @@ textarea {
     height:100vh;
     position: relative;
     background-color: $ThemeChatBackground;
+    padding-left:0;
+    padding-right:0;
     p{
         color:$FontColor;
         font-weight: bold;
@@ -142,7 +144,6 @@ textarea {
       .reply-container {
         position: absolute;
         bottom:54px;
-        padding-right:24px;
         width:100%;
         background-color: $ThemeChatBackground;
     }
@@ -158,10 +159,12 @@ textarea {
 }
 
 .active-chat {
-    .message-list {
-        height: 61vh;
+    padding: 4px 12px;
+    .message-list {      
         overflow-y: auto;
+        overflow-x: hidden;
         margin-top:10px;
+        height: calc(100vh - (144px + 310px )); 
     }
 }
 
