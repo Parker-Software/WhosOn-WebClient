@@ -13,6 +13,7 @@
     var chatAreaId = "homeChatArea";
     var noChatsId = "homeNoChatsArea";
 
+
     Vue.component(services.Store.state.homeViewName, {
         template: `
             <section v-bind:id="this.$store.state.homeViewName">
@@ -21,11 +22,19 @@
                     <homenav></homenav>
                     <div class="column is-11" id="page-content">
                         <div class="content-body">
-                            <div class="columns" style="height: 100%">
-                                <homeActiveChats></homeActiveChats>
-                                <homeMyStatus></homeMyStatus>
-                                <homeChatArea></homeChatArea>
-                                <homeNoChatsArea></homeNoChatsArea>
+                                    <homeMyStatus></homeMyStatus>
+                                    <div id="Chats" style="width: 100%; height: 100%;">
+                                        <div class="columns">
+                                            <homeActiveChats></homeActiveChats>
+                                            <homeChatArea></homeChatArea>
+                                            <homeNoChatsArea></homeNoChatsArea>
+                                        </div>
+                                    </div>
+                                   <div id="Team" style="display: none; width:100%; height: 100%;">
+                                        <div class="columns">
+                                            <homeTeam></homeTeam>
+                                        </div>
+                                   </div>
                             </div>
                         </div>
                     </div>
@@ -51,11 +60,12 @@
                 });
 
                 hooks.Register(navEvents.Users, (e) => {
-                    console.log("Users Clicked");
+                    hideAll();
+                    showTeam();
                 });
 
                 hooks.Register(navEvents.Options, (e) => {
-                    console.log("Options Clicked");
+
                 });
 
                 hooks.Register(events.Chat.AcceptChat, (chatNum) => {
@@ -111,6 +121,11 @@
 
         document.getElementById(chatAreaId).style.display = "none";
         document.getElementById(noChatsId).style.display = "none";
+
+        
+        document.getElementById("Chats").style.display = "none";
+        document.getElementById("Team").style.display = "none";
+        document.getElementById("usersNavButton").firstChild.classList.remove("is-active");
     };
 
     function unSelectAll() {
@@ -122,7 +137,14 @@
         document.getElementById(myStatusId).classList.add("is-active");
     }
 
+    function showTeam() {
+        document.getElementById("Chats").style.display = "none";
+        document.getElementById("Team").style.display = "block";
+        document.getElementById("usersNavButton").firstChild.classList.add("is-active");
+    }
+
     function showNoActiveChats() {
+        document.getElementById("Chats").style.display = "block";
         document.getElementById(activeChatsId).style.display = "block";
         document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
         document.getElementById(chatAreaId).style.display = "none";
@@ -130,6 +152,7 @@
     }
 
     function showActiveChats() {
+        document.getElementById("Chats").style.display = "block";
         document.getElementById(activeChatsId).style.display = "block";
         document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
         document.getElementById(noChatsId).style.display = "none";

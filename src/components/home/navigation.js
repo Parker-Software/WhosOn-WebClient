@@ -17,8 +17,6 @@
                             <br>
                             My Status
                         </a>
-
-
                         <div v-if="this.$store.state.currentStatus == 0" class="status online" style="right: 62px; bottom: 29px;">
                             <i class="fas fa-circle"></i>
                         </div>
