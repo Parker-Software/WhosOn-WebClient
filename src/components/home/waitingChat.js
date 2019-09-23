@@ -40,7 +40,14 @@
             `,
         methods: {
             onClicked(chatNum, chatId) {
-                hooks.Call(chatEvents.AcceptChat, { "Number": chatNum, "ChatId": chatId});
+
+                var chat = services.Store.state.chats.find((v) => v.ChatUID == chatId);
+                if(chat != null) {
+                    if(chat.TalkingToClientConnection == 0 || chat.TalkingTo == services.Store.state.userName) {
+                        hooks.Call(chatEvents.AcceptChat, { "Number": chatNum, "ChatId": chatId});
+                    }
+                }
+
             }
         }
     });
