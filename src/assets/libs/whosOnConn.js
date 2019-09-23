@@ -61,6 +61,15 @@
             ]);
         }
 
+        SendMessage(chatNum, message) {
+            var self = this;
+
+            self.Socket.Send("sendto", [
+                chatNum,
+                message
+            ]);
+        }
+
         ChangeStatus(newstatus) {
             var self = this;
             var status = 0;

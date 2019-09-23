@@ -1,4 +1,8 @@
 (function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+    var chatEvents = events.Chat;
+
     Vue.component('chatConversationInteraction', {
         template: `
         <section class="reply-container">
@@ -6,8 +10,8 @@
                 <span>{visitorname} is typing...</span>
             </div>
             <div class="column is-full">
-                <textarea class="textarea" placeholder="Enter your reply"
-                    style="resize: none;"></textarea>
+                <textarea id="inputArea" class="textarea" placeholder="Enter your reply"
+                    style="resize: none;" v-on:keydown="keymonitor"></textarea>
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons">
@@ -22,6 +26,17 @@
                 </div>
             </div>
         </section>
-        `
+        `,
+        methods: {
+            keymonitor(event) {
+                if (event.shiftKey == false && event.keyCode == 13)
+                {
+                    var inputArea = document.getElementById("inputArea");
+                    var text = inputArea.value;
+                    hooks.Call(chatEvents.SendMessage, { "Num": services.Store.state.currentChat.Number, "Text": text});
+                    inputArea.value = "";
+                }
+            }
+        }
     });
 })(woServices);
