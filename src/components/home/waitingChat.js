@@ -43,7 +43,7 @@
 
                 var chat = services.Store.state.chats.find((v) => v.ChatUID == chatId);
                 if(chat != null) {
-                    if(chat.TalkingToClientConnection == 0 || chat.TalkingTo == services.Store.state.userName) {
+                    if(chat.TalkingToClientConnection == 0 || chat.TalkingToClientConnection  == services.Store.state.currentConnectionId) {
                         hooks.Call(chatEvents.AcceptChat, { "Number": chatNum, "ChatId": chatId});
                     }
                 }
