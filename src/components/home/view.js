@@ -83,12 +83,12 @@
                             }
 
                             if (state.chatPreSurveys[chat.Number] != null) {
-                                state.currentChatPreSurveys = JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum]));
+                                state.currentChatPreSurveys = JSON.parse(JSON.stringify(state.chatPreSurveys[chatInfo.Number]));
                             } else {
                                 state.currentChatPreSurveys = {};
                             }
 
-                            services.WhosOnConn.AcceptChat(chatNum);
+                            services.WhosOnConn.AcceptChat(chatInfo.Number);
                         } else {
                             chat.IsActiveChat = false;
                         }
