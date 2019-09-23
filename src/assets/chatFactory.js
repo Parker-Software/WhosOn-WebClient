@@ -124,7 +124,7 @@
 
         if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
             var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
-            chat.TalkingTo = op.Username; 
+            chat.TalkingTo = op.Name; 
             chat.WaitingWarning = false;
             chat.Status = `Talking to ${chat.TalkingTo}`; 
         } else {
