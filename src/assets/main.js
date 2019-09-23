@@ -18,7 +18,7 @@
             hooks.Register(connEvents.NewChat, (chatInfo) => {
                 services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
                     window.focus();
-                    hooks.Call(events.Chat.AcceptChat, chatInfo.Number);
+                    hooks.Call(events.Chat.AcceptChat, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
                 });
             });
 

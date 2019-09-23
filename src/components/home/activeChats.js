@@ -8,6 +8,7 @@
             </div>
             <ul v-for="item of this.$store.state.chats">
                 <homeWaitingChat 
+                    :chatId = "item.ChatUID"
                     :chatNum="item.Number"
                     :name="item.Name"
                     :geoip="item.Location"

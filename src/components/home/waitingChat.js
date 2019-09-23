@@ -7,6 +7,7 @@
 
     Vue.component('homeWaitingChat', {
         props: [
+            'chatId',
             'chatNum',
             'name',
             'geoip',
@@ -16,7 +17,7 @@
             'isSelected'
         ],
         template: `
-            <li @click="onClicked(chatNum)">
+            <li @click="onClicked(chatNum, chatId)">
                 <div :class="{'is-selected':isSelected}" class="box status-border chat-info">
                     <article class="media">
                         <div class="media-content">
@@ -38,8 +39,8 @@
             </li>
             `,
         methods: {
-            onClicked(chatNum) {
-                hooks.Call(chatEvents.AcceptChat, chatNum);
+            onClicked(chatNum, chatId) {
+                hooks.Call(chatEvents.AcceptChat, { "Number": chatNum, "ChatId": chatId});
             }
         }
     });

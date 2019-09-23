@@ -32,7 +32,8 @@
                                     </div>
                                    <div id="Team" style="display: none; width:100%; height: 100%;">
                                         <div class="columns">
-                                            <homeTeam></homeTeam>
+                                            <homeTeamUsers></homeTeamUsers>
+                                            <homeTeamChat></homeTeamChat>
                                         </div>
                                    </div>
                             </div>
@@ -51,7 +52,6 @@
                 });
 
                 hooks.Register(navEvents.Chats, (e) => {
-
                     var alreadyViewing = document.getElementById(activeChatsNavId).firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         hideAll();
@@ -68,16 +68,18 @@
 
                 });
 
-                hooks.Register(events.Chat.AcceptChat, (chatNum) => {
+                hooks.Register(events.Chat.AcceptChat, (chatInfo) => {
                     var chats = state.chats;
                     Object.keys(chats).forEach((key) => {
                         var chat = chats[key];
-                        if(chat.Number == chatNum) {
+                        if(chat.ChatUID == chatInfo.ChatId) {
                             chat.IsActiveChat = true;
                             state.currentChat = chat;
 
-                            if(state.chatMessages[chat.Number] != null) {
-                                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chat.Number]));
+                            if(state.chatMessages[chat.ChatUID] != null) {
+                                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chat.ChatUID]));
+                            } else {
+                                state.currentChatMessages = JSON.parse(JSON.stringify([]));
                             }
 
                             if (state.chatPreSurveys[chat.Number] != null) {
@@ -109,9 +111,9 @@
                         "msg" : message.Text
                     }
 
-                    if(services.Store.state.chatMessages[message.Num] == null) services.Store.state.chatMessages[message.Num] = [];
+                    if(services.Store.state.chatMessages[message.ChatId] == null) services.Store.state.chatMessages[message.ChatId] = [];
 
-                    services.Store.state.chatMessages[message.Num].push(chatObject);
+                    services.Store.state.chatMessages[message.ChatId].push(chatObject);
                     services.Store.state.currentChatMessages.push(chatObject)
                     services.WhosOnConn.SendMessage(message.Num, message.Text);
                 });

@@ -33,7 +33,7 @@
                 {
                     var inputArea = document.getElementById("inputArea");
                     var text = inputArea.value;
-                    hooks.Call(chatEvents.SendMessage, { "Num": services.Store.state.currentChat.Number, "Text": text});
+                    hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
                     inputArea.value = "";
                 }
             }

@@ -15,7 +15,7 @@
             displayName: "Test",
             department: "dev",
             loggedIn: false,
-            users: null,
+            users: [],
             userInfo: null,
             currentStatus: 0,
             currentChat: {},
@@ -56,6 +56,15 @@
             removeChat(state, data) {
                 var chat = state.chats.find((v) => v.ChatUID == data);
                 if(chat != null) {
+                    
+                    Object.keys(state.chatMessages).forEach((v) => {
+                        if(v == chat.Number)
+                        {
+                            var chatMessages = state.chatMessages[v];
+                            Vue.delete(state.chatMessages, v);
+                        }
+                    });
+
                     var idx = state.chats.indexOf(chat);
                     state.chats.splice(idx, 1);
 
@@ -68,6 +77,7 @@
                 var domain = info[1];
                 var visitorName = info[2];
                 var dept = info[3];
+
 
                 state.preRenderedChats[chatNum] = {visitorName, domain, dept};
             },
@@ -105,9 +115,11 @@
                 }
             },
             chatMessage(state, msg) {
-                var messages = state.chatMessages[msg.Header];
-                if(messages == null) state.chatMessages[msg.Header] = [];
-                state.chatMessages[msg.Header].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
+                var chatBelongingTo = state.chats.find((v) => v.Number == msg.Header);
+                var chatId = chatBelongingTo.ChatUID;
+                var messages = state.chatMessages[chatId];
+                if(messages == null) state.chatMessages[chatId] = [];
+                state.chatMessages[chatId].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
                 
@@ -115,8 +127,8 @@
                 var hasCurrentChat = Object.keys(state.currentChat).length != 0;
 
                 if(hasCurrentChat) {
-                    if(state.currentChat.Number == msg.Header) {
-                        state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[msg.Header]));
+                    if(state.currentChat.ChatUID == chatId) {
+                        state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatId]));
                     }
                 }
             },
@@ -136,17 +148,19 @@
             currentChat(state, info) {
                 var chatNum = info.chatNum;
                 var chat = info.data;
+                var chatUID = info.data.ChatUID;
 
-                state.chatMessages[chatNum] = [];
+
+                state.chatMessages[chatUID] = [];
 
                 for(var i = 0; i < chat.Lines.length; i++) {
                     var line = chat.Lines[i];
                     var parsedDate = new Date(line.Dated);
-                    state.chatMessages[chatNum].push({ code:line.OperatorIndex, msg:line.Message, date: parsedDate.getTime() / 1000});
+                    state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: parsedDate.getTime() / 1000});
                 }
                 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
-                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatNum]));
+                state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatUID]));
                 state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
 
             },
