@@ -4,7 +4,7 @@
     var navEvents = events.Navigation;
     var state = services.Store.state;
 
-    var myStatusId = "homeMyStatus";
+    var myStatusId = "statusModal";
     var myStatusNavId = "myStatusNavButton";
 
     var activeChatsId = "homeActiveChats";
@@ -38,7 +38,7 @@
             },
             beforeCreate() {
                 hooks.Register(navEvents.MyStatus, (e) => {
-                    hideAll();
+                    unSelectAll();
                     showStatus();
                 });
 
@@ -74,12 +74,21 @@
                     });
                     showActiveChats();
                 });
+
+                hooks.Register(events.Home.StatusClosed, () => {
+                    hideAll();
+                    showNoActiveChats();
+                });
+
+                hooks.Register(events.Home.StatusChanged, (status) => {
+                   services.WhosOnConn.ChangeStatus(status);
+                });
             }
     });
 
     function hideAll() {
-        document.getElementById(myStatusId).style.display = "none";
         document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
+        document.getElementById(myStatusId).classList.remove("is-active");
 
         document.getElementById(activeChatsId).style.display = "none";
         document.getElementById(activeChatsNavId).firstChild.classList.remove("is-active");
@@ -88,8 +97,13 @@
         document.getElementById(noChatsId).style.display = "none";
     };
 
+    function unSelectAll() {
+        document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
+        document.getElementById(activeChatsNavId).firstChild.classList.remove("is-active");
+    }
+
     function showStatus() {
-        document.getElementById(myStatusId).style.display = "block";
+        document.getElementById(myStatusId).classList.add("is-active");
         document.getElementById(myStatusNavId).firstChild.classList.add("is-active");
     }
 
