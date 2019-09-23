@@ -22,6 +22,7 @@
             preRenderedChats: [],
             currentChatMessages: [],
             currentChatPreSurveys: [],
+            currentChatTypingstate: false,
             chats: [],
             chatMessages: {},
             chatPreSurveys: {},
@@ -128,6 +129,7 @@
 
                 if(hasCurrentChat) {
                     if(state.currentChat.ChatUID == chatId) {
+                        state.currentChatTypingstate = false;
                         state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatId]));
                     }
                 }
@@ -144,6 +146,26 @@
                     }
                 }
 
+            },
+            visitorTyping(state, msg)
+            {
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+
+                if(hasCurrentChat) {
+                    if(state.currentChat.Number == msg.Data) {
+                        state.currentChatTypingstate = true;
+                    }
+                }
+            },
+            visitorTypingOff(state, msg)
+            {
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+
+                if(hasCurrentChat) {
+                    if(state.currentChat.Number == msg.Data) {
+                        state.currentChatTypingstate = false;
+                    }
+                }
             },
             currentChat(state, info) {
                 var chatNum = info.chatNum;
@@ -162,7 +184,7 @@
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
                 state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatUID]));
                 state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
-
+                state.currentChatTypingstate = false;
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
