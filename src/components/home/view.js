@@ -42,8 +42,12 @@
                 });
 
                 hooks.Register(navEvents.Chats, (e) => {
-                    hideAll();
-                    showNoActiveChats();
+
+                    var alreadyViewing = document.getElementById(activeChatsNavId).firstChild.classList.contains("is-active");
+                    if(alreadyViewing == false) {
+                        hideAll();
+                        showNoActiveChats();
+                    }
                 });
 
                 hooks.Register(navEvents.Users, (e) => {

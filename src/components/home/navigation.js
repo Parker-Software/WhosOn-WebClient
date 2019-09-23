@@ -19,7 +19,7 @@
                         </a>
                     </li>
                     <li @click="viewChats()" id="chatsNavButton">
-                        <a id="chatsNavButton" class="is-active">
+                        <a class="is-active">
                             <span class="icon">
                                 <i class="fas fa-comment-dots"></i>
                             </span>
