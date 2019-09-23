@@ -32,9 +32,12 @@
                 if (event.shiftKey == false && event.keyCode == 13)
                 {
                     var inputArea = document.getElementById("inputArea");
-                    var text = inputArea.value;
-                    hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
-                    inputArea.value = "";
+                    var text = inputArea.value.trim();
+                    if (text.length > 0)
+                    {
+                        hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
+                        inputArea.value = "";
+                    }
                     event.preventDefault();
                 }
             }
