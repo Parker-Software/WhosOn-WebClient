@@ -14,7 +14,7 @@
             <div class="column is-5"></div>
             <div class="column is-1 is-flex time-col"
                 style="margin: auto;flex-direction: column;text-align: center;">
-                {{timeStamp}}
+                <time>{{timeStamp}}</time>
             </div>
         </div>
         `

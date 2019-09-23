@@ -5,6 +5,7 @@
 
             var hooks = services.Hooks;
             var connEvents = services.HookEvents.Connection;
+            var events = services.HookEvents;
 
             var state = services.Store.state;
             var connection = services.WhosOnConn;
@@ -17,8 +18,12 @@
             hooks.Register(connEvents.NewChat, (chatInfo) => {
                 services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
                     window.focus();
-                    hooks.Call(services.HookEvents.Chat.AcceptChat, chatInfo.Number);
+                    hooks.Call(events.Chat.AcceptChat, chatInfo.Number);
                 });
+            });
+
+            hooks.Register(events.Chat.SendMessage, (chatNum,message) => {
+                services.WhosOnConn.SendMessage(chatNum, message);
             });
         }
     }

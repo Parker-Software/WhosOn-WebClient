@@ -85,6 +85,17 @@
                 hooks.Register(events.Home.StatusChanged, (status) => {
                    services.WhosOnConn.ChangeStatus(status);
                 });
+
+                hooks.Register(events.Chat.SendMessage, (message) => {
+                    var chatObject = {
+                        "code" : 1,
+                        "date" : "12345",
+                        "msg" : message.Text
+                    }
+                    services.Store.state.chatMessages[message.Num].push(chatObject);
+                    services.Store.state.currentChatMessages.push(chatObject)
+                    services.WhosOnConn.SendMessage(message.Num, message.Text);
+                });
             }
     });
 
