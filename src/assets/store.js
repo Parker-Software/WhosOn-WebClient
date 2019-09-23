@@ -21,8 +21,10 @@
             currentChat: {},
             preRenderedChats: [],
             currentChatMessages: [],
+            currentChatPreSurveys: [],
             chats: [],
             chatMessages: {},
+            chatPreSurveys: {},
             rights: null,
             sites: null,
             skills: null,
@@ -118,6 +120,19 @@
                     }
                 }
             },
+            preChatSurvey(state, msg) {
+                
+                state.chatPreSurveys[msg.Header] = msg.Data;
+
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+
+                if(hasCurrentChat) {
+                    if(state.currentChat.Number == msg.Header) {
+                        state.currentChatPreSurveys =  JSON.parse(JSON.stringify(state.chatPreSurveys[msg.Header]));
+                    }
+                }
+
+            },
             currentChat(state, info) {
                 var chatNum = info.chatNum;
                 var chat = info.data;
@@ -132,6 +147,7 @@
                 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
                 state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatNum]));
+                state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
 
             },
             saveLoginDetails(state, loginDetails) {
