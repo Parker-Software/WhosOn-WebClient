@@ -44,7 +44,7 @@
 
             hooks.Register(connEvents.ChatMessage, (e) => {
                 services.Store.commit("chatMessage", e);
-            });
+            });           
 
             hooks.Register(connEvents.CurrentChat, (e) => {
                 var chatInfo = e.Header.split(":");
@@ -55,7 +55,13 @@
                 var chatNum = chatInfo[4];
 
                 services.Store.commit("currentChat", { chatNum, data: e.Data});
-            })
+            });
+
+            hooks.Register(connEvents.PreChatSurvey, (e) => {
+               var chatInfo = e.Header.split(":");
+               e.Header = chatInfo[3]; //[chatInfo[0], chatInfo[1], chatInfo[2], chatInfo[4], chatInfo[3]].join(":"); 
+               services.Store.commit("preChatSurvey", e);     
+            });
         }
     }
 

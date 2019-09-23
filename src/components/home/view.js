@@ -80,6 +80,12 @@
                                 state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chat.Number]));
                             }
 
+                            if (state.chatPreSurveys[chat.Number] != null) {
+                                state.currentChatPreSurveys = JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum]));
+                            } else {
+                                state.currentChatPreSurveys = {};
+                            }
+
                             services.WhosOnConn.AcceptChat(chatNum);
                         } else {
                             chat.IsActiveChat = false;
