@@ -38,7 +38,6 @@
             },
             beforeCreate() {
                 hooks.Register(navEvents.MyStatus, (e) => {
-                    unSelectAll();
                     showStatus();
                 });
 
@@ -76,8 +75,7 @@
                 });
 
                 hooks.Register(events.Home.StatusClosed, () => {
-                    hideAll();
-                    showNoActiveChats();
+                    document.getElementById(myStatusId).classList.remove("is-active");
                 });
 
                 hooks.Register(events.Home.StatusChanged, (status) => {
@@ -87,7 +85,7 @@
     });
 
     function hideAll() {
-        document.getElementById(myStatusNavId).firstChild.classList.remove("is-active");
+        document.getElementById(myStatusNavId).classList.remove("is-active");
         document.getElementById(myStatusId).classList.remove("is-active");
 
         document.getElementById(activeChatsId).style.display = "none";
@@ -104,7 +102,6 @@
 
     function showStatus() {
         document.getElementById(myStatusId).classList.add("is-active");
-        document.getElementById(myStatusNavId).firstChild.classList.add("is-active");
     }
 
     function showNoActiveChats() {
