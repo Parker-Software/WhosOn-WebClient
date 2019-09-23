@@ -97,9 +97,17 @@
                 });
 
                 hooks.Register(events.Chat.CloseChat, (chatNum) => {
-                    state.currentChat = {};
-                    showActiveChats();
-                    services.WhosOnConn.CloseChat(chatNum);
+                    services.WhosOnConn.CloseChat(chatNum);                   
+                    var currentChat = state.currentChat; 
+                    state.currentChat = {};             
+                    hideCurrentChat();
+
+                    state.chats.forEach(function(chat){
+                        if (chat.TalkingTo == woServices.Store.state.userName && chat.ChatUID != currentChat.ChatUID) {
+                            console.log(chat);
+                            hooks.Call(events.Chat.AcceptChat, {"Number": chat.Number, "ChatId": chat.ChatUID});
+                        }
+                    })
 
                 });
 
@@ -156,6 +164,11 @@
         document.getElementById("Chats").style.display = "none";
         document.getElementById("Team").style.display = "block";
         document.getElementById("usersNavButton").firstChild.classList.add("is-active");
+    }
+
+    function hideCurrentChat() {
+        document.getElementById(chatAreaId).style.display = "none";
+        document.getElementById(noChatsId).style.display = "block";
     }
 
     function showNoActiveChats() {
