@@ -14,7 +14,7 @@
             LoggedIn: "connected",
             MessageFromServer: "msg",
             CurrentUserRights: "rights",
-            UserInfo: "nameduser",
+            UserInfo: "user",
             UserSites: "sites",
             CurrentUsersOnline: "clients",
             CurrentChats: "chatting",

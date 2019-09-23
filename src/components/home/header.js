@@ -3,11 +3,23 @@
         template: `
             <div class="columns is-fixed-top header is-marginless" id="app-header">
                 <div class="column is-12 has-text-centered">
-                    <h1 v-if="this.$store.state.currentStatus == 0" class="is-size-5">{{this.$store.state.userName}} (Online) | WhosOn</h1>
-                    <h1 v-if="this.$store.state.currentStatus == 1" class="is-size-5">{{this.$store.state.userName}} (Busy) | WhosOn</h1>
-                    <h1 v-if="this.$store.state.currentStatus == 2" class="is-size-5">{{this.$store.state.userName}} (Be right back) | WhosOn</h1>
-                    <h1 v-if="this.$store.state.currentStatus == 3" class="is-size-5">{{this.$store.state.userName}} (Away) | WhosOn</h1>
+                    <h1 class="is-size-5">{{this.$store.state.userInfo.Name}} ({{statusText}}) | WhosOn</h1>
                 </div>
-            </div>`
+            </div>`,
+            computed: {
+                statusText: function()
+                {
+                    switch (this.$store.state.currentStatus) {
+                        case 0:
+                            return "Online";
+                        case 1:
+                            return "Busy";
+                        case 2:
+                            return "Be right back";
+                        case 3:
+                            return "Away";
+                    }
+                }
+            }
     });
 })(woServices);

@@ -19,7 +19,7 @@
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
-                services.Store.commit("setUserInfo", e.Data.MyUser);
+                services.Store.commit("setUserInfo", e.Data.User);
             });
 
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
