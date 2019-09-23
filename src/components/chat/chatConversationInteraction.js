@@ -35,6 +35,7 @@
                     var text = inputArea.value;
                     hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
                     inputArea.value = "";
+                    event.preventDefault();
                 }
             }
         }
