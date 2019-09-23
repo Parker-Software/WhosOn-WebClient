@@ -92,6 +92,9 @@
                         "date" : "12345",
                         "msg" : message.Text
                     }
+
+                    if(services.Store.state.chatMessages[message.Num] == null) services.Store.state.chatMessages[message.Num] = [];
+
                     services.Store.state.chatMessages[message.Num].push(chatObject);
                     services.Store.state.currentChatMessages.push(chatObject)
                     services.WhosOnConn.SendMessage(message.Num, message.Text);
