@@ -71,7 +71,8 @@
             AcceptChat: "homeAcceptChat"
         },
         Home: {
-            StatusClosed: "StatusClosed"
+            StatusClosed: "StatusClosed",
+            StatusChanged: "StatusChanged"
         }
     }
     
