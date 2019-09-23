@@ -10,7 +10,12 @@
             });
 
             hooks.Register(connEvents.UserSites, (e) => {
-                services.Store.commit("setSites", e.Data.Sites);
+                var sites = {};
+                for (var index = 0; index < e.Data.Sites.length; index++)
+                {
+                    sites[e.Data.Sites[index].SiteKey] = e.Data.Sites[index];
+                }
+                services.Store.commit("setSites", sites);
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
