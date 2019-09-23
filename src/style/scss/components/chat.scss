@@ -126,7 +126,8 @@ textarea {
         padding: 4px 4px;
         margin-bottom: 2px;
         z-index:999;
-        max-height: 96px;
+        max-height: 100px;
+        height:100px;
     overflow-y: auto;
     }
     .logo {
@@ -164,7 +165,7 @@ textarea {
         overflow-y: auto;
         overflow-x: hidden;
         margin-top:10px;
-        height: calc(100vh - (144px + 310px )); 
+        height: calc(100vh - (100px + 360px )); 
     }
 }
 
