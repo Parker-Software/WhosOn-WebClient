@@ -9,7 +9,7 @@
             version: "0.1",
             lang: "en",
             platform: "WebClient",
-            connectionAddress: "ws://10.10.1.171:8013",
+            connectionAddress: "ws://192.168.10.152:8013",
             userName: null,
             password: null,
             displayName: "Test",

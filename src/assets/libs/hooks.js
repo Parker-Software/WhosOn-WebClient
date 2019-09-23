@@ -69,6 +69,9 @@
         Chat: {
             ChatClicked: "homeChatClicked",
             AcceptChat: "homeAcceptChat"
+        },
+        Home: {
+            StatusClosed: "StatusClosed"
         }
     }
     

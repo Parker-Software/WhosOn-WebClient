@@ -56,9 +56,32 @@
 
         AcceptChat(chatNum) {
             var self = this;
-
             self.Socket.Send("Chat", [
                 chatNum
+            ]);
+        }
+
+        ChangeStatus(newstatus) {
+            var self = this;
+            var status = 0;
+            switch(newstatus) {
+                case "online":
+                    status = 0;
+                    break;
+                case "away":
+                    status = 3;
+                    break;
+                case "brb":
+                    status = 2;
+                    break;
+                case "busy":
+                    status = 1;
+                    break;
+            }
+
+            self.Socket.Send("status", [
+                status,
+                ""
             ]);
         }
 
