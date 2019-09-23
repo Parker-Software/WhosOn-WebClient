@@ -13,22 +13,23 @@
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
+                                <span v-if="this.$store.state.currentStatus == 0" class="status online" style="right: -6px; bottom: -18px;">
+                                    <i class="fas fa-circle"></i>
+                                </span>
+                                <span v-if="this.$store.state.currentStatus == 1" class="status busy" style="right: -6px; bottom: -18px;">
+                                    <i class="fas fa-circle"></i>
+                                </span>
+                                <span v-if="this.$store.state.currentStatus == 2" class="status brb" style="right: -6px; bottom: -18px;">
+                                    <i class="fas fa-circle"></i>
+                                </span>
+                                <span v-if="this.$store.state.currentStatus == 3" class="status away" style="right: -6px; bottom: -18px;">
+                                    <i class="fas fa-circle"></i>
+                                </span>
                             </span>
                             <br>
                             My Status
                         </a>
-                        <div v-if="this.$store.state.currentStatus == 0" class="status online" style="right: 62px; bottom: 29px;">
-                            <i class="fas fa-circle"></i>
-                        </div>
-                        <div v-if="this.$store.state.currentStatus == 1" class="status busy" style="right: 62px; bottom: 29px;">
-                            <i class="fas fa-circle"></i>
-                        </div>
-                        <div v-if="this.$store.state.currentStatus == 2" class="status brb" style="right: 62px; bottom: 29px;">
-                            <i class="fas fa-circle"></i>
-                        </div>
-                        <div v-if="this.$store.state.currentStatus == 3" class="status away" style="right: 62px; bottom: 29px;">
-                            <i class="fas fa-circle"></i>
-                        </div>
+                       
                     </li>
                     <li @click="viewChats()" id="chatsNavButton">
                         <a class="is-active">
