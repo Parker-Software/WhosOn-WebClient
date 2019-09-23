@@ -62,6 +62,14 @@
                e.Header = chatInfo[3]; //[chatInfo[0], chatInfo[1], chatInfo[2], chatInfo[4], chatInfo[3]].join(":"); 
                services.Store.commit("preChatSurvey", e);     
             });
+
+            hooks.Register(connEvents.VisitorTyping, (e) => {
+                services.Store.commit("visitorTyping", e)
+            });
+
+            hooks.Register(connEvents.VisitorTypingOff, (e) => {
+                services.Store.commit("visitorTypingOff", e)
+            });
         }
     }
 

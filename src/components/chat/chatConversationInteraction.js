@@ -6,8 +6,8 @@
     Vue.component('chatConversationInteraction', {
         template: `
         <section class="reply-container">
-            <div class="column is-full visitor-typing">
-                <span>{visitorname} is typing...</span>
+            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate">
+                <span>{{this.$store.state.currentChat.Name}} is typing...</span>
             </div>
             <div class="column is-full">
                 <textarea id="inputArea" class="textarea" placeholder="Enter your reply"
