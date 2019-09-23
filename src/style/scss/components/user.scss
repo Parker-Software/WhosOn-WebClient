@@ -17,4 +17,16 @@
             color:$ThemeMyStatusBusy;
         }
     }
+
+    &.brb{
+        i{
+            color:$ThemeMyStatusBeRightBack;
+        }
+    }
+
+    &.away{
+        i{
+            color:$ThemeMyStatusAway;
+        }
+    }
 }
