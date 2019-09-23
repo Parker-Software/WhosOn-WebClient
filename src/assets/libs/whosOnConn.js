@@ -61,6 +61,13 @@
             ]);
         }
 
+        CloseChat(chatNum) {
+            var self = this;
+            self.Socket.Send("closechat", [
+                chatNum
+            ]);
+        }
+
         SendMessage(chatNum, message) {
             var self = this;
 

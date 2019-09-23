@@ -1,4 +1,3 @@
-//TODO Needs breaking down into smaller components
 (function(services){
     Vue.component('homeChatArea', {
         template: `

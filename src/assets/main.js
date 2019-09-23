@@ -21,10 +21,6 @@
                     hooks.Call(events.Chat.AcceptChat, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
                 });
             });
-
-            hooks.Register(events.Chat.SendMessage, (chatNum,message) => {
-                services.WhosOnConn.SendMessage(chatNum, message);
-            });
         }
     }
 

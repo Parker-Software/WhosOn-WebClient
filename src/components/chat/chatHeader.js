@@ -1,4 +1,8 @@
 (function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+    var chatEvents = events.Chat;
+
     Vue.component('chatHeader', {
         template: `
         <div class="columns">
@@ -21,7 +25,7 @@
             </div>
             <div class="column is-5 .no-pad-right ">
                 <div class="chat-header-icons is-pulled-right">
-                    <a href="#" class="tooltip" data-tooltip="Close this chat">
+                    <a href="#" class="tooltip" data-tooltip="Close this chat" v-on:click="onClick">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
@@ -58,6 +62,12 @@
                 </div>
             </div>
         </div>
-        `
+        `,
+        methods: {
+            onClick() {
+                var confirmation = confirm("Are you sure you wish to close this chat?");
+                if (confirmation) hooks.Call(chatEvents.CloseChat, services.Store.state.currentChat.Number);
+            }
+        }
     });
 })(woServices);

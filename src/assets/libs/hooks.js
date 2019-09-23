@@ -69,7 +69,8 @@
         Chat: {
             ChatClicked: "homeChatClicked",
             SendMessage: "homeSendMessage",
-            AcceptChat: "homeAcceptChat"
+            AcceptChat: "homeAcceptChat",
+            CloseChat: "homeCloseChat"
         },
         Home: {
             StatusClosed: "StatusClosed",

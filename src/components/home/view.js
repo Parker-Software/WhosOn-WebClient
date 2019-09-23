@@ -96,6 +96,13 @@
                     showActiveChats();
                 });
 
+                hooks.Register(events.Chat.CloseChat, (chatNum) => {
+                    state.currentChat = {};
+                    showActiveChats();
+                    services.WhosOnConn.CloseChat(chatNum);
+
+                });
+
                 hooks.Register(events.Home.StatusClosed, () => {
                     document.getElementById(myStatusId).classList.remove("is-active");
                 });
@@ -107,7 +114,7 @@
                 hooks.Register(events.Chat.SendMessage, (message) => {
                     var chatObject = {
                         "code" : 1,
-                        "date" : "12345",
+                        "date" : getDate(new Date()),
                         "msg" : message.Text
                     }
 
@@ -165,5 +172,14 @@
         document.getElementById(activeChatsNavId).firstChild.classList.add("is-active");
         document.getElementById(noChatsId).style.display = "none";
         document.getElementById(chatAreaId).style.display = "block";
+    }
+
+    function getDate(timeStamp)
+    {
+        var h = (timeStamp.getHours() < 10 ? '0' : '') + timeStamp.getHours();
+        var m = (timeStamp.getMinutes() < 10 ? '0' : '') + timeStamp.getMinutes();
+        var s = (timeStamp.getSeconds() < 10 ? '0' : '') + timeStamp.getSeconds();
+
+        return h + ':' + m + ':' + s;
     }
 })(woServices);
