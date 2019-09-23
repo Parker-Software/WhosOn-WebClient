@@ -119,7 +119,7 @@
                 var chatId = chatBelongingTo.ChatUID;
                 var messages = state.chatMessages[chatId];
                 if(messages == null) state.chatMessages[chatId] = [];
-                state.chatMessages[chatId].push({ code:0, msg:msg.Data, date: new Date().getTime() / 1000});
+                state.chatMessages[chatId].push({ code:0, msg:msg.Data, date: getDate(new Date())});
 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
                 
@@ -156,7 +156,7 @@
                 for(var i = 0; i < chat.Lines.length; i++) {
                     var line = chat.Lines[i];
                     var parsedDate = new Date(line.Dated);
-                    state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: parsedDate.getTime() / 1000});
+                    state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate)});
                 }
                 
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
