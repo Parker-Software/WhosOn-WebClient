@@ -145,6 +145,7 @@
                     if(state.currentChat.ChatUID == chatId) {
                         state.currentChatTypingstate = false;
                         state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatId]));
+                        hooks.Call(events.Chat.ScrollChat, "");
                     }
                 }
             },

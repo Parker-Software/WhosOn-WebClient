@@ -89,6 +89,7 @@
                             }
 
                             services.WhosOnConn.AcceptChat(chatInfo.Number);
+                            hooks.Call(events.Chat.ScrollChat, "");
                         } else {
                             chat.IsActiveChat = false;
                         }
@@ -131,6 +132,8 @@
                     services.Store.state.chatMessages[message.ChatId].push(chatObject);
                     services.Store.state.currentChatMessages.push(chatObject)
                     services.WhosOnConn.SendMessage(message.Num, message.Text);
+
+                    hooks.Call(events.Chat.ScrollChat, "");
                 });
             }
     });
@@ -144,8 +147,7 @@
 
         document.getElementById(chatAreaId).style.display = "none";
         document.getElementById(noChatsId).style.display = "none";
-
-        
+     
         document.getElementById("Chats").style.display = "none";
         document.getElementById("Team").style.display = "none";
         document.getElementById("usersNavButton").firstChild.classList.remove("is-active");
