@@ -19,6 +19,7 @@
             userInfo: null,
             currentStatus: 0,
             currentChat: {},
+            currentConnectionId: null,
             preRenderedChats: [],
             currentChatMessages: [],
             currentChatPreSurveys: [],
@@ -104,6 +105,9 @@
             }, 
             setCurrentUsers(state, users) { 
                 state.users = users; 
+
+                var clientUser = state.users.find((v) => v.Username == state.userName);
+                state.currentConnectionId = clientUser.Connection;
             },
             userChanged(state, changedUser) {
                 var user = state.users.find((v) => v.Username == changedUser.Username);
@@ -115,12 +119,14 @@
                     user.Lang = changedUser.Lang;
                     user.MaxChats = changedUser.MaxChats;
                     user.Name = changedUser.Name;
+                    user.Connection = changedUser.Connection;
 
-                    
 
                     if(user.Username == state.userName) {
                         state.currentStatus = user.Status;
                     }
+                } else {
+                    state.users.push(changedUser);
                 }
             },
             chatMessage(state, msg) {
