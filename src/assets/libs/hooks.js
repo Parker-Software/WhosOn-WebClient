@@ -68,7 +68,7 @@
         },
         Chat: {
             ChatClicked: "homeChatClicked",
-            SendMessage: "homeSendMessage"
+            SendMessage: "homeSendMessage",
             AcceptChat: "homeAcceptChat"
         },
         Home: {
