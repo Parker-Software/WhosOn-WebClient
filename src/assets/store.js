@@ -18,7 +18,7 @@
             users: null,
             userInfo: null,
             currentStatus: 0,
-            currentChat: null,
+            currentChat: {},
             preRenderedChats: [],
             chats: [],
             chatMessages: {},
