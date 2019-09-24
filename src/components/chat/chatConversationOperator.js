@@ -6,8 +6,8 @@
         ],
         template: `
         <div class="columns is-gapless">
-            <div class="column is-5"></div>
-            <div class="column is-6">
+            <div class="column is-3"></div>
+            <div class="column is-8">
                 <div class="notification operator">
                     {{message}}
                 </div>

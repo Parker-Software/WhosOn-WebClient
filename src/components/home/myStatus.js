@@ -12,11 +12,15 @@
                 <p class="modal-card-title">Change Status To</p>
                 <button class="delete" aria-label="close" v-on:click="closeStatus"></button>
             </header>
-            <section class="modal-card-body">
-                    <a class="button is-success" v-on:click="setToOnline">Online</a> <br /> <br />
-                    <a class="button is-danger" v-on:click="setToBusy">Busy</a> <br /> <br />
-                    <a class="button is-warning" v-on:click="setToBRB">Be right back</a> <br /> <br />
-                    <a class="button is-danger" v-on:click="setToAway">Away</a> <br /> <br />
+            <section class="modal-card-body">          
+            
+            <div class="status-options">
+            <a class="button is-online" v-on:click="setToOnline">Online</a> 
+            <a class="button is-busy" v-on:click="setToBusy">Busy</a>
+            <a class="button is-brb" v-on:click="setToBRB">Be right back</a>
+            <a class="button is-away" v-on:click="setToAway">Away</a> 
+            </div>
+                   
             </section>
             <footer class="modal-card-foot">
             </footer>
