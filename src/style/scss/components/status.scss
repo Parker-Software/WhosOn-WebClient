@@ -1,0 +1,33 @@
+.modal-card-body {
+    padding:10px;
+    .status-options {
+        display:inline-block;
+        text-align: center;
+        width:100%;
+        a{
+            margin-right:20px;
+        }
+
+        .is-online{
+            background-color: $ThemeMyStatusOnline;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-busy{
+            background-color: $ThemeMyStatusBusy;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-brb{
+            background-color: $ThemeMyStatusBeRightBack;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-away{
+            background-color: $ThemeMyStatusAway;    
+            color: $ThemeToolbarText;      
+        }
+    
+      
+    }
+}
