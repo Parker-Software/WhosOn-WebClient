@@ -112,6 +112,11 @@
 
                 });
 
+                hooks.Register(events.Chat.MonitorChat, (chatInfo) => {
+                    // todo: implement monitoring
+                    alert('Monitoring not available');
+                });
+
                 hooks.Register(events.Home.StatusClosed, () => {
                     document.getElementById(myStatusId).classList.remove("is-active");
                 });

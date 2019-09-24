@@ -71,7 +71,8 @@
             SendMessage: "homeSendMessage",
             AcceptChat: "homeAcceptChat",
             CloseChat: "homeCloseChat",
-            ScrollChat: "homeScrollChat"
+            ScrollChat: "homeScrollChat",
+            MonitorChat: "homeMonitorChat"
         },
         Home: {
             StatusClosed: "StatusClosed",

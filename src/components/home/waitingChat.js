@@ -45,6 +45,8 @@
                 if(chat != null) {
                     if(chat.TalkingToClientConnection == 0 || chat.TalkingToClientConnection  == services.Store.state.currentConnectionId) {
                         hooks.Call(chatEvents.AcceptChat, { "Number": chatNum, "ChatId": chatId});
+                    } else if (chat.TalkingToClientConnection !== services.Store.state.currentConnectionId) {
+                        hooks.Call(chatEvents.MonitorChat, {"Number": chatNum, "ChatId": chatId });
                     }
                 }
 
