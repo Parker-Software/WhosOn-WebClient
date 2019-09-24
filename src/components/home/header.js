@@ -3,10 +3,13 @@
         template: `
             <div class="columns is-fixed-top header is-marginless" id="app-header">
                 <div class="column is-12 has-text-centered">
-                    <h1 class="is-size-5">{{this.$store.state.userInfo.Name}} ({{statusText}}) | WhosOn</h1>
+                    <h1 class="is-size-5">{{topDisplayName}} ({{statusText}}) | WhosOn</h1>
                 </div>
             </div>`,
             computed: {
+                topDisplayName: function() {
+                    return this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName;
+                },
                 statusText: function()
                 {
                     switch (this.$store.state.currentStatus) {
