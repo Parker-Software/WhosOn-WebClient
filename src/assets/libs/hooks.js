@@ -1,10 +1,10 @@
 (function(services) {
     var HookEvents = {
         Socket: {
-            Opened: "SocketOpened",
-            Closed: "SocketClosed",
-            Message: "SocketMessage",
-            Error: "SocketError"
+            Opened: "socket.Opened",
+            Closed: "socket.Closed",
+            Message: "socket.Message",
+            Error: "socket.Error"
         },
         Connection: {
             Connected: "ConnectionConnected",
@@ -58,25 +58,28 @@
             DailySummary: "ds"
         },
         Login: {
-            SubmitClicked: "SubmitClicked"
+            SubmitClicked: "login.SubmitClicked"
         },
         Navigation: {
-            MyStatus: "MyStatus",
-            Chats: "Chats",
-            Users: "Users",
-            Options: "Options"
+            ButtonClicked: "navigation.ButtonClicked",
+            MyStatusClicked: "navigation.MyStatusClicked",
+            ChatsClicked: "navigation.ChatsClicked",
+            TeamClicked: "navigation.TeamClicked",
+            OptionsClicked: "navigation.OptionsClicked"
         },
         Chat: {
-            ChatClicked: "homeChatClicked",
-            SendMessage: "homeSendMessage",
-            AcceptChat: "homeAcceptChat",
-            CloseChat: "homeCloseChat",
-            ScrollChat: "homeScrollChat",
-            MonitorChat: "homeMonitorChat"
+            ShowNoActiveChats: "home.chat.ShowNoActiveChats",
+            ShowActiveChats: "home.chat.ShowActiveChats",
+            ChatClicked: "home.chat.ChatClicked",
+            SendMessage: "home.chat.SendMessage",
+            AcceptChat: "home.chat.AcceptChat",
+            CloseChat: "home.chat.CloseChat",
+            ScrollChat: "home.chat.ScrollChat",
+            MonitorChat: "home.chat.MonitorChat"
         },
         Home: {
-            StatusClosed: "StatusClosed",
-            StatusChanged: "StatusChanged"
+            StatusClosed: "home.StatusClosed",
+            StatusChanged: "home.StatusChanged"
         }
     }
     

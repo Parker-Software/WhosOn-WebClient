@@ -9,7 +9,7 @@
             <div class="column is-1 is-fullheight" id="navigation" style="user-select:none">
             <aside class="menu">
                 <ul class="menu-list">
-                    <li @click="viewStatus()" id="myStatusNavButton">
+                    <li @click="onNavButtonClicked('status')" id="myStatusNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
@@ -31,7 +31,7 @@
                         </a>
                        
                     </li>
-                    <li @click="viewChats()" id="chatsNavButton">
+                    <li @click="onNavButtonClicked('chats')" id="chatsNavButton">
                         <a class="is-active">
                             <span class="icon">
                                 <i class="fas fa-comment-dots"></i>
@@ -40,7 +40,7 @@
                             Chats
                         </a>
                     </li>
-                    <li @click="viewUsers()" id="usersNavButton">
+                    <li @click="onNavButtonClicked('team')" id="usersNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-users"></i>
@@ -55,7 +55,7 @@
             </aside>
             <aside class="menu menu-bottom">
                 <ul class="menu-list">
-                    <li @click="viewOptions()" id="optionsNavButton">
+                    <li @click="onNavButtonClicked('options')" id="optionsNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-cog"></i>
@@ -67,18 +67,41 @@
                 </ul>
             </aside>
         </div>`,
+        beforeCreate() {
+            hooks.Register(events.Home.StatusClosed, () => {
+                document.getElementById("myStatusNavButton").firstChild.classList.remove("is-active");
+                document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
+            });
+        },
         methods: {
-            viewStatus() {
-                hooks.Call(navEvents.MyStatus, "");
+            unselectAll() {
+                document.getElementById("myStatusNavButton").firstChild.classList.remove("is-active");
+                document.getElementById("chatsNavButton").firstChild.classList.remove("is-active");
+                document.getElementById("usersNavButton").firstChild.classList.remove("is-active");
+                document.getElementById("optionsNavButton").firstChild.classList.remove("is-active");
             },
-            viewChats() {
-                hooks.Call(navEvents.Chats, "");
-            },
-            viewUsers() {
-                hooks.Call(navEvents.Users, "");
-            },
-            viewOptions() {
-                hooks.Call(navEvents.Options, "");
+            onNavButtonClicked(status) {
+                hooks.Call(navEvents.ButtonClicked, status);
+
+                this.unselectAll();
+                switch(status) {
+                    case "status":
+                        hooks.Call(navEvents.MyStatusClicked, "");
+                        document.getElementById("myStatusNavButton").firstChild.classList.add("is-active");
+                        break;
+                    case "chats":
+                        hooks.Call(navEvents.ChatsClicked, "");
+                        document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
+                        break;
+                    case "team":
+                        hooks.Call(navEvents.TeamClicked, "");
+                        document.getElementById("usersNavButton").firstChild.classList.add("is-active");
+                        break;
+                    case "options":
+                        hooks.Call(navEvents.OptionsClicked, "");
+                        document.getElementById("optionsNavButton").firstChild.classList.add("is-active");
+                        break;
+                }
             }
         }
     });
