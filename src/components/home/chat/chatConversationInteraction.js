@@ -2,6 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var chatEvents = events.Chat;
+    var state = services.Store.state;
 
     Vue.component('chatConversationInteraction', {
         template: `
@@ -27,6 +28,19 @@
             </div>
         </section>
         `,
+        beforeCreate() {
+            hooks.Register(events.Connection.ChatClosed, (e) => {
+                if(Object.keys(state.currentChat).length > 0 && e.Data == state.currentChat.ChatUID) {
+                    var input = document.getElementById("inputArea");
+                    input.disabled = true;
+                }
+            });
+
+            hooks.Register(events.Chat.AcceptChat, (e) => {
+                var input = document.getElementById("inputArea");
+                input.disabled = false;
+            });
+        },
         methods: {
             keymonitor(event) {
                 if (event.shiftKey == false && event.keyCode == 13)
