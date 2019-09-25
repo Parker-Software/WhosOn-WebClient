@@ -6,7 +6,7 @@
                     <h5 class="title is-4">Connected Operators: {{this.$store.state.users.length}}</h5>
                 </div>
                 <ul v-for="item of this.$store.state.users">
-                    <homeTeamUser :name="item.Name" :photo="item.Photo" :status="item.Status"></homeTeamUser>
+                    <homeTeamUser :userName="item.Username" :name="item.Name" :status="item.Status"></homeTeamUser>
                 </ul>
             </div>
         `

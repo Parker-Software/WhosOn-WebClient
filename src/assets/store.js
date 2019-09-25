@@ -201,17 +201,6 @@
                 state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
                 state.currentChatTypingstate = false;
             },
-            userphoto(state, userPhotoData) {
-
-                var user = userPhotoData.Header;
-                var data = userPhotoData.Data;
-
-                var foundUser = state.users.find((v) => v.Username == user);
-
-                if(foundUser != null) {
-                    foundUser.Photo = data;
-                } 
-            },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
                 state.password = loginDetails.password;

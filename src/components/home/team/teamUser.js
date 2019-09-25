@@ -6,9 +6,9 @@
 
     Vue.component('homeTeamUser', {
         props: [
+            "userName",
             "name",
-            "status",
-            "photo"
+            "status"
         ],
         template: `
             <li>
@@ -17,7 +17,7 @@
                         <div class="media-content">
                             <div class="content">
                                 <figure class="image is-64x64" style="margin:0; float:left;">
-                                    <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image" class="is-rounded">
+                                    <img v-bind:class="userName" src="https://bulma.io/images/placeholders/64x64.png" alt="Image" class="userPhoto is-rounded">
                                     <div v-if="status == 0" class="status online"><i class="fas fa-circle"></i></div>
                                     <div v-if="status == 1" class="status busy"><i class="fas fa-circle"></i></div>
                                     <div v-if="status == 2" class="status brb"><i class="fas fa-circle"></i></div>
