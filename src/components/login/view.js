@@ -11,11 +11,6 @@
     var authString;
 
     Vue.component(state.loginViewName, {
-        data: function () {
-            return {
-                
-            }
-        },
         template:
         `
         <div v-bind:id="this.$store.state.loginViewName">           
