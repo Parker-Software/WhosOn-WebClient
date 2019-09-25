@@ -3,7 +3,10 @@
     class StoreUpdater {
         constructor() {
             var hooks = services.Hooks;
-            var connEvents = services.HookEvents.Connection;
+            var events = services.HookEvents;
+            var connEvents = events.Connection;
+            var store = services.Store;
+            var state = services.Store.state;
 
             hooks.Register(connEvents.CurrentChats, (e) => {
                 services.Store.commit("setChats", e.Data.Chats);
@@ -75,7 +78,76 @@
             hooks.Register(connEvents.VisitorTypingOff, (e) => {
                 services.Store.commit("visitorTypingOff", e)
             });
+
+            hooks.Register(events.Chat.AcceptChat, (chatInfo) => { 
+                var chats = state.chats;
+                Object.keys(chats).forEach((key) => {
+                    var chat = chats[key];
+                    if(chat.ChatUID == chatInfo.ChatId) {
+                        chat.IsActiveChat = true;
+                        state.currentChat = chat;
+
+                        if(state.chatMessages[chat.ChatUID] != null) {
+                            state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chat.ChatUID]));
+                        } else {
+                            state.currentChatMessages = JSON.parse(JSON.stringify([]));
+                        }
+
+                        if (state.chatPreSurveys[chat.Number] != null) {
+                            state.currentChatPreSurveys = JSON.parse(JSON.stringify(state.chatPreSurveys[chatInfo.Number]));
+                        } else {
+                            state.currentChatPreSurveys = {};
+                        }
+
+                        services.WhosOnConn.AcceptChat(chatInfo.Number);
+                        hooks.Call(events.Chat.ScrollChat, "");
+                    } else {
+                        chat.IsActiveChat = false;
+                    }
+                });
+
+            });
+
+            hooks.Register(events.Chat.CloseChat, (chatNum) => {
+                services.WhosOnConn.CloseChat(chatNum);                   
+                var currentChat = state.currentChat; 
+                state.currentChat = {};        
+
+                state.chats.forEach(function(chat){
+                    if (chat.TalkingTo == woServices.Store.state.userName && chat.ChatUID != currentChat.ChatUID) {
+                        hooks.Call(events.Chat.AcceptChat, {"Number": chat.Number, "ChatId": chat.ChatUID});
+                    }
+                })
+
+            });
+
+            hooks.Register(events.Chat.SendMessage, (message) => {
+                var chatObject = {
+                    "code" : 1,
+                    "date" : getDate(new Date()),
+                    "msg" : message.Text
+                }
+
+                if(services.Store.state.chatMessages[message.ChatId] == null) services.Store.state.chatMessages[message.ChatId] = [];
+
+                services.Store.state.chatMessages[message.ChatId].push(chatObject);
+                services.Store.state.currentChatMessages.push(chatObject)
+                services.WhosOnConn.SendMessage(message.Num, message.Text);
+
+                hooks.Call(events.Chat.ScrollChat, "");
+            });
         }
+    }
+
+    
+
+    function getDate(timeStamp)
+    {
+        var h = (timeStamp.getHours() < 10 ? '0' : '') + timeStamp.getHours();
+        var m = (timeStamp.getMinutes() < 10 ? '0' : '') + timeStamp.getMinutes();
+        var s = (timeStamp.getSeconds() < 10 ? '0' : '') + timeStamp.getSeconds();
+
+        return h + ':' + m + ':' + s;
     }
 
     services.Add("StoreUpdater", new StoreUpdater());

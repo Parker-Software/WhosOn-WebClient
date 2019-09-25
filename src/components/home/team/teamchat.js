@@ -1,8 +1,10 @@
 (function(services){
     var hooks = services.Hooks;
-    var hookEvents = services.HookEvents;
-    var connEvents = hookEvents.Connection;
+    var events = services.HookEvents;
+    var connEvents = events.Connection;
+    var navEvents = events.Navigation;
     var state = services.Store.state;
+
     Vue.component('homeTeamChat', {
         template: `
         <div class="column is-9 col-pad chat-area" id="hometeamChat">
@@ -21,7 +23,6 @@
                 if(e.Data == "") return;
 
                 var foundUser = state.users.find((v) => v.Username == user);
-
                 if(foundUser != null) {
                     foundUser.Photo = data;
                     var user = document.getElementsByClassName(foundUser.Username)[0];

@@ -22,7 +22,6 @@
         `,
         beforeCreate() {
             hooks.Register(events.Chat.ScrollChat, (e) => {
-                console.log('scroll');
                 var scroller = document.getElementById('chatScroller');
                 setTimeout(function(){
                     scroller.scrollBy({
