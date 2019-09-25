@@ -2,6 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var chatEvents = events.Chat;
+    var state = services.Store.state;
 
     Vue.component('chatHeader', {
         template: `
@@ -25,7 +26,7 @@
             </div>
             <div class="column is-5 .no-pad-right ">
                 <div class="chat-header-icons is-pulled-right">
-                    <a href="#" class="tooltip" data-tooltip="Close this chat" v-on:click="onClick">
+                    <a id="closeChatBtn" href="#" class="tooltip" data-tooltip="Close this chat" v-on:click="onClick">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
@@ -63,10 +64,26 @@
             </div>
         </div>
         `,
+        beforeCreate() {
+            hooks.Register(events.Chat.AcceptChat, (e) => {
+                this.enableCloseChatButton();
+            });
+        },
         methods: {
+            disableCloseChatButton() {
+                var closeChatButton = document.getElementById("closeChatBtn");
+                closeChatButton.setAttribute("disabled", "");
+            },
+            enableCloseChatButton() {
+                var closeChatButton = document.getElementById("closeChatBtn");
+                closeChatButton.removeAttribute("disabled");
+            },
             onClick() {
                 var confirmation = confirm("Are you sure you wish to close this chat?");
-                if (confirmation) hooks.Call(chatEvents.CloseChat, services.Store.state.currentChat.Number);
+                if (confirmation) { 
+                    this.disableCloseChatButton();
+                    hooks.Call(chatEvents.CloseChat, services.Store.state.currentChat.Number);
+                }
             }
         }
     });

@@ -29,19 +29,29 @@
         </section>
         `,
         beforeCreate() {
+            hooks.Register(events.Chat.CloseChat, (e) => {
+                this.disableInput();
+            });
+
             hooks.Register(events.Connection.ChatClosed, (e) => {
                 if(Object.keys(state.currentChat).length > 0 && e.Data == state.currentChat.ChatUID) {
-                    var input = document.getElementById("inputArea");
-                    input.disabled = true;
+                    this.disableInput();
                 }
             });
 
             hooks.Register(events.Chat.AcceptChat, (e) => {
-                var input = document.getElementById("inputArea");
-                input.disabled = false;
+                this.enableInput();
             });
         },
         methods: {
+            disableInput() {
+                var input = document.getElementById("inputArea");
+                input.disabled = true;
+            },
+            enableInput() {
+                var input = document.getElementById("inputArea");
+                input.disabled = false;
+            },
             keymonitor(event) {
                 if (event.shiftKey == false && event.keyCode == 13)
                 {
