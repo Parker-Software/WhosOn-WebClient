@@ -75,10 +75,6 @@
             hooks.Register(connEvents.VisitorTypingOff, (e) => {
                 services.Store.commit("visitorTypingOff", e)
             });
-
-            hooks.Register(connEvents.UserPhoto, (e) => {
-                services.Store.commit("userphoto", e);
-            });
         }
     }
 
