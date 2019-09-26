@@ -7,7 +7,7 @@
     Vue.component(state.connectingViewName, {
         template:
         `
-            <div v-bind:id="this.$store.state.connectingViewName" class="loadingWindow" style="width:100%; height:100%;">   
+            <div v-bind:id="this.$store.state.connectingViewName" class="loadingWindow">   
                <loader></loader>
             </div>
         `

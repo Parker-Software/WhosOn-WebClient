@@ -74,8 +74,12 @@
             SendMessage: "home.chat.SendMessage",
             AcceptChat: "home.chat.AcceptChat",
             CloseChat: "home.chat.CloseChat",
+            PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
-            MonitorChat: "home.chat.MonitorChat"
+            MonitorChat: "home.chat.MonitorChat",
+            TabClicked: "home.chat.TabClicked",
+            CRMIFrameChangedSrc: "home.chat.CRMIFrameChangedSrc",
+            CRMIFrameLoaded: "home.chat.CRMIFrameLoaded"
         },
         Home: {
             StatusClosed: "home.StatusClosed",

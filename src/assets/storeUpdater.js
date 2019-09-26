@@ -8,6 +8,10 @@
             var store = services.Store;
             var state = services.Store.state;
 
+            hooks.Register(connEvents.LoggedIn, (e) => {
+                services.Store.commit("successfulLogin", e.Data);
+            });
+
             hooks.Register(connEvents.CurrentChats, (e) => {
                 services.Store.commit("setChats", e.Data.Chats);
             });
@@ -22,6 +26,8 @@
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
+
+                console.log("USER INFO!");
                 services.Store.commit("setUserInfo", e.Data.User);
             });
 
@@ -95,10 +101,10 @@
 
                         if (state.chatPreSurveys[chat.Number] != null) {
                             state.currentChatPreSurveys = JSON.parse(JSON.stringify(state.chatPreSurveys[chatInfo.Number]));
+                            hooks.Call(events.Chat.PreChatSurveysLoaded);
                         } else {
                             state.currentChatPreSurveys = {};
                         }
-
                         services.WhosOnConn.AcceptChat(chatInfo.Number);
                         hooks.Call(events.Chat.ScrollChat, "");
                     } else {
@@ -119,6 +125,17 @@
                     }
                 })
 
+            });
+
+            
+            hooks.Register(events.Chat.PreChatSurveysLoaded, () => {
+                var currentChat = state.currentChat;
+                var userName = state.userName;
+                var visitorName = state.currentChat.Name;
+                var email = state.currentChatPreSurveys.find((v) => v.Name == "Email").Value;
+
+                state.crmURL = `https://whosoncrmfuncs.azurewebsites.net/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=https://dev3.whoson.com/whosoncharts/`;
+                hooks.Call(events.Chat.CRMIFrameChangedSrc, state.crmURL);
             });
 
             hooks.Register(events.Chat.SendMessage, (message) => {

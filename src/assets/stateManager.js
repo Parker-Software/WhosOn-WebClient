@@ -8,7 +8,7 @@
             var homeView = document.getElementById(services.Store.state.homeViewName);
             var loginView = document.getElementById(services.Store.state.loginViewName);
             var connectingView = document.getElementById(services.Store.state.connectingViewName);
-
+            
             loginView.style.display = "none";
             homeView.style.display = "none";
 
@@ -21,7 +21,19 @@
             hooks.Register(socketEvents.Opened, (e) => {
                 connectingView.style.display = "none";                  
                 loginView.style.display = "block";
-            })
+            });
+
+            hooks.Register(socketEvents.Error, (e) => {
+                homeView.style.display = "none";
+                loginView.style.display = "none";   
+                connectingView.style.display = "flex"; 
+            }); 
+            
+            hooks.Register(socketEvents.Closed, (e) => {
+                homeView.style.display = "none";
+                loginView.style.display = "none";   
+                connectingView.style.display = "flex"; 
+            });
         };   
     }
 

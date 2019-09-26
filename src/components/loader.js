@@ -6,15 +6,20 @@
     var state = services.Store.state;
 
     Vue.component("loader", {
+        props: [
+            'id',
+            'text',
+            'customStyles',
+        ],
         template:
         `
-            <div class="customLoader">
+            <div v-bind:id="id" class="customLoader" v-bind:style="customStyles">
                 <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
                     <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
                 </svg>
                 <br />
                 <br />
-               <span>Connecting To WhosOn...</span>
+               <span>{{text}}</span>
                <br />
             </div>
         `,
