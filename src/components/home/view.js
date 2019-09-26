@@ -55,10 +55,12 @@
                 });
 
                 hooks.Register(events.Chat.AcceptChat, (chatInfo) => {
+                    hideAll();
                     showActiveChats();
                 });
 
                 hooks.Register(events.Chat.CloseChat, (chatNum) => {    
+                    hideAll();
                     showNoActiveChats();
                 });
 

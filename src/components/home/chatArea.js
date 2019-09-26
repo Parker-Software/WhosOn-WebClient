@@ -22,6 +22,10 @@
                 hooks.Register(events.Chat.ShowActiveChats, (e) => {
                     document.getElementById("homeChatArea").style.display = "block";
                 });
+
+                hooks.Register(events.Chat.ShowNoActiveChats, (e) => {
+                    document.getElementById("homeChatArea").style.display = "none";
+                });    
             }
     });
 })(woServices);
