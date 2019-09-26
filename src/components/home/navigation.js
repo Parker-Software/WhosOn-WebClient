@@ -68,10 +68,6 @@
             </aside>
         </div>`,
         beforeCreate() {
-            hooks.Register(events.Home.StatusClosed, () => {
-                document.getElementById("myStatusNavButton").firstChild.classList.remove("is-active");
-                document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
-            });
         },
         methods: {
             unselectAll() {
@@ -82,22 +78,22 @@
             },
             onNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);
-
-                this.unselectAll();
                 switch(status) {
                     case "status":
                         hooks.Call(navEvents.MyStatusClicked, "");
-                        document.getElementById("myStatusNavButton").firstChild.classList.add("is-active");
                         break;
                     case "chats":
+                        this.unselectAll();
                         hooks.Call(navEvents.ChatsClicked, "");
                         document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
                         break;
                     case "team":
+                        this.unselectAll();
                         hooks.Call(navEvents.TeamClicked, "");
                         document.getElementById("usersNavButton").firstChild.classList.add("is-active");
                         break;
                     case "options":
+                        this.unselectAll();
                         hooks.Call(navEvents.OptionsClicked, "");
                         document.getElementById("optionsNavButton").firstChild.classList.add("is-active");
                         break;
