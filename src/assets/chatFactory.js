@@ -39,6 +39,7 @@
             this.Status = "";
             this.WaitingWarning = false;
             this.IsActiveChat = false;
+            this.Closed = false;
         }
     }
 

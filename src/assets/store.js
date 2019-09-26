@@ -60,7 +60,11 @@
             removeChat(state, data) {
                 var chat = state.chats.find((v) => v.ChatUID == data);
                 if(chat != null) {
-                    
+
+                    if(state.currentChat.ChatUID == chat.ChatUID) {
+                        state.currentChat.Closed = true;
+                    }
+
                     Object.keys(state.chatMessages).forEach((v) => {
                         if(v == chat.Number)
                         {
@@ -73,6 +77,8 @@
                     state.chats.splice(idx, 1);
 
                     state.activeChatCount = Object.keys(state.chats).length;
+
+                  
                 }
             },
             addChat(state, data) {

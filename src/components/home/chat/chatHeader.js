@@ -11,14 +11,15 @@
                 <figure class="image is-64x64">
                     <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
                         class="is-rounded">
-                    <div class="status online"><i class="fas fa-circle"></i></div>
+                    <div v-if="this.$store.state.currentChat.Closed == false" class="status online"><i class="fas fa-circle"></i></div>
+                    <div v-if="this.$store.state.currentChat.Closed == true" class="status busy"><i class="fas fa-circle"></i></div>
                 </figure>
             </div>
             <div class="column">
                 <div class="chat-header" style="margin-top: 4px;">
                     <div class="content">
                         <p>
-                            <strong>{{this.$store.state.currentChat.Name}}</strong><br>
+                            <strong>{{this.$store.state.currentChat.Name}} <span v-if="this.$store.state.currentChat.Closed">(Closed)</span> </strong><br>
                             <small>{{this.$store.state.currentChat.SiteName}}</small>
                         </p>
                     </div>
