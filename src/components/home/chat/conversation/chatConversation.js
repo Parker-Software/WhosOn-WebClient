@@ -4,7 +4,7 @@
 
     Vue.component('chatConversation', {
         template: `
-        <div id="chatConversation">
+        <div id="chatConversation"  style="margin-top: 0.75rem;">
             <chatConversationSurvey></chatConversationSurvey>
             <div class="active-chat" id="Conversation">
                 <div class="columns">
