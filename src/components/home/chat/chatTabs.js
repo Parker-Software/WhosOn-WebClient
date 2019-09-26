@@ -4,7 +4,7 @@
 
     Vue.component('chatTabs', {
         template: `
-        <div class="tabs">
+        <div class="tabs" style="padding-bottom: 0.75rem;">
             <ul>
                 <li id="conversationTab" class="chatTab is-active" @click="onTabClicked('conversation')"><a>Conversation</a></li>
                 <!--<li><a>Previous Chats</a></li>

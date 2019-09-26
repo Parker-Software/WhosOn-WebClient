@@ -6,7 +6,7 @@
 
     Vue.component('chatHeader', {
         template: `
-        <div class="columns">
+        <div class="columns"  style="padding: 0.75rem;">
             <div class="column is-narrow">
                 <figure class="image is-64x64">
                     <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
