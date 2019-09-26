@@ -8,9 +8,8 @@
         template: `
         <div class="columns"  style="padding: 0.75rem;">
             <div class="column is-narrow">
-                <figure class="image is-64x64">
-                    <img src="https://bulma.io/images/placeholders/64x64.png" alt="Image"
-                        class="is-rounded">
+                <figure class="avatar image is-64x64">
+                    <i class="fas fa-user fa-4x"></i>
                     <div v-if="this.$store.state.currentChat.Closed == false" class="status online"><i class="fas fa-circle"></i></div>
                     <div v-if="this.$store.state.currentChat.Closed == true" class="status busy"><i class="fas fa-circle"></i></div>
                 </figure>
