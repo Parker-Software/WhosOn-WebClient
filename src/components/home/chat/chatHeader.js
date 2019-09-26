@@ -14,7 +14,7 @@
                     <div class="status online"><i class="fas fa-circle"></i></div>
                 </figure>
             </div>
-            <div class="column is-6">
+            <div class="column">
                 <div class="chat-header" style="margin-top: 4px;">
                     <div class="content">
                         <p>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
             </div>
-            <div class="column is-5 .no-pad-right ">
+            <div class="column">
                 <div class="chat-header-icons is-pulled-right">
                     <a id="closeChatBtn" href="#" class="tooltip" data-tooltip="Close this chat" v-on:click="onClick">
                         <span class="fa-stack fa-2x">
