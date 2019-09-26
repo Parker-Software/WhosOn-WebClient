@@ -31,3 +31,39 @@
       
     }
 }
+
+
+#statusModal {
+    .modal-card {
+        background-color:transparent;
+    }
+
+    .modal-card-head {
+        background-color: transparent;
+        border: none;
+    }
+
+    .modal-card-title {
+        color: white;
+    }
+
+    .modal-card-body {
+        background-color: transparent;
+    }
+
+    .modal-card-foot {
+        visibility: hidden;
+    }
+
+    .delete {
+        background-color: transparent;
+        width:25px;
+        height:25px;
+        max-height: 25px;
+        max-width: 25px;
+    }
+
+    .button {
+        border: none;
+    }
+}
