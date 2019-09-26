@@ -60,6 +60,7 @@
                 });
 
                 hooks.Register(events.Chat.CloseChat, (chatNum) => {    
+                    console.log("Show no active chats!");
                     hideAll();
                     showNoActiveChats();
                 });

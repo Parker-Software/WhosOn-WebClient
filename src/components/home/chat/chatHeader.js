@@ -78,7 +78,8 @@
                 var closeChatButton = document.getElementById("closeChatBtn");
                 closeChatButton.removeAttribute("disabled");
             },
-            onClick() {
+            onClick(e) {
+                e.preventDefault();
                 var confirmation = confirm("Are you sure you wish to close this chat?");
                 if (confirmation) { 
                     this.disableCloseChatButton();

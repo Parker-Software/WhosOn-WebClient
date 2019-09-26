@@ -79,7 +79,8 @@
             MonitorChat: "home.chat.MonitorChat",
             TabClicked: "home.chat.TabClicked",
             CRMIFrameChangedSrc: "home.chat.CRMIFrameChangedSrc",
-            CRMIFrameLoaded: "home.chat.CRMIFrameLoaded"
+            CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
+            ClickTab: "home.chat.ClickTab"
         },
         Home: {
             StatusClosed: "home.StatusClosed",

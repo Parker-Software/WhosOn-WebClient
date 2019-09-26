@@ -106,6 +106,7 @@
                             state.currentChatPreSurveys = {};
                         }
                         services.WhosOnConn.AcceptChat(chatInfo.Number);
+                        hooks.Call(events.Chat.ClickTab, "conversation");
                         hooks.Call(events.Chat.ScrollChat, "");
                     } else {
                         chat.IsActiveChat = false;

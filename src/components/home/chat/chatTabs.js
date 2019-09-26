@@ -14,6 +14,11 @@
             </ul>
         </div>
         `,
+        beforeCreate() {
+            hooks.Register(events.Chat.ClickTab, (tab) => {
+                this.onTabClicked(tab);
+            });
+        },
         methods: {
             onTabClicked( tab) {
                 this.unSelectAll();
