@@ -26,6 +26,7 @@
             hooks.Register(events.Chat.CRMIFrameLoaded, (src) => {
                 this.Loader().style.display = "none";
                 this.Form().style.opacity = 1;
+                this.Form().style.pointerEvents = "all";
             });
         },
         mounted() {
