@@ -77,6 +77,22 @@
             ]);
         }
 
+        SendTypingStatus(chatNum) {
+            var self = this;
+
+            self.Socket.Send("1", [
+                chatNum
+            ]);
+        }
+
+        StopTypingStatus(chatNum) {
+            var self = this;
+
+            self.Socket.Send("1", [
+                chatNum
+            ]);
+        }
+
         GetUserPhoto(userName) {
             var self = this;
 

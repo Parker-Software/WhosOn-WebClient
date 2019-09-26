@@ -8,7 +8,6 @@
     var userName;
     var password;
     var department;
-    var authString;
 
     Vue.component(state.loginViewName, {
         template:
@@ -59,12 +58,6 @@
                         <div class="control">
                             <label>Department:</label>
                             <input class="input" type="text" id="departmentInput" autofocus="">
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control">
-                            <label>Authentication string:</label>
-                            <input class="input" type="text" id="authStringInput" autofocus="">
                         </div>
                     </div>
                 </div>
@@ -137,7 +130,6 @@
                 userName = document.getElementById("userNameInput").value;
                 password = document.getElementById("passwordInput").value;              
                 department = document.getElementById("departmentInput").value;
-                authString = document.getElementById("authStringInput").value;    
                 
                 var list = document.getElementsByTagName("input");
                

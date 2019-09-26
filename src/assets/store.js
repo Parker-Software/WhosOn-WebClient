@@ -6,7 +6,6 @@
     services.Add("Store", new Vuex.Store({
         state: {
             serverUID: null,
-            authString: "PSLHOSTED",
             version: "0.1",
             lang: "en",
             platform: "WebClient",
@@ -142,8 +141,10 @@
                 var chatId = chatBelongingTo.ChatUID;
                 var messages = state.chatMessages[chatId];
                 if(messages == null) state.chatMessages[chatId] = [];
-                state.chatMessages[chatId].push({ code:0, msg:msg.Data, date: getDate(new Date())});
 
+                var message = { code:0, msg:msg.Data, date: getDate(new Date())};
+
+                state.chatMessages[chatId].push(message);
                 state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
                 
 

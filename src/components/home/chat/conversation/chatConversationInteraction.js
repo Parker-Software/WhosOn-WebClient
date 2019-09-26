@@ -1,8 +1,13 @@
 (function(services){
+    var self = this;
+
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var chatEvents = events.Chat;
     var state = services.Store.state;
+
+    var sendingTypingStatus = false;
+    var typingStatusTimer = null;
 
     Vue.component('chatConversationInteraction', {
         template: `
@@ -59,11 +64,34 @@
                     var text = inputArea.value.trim();
                     if (text.length > 0)
                     {
+                        this.stopTypingStatus();
                         hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
                         inputArea.value = "";
                     }
                     event.preventDefault();
+                } else {
+                    if(sendingTypingStatus == false) {
+                        this.sendTypingStatus();
+                    }
+
+                    console.log("Hit");
+
+                    clearTimeout(typingStatusTimer);
+                    typingStatusTimer = setTimeout(() => {
+                        console.log("TIME OUT!");
+                        self.stopTypingStatus();
+                    }, 2000);
                 }
+            },
+            sendTypingStatus() {
+                sendingTypingStatus = true;
+                services.WhosOnConn.SendTypingStatus(state.currentChat.Number);
+            },
+            stopTypingStatus() {
+                services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+
+                sendingTypingStatus = false;
+                clearTimeout(typingStatusTimer);
             }
         }
     });

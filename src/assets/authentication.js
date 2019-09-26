@@ -7,7 +7,6 @@
             self._connection = services.WhosOnConn;
             self._state = services.Store.state;
 
-            self._authString = self._state.authString;
             self._version = self._state.version;
             self._lang = self._state.lang;
             self._platform = self._state.platform;
@@ -18,7 +17,7 @@
             var self = this;
 
             self._connection.Login(
-                self._authString,
+                "",
                 displayName,
                 dept,
                 "",

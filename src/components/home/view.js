@@ -60,7 +60,6 @@
                 });
 
                 hooks.Register(events.Chat.CloseChat, (chatNum) => {    
-                    console.log("Show no active chats!");
                     hideAll();
                     showNoActiveChats();
                 });
@@ -69,11 +68,6 @@
                     // todo: implement monitoring
                     alert('Monitoring not available');
                 });
-
-                hooks.Register(events.Home.StatusClosed, () => {
-                    hideAll();
-                    showNoActiveChats();
-                 });
 
                 hooks.Register(events.Home.StatusChanged, (status) => {
                    services.WhosOnConn.ChangeStatus(status);
@@ -102,14 +96,5 @@
     function showActiveChats() {
         document.getElementById("Chats").style.display = "block";
         hooks.Call(events.Chat.ShowActiveChats);
-    }
-
-    function getDate(timeStamp)
-    {
-        var h = (timeStamp.getHours() < 10 ? '0' : '') + timeStamp.getHours();
-        var m = (timeStamp.getMinutes() < 10 ? '0' : '') + timeStamp.getMinutes();
-        var s = (timeStamp.getSeconds() < 10 ? '0' : '') + timeStamp.getSeconds();
-
-        return h + ':' + m + ':' + s;
     }
 })(woServices);
