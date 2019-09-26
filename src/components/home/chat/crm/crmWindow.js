@@ -6,7 +6,7 @@
         template: `
         <div id="crmWindow" style="display: none; width:100%; height:calc(100% - 174px); position:relative;">
             <loader id="crmLoader" text='Loading CRM Form...' customStyles='color:black; left: calc(50% - 62px); top: calc(50% - 52px);'></loader>
-            <iframe id="crmFormIFrame" style="width:100%; height:100%" v-bind:src="this.$store.state.crmURL">
+            <iframe id="crmFormIFrame" style="width:100%; height:100%;" v-bind:src="this.$store.state.crmURL">
             
             </iframe>
         </div>
@@ -18,22 +18,30 @@
             });
 
             hooks.Register(events.Chat.CRMIFrameChangedSrc, (src) => {
-                document.getElementById("crmLoader").style.display = "block";
+                this.Form().style.pointerEvents = "none";
+                this.Loader().style.display = "block";
+                this.Form().style.opacity = 0.5;
             });
 
             hooks.Register(events.Chat.CRMIFrameLoaded, (src) => {
-                document.getElementById("crmLoader").style.display = "none";
+                this.Loader().style.display = "none";
+                this.Form().style.opacity = 1;
             });
         },
         mounted() {
-            var iframe = document.getElementById("crmFormIFrame");
-            iframe.onload = () => {
-                hooks.Call(events.Chat.CRMIFrameLoaded, iframe.src);
+            this.Form().onload = () => {
+                hooks.Call(events.Chat.CRMIFrameLoaded, this.Form().src);
             };
         },
         methods: {
             Element() {
                 return document.getElementById("crmWindow");
+            },
+            Form() {
+                return document.getElementById("crmFormIFrame");
+            },
+            Loader() {
+                return document.getElementById("crmLoader");
             }
         }
     });
