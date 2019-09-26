@@ -5,6 +5,7 @@
 
     services.Add("Store", new Vuex.Store({
         state: {
+            serverUID: null,
             authString: "PSLHOSTED",
             version: "0.1",
             lang: "en",
@@ -24,6 +25,7 @@
             currentChatMessages: [],
             currentChatPreSurveys: [],
             currentChatTypingstate: false,
+            crmURL: null, 
             chats: [],
             chatMessages: {},
             chatPreSurveys: {},
@@ -159,6 +161,7 @@
                     if(state.currentChat.Number == msg.Header) {
                         state.currentChatPreSurveys =  JSON.parse(JSON.stringify(state.chatPreSurveys[msg.Header]));
                     }
+                    hooks.Call(events.Chat.PreChatSurveysLoaded);
                 }
 
             },
@@ -200,6 +203,9 @@
                 state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatUID]));
                 state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ? JSON.parse(JSON.stringify(state.chatPreSurveys[chatNum])) : {};
                 state.currentChatTypingstate = false;
+            },
+            successfulLogin(state, details) {
+                state.serverUID = details.ServerUid;
             },
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;

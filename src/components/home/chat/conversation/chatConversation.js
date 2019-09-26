@@ -21,6 +21,11 @@
         </div>
         `,
         beforeCreate() {
+            hooks.Register(events.Chat.TabClicked, (tab) => {
+                if(tab != "conversation") this.Element().style.display = "none";
+                else this.Element().style.display = "block";
+            });
+
             hooks.Register(events.Chat.ScrollChat, (e) => {
                 var scroller = document.getElementById('chatScroller');
                 setTimeout(function(){
@@ -32,6 +37,11 @@
                 }, 100);
             
             });
+        },
+        methods: {
+            Element() {
+                return document.getElementById("chatConversation");
+            }
         }
     });
 })(woServices);
