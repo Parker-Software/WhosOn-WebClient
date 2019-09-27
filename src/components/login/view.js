@@ -66,8 +66,10 @@
         </div>
             </section>
             <div class="footer-bar" style="position: fixed;width: 100%; text-align: center;">
-                <a v-on:click="resetPasswordRedirect">Reset your password</a>
-                <br>
+                <a v-on:click="resetPasswordRedirect">Reset Your Password</a>
+                <br />
+                <a v-on:click="createAccountRedirect">Create WhosOn Account</a>
+                <br />
                 <p style="bottom:5px; ">Copyright &copy; Parker Software 2019</p>
             </div>
         </div>
@@ -148,7 +150,11 @@
                 if (advSettingsToggle.checked == false) advSettingsArea.style.visibility = "hidden";
             },
             resetPasswordRedirect() {
-                window.location = state.resetPasswordRedirect;
+                var sameServer = window.location.protocol + "//" + window.location.hostname + "/settings";
+                window.open((state.settingsPortalURL || sameServer) + "/ForgottenPassword.aspx", "Settings Portal Forgotten Password", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
+            },
+            createAccountRedirect() {
+                window.open("https://www.whoson.com/pricing", "Settings Portal Create Account", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
             }
         }
     });

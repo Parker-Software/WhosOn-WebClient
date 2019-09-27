@@ -10,6 +10,7 @@
             lang: "en",
             platform: "WebClient",
             connectionAddress: "ws://192.168.10.152:8013",
+            settingsPortalURL: "http://192.168.10.152/settings",
             userName: null,
             password: null,
             displayName: "Test",
