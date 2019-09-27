@@ -2,43 +2,8 @@
 (function(services) {
     var hooks = services.Hooks;
     var events = services.HookEvents;
-
     services.Add("Store", new Vuex.Store({
-        state: {
-            serverUID: null,
-            version: "0.1",
-            lang: "en",
-            platform: "WebClient",
-            connectionAddress: "ws://192.168.10.152:8013",
-            settingsPortalURL: "http://192.168.10.152/settings",
-            userName: null,
-            password: null,
-            displayName: "Test",
-            department: "dev",
-            loggedIn: false,
-            users: [],
-            userInfo: null,
-            currentStatus: 0,
-            currentChat: {},
-            currentConnectionId: null,
-            preRenderedChats: [],
-            currentChatMessages: [],
-            currentChatPreSurveys: [],
-            currentChatTypingstate: false,
-            crmURL: null, 
-            chats: [],
-            chatMessages: {},
-            chatPreSurveys: {},
-            rights: null,
-            sites: null,
-            skills: null,
-            cannedResponses: null,
-            uploadedFiles: null,
-            settingsPortalAddress: null,
-            loginViewName: "loginview",
-            homeViewName: "homeview",
-            connectingViewName: "connectingview"
-        },
+        state: services.DefaultState(),
         mutations: {
             init(state) {
                 state.connectionAddress = state.connectionAddress || `ws://${window.location.hostname}:8013`;

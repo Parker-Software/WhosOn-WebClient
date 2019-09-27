@@ -47,7 +47,6 @@
                         this.AboutElem().classList.add("is-active");
                         break;
                 }
-                console.log("calling hook!");
                 hooks.Call(events.Options.TabClicked, tab);
             },
             GeneralElem() {
