@@ -14,12 +14,6 @@
             </div>
             `,
         beforeCreate() {
-            hooks.Register(events.Navigation.ButtonClicked, (e) => {
-                if(e != "status"){
-                    document.getElementById("homeNoChatsArea").style.display = "none";
-                }
-            });
-
             hooks.Register(events.Chat.ShowNoActiveChats, (e) => {
                 document.getElementById("homeNoChatsArea").style.display = "block";
             });

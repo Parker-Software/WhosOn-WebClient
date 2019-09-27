@@ -34,6 +34,7 @@
             `,
             mounted() {
                 hideAll();
+                showChat();
                 showNoActiveChats();
             },
             beforeCreate() {
@@ -41,7 +42,7 @@
                     var alreadyViewing = document.getElementById("chatsNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         hideAll();
-                        showNoActiveChats();
+                        showChat();
                     }
                 });
 
@@ -56,11 +57,13 @@
 
                 hooks.Register(events.Chat.AcceptChat, (chatInfo) => {
                     hideAll();
+                    showChat();
                     showActiveChats();
                 });
 
                 hooks.Register(events.Chat.CloseChat, (chatNum) => {    
                     hideAll();
+                    showChat();
                     showNoActiveChats();
                 });
 
@@ -84,17 +87,18 @@
 
 
     function showTeam() {
-        document.getElementById("Chats").style.display = "none";
         document.getElementById("Team").style.display = "block";
     }
 
-    function showNoActiveChats() {
+    function showChat() {
         document.getElementById("Chats").style.display = "block";
+    }
+
+    function showNoActiveChats() {
         hooks.Call(events.Chat.ShowNoActiveChats);
     }
 
     function showActiveChats() {
-        document.getElementById("Chats").style.display = "block";
         hooks.Call(events.Chat.ShowActiveChats);
     }
 })(woServices);
