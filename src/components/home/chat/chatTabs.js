@@ -1,6 +1,10 @@
 (function(services){
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var state = services.Store.state;
+
+    var crmWindow = null;
+    var crmWindowChecker = null;
 
     Vue.component('chatTabs', {
         template: `
@@ -18,18 +22,34 @@
             hooks.Register(events.Chat.ClickTab, (tab) => {
                 this.onTabClicked(tab);
             });
+
+            crmWindowChecker = setInterval(() => {
+                if(crmWindow != null && crmWindow.closed) {
+                    crmWindow = null;
+                    document.getElementById("crmTab").classList.remove("is-active");
+                }
+            }, 100);
         },
         methods: {
             onTabClicked( tab) {
-                this.unSelectAll();
                 switch(tab) {
                     case "conversation":
+                            this.unSelectAll();
                             document.getElementById("conversationTab").classList.add("is-active");
                         break;
                     case "crm":
-                            document.getElementById("crmTab").classList.add("is-active");
+                            if(crmWindow == null) crmWindow = window.open(state.crmURL, "Crm Form", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
+                            else crmWindow.focus();
                         break;
                 }
+
+
+                if(crmWindow != null && crmWindow.closed == false) {
+                    document.getElementById("crmTab").classList.add("is-active");
+                } else {
+                    document.getElementById("crmTab").classList.remove("is-active");
+                }
+
                 hooks.Call(events.Chat.TabClicked, tab);
             },
             unSelectAll() {

@@ -22,7 +22,7 @@
         `,
         beforeCreate() {
             hooks.Register(events.Chat.TabClicked, (tab) => {
-                if(tab != "conversation") this.Element().style.display = "none";
+                if(tab != "conversation" && tab != "crm") this.Element().style.display = "none";
                 else this.Element().style.display = "block";
             });
 
