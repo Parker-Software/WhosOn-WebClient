@@ -38,14 +38,16 @@
 
         Send(cmdName, params) {
             var self = this;
+            var msg = {
+                "Command": `${cmdName}`,
+                "Parameters" : params
+            };
 
-            self._socket.send(
-                JSON.stringify(
-                {
-                    "Command": `${cmdName}`,
-                    "Parameters" : params
-                }
-            ));
+            console.log(`Sending CMD - ${msg.Command}`);
+            console.log(`With`);
+            console.log(msg.Parameters);
+
+            self._socket.send(JSON.stringify(msg));
         }
 
         Close() {

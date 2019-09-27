@@ -43,11 +43,13 @@ textarea {
 .visitor {  
     background-color: $ThemeChatLineBackgroundVisitor;
     margin-left:10px;
+    user-select: text;
 }
 
 .operator {
     background-color: $ThemeChatLineBackgroundOperator;
     margin-right:10px;
+    user-select: text;
 }
 
 .chat-header-icons {

@@ -26,8 +26,6 @@
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
-
-                console.log("USER INFO!");
                 services.Store.commit("setUserInfo", e.Data.User);
             });
 
