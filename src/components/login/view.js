@@ -115,7 +115,6 @@
 
             hooks.Register(connEvents.Connected, (e) => {
                 if(state.userName != null && state.userName != "" && state.password != null && state.password != "") {
-
                     userName = state.userName;
                     password = state.password;
                     department = state.department;

@@ -1,5 +1,4 @@
 (function(services) {
-    
     class StateManager {
         constructor() {
             var hooks = services.Hooks;
@@ -31,8 +30,7 @@
             
             hooks.Register(socketEvents.Closed, (e) => {
                 homeView.style.display = "none";
-                loginView.style.display = "none";   
-                connectingView.style.display = "flex"; 
+                loginView.style.display = "block"; 
             });
         };   
     }

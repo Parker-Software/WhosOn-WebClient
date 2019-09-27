@@ -153,6 +153,11 @@
 
                 hooks.Call(events.Chat.ScrollChat, "");
             });
+
+            hooks.Register(events.Socket.Closed, (e) => {
+                sessionStorage.clear();
+                services.Store.commit("replaceEntireState", services.DefaultState());
+            });
         }
     }
 

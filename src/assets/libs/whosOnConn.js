@@ -127,13 +127,11 @@
 
         Logout() {
             var self = this;
-
-            self.Socket.Send("close", null);
+            self.Socket.Close();
         }
 
         Disconnect() {
             var self = this;
-
             self.Socket.Close();
         }
     }

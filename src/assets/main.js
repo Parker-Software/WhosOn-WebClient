@@ -9,7 +9,11 @@
 
             var state = services.Store.state;
             var connection = services.WhosOnConn;
+
             connection.Connect(state.connectionAddress);
+            hooks.Register(events.Socket.Closed, (e) => {
+                connection.Connect(state.connectionAddress);
+            })
 
             hooks.Register(connEvents.Error, (e) => {
                 console.log("Error Occured");

@@ -14,7 +14,6 @@
                     var settings = JSON.parse(previousSettings);
                     state.userName = settings.userName;
                     state.password = settings.password;
-                    state.displayName = settings.displayName;
                     state.department = settings.department;
                 }
             },
@@ -187,9 +186,11 @@
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
                 state.password = loginDetails.password;
-                state.displayName = loginDetails.displayName;
                 state.department = loginDetails.department;
                 sessionStorage.setItem("woClient", JSON.stringify(loginDetails))
+            },
+            replaceEntireState(state, newState) {
+                Object.assign(state, newState);
             }
         }
     }));

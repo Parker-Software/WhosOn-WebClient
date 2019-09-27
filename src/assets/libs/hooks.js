@@ -83,6 +83,7 @@
             ClickTab: "home.chat.ClickTab"
         },
         Options: {
+            LogoutClicked: "home.options.LogoutClicked",
             TabClicked: "home.options.TabClicked"
         },
         Home: {

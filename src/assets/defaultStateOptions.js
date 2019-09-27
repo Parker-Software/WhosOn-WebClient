@@ -8,7 +8,6 @@ woServices.Add("DefaultState", function(){
         settingsPortalURL: "http://192.168.10.152/settings",
         userName: null,
         password: null,
-        displayName: "Test",
         department: "dev",
         loggedIn: false,
         users: [],

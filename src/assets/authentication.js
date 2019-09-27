@@ -13,12 +13,12 @@
         }
 
 
-        Login(userName, password, displayName, dept) {
+        Login(userName, password, dept) {
             var self = this;
 
             self._connection.Login(
                 "",
-                displayName,
+                "",
                 dept,
                 "",
                 self._version,

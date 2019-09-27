@@ -1,4 +1,6 @@
 (function(services){
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
 
     Vue.component('homeOptionsFooter', {
         template: `
@@ -10,7 +12,7 @@
         `,
         methods: {
             Logout() {
-                console.log("Logout clicked!");
+                services.WhosOnConn.Logout();
             }
         }
     });
