@@ -262,7 +262,7 @@ nav.navbar {
 
 #app-content {  
     margin: 0;
-    min-height: 100vh;
+    min-height: 100%;
 }
 
 
@@ -281,6 +281,10 @@ nav.navbar {
     border-left: 2px solid #e2e5ec;
     height: 30px;
     margin: 0 20px;
+}
+
+#page-content .content-body {
+    height: 100%;
 }
 
 #page-content .content-body .card-filter {
@@ -434,6 +438,10 @@ a[disabled] {
     pointer-events: none;
     cursor:default;
     opacity: 0.6;
+}
+
+.view {
+    height: 100%;
 }
 
 // Loading

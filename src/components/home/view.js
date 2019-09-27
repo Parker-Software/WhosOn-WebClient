@@ -6,7 +6,7 @@
 
     Vue.component(services.Store.state.homeViewName, {
         template: `
-            <section v-bind:id="this.$store.state.homeViewName">
+            <section v-bind:id="this.$store.state.homeViewName" class="view">
                 <homeheader></homeheader>
                 <div class="columns" id="app-content">
                     <homenav></homenav>
@@ -26,6 +26,11 @@
                                             <homeTeamChat></homeTeamChat>
                                         </div>
                                    </div>
+                                   <div id="Options" style="display: none; width:100%; height: 100%; position:relative;">
+                                        <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
+                                        <homeOptionsContent></homeOptionsContent>
+                                        <homeOptionsFooter></homeOptionsFooter>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -53,6 +58,7 @@
 
                 hooks.Register(navEvents.OptionsClicked, (e) => {
                     hideAll();
+                    showOptions();
                 });
 
                 hooks.Register(events.Chat.AcceptChat, (chatInfo) => {
@@ -83,6 +89,7 @@
     function hideAll() {
         document.getElementById("Chats").style.display = "none";
         document.getElementById("Team").style.display = "none";
+        document.getElementById("Options").style.display = "none";
     };
 
 
@@ -92,6 +99,10 @@
 
     function showChat() {
         document.getElementById("Chats").style.display = "block";
+    }
+
+    function showOptions() {
+        document.getElementById("Options").style.display = "block";
     }
 
     function showNoActiveChats() {

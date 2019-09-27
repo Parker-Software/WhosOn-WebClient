@@ -28,7 +28,7 @@
 
             hooks.Register(events.Chat.ScrollChat, (e) => {
                 var scroller = document.getElementById('chatScroller');
-                setTimeout(function(){
+                setTimeout(() => {
                     scroller.scrollBy({
                         top: scroller.scrollHeight,
                         left: 0,

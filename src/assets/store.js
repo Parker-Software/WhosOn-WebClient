@@ -114,7 +114,7 @@
             }, 
             setCurrentUsers(state, users) { 
                 state.users = users; 
-
+                
                 var clientUser = state.users.find((v) => v.Username == state.userName);
                 state.currentConnectionId = clientUser.Connection;
             },

@@ -24,7 +24,7 @@
             </div>
         `,
         computed: {
-            address: function(){
+            address: () => {
                 var address = this.$store.state.connectionAddress;
                 address = address.replace("ws://", "");
 

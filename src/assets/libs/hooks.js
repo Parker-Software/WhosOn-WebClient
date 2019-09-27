@@ -82,6 +82,9 @@
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
             ClickTab: "home.chat.ClickTab"
         },
+        Options: {
+            TabClicked: "home.options.TabClicked"
+        },
         Home: {
             StatusClosed: "home.StatusClosed",
             StatusChanged: "home.StatusChanged"

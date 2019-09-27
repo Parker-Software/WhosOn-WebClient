@@ -42,11 +42,6 @@
                 "Command": `${cmdName}`,
                 "Parameters" : params
             };
-
-            console.log(`Sending CMD - ${msg.Command}`);
-            console.log(`With`);
-            console.log(msg.Parameters);
-
             self._socket.send(JSON.stringify(msg));
         }
 

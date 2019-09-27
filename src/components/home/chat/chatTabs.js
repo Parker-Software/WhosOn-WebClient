@@ -31,7 +31,7 @@
             }, 100);
         },
         methods: {
-            onTabClicked( tab) {
+            onTabClicked(tab) {
                 switch(tab) {
                     case "conversation":
                             this.unSelectAll();
