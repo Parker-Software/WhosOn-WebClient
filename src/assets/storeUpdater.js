@@ -32,6 +32,7 @@
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
                 for(var i = 0; i < e.Data.Clients.length; i++) {
                     var client = e.Data.Clients[i];
+                    client.HasPhoto = true;
                     services.WhosOnConn.GetUserPhoto(client.Username);
                 }
 
