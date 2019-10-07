@@ -88,7 +88,7 @@
         StopTypingStatus(chatNum) {
             var self = this;
 
-            self.Socket.Send("1", [
+            self.Socket.Send("0", [
                 chatNum
             ]);
         }
