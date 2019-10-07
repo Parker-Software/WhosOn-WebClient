@@ -33,7 +33,7 @@
 }
 
 
-#statusModal {
+
     .modal-card {
         background-color:transparent;
     }
@@ -44,7 +44,7 @@
     }
 
     .modal-card-title {
-        color: white;
+        color: white !important;
     }
 
     .modal-card-body {
@@ -66,4 +66,3 @@
     .button {
         border: none;
     }
-}
