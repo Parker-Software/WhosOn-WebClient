@@ -74,6 +74,7 @@
             SendMessage: "home.chat.SendMessage",
             AcceptChat: "home.chat.AcceptChat",
             CloseChat: "home.chat.CloseChat",
+            CloseChatClicked: "home.chat.CloseChatClicked",
             PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
             MonitorChat: "home.chat.MonitorChat",

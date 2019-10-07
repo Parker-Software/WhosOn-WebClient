@@ -65,6 +65,9 @@
         </div>
         `,
         beforeCreate() {
+            hooks.Register(events.Chat.CloseChat, () => {
+                this.disableCloseChatButton();
+            });
             hooks.Register(events.Chat.AcceptChat, (e) => {
                 this.enableCloseChatButton();
             });
@@ -80,11 +83,7 @@
             },
             onClick(e) {
                 e.preventDefault();
-                var confirmation = confirm("Are you sure you wish to close this chat?");
-                if (confirmation) { 
-                    this.disableCloseChatButton();
-                    hooks.Call(chatEvents.CloseChat, services.Store.state.currentChat.Number);
-                }
+                hooks.Call(chatEvents.CloseChatClicked, services.Store.state.currentChat.Number);
             }
         }
     });

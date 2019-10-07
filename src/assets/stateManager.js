@@ -30,7 +30,8 @@
             
             hooks.Register(socketEvents.Closed, (e) => {
                 homeView.style.display = "none";
-                loginView.style.display = "block"; 
+                loginView.style.display = "none"; 
+                connectingView.style.display = "flex"; 
             });
         };   
     }
