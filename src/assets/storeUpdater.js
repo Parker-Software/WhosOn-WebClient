@@ -57,7 +57,29 @@
 
             hooks.Register(connEvents.ChatMessage, (e) => {
                 services.Store.commit("chatMessage", e);
-            });           
+            });        
+            
+            hooks.Register(connEvents.CurrentVisitorUploadedFile, (e) => {
+                var chatBelongingTo = state.chats.find((v) => v.Number == e.Header);
+                if(chatBelongingTo == null) return;
+
+                
+                var chatId = chatBelongingTo.ChatUID;
+
+                var msg = {code:0, msg:e.Data, date: getDate(new Date()), isLink: true};
+                state.chatMessages[chatId].push(msg);
+                state.chatMessages = JSON.parse(JSON.stringify(state.chatMessages));
+
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+
+                if(hasCurrentChat) {
+                    if(state.currentChat.ChatUID == chatId) {
+                        state.currentChatTypingstate = false;
+                        state.currentChatMessages = JSON.parse(JSON.stringify(state.chatMessages[chatId]));
+                        hooks.Call(events.Chat.ScrollChat, "");
+                    }
+                }
+            });
 
             hooks.Register(connEvents.CurrentChat, (e) => {
                 var chatInfo = e.Header.split(":");

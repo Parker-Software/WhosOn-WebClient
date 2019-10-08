@@ -18,6 +18,33 @@
     color:#ff1000;
 }
 
+.fileMessage {
+    background-color: transparent !important;
+    padding: 0;
+    width: 300px;
+}
+
+.notification {
+    text-decoration: none;
+}
+
+.clickableImage {    
+    border: dashed 2px gray;
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    transition: 0.2s;
+    text-decoration: none;
+    margin-bottom: 5px;
+}
+
+.clickableImage:hover {
+    cursor: pointer;
+    background-color: $ThemeRoundButtonFill;
+    color: white;
+    border-color: transparent;
+}
+
 .chat-info {
     box-shadow: none !important;
     margin-bottom:4px;
