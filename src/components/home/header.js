@@ -1,8 +1,8 @@
 (function(services){
     Vue.component('homeheader', {
         template: `
-            <div class="columns is-fixed-top header is-marginless" id="app-header">
-                <div class="column is-12 has-text-centered">
+            <div class="header"  id="app-header">
+                <div class="has-text-centered">
                     <h1 class="is-size-5">{{topDisplayName}} ({{statusText}}) | WhosOn</h1>
                 </div>
             </div>`,
