@@ -5,7 +5,7 @@
 
     Vue.component('homeNoChatsArea', {
         template: `
-            <div class="column is-9 col-pad chat-area" id="homeNoChatsArea" style="display:none">
+            <div class="customColumn chat-area" id="homeNoChatsArea" style="display:none">
                 <div class="logo">
                     <i class="far fa-comment"></i>
                     <br>

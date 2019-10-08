@@ -5,7 +5,7 @@
 
     Vue.component('homeChatArea', {
         template: `
-            <div class="column is-9 chat-area" id="homeChatArea" style="display:none">
+            <div class="customColumn chat-area" id="homeChatArea" style="display:none">
                 <div>
                     <chatHeader></chatHeader>
                     <chatTabs></chatTabs>

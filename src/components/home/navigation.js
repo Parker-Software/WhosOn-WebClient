@@ -6,7 +6,7 @@
 
     Vue.component('homenav', {
         template: `
-            <div class="column is-1 is-fullheight" id="navigation" style="user-select:none">
+            <div id="navigation" class="customColumn" style="user-select:none">
             <aside class="menu">
                 <ul class="menu-list">
                     <li @click="onNavButtonClicked('status')" id="myStatusNavButton">

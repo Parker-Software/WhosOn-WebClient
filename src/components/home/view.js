@@ -8,29 +8,24 @@
         template: `
             <section v-bind:id="this.$store.state.homeViewName" class="view">
                 <homeheader></homeheader>
-                <div class="columns" id="app-content">
+                <div id="app-content">
                     <homenav></homenav>
-                    <div class="column is-11" id="page-content">
+                    <div class="customColumn" id="page-content">
                         <div class="content-body">
-                                    <homeMyStatus></homeMyStatus>
-                                    <div id="Chats" style="width: 100%; height: 100%;">
-                                        <div class="columns">
-                                            <homeActiveChats></homeActiveChats>
-                                            <homeChatArea></homeChatArea>
-                                            <homeNoChatsArea></homeNoChatsArea>
-                                        </div>
-                                    </div>
-                                   <div id="Team" style="display: none; width:100%; height: 100%;">
-                                        <div class="columns">
-                                            <homeTeamUsers></homeTeamUsers>
-                                            <homeTeamChat></homeTeamChat>
-                                        </div>
-                                   </div>
-                                   <div id="Options" style="display: none; width:100%; height: 100%; position:relative;">
-                                        <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
-                                        <homeOptionsContent></homeOptionsContent>
-                                        <homeOptionsFooter></homeOptionsFooter>
-                                    </div>
+                            <homeMyStatus></homeMyStatus>
+                            <div id="Chats" style="width: 100%; height: 100%;">
+                                <homeActiveChats></homeActiveChats>
+                                <homeChatArea></homeChatArea>
+                                <homeNoChatsArea></homeNoChatsArea>
+                            </div>
+                            <div id="Team" style="display: none; width:100%; height: 100%;">
+                                <homeTeamUsers></homeTeamUsers>
+                                <homeTeamChat></homeTeamChat>
+                            </div>
+                            <div id="Options" style="display: none; width:100%; height: 100%; position:relative;">
+                                <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
+                                <homeOptionsContent></homeOptionsContent>
+                                <homeOptionsFooter></homeOptionsFooter>
                             </div>
                         </div>
                     </div>

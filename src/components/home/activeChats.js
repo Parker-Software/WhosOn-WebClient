@@ -1,25 +1,27 @@
 (function(services){
     Vue.component('homeActiveChats', {
         template: `
-        <div class="column is-3 is-fullheight active-chats" id="homeActiveChats">
+        <div class="customColumn active-chats" id="homeActiveChats">
             <div class="content-header">
                 <h5 v-show="this.$store.state.activeChatCount > 0" class="title is-4">Active Chats: {{this.$store.state.activeChatCount}}</h5>
                 <h5 v-show="this.$store.state.activeChatCount <= 0" class="title is-4">No Active Chats</h5>
             </div>
-            <div v-for="group, groupname in chatsGroupedAndSorted">
-            <h2>{{groupname}}</h2>
-            <ul v-for="item in group">
-                <homeWaitingChat 
-                    :chatId = "item.ChatUID"
-                    :chatNum="item.Number"
-                    :name="item.Name"
-                    :geoip="item.Location"
-                    :site="item.SiteName" 
-                    :chatstatus="item.Status" 
-                    :waitingWarning="item.WaitingWarning" 
-                    :isSelected="item.IsActiveChat">
-                </homeWaitingChat>
-            </ul>
+            <div class="chats">
+                <div v-for="group, groupname in chatsGroupedAndSorted">
+                    <h2>{{groupname}}</h2>
+                    <ul>
+                        <homeWaitingChat v-for="item in group"
+                            :chatId = "item.ChatUID"
+                            :chatNum="item.Number"
+                            :name="item.Name"
+                            :geoip="item.Location"
+                            :site="item.SiteName" 
+                            :chatstatus="item.Status" 
+                            :waitingWarning="item.WaitingWarning" 
+                            :isSelected="item.IsActiveChat">
+                        </homeWaitingChat>
+                    </ul>
+                </div>
             </div>
         </div>
             `,

@@ -96,7 +96,8 @@ textarea {
   }
 .active-chats{
     background-color: #fff;
-    
+    min-width: 300px;
+    padding: 10px;
 }
 
 .time-col{
@@ -104,8 +105,14 @@ textarea {
     min-width: 70px;
 }
 
+.chats {
+    height: 88%;
+    overflow-y: auto;
+}
+
 .chat-area{
-    height:100vh;
+    height:100%;
+    width: calc(100% - 300px);
     position: relative;
     background-color: $ThemeChatBackground;
     padding-left:0;
