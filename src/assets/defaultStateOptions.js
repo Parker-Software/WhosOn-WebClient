@@ -23,6 +23,7 @@ woServices.Add("DefaultState", function(){
         chats: [],
         chatMessages: {},
         chatPreSurveys: {},
+        uploadedFiles: [],
         rights: null,
         sites: null,
         skills: null,
