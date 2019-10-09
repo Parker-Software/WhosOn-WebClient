@@ -125,6 +125,12 @@
             ]);
         }
 
+
+        GetFiles() {
+            var self = this;
+            self.Socket.Send("getfiles", null);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();
