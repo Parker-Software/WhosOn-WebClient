@@ -27,6 +27,19 @@
             });
 
             hooks.Register(events.Chat.ScrollChat, (e) => {
+                this.ScrollChat();
+            });
+
+            hooks.Register(events.Connection.CurrentChat, (e) =>{
+                this.ScrollChat();
+            });
+
+        },
+        methods: {
+            Element() {
+                return document.getElementById("chatConversation");
+            },
+            ScrollChat() {
                 var scroller = document.getElementById('chatScroller');
                 setTimeout(() => {
                     scroller.scrollBy({
@@ -35,12 +48,6 @@
                         behavior: 'smooth'
                     })
                 }, 100);
-            
-            });
-        },
-        methods: {
-            Element() {
-                return document.getElementById("chatConversation");
             }
         }
     });

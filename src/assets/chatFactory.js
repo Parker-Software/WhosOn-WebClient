@@ -50,17 +50,18 @@
 
             Object.keys(chats).forEach((key) => {
                 var rawchat = chats[key];
-                var chat = new Chat(rawchat.ChatUid,
+
+                var chat = new Chat(rawchat.ChatUID,
                                     rawchat.Dept,
-                                    rawchat.Domain,
+                                    sites[rawchat.SiteKey].Domain,
                                     rawchat.Lang,
                                     rawchat.Location,
-                                    rawchat.Name,
+                                    rawchat.VisitorName,
                                     rawchat.Number,
                                     rawchat.QueuePos,
                                     rawchat.SiteKey,
                                     rawchat.SkillNames,
-                                    rawchat.TalkingToClientConnection,
+                                    rawchat.TalkingToClientNo,
                                     rawchat.Translation,
                                     rawchat.VisitorIPAddress,
                                     rawchat.VisitorSessionId,

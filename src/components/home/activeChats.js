@@ -10,7 +10,7 @@
                 <div v-for="group, groupname in chatsGroupedAndSorted">
                     <h2>{{groupname}}</h2>
                     <ul>
-                        <homeWaitingChat v-for="item in group"
+                        <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
                             :chatId = "item.ChatUID"
                             :chatNum="item.Number"
                             :name="item.Name"

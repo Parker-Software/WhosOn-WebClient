@@ -131,6 +131,24 @@
             self.Socket.Send("getfiles", null);
         }
 
+        RequestFile(chatNum) {
+            var self = this;
+            self.Socket.Send("filerequest", [
+                chatNum
+            ]);
+        }
+
+        SendFile(chatNum, fileName, url)
+        {
+            var self = this;
+            var params = [
+                chatNum,
+                fileName,
+                url
+            ];
+            self.Socket.Send("sendfileto", params);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();

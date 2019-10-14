@@ -1,4 +1,7 @@
 (function(services){
+
+    var notification;
+
     class Main {
         constructor() {
             var self = this;
@@ -25,9 +28,18 @@
             });
 
             hooks.Register(connEvents.NewChat, (chatInfo) => {
-                services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
+                if(notification != null) notification.close();
+                notification = services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
                     window.focus();
                     hooks.Call(events.Chat.AcceptChat, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
+                });
+            });
+
+            hooks.Register(events.Chat.MessageFromWaitingChat, (info) => {
+                if(notification != null) notification.close();
+                notification = services.Notifications.CreateNotification(`Chat With ${info.name}`, info.msg.Data, () => {
+                    window.focus();
+                    hooks.Call(events.Chat.AcceptChat, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
                 });
             });
         }

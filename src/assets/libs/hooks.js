@@ -81,7 +81,16 @@
             TabClicked: "home.chat.TabClicked",
             CRMIFrameChangedSrc: "home.chat.CRMIFrameChangedSrc",
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
-            ClickTab: "home.chat.ClickTab"
+            ClickTab: "home.chat.ClickTab",
+            SendFileClicked: "home.chat.SendFileClicked",
+            RequestedFileUpload: "home.chat.RequestedFileUpload",
+            MessageFromWaitingChat: "home.chat.MessageFromWaitingChat"
+        },
+        FileUploader: {
+            FileItemClicked: "fileuploader.FileItemClicked",
+            Hide: "fileuploader.Hide",
+            Successful: "fileuploader.Successful",
+            Failed: "fileuploader.Failed"
         },
         Options: {
             LogoutClicked: "home.options.LogoutClicked",
