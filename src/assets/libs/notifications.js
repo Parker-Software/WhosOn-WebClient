@@ -26,7 +26,7 @@
             if(timeToClose == null) timeToClose = -1;
 
             if(self.NotficationsAllowed) {
-                var notification = new Notification(title, { body: text, icon: "/assets/images/128x128.png" });
+                var notification = new Notification(title, { body: text,  icon: "/assets/images/128x128.png" });
 
                 if(onclickFunc != null) {
                     notification.onclick = onclickFunc;
@@ -34,9 +34,11 @@
 
                 if(timeToClose != -1) {
                     setTimeout(() => {
-                        notification.close.bind(notification);
+                        notification.close();
                     }, timeToClose);
                 }
+
+                return notification;
             }
         }
     }

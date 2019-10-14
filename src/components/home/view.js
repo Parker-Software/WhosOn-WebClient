@@ -22,7 +22,7 @@
                                 <homeTeamUsers></homeTeamUsers>
                                 <homeTeamChat></homeTeamChat>
                             </div>
-                            <div id="Options" style="display: none; width:100%; height: 100%; position:relative;">
+                            <div id="Options" style="display: none; width:100%; height: 100%; position:relative; padding:20px;">
                                 <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
                                 <homeOptionsContent></homeOptionsContent>
                                 <homeOptionsFooter></homeOptionsFooter>

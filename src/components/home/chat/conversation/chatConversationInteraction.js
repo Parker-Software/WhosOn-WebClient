@@ -5,6 +5,7 @@
     var events = services.HookEvents;
     var chatEvents = events.Chat;
     var state = services.Store.state;
+    var connection =services.WhosOnConn;
 
     var sendingTypingStatus = false;
     var typingStatusTimer = null;
@@ -21,34 +22,74 @@
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons">
-                    <!--<i class="fas fa-smile"></i>
-                    <a href="#" data-show="quickview" data-target="responsesView">
+                    <a id="emojiBtn" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                        <i class="fas fa-smile"></i>
+                    </a>
+                    <a id="cannedResponsesBtn" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-comment-dots"></i>
                     </a>
-
-                    <i class="fas fa-paperclip"></i>
-                    <i class="fas fa-download"></i>-->
-
+                    <a id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                        <i class="fas fa-paperclip"></i>
+                    </a>
+                    <a id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                        <i class="fas fa-download"></i>
+                    </a>
                 </div>
             </div>
+            <fileUploader></fileUploader>
         </section>
         `,
         beforeCreate() {
             hooks.Register(events.Chat.CloseChat, (e) => {
                 this.disableInput();
+         
             });
-
             hooks.Register(events.Connection.ChatClosed, (e) => {
                 if(Object.keys(state.currentChat).length > 0 && e.Data == state.currentChat.ChatUID) {
                     this.disableInput();
+                    this.emojiBtn().setAttribute("disabled", true);
+                    this.cannedResponsesBtn().setAttribute("disabled", true);
+                    this.sendFileBtn().setAttribute("disabled", true);
+                    this.requestFileBtn().setAttribute("disabled", true);
+
+                    hooks.Call(events.FileUploader.Hide);
                 }
             });
 
             hooks.Register(events.Chat.AcceptChat, (e) => {
                 this.enableInput();
+                this.emojiBtn().removeAttribute("disabled");
+                this.cannedResponsesBtn().removeAttribute("disabled");
+                this.sendFileBtn().removeAttribute("disabled");
+                this.requestFileBtn().removeAttribute("disabled");
             });
         },
         methods: {
+            emojiBtn() {
+                return document.getElementById("emojiBtn");
+            },
+            cannedResponsesBtn() {
+                return document.getElementById("cannedResponsesBtn");
+            },
+            sendFileBtn() {
+                return document.getElementById("sendFileBtn");
+            },
+            requestFileBtn() {
+                return document.getElementById("requestFileBtn");
+            },
+            emojiBtnClicked() {
+                console.log("Open Emoji Menu");
+            },
+            cannedResponsesClicked() {
+                console.log("Open CannedResposnes Menu");
+            },
+            sendFileClicked() {
+                hooks.Call(events.Chat.SendFileClicked);
+            },
+            requestFileClicked() {
+                hooks.Call(events.Chat.RequestedFileUpload);
+                connection.RequestFile(this.$store.state.currentChat.Number);
+            },
             disableInput() {
                 var input = document.getElementById("inputArea");
                 input.disabled = true;
@@ -69,7 +110,7 @@
                         inputArea.value = "";
                     }
                     event.preventDefault();
-                } else {
+                } else if(event.ctrlKey == false) {
                     if(sendingTypingStatus == false) {
                         this.sendTypingStatus();
                     }

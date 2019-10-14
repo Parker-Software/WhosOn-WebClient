@@ -1,4 +1,8 @@
 (function(services){
+
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+
     Vue.component('chatConversationVisitor', {
         props: [
             'message',
@@ -18,13 +22,30 @@
                 </div>
             </div>
         `,
+        mounted() {
+            var images = document.getElementsByClassName("clickableImage");
+            for(var i = 0; i < images.length; i++){
+                images[i].onload = function() {
+                    hooks.Call(events.Chat.ScrollChat);
+                }
+            }
+        },
         computed: {
             messageFormatted: function() {
                 if(this.isFile) {
                     var message = "";
-                    var split = this.message.split('\t');
-                    var name = split[0];
-                    var link = split[1];
+                    var name;
+                    var link;
+
+                    if(this.message.indexOf("<link>") != -1) {
+                        var xml = new DOMParser().parseFromString(this.message, "text/xml");
+                        name = xml.getElementsByTagName("name")[0].innerHTML;
+                        link = xml.getElementsByTagName("url")[0].innerHTML;
+                    } else {
+                        var split = this.message.split('\t');
+                        name = split[0];
+                        link = split[1];
+                    }
 
                     if (name.indexOf(".jpg") != -1 ||
                         name.indexOf(".png") != -1 ||
