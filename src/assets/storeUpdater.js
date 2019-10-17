@@ -209,6 +209,8 @@
                 var chatId = chatInfo[3];
                 var chatNum = chatInfo[4];
 
+                store.commit("chatAccepted", chatId);
+
                 var chat = e.Data;
                 var chatUID = e.Data.ChatUID;
                 state.chatMessages[chatUID] = [];
