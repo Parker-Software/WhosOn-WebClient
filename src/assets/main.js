@@ -24,6 +24,16 @@
                 connection.GetCannedResponses();
             });
 
+            hooks.Register(connEvents.CurrentChats, (e) => {
+                for(var i = 0; i < state.previousAcceptedChats.length; i++) {
+                    var chatId = state.previousAcceptedChats[i];
+                    var chat = state.chats.find(x => x.ChatUID == chatId);
+                    if(chat != null && chat.TalkingToClientConnection == 0) {
+                        hooks.Call(events.Chat.AcceptChat, { "Number": chat.Number, "ChatId": chat.ChatUID });
+                    }
+                }
+            });
+
             hooks.Register(connEvents.Error, (e) => {
                 console.log("Error Occured");
             });
