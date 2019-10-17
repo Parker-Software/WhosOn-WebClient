@@ -77,6 +77,9 @@
                    services.WhosOnConn.ChangeStatus(status);
                 });
 
+                hooks.Register(events.Options.LogoutClicked, () => {
+                    hooks.Call(events.Chat.HideAll);
+                });
                 
             }
     });

@@ -10,6 +10,7 @@
             Connected: "ConnectionConnected",
             Disconnected: "ConnectionDisconnected",
             Error: "ConnectionError",
+            CurrentChatClosed: "CurrentChatClosed",
             NewChat: "NewChat",
             LoggedIn: "connected",
             MessageFromServer: "msg",
@@ -68,6 +69,10 @@
             OptionsClicked: "navigation.OptionsClicked"
         },
         Chat: {
+            SuggestionFromServer: "home.chat.SuggestionFromServer",
+            SuggestionSent: "home.chat.SuggestionSent",
+            SuggestionNotUsed: "home.chat.SuggestionNotUsed",
+            HideAll: "home.chat.HideAll",
             ShowNoActiveChats: "home.chat.ShowNoActiveChats",
             ShowActiveChats: "home.chat.ShowActiveChats",
             ChatClicked: "home.chat.ChatClicked",
@@ -83,14 +88,18 @@
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
             ClickTab: "home.chat.ClickTab",
             SendFileClicked: "home.chat.SendFileClicked",
+            CannedResponsesClicked: "home.chat.CannedResponsesClicked",
+            CannedResponsesClosed: "home.chat.CannedResponsesClosed",
             RequestedFileUpload: "home.chat.RequestedFileUpload",
             MessageFromWaitingChat: "home.chat.MessageFromWaitingChat"
         },
         FileUploader: {
             FileItemClicked: "fileuploader.FileItemClicked",
-            Hide: "fileuploader.Hide",
             Successful: "fileuploader.Successful",
             Failed: "fileuploader.Failed"
+        },
+        CannedResponses: {
+            Clicked: "cannedResponses.Clicked"
         },
         Options: {
             LogoutClicked: "home.options.LogoutClicked",

@@ -13,7 +13,7 @@
         },
         template: `
         <div id="fileUploaderModal" class="modal">
-            <div class="modal-background"></div>
+            <div class="modal-background" v-on:click="No"></div>
             <div class="modal-card">
                 <header class="modal-card-head">
                     <p class="modal-card-title">Pick A File</p>
@@ -77,8 +77,9 @@
                 this.ModalElem().classList.add("is-active");
             });
 
-            hooks.Register(events.FileUploader.Hide, (e) => {
+            hooks.Register(events.Connection.CurrentChatClosed, (e) => {
                 this.ModalElem().classList.remove("is-active");
+                this.statusMessage = "";
             });
 
             hooks.Register(events.FileUploader.Successful, (e) => {
@@ -131,8 +132,11 @@
                 
                 this.UnSelectAllFiles();
                 this.SearchTextBoxElem().value = "";
+                this.statusMessage = "";
             },
             Send() {
+                this.statusMessage = "";
+
                 var fileToSend = this.SelectedFile();
                 var hash = fileToSend.id;
 
@@ -150,7 +154,11 @@
 
                 this.SearchTextBoxElem().value = "";
                 this.$store.state.uploadedFilesSearchResult = this.$store.state.uploadedFiles;
-                this.$store.state.currentChatMessages.push({code:1, msg:`<link><name>${file.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true})
+
+                var msg = {code:1, msg:`<link><name>${file.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
+
+                this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
+                this.$store.state.currentChatMessages.push(msg);
                 
                 hooks.Call(events.Chat.ScrollChat);
             },

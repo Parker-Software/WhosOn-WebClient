@@ -457,6 +457,96 @@ a[disabled] {
     height: 100%;
 }
 
+.treeItem {
+    padding: 5px;
+}
+.treeItem:hover {
+    cursor: pointer;
+    color: $ThemeRoundButtonHoverText;
+    background-color: $ThemeListItemHover;
+}
+
+.treeItem.selected {
+    color: $ThemeRoundButtonHoverText;
+    background-color: $ThemeListItemHover;
+}
+
+.treeItem.selected span {
+    color: $ThemeRoundButtonHoverText;
+}
+
+.treeItem:hover span {
+    color: $ThemeRoundButtonHoverText;
+}
+
+.hasChildrenChevron {
+    margin-right: 5px;
+    font-size: 10px;
+    color: gray;
+}
+
+.treeNode {
+    padding-left: 1.5em;
+    line-height: 2em;
+    list-style-type: dot;
+}
+
+.searchListItem {
+    background-color: transparent !important;
+}
+
+.searchListItem.is-active {
+    background-color: #3273dc !important;
+}
+
+
+#cannedResponsesCloseBtn {
+    font-size: 20px;
+}
+
+#cannedResponsesCloseBtn:hover {
+    background-color: $ThemeRoundButtonFill;
+    cursor: pointer;
+    color: #fff;
+}
+
+::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px $ThemeRoundButtonFill;
+	border-radius: 10px;
+	background-color:transparent;
+}
+
+::-webkit-scrollbar
+{
+    width: 8px;
+    right: 5px;
+	background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px $ThemeRoundButtonFill;
+	background-color: $ThemeRoundButtonFill;
+}
+
+.attachedFileToMessage {
+    background-color: $ThemeRoundButtonFill !important;
+    color: $ThemeRoundButtonHoverText !important;
+    float: right;
+}
+
+.noselect {
+    -webkit-touch-callout: none !important; /* iOS Safari */
+      -webkit-user-select: none !important; /* Safari */
+       -khtml-user-select: none !important; /* Konqueror HTML */
+         -moz-user-select: none !important; /* Old versions of Firefox */
+          -ms-user-select: none !important; /* Internet Explorer/Edge */
+              user-select: none !important; /* Non-prefixed version, currently
+                                    supported by Chrome, Opera and Firefox */
+  }
+
 // Loading
 // Here is where the magic happens
 

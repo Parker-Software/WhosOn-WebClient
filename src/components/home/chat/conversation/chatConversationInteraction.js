@@ -11,14 +11,20 @@
     var typingStatusTimer = null;
 
     Vue.component('chatConversationInteraction', {
+        data: function() {
+            return {
+                HasSuggestion: false,
+                AttachedFile: null,
+            }
+        },
         template: `
         <section class="reply-container">
             <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate">
                 <span>{{this.$store.state.currentChat.Name}} is typing...</span>
             </div>
             <div class="column is-full">
-                <textarea id="inputArea" class="textarea" placeholder="Enter your reply"
-                    style="resize: none;" v-on:keydown="keymonitor"></textarea>
+                <div id="inputArea" class="textarea" contenteditable="true"  placeholder="Enter your reply"
+                    style="resize: none;" v-on:keydown="keymonitor"></div>
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons">
@@ -42,26 +48,65 @@
         beforeCreate() {
             hooks.Register(events.Chat.CloseChat, (e) => {
                 this.disableInput();
-         
             });
-            hooks.Register(events.Connection.ChatClosed, (e) => {
-                if(Object.keys(state.currentChat).length > 0 && e.Data == state.currentChat.ChatUID) {
-                    this.disableInput();
-                    this.emojiBtn().setAttribute("disabled", true);
-                    this.cannedResponsesBtn().setAttribute("disabled", true);
-                    this.sendFileBtn().setAttribute("disabled", true);
-                    this.requestFileBtn().setAttribute("disabled", true);
 
-                    hooks.Call(events.FileUploader.Hide);
-                }
+            hooks.Register(events.Connection.CurrentChatClosed, (e) => {
+                this.disableInput();
+                this.emojiBtn().setAttribute("disabled", true);
+                this.cannedResponsesBtn().setAttribute("disabled", true);
+                this.sendFileBtn().setAttribute("disabled", true);
+                this.requestFileBtn().setAttribute("disabled", true);
+
+                this.InputArea().innerText = "";
             });
 
             hooks.Register(events.Chat.AcceptChat, (e) => {
+                this.HasSuggestion = false;
+                this.AttachedFile = null;
+                
+                this.InputArea().innerText = "";
                 this.enableInput();
                 this.emojiBtn().removeAttribute("disabled");
                 this.cannedResponsesBtn().removeAttribute("disabled");
                 this.sendFileBtn().removeAttribute("disabled");
                 this.requestFileBtn().removeAttribute("disabled");
+            });
+
+            
+            hooks.Register(events.Chat.SuggestionFromServer, (msg) => {
+                var attachmentStartTag = "<Attachment>";
+                var attachmentEndTag = "</Attachment>";
+                var content = msg;
+                var hasAttachedment = msg.indexOf(attachmentStartTag);
+                if(hasAttachedment != -1) {
+                    var endingTagIdx = msg.indexOf(attachmentEndTag);
+                    var hashedFileName = content.substring(hasAttachedment + attachmentStartTag.length, endingTagIdx);
+                    this.AttachedFile = state.uploadedFiles.find(x => x.HashedFileName == hashedFileName);
+                    content = content.substring(0, hasAttachedment);
+                    content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
+                } else {
+                    this.AttachedFile = null;
+                }
+
+                this.InputArea().innerHTML = content;
+                this.HasSuggestion = true;
+                this.InputArea().focus();
+            });
+
+            
+            hooks.Register(events.CannedResponses.Clicked, (item) => {
+                var content = item.Content;
+
+                if(item.Attachments != "") {
+                    this.AttachedFile = state.uploadedFiles.find(x => x.HashedFileName == item.Attachments);
+                    content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
+                } else {
+                    this.AttachedFile = null;
+                }
+
+                this.InputArea().innerHTML = content;
+                this.HasSuggestion = true;
+                this.InputArea().focus();
             });
         },
         methods: {
@@ -81,36 +126,60 @@
                 console.log("Open Emoji Menu");
             },
             cannedResponsesClicked() {
-                console.log("Open CannedResposnes Menu");
+                hooks.Call(events.Chat.CannedResponsesClicked);
             },
             sendFileClicked() {
                 hooks.Call(events.Chat.SendFileClicked);
             },
             requestFileClicked() {
-                hooks.Call(events.Chat.RequestedFileUpload);
                 connection.RequestFile(this.$store.state.currentChat.Number);
+                hooks.Call(events.Chat.RequestedFileUpload);
+            },
+            InputArea() {
+                return document.getElementById("inputArea");
             },
             disableInput() {
-                var input = document.getElementById("inputArea");
-                input.disabled = true;
+                this.InputArea().disabled = true;
             },
             enableInput() {
-                var input = document.getElementById("inputArea");
-                input.disabled = false;
+                this.InputArea().disabled = false;
             },
             keymonitor(event) {
                 if (event.shiftKey == false && event.keyCode == 13)
                 {
-                    var inputArea = document.getElementById("inputArea");
-                    var text = inputArea.value.trim();
+                    var text = this.InputArea().innerHTML.trim();
                     if (text.length > 0)
                     {
+                        if(this.HasSuggestion) {
+                            if(this.AttachedFile != null) {
+                                var idx = text.indexOf(`<span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">`);
+                                text = text.substring(0, idx);
+
+                                var url =  `${state.webChartsURL}document.aspx?f=${this.AttachedFile.HashedFileName}`;
+                                connection.SendFile(state.currentChat.Number, this.AttachedFile.FileName, url);
+                                var msg = {code:1, msg:`<link><name>${this.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
+                                state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
+                                state.currentChatMessages.push(msg);
+                                this.AttachedFile = null;
+                            }
+
+                            hooks.Call(events.Chat.SuggestionSent);
+                            this.HasSuggestion = false;
+                        }
+
                         stopTypingStatus();
                         hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
-                        inputArea.value = "";
+                        this.InputArea().innerText = "";
                     }
                     event.preventDefault();
                 } else if(event.ctrlKey == false) {
+                    if(this.HasSuggestion) {
+                        this.InputArea().innerText = "";
+                        hooks.Call(events.Chat.SuggestionNotUsed);
+                        this.HasSuggestion = false;
+                        this.AttachedFile = null;
+                    }
+
                     if(sendingTypingStatus == false) {
                         this.sendTypingStatus();
                     }

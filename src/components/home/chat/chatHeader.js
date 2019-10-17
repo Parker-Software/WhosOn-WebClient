@@ -19,7 +19,9 @@
                     <div class="content">
                         <p>
                             <strong>{{this.$store.state.currentChat.Name}} <span v-if="this.$store.state.currentChat.Closed">(Closed)</span> </strong><br>
-                            <small>{{this.$store.state.currentChat.SiteName}}</small>
+                            <small>{{this.$store.state.currentChat.SiteName}}</small><br />
+                            <small>{{this.$store.state.currentChat.Location}}</small><br />
+                            <small>{{visitorsEmail}}</small>
                         </p>
                     </div>
                 </div>
@@ -71,6 +73,22 @@
             hooks.Register(events.Chat.AcceptChat, (e) => {
                 this.enableCloseChatButton();
             });
+        },
+        computed: {
+            visitorsEmail() {
+                var surveys = woServices.Store.state.currentChatPreSurveys;
+                if(surveys.length <= 0) return "";
+
+                for(var i = 0; i < surveys.length; i++)
+                {
+                    var survey = surveys[i];
+                    if(survey.BuiltInField == "email address")
+                    {
+                        return survey.Value;
+                    }
+                }
+                return "";
+            }
         },
         methods: {
             disableCloseChatButton() {

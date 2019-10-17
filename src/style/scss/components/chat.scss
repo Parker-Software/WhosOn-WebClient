@@ -163,9 +163,9 @@ textarea {
         margin-bottom: 2px;
         z-index:999;
         max-height: 100px;
-        height:100px;
         margin-left: 0px !important;
-    overflow-y: auto;
+        overflow-y: auto;
+        width: 100%;
     }
     .logo {
         position: absolute;
@@ -202,7 +202,7 @@ textarea {
         overflow-y: auto;
         overflow-x: hidden;
         margin-top:10px;
-        height: calc(100vh - (100px + 360px )); 
+        height: calc(100vh - (100px + 380px )); 
     }
 }
 

@@ -4,19 +4,22 @@
 
     Vue.component('chatConversation', {
         template: `
-        <div id="chatConversation"  style="margin-top: 0.75rem;">
-            <chatConversationSurvey></chatConversationSurvey>
-            <div class="active-chat" id="Conversation">
-                <div class="columns">
-                    <div id="chatScroller" class="column is-full message-list">
-                        <div v-for="(v,k) in this.$store.state.currentChatMessages">
-                            <chatConversationVisitor v-if="v.code === 0" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationVisitor>
-                            <chatConversationOperator v-else-if="v.code === 1" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationOperator>
-                            <br/>
+        <div id="chatConversation" style="height:100%;">
+            <div id="conversationContainer" style="margin-top: 0.75rem;">
+                <chatConversationSurvey></chatConversationSurvey>
+                <div class="active-chat" id="Conversation">
+                    <div class="columns">
+                        <div id="chatScroller" class="column is-full message-list">
+                            <div v-for="(v,k) in this.$store.state.currentChatMessages">
+                                <chatConversationVisitor v-if="v.code === 0" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationVisitor>
+                                <chatConversationOperator v-else-if="v.code === 1" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationOperator>
+                                <br/>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <cannedResponses></cannedResponses>
             <chatConversationInteraction></chatConversationInteraction>
         </div>
         `,
@@ -34,10 +37,20 @@
                 this.ScrollChat();
             });
 
+            hooks.Register(events.Chat.CannedResponsesClicked, () => {
+                this.Split();
+            });
+
+            hooks.Register(events.Chat.CannedResponsesClosed, () => {
+                this.Normal();
+            });
         },
         methods: {
             Element() {
                 return document.getElementById("chatConversation");
+            },
+            Container() {
+                return document.getElementById("conversationContainer");
             },
             ScrollChat() {
                 var scroller = document.getElementById('chatScroller');
@@ -48,6 +61,14 @@
                         behavior: 'smooth'
                     })
                 }, 100);
+            },
+            Split() {
+                this.Container().style.width = "70%";
+                this.Container().style.float = "left";
+            },
+            Normal() {
+                this.Container().style.width = "100%";
+                this.Container().style.float = "none";
             }
         }
     });

@@ -51,8 +51,8 @@
                 var data = e.Data;
                 var chat = state.chats.find((v) => v.ChatUID == data);
                 if(chat != null) {
-
                     if(state.currentChat.ChatUID == chat.ChatUID) {
+                        hooks.Call(events.Connection.CurrentChatClosed);
                         state.currentChat.Closed = true;
                     }
 
@@ -135,7 +135,19 @@
                 var messages = state.chatMessages[chatId];
                 if(messages == null) state.chatMessages[chatId] = [];
 
-                var message = { code:0, msg:msg.Data, date: getDate(new Date())};
+                var suggestionTag = "<Suggest>";
+                var suggestionEndingTag = "</Suggest>";
+
+                var message;
+                var anySuggestions = msg.Data.indexOf(suggestionTag);
+                if(anySuggestions != -1) {
+                    var endingSuggestion = msg.Data.indexOf(suggestionEndingTag)
+                    var suggestion = msg.Data.substring(anySuggestions + suggestionTag.length, endingSuggestion);
+                    hooks.Call(events.Chat.SuggestionFromServer, suggestion);
+                    message = { code:0, msg:msg.Data.substring(0, anySuggestions), date: getDate(new Date())};
+                } else {
+                    message = { code:0, msg:msg.Data, date: getDate(new Date())};
+                }
 
                 state.chatMessages[chatId].push(message);
                 state.chatMessages = Copy(state.chatMessages);
@@ -289,12 +301,9 @@
             });
 
             hooks.Register(events.Chat.CloseChat, (chatNum) => {
-                services.WhosOnConn.CloseChat(chatNum);                   
-                var currentChat = state.currentChat; 
-                state.currentChat = {};        
-
+                services.WhosOnConn.CloseChat(chatNum);               
                 state.chats.forEach(function(chat){
-                    if (chat.TalkingTo == woServices.Store.state.userName && chat.ChatUID != currentChat.ChatUID) {
+                    if (chat.TalkingTo == woServices.Store.state.userName && chat.ChatUID != state.currentChat.ChatUID) {
                         hooks.Call(events.Chat.AcceptChat, {"Number": chat.Number, "ChatId": chat.ChatUID});
                     }
                 })
@@ -338,19 +347,11 @@
                 state.uploadedFilesSearchResult = state.uploadedFiles;
             });
 
+            hooks.Register(events.Connection.CannedResponses, (e) => {
+                state.cannedResponses = e.Data;
+                state.cannedResponsesTree = cannedResponsesToTree(e.Data);
+            });
         }
     }
-
-    
-
-    function getDate(timeStamp)
-    {
-        var h = (timeStamp.getHours() < 10 ? '0' : '') + timeStamp.getHours();
-        var m = (timeStamp.getMinutes() < 10 ? '0' : '') + timeStamp.getMinutes();
-        var s = (timeStamp.getSeconds() < 10 ? '0' : '') + timeStamp.getSeconds();
-
-        return h + ':' + m + ':' + s;
-    }
-
     services.Add("StoreUpdater", new StoreUpdater());
 })(woServices);
