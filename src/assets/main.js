@@ -20,7 +20,8 @@
             });
 
             hooks.Register(connEvents.LoggedIn, (e) => {
-                connection.GetFiles();
+                connection.GetFiles();  
+                connection.GetCannedResponses();
             });
 
             hooks.Register(connEvents.Error, (e) => {

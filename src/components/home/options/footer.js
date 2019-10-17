@@ -12,6 +12,7 @@
         `,
         methods: {
             Logout() {
+                hooks.Call(events.Options.LogoutClicked);
                 services.WhosOnConn.Logout();
             }
         }

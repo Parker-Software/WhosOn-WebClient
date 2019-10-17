@@ -125,6 +125,12 @@
             ]);
         }
 
+        GetCannedResponses()
+        {
+            var self = this;
+            self.Socket.Send("getcannedresponses");
+        }
+
 
         GetFiles() {
             var self = this;
