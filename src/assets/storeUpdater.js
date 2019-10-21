@@ -45,7 +45,7 @@
 
                 state.users = users; 
                 var clientUser = state.users.find((v) => v.Username == state.userName);
-                state.currentConnectionId = clientUser.Connection;
+                if(clientUser != null) state.currentConnectionId = clientUser.Connection;
             });
 
             hooks.Register(connEvents.ChatClosed, (e) => {
