@@ -145,7 +145,7 @@
                 connection.SendFile(this.$store.state.currentChat.Number,
                     file.FileName,
                     url
-                   );
+                );
 
                 this.SendElem().setAttribute("disabled", true);
                 this.ModalElem().classList.remove("is-active");
@@ -157,6 +157,7 @@
 
                 var msg = {code:1, msg:`<link><name>${file.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
 
+                if(this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID] == null) this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID] = [];
                 this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
                 this.$store.state.currentChatMessages.push(msg);
                 
