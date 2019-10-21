@@ -133,6 +133,7 @@
                 this.UnSelectAllFiles();
                 this.SearchTextBoxElem().value = "";
                 this.statusMessage = "";
+                this.$store.state.uploadedFilesSearchResult = this.$store.state.uploadedFiles;
             },
             Send() {
                 this.statusMessage = "";

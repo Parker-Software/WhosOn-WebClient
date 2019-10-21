@@ -46,6 +46,7 @@
                 state.users = users; 
                 var clientUser = state.users.find((v) => v.Username == state.userName);
                 if(clientUser != null) state.currentConnectionId = clientUser.Connection;
+                else state.isSuperAdmin = true;
             });
 
             hooks.Register(connEvents.ChatClosed, (e) => {
@@ -85,7 +86,14 @@
                 var data = e.Data;
                 var newChat = state.preRenderedChats[data.Number];
                 if (newChat != null) {
+                    
+                    var doesExist = state.chats.find(x => x.ChatUID == data.ChatUID);
+                    if(doesExist != null) return;
+                    
                     var chat = services.ChatFactory.FromChatChangedNew(data, newChat, state.sites, state.users);
+                    
+                    
+                    
                     state.chats.push(chat);
                     state.activeChatCount = Object.keys(state.chats).length;
                     Vue.delete(state.preRenderedChats, data.Number);
