@@ -29,7 +29,7 @@ woServices.Add("DefaultState", function(){
         uploadedFilesSearchResult: [],
         rights: null,
         sites: null,
-        skills: null,
+        skills: [],
         cannedResponses: [],
         cannedResponsesTree: {},
         settingsPortalAddress: null,

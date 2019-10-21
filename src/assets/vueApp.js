@@ -36,7 +36,6 @@
                             if(chat.WaitedSecs > 30) {
                                 chat.WaitingWarning = true;
                             }
-
                             chat.WaitedFor = chat.WaitedSecs.toFormattedWaitTime();
                             chat.Status = chat.WaitedFor;
                         }

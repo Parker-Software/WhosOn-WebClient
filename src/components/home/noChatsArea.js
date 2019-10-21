@@ -5,11 +5,11 @@
 
     Vue.component('homeNoChatsArea', {
         template: `
-            <div class="customColumn chat-area" id="homeNoChatsArea" style="display:none">
+            <div class="customColumn chat-area" id="homeNoChatsArea" style="display:none;">
                 <div class="logo">
                     <i class="far fa-comment"></i>
                     <br>
-                    <p>No Active Chats</p>
+                    <p style="font-size: 0.8rem;">No Active Chats</p>
                 </div>
             </div>
             `,

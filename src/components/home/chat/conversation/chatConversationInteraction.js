@@ -43,6 +43,7 @@
                 </div>
             </div>
             <fileUploader></fileUploader>
+            <transfer></transfer>
         </section>
         `,
         beforeCreate() {
@@ -139,10 +140,12 @@
                 return document.getElementById("inputArea");
             },
             disableInput() {
-                this.InputArea().disabled = true;
+                this.InputArea().setAttribute("contenteditable", false);
+                this.InputArea().setAttribute("disabled",true);
             },
             enableInput() {
-                this.InputArea().disabled = false;
+                this.InputArea().setAttribute("contenteditable", true);
+                this.InputArea().removeAttribute("disabled");
             },
             keymonitor(event) {
                 if (event.shiftKey == false && event.keyCode == 13)
@@ -158,6 +161,8 @@
                                 var url =  `${state.webChartsURL}document.aspx?f=${this.AttachedFile.HashedFileName}`;
                                 connection.SendFile(state.currentChat.Number, this.AttachedFile.FileName, url);
                                 var msg = {code:1, msg:`<link><name>${this.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
+                                
+                                if(state.chatMessages[this.$store.state.currentChat.ChatUID] == null) state.chatMessages[this.$store.state.currentChat.ChatUID] = [];
                                 state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
                                 state.currentChatMessages.push(msg);
                                 this.AttachedFile = null;

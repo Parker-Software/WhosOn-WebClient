@@ -131,7 +131,7 @@
             chat.Status = `Talking to ${chat.TalkingTo}`; 
         } else {
             chat.Status = chat.WaitedSecs.toFormattedWaitTime();
-
+            chat.TalkingTo = ""; 
             if(chat.WaitedSecs > 30 ) {
                 chat.WaitingWarning = true;
             }

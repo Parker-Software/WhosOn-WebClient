@@ -121,7 +121,6 @@
 
                     services.Authentication.Login(userName,
                         password,
-                        userName,
                         department);
                 }
             });
@@ -140,7 +139,7 @@
                 var woError = document.getElementsByClassName("wo-error")[0];            
                 woError.classList.add("is-hidden");
 
-                services.Authentication.Login(userName, password, userName, department);
+                services.Authentication.Login(userName, password, department);
             },
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");

@@ -28,19 +28,19 @@
             </div>
             <div class="column">
                 <div class="chat-header-icons is-pulled-right">
-                    <a id="closeChatBtn" href="#" class="tooltip" data-tooltip="Close this chat" v-on:click="onClick">
+                    <a id="closeChatBtn" class="tooltip" data-tooltip="Close this chat" v-on:click="CloseClicked">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
                     </a>
-                    <!--
-                    <a href="#" data-show="quickview" data-target="quickviewDefault" class="tooltip" data-tooltip="Show transfer list">
+                    <a id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="tooltip" data-tooltip="Show transfer list">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
                         </span>
                     </a>
+                    <!--
                     <a href="#" class="tooltip" data-tooltip="Request monitor">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -69,9 +69,16 @@
         beforeCreate() {
             hooks.Register(events.Chat.CloseChat, () => {
                 this.disableCloseChatButton();
+                this.disableTransferButton();
             });
+
+            hooks.Register(events.Connection.CurrentChatClosed, () => {
+                this.disableTransferButton();
+            });
+
             hooks.Register(events.Chat.AcceptChat, (e) => {
                 this.enableCloseChatButton();
+                this.enableTransferButton();
             });
         },
         computed: {
@@ -93,15 +100,25 @@
         methods: {
             disableCloseChatButton() {
                 var closeChatButton = document.getElementById("closeChatBtn");
-                closeChatButton.setAttribute("disabled", "");
+                closeChatButton.setAttribute("disabled", true);
             },
             enableCloseChatButton() {
                 var closeChatButton = document.getElementById("closeChatBtn");
                 closeChatButton.removeAttribute("disabled");
             },
-            onClick(e) {
-                e.preventDefault();
+            disableTransferButton() {
+                var transferButton = document.getElementById("transferBtn");
+                transferButton.setAttribute("disabled", true);
+            },
+            enableTransferButton() {
+                var transferButton = document.getElementById("transferBtn");
+                transferButton.removeAttribute("disabled");
+            },
+            CloseClicked(e) {
                 hooks.Call(chatEvents.CloseChatClicked, services.Store.state.currentChat.Number);
+            },
+            TransferClicked(e) {
+                hooks.Call(chatEvents.TransferClicked);
             }
         }
     });

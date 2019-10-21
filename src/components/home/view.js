@@ -67,6 +67,12 @@
                     showChat();
                     showNoActiveChats();
                 });
+                
+                hooks.Register(events.Chat.ChatLeft, (chatNum) => {    
+                    hideAll();
+                    showChat();
+                    showNoActiveChats();
+                });
 
                 hooks.Register(events.Chat.MonitorChat, (chatInfo) => {
                     // todo: implement monitoring
