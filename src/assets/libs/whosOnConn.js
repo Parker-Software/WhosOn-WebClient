@@ -1,14 +1,17 @@
 (function(services) {
+    var hooks = services.Hooks;
+    var events = services.HookEvents;
+    var socketEvents = services.HookEvents.Socket;
+    var serverEvents = services.HookEvents.Connection;
+
+
     class WhosOnConnection {
         constructor() {
             var self = this;
 
             self.Socket = services.Socket;
 
-            var hooks = services.Hooks;
-            var socketEvents = services.HookEvents.Socket;
-            var serverEvents = services.HookEvents.Connection;
-
+        
             hooks.Register(socketEvents.Opened, (e) => {
                 hooks.Call(serverEvents.Connected, e);
             });
@@ -101,6 +104,63 @@
             ]);
         }
 
+        TransferChat(chatNum, connectionIds, message) {
+            var self = this;
+
+            if(Array.isArray(connectionIds) == false){
+                console.log("ConnectionIds needs to be an array");
+                return;
+            }
+
+            var connectionsToTransferTo = connectionIds.join(",");
+
+            self.Socket.Send("transfer", [
+                chatNum,
+                connectionsToTransferTo,
+                message
+            ]);
+
+            hooks.Call(events.Chat.ChatTransfered, chatNum);
+            this.LeaveChat(chatNum);
+        }
+
+        TransferChatToDept(chatNum, department, message)
+        {
+            var self = this;
+            self.Socket.Send("transferdept", [
+                chatNum,
+                department,
+                message
+            ]);
+
+            hooks.Call(events.Chat.ChatTransfered, chatNum);
+            this.LeaveChat(chatNum);
+        }
+
+        TransferChatToSkill(chatNum, skillId, message)
+        {
+            var self = this;
+            self.Socket.Send("transferskills", [
+                chatNum,
+                skillId,
+                message
+            ]);
+
+            hooks.Call(events.Chat.ChatTransfered, chatNum);
+            this.LeaveChat(chatNum);
+        }
+
+
+        LeaveChat(chatNum) {
+            var self = this;
+
+            self.Socket.Send("leave", [
+                chatNum
+            ]);
+
+            hooks.Call(events.Chat.ChatLeft, chatNum);
+        }
+
         ChangeStatus(newstatus) {
             var self = this;
             var status = 0;
@@ -135,6 +195,11 @@
         GetFiles() {
             var self = this;
             self.Socket.Send("getfiles", null);
+        }
+
+        GetSkills() {
+            var self = this;
+            self.Socket.Send("getSkills", null);
         }
 
         RequestFile(chatNum) {

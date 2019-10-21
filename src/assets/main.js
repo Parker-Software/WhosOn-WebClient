@@ -22,6 +22,7 @@
             hooks.Register(connEvents.LoggedIn, (e) => {
                 connection.GetFiles();  
                 connection.GetCannedResponses();
+                connection.GetSkills();
             });
 
             hooks.Register(connEvents.CurrentChats, (e) => {
@@ -51,6 +52,26 @@
                 notification = services.Notifications.CreateNotification(`Chat With ${info.name}`, info.msg.Data, () => {
                     window.focus();
                     hooks.Call(events.Chat.AcceptChat, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
+                });
+            });
+
+            hooks.Register(events.Chat.ChatTransfered, (num) => {
+                if(notification != null) notification.close();
+                notification = services.Notifications.CreateNotification(`Chat Transfered`, "", () => {
+
+                });
+            });
+
+            hooks.Register(connEvents.ChatTransfered, (data) => {
+                var split = data.Data.split(":");
+                var chatNum = split[0];
+                var clientConn = split[1];
+                var msg = split[2];
+                var fromUser = state.users.find(x => x.Connection == clientConn);
+                var chat = state.chats.find(x => x.Number == chatNum);
+                if(notification != null) notification.close();
+                notification = services.Notifications.CreateNotification(`Transfer Request`, `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
+                    hooks.Call(events.Chat.AcceptChat, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });
         }

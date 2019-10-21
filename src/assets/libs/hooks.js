@@ -26,7 +26,7 @@
             FromOperator: "fromclient",
             CurrentOperatorTyping: "c1",
             CurrentOperatorTypingStopped: "c0",
-            UserStatusChanged: "clientevent",
+            UserChanged: "clientevent",
             UserDisconnecting: "clientremove",
             ChatChanged: "chatchanged",
             ChatClosed: "chatclosed",
@@ -79,6 +79,7 @@
             SendMessage: "home.chat.SendMessage",
             AcceptChat: "home.chat.AcceptChat",
             CloseChat: "home.chat.CloseChat",
+            ChatLeft: "home.chat.ChatLeft",
             CloseChatClicked: "home.chat.CloseChatClicked",
             PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
@@ -91,7 +92,9 @@
             CannedResponsesClicked: "home.chat.CannedResponsesClicked",
             CannedResponsesClosed: "home.chat.CannedResponsesClosed",
             RequestedFileUpload: "home.chat.RequestedFileUpload",
-            MessageFromWaitingChat: "home.chat.MessageFromWaitingChat"
+            MessageFromWaitingChat: "home.chat.MessageFromWaitingChat",
+            TransferClicked: "home.chat.TransferClicked",
+            ChatTransfered: "home.chat.ChatTransfered",
         },
         FileUploader: {
             FileItemClicked: "fileuploader.FileItemClicked",
@@ -107,7 +110,11 @@
         },
         Home: {
             StatusClosed: "home.StatusClosed",
-            StatusChanged: "home.StatusChanged"
+            StatusChanged: "home.StatusChanged",
+            UserImagesNeedUpdating: "home.UserImagesNeedUpdating"
+        },
+        Transfer: {
+            Clicked: "transfer.Clicked"
         }
     }
     

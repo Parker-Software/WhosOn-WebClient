@@ -20,6 +20,8 @@
                 }
             },
             chatAccepted(state, chatId) {
+                if(state.previousAcceptedChats.indexOf(chatId) != -1) return;
+
                 state.previousAcceptedChats.push(chatId);
                 var previousSettings = JSON.parse(sessionStorage.getItem("woClient"));
                 previousSettings.previousAcceptedChats = state.previousAcceptedChats;

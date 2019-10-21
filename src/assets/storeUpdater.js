@@ -5,6 +5,7 @@
             var hooks = services.Hooks;
             var events = services.HookEvents;
             var connEvents = events.Connection;
+            var connection = services.WhosOnConn;
             var store = services.Store;
             var state = services.Store.state;
 
@@ -88,16 +89,14 @@
                     state.chats.push(chat);
                     state.activeChatCount = Object.keys(state.chats).length;
                     Vue.delete(state.preRenderedChats, data.Number);
-
                     hooks.Call(events.Connection.NewChat, chat);
                 } else {
                     var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
-
                     if(oldChat != null) services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
                 }
             });
 
-            hooks.Register(connEvents.UserStatusChanged, (e) => {
+            hooks.Register(connEvents.UserChanged, (e) => {
                 var changedUser = e.Data;
                 var user = state.users.find((v) => v.Username == changedUser.Username);
                 if(user != null) {
@@ -109,13 +108,25 @@
                     user.MaxChats = changedUser.MaxChats;
                     user.Name = changedUser.Name;
                     user.Connection = changedUser.Connection;
-
-
                     if(user.Username == state.userName) {
                         state.currentStatus = user.Status;
                     }
+                    hooks.Call(events.Home.UserImagesNeedUpdating);
                 } else {
+                    changedUser.HasPhoto = true;
                     state.users.push(changedUser);
+                    connection.GetUserPhoto(changedUser.Username);
+                }
+            });
+
+            hooks.Register(connEvents.UserDisconnecting, (e) => {
+                var userConn = e.Data;
+                var user = state.users.find((v) => v.Connection == userConn);
+                if(user != null) {
+                    var idx = state.users.indexOf(user);
+                    state.users.splice(idx, 1);
+                    
+                    hooks.Call(events.Home.UserImagesNeedUpdating);
                 }
             });
 
@@ -352,6 +363,23 @@
             hooks.Register(events.Connection.CannedResponses, (e) => {
                 state.cannedResponses = e.Data;
                 state.cannedResponsesTree = cannedResponsesToTree(e.Data);
+            });
+
+            hooks.Register(events.Chat.ChatLeft, (num) => {
+                state.currentChat = {};
+
+                var chat = state.chats.find(x => x.Number == num);
+                if(chat != null) {
+                    chat.IsActiveChat = false;
+                }
+            });
+
+            hooks.Register(events.Connection.Skills, (e) => {
+                state.skills = [];
+                Object.keys(e.Data).forEach(x => {
+                    var skill = e.Data[x];
+                    state.skills.push(skill);
+                });
             });
         }
     }

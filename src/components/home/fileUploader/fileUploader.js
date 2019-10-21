@@ -44,7 +44,7 @@
                     <div class="file">
                         <label class="file-label">
                             <input id="fileUploaderControl" @change="UploadFile" class="file-input" type="file" name="resume">
-                            <span id="fileUploaderBtn" class="file-cta button is-link">
+                            <span id="fileUploaderBtn" class="file-cta button is-small is-link">
                                 <span class="file-icon">
                                     <i class="fas fa-upload"></i>
                                 </span>
@@ -62,7 +62,7 @@
                 </div>
                 <br />
                 <div class="status-options" style="padding-right:20px; padding-left: 20px;">
-                    <a id="fileUploaderSendBtn" class="button is-success is-pulled-right" v-on:click="Send" disabled>Send File</a>
+                    <a id="fileUploaderSendBtn" class="button is-success is-small is-pulled-right" v-on:click="Send" disabled>Send File</a>
                 </div>
                 <footer class="modal-card-foot">
                 </footer>
