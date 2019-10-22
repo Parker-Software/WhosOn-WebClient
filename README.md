@@ -16,5 +16,3 @@ Prerequisites: Visual Studio Code, NodeJS, NPM
 1. Run `gulp monitor`
 2. update target server address, auth string, username and password when testing in the vueApp.js
 
-
-test change
