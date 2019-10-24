@@ -168,9 +168,9 @@ textarea {
     }
     .logo {
         position: absolute;
-        left: 50%;
+        left: calc(50% - 25px);
         margin-left: -50px;
-        top: 50%;
+        top: calc(50% - 25px);
         margin-top: -50px;
         text-align: center;
         i {

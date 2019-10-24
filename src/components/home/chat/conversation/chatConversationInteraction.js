@@ -23,7 +23,7 @@
                 <span>{{this.$store.state.currentChat.Name}} is typing...</span>
             </div>
             <div class="column is-full">
-                <div id="inputArea" class="textarea" contenteditable="true"  placeholder="Enter your reply"
+                <div id="inputArea" v-bind:class="{'beingMonitored':BeingMonitoredByYou}" class="textarea" contenteditable="true"  placeholder="Enter your reply"
                     style="resize: none;" v-on:keydown="keymonitor"></div>
             </div>
             <div class="column is-full" style="padding-top:0px;">
@@ -34,10 +34,10 @@
                     <a id="cannedResponsesBtn" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-comment-dots"></i>
                     </a>
-                    <a id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
                     </a>
-                    <a id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
                     </a>
                 </div>
@@ -55,13 +55,13 @@
                 this.disableInput();
                 this.emojiBtn().setAttribute("disabled", true);
                 this.cannedResponsesBtn().setAttribute("disabled", true);
-                this.sendFileBtn().setAttribute("disabled", true);
-                this.requestFileBtn().setAttribute("disabled", true);
+                if(this.sendFileBtn() != null) this.sendFileBtn().setAttribute("disabled", true);
+                if(this.requestFileBtn() != null) this.requestFileBtn().setAttribute("disabled", true);
 
                 this.InputArea().innerText = "";
             });
 
-            hooks.Register(events.Chat.AcceptChat, (e) => {
+            hooks.Register(events.Connection.ChatAccepted, (e) => {
                 this.HasSuggestion = false;
                 this.AttachedFile = null;
                 
@@ -69,8 +69,18 @@
                 this.enableInput();
                 this.emojiBtn().removeAttribute("disabled");
                 this.cannedResponsesBtn().removeAttribute("disabled");
-                this.sendFileBtn().removeAttribute("disabled");
-                this.requestFileBtn().removeAttribute("disabled");
+                if(this.sendFileBtn() != null) this.sendFileBtn().removeAttribute("disabled");
+                if(this.requestFileBtn() != null) this.requestFileBtn().removeAttribute("disabled");
+            });
+
+            hooks.Register(events.Connection.MonitoredChat, (e) => {
+                this.HasSuggestion = false;
+                this.AttachedFile = null;
+                
+                this.InputArea().innerText = "";
+                this.enableInput();
+                this.emojiBtn().removeAttribute("disabled");
+                this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
             
@@ -109,6 +119,11 @@
                 this.HasSuggestion = true;
                 this.InputArea().focus();
             });
+        },
+        computed: {
+            BeingMonitoredByYou() {
+                return this.$store.state.currentChat.BeingMonitoredByYou;
+            }
         },
         methods: {
             emojiBtn() {

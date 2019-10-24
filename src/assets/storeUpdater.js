@@ -32,6 +32,27 @@
 
             hooks.Register(connEvents.UserInfo, (e) => {
                 state.userInfo = e.Data.User; 
+                var split = state.userInfo.Rights.split("");
+                state.rights.LoginToSettingsPortal = YNToBool(split[0]);
+                state.rights.ViewReports = YNToBool(split[1]);
+                state.rights.ViewDailySummary = YNToBool(split[2]);
+                state.rights.EditLocalSettings = YNToBool(split[3]);
+                state.rights.TakeChats = YNToBool(split[4]);
+                state.rights.SendChatInvites = YNToBool(split[5]);
+                state.rights.RespondToMissedChats = YNToBool(split[6]);
+                state.rights.ChatToOtherOperators = YNToBool(split[7]);
+                state.rights.MonitorChats = YNToBool(split[8]);
+                state.rights.ChangeOwnName = YNToBool(split[9]);
+                state.rights.DeleteChats = YNToBool(split[10]);
+                state.rights.SeeUsersOutsideOfOwnDepartment = YNToBool(split[11]);
+                state.rights.TransferChatsToOutsideOwnDepartment = YNToBool(split[12]);
+                state.rights.CreateTickets = YNToBool(split[13]);
+                state.rights.StartVideoChats = YNToBool(split[14]);
+                state.rights.UserToUserStoredInDatase = YNToBool(split[15]);
+                state.rights.StartRemoteControl = YNToBool(split[16]);
+                state.rights.SingleUseFile = split[17];
+                state.rights.SuperAdmin = split.indexOf("S") != -1;
+                state.rights.Invisible = split.indexOf("I") != -1;
             });
 
             hooks.Register(connEvents.CurrentUsersOnline, (e) => {
@@ -298,6 +319,7 @@
                     var chat = chats[key];
                     if(chat.ChatUID == chatInfo.ChatId) {
                         chat.IsActiveChat = true;
+                        chat.BeingMonitoredByYou = false;
                         state.currentChat = chat;
 
                         if(state.chatMessages[chat.ChatUID] != null) {
@@ -320,6 +342,39 @@
                 });
 
             });
+
+            hooks.Register(events.Chat.MonitorChat, (chatInfo) => {
+                services.WhosOnConn.MonitorChat(chatInfo.Number);
+            });
+
+            hooks.Register(events.Connection.MonitoredChat, (info) => {
+                var monitoredChat = info.Data;
+
+                Object.keys(state.chats).forEach(key => {
+                    var chat = state.chats[key];
+                    if(chat.ChatUID = monitoredChat.ChatUID) {
+                        chat.BeingMonitoredByYou = true;
+                        chat.IsActiveChat = true;
+                        state.currentChat = chat;
+                        state.chatMessages[monitoredChat.ChatUID] = [];
+                        for(var i = 0; i < monitoredChat.Lines.length; i++) {
+                            var line = monitoredChat.Lines[i];
+                            var parsedDate = new Date(line.Dated);
+        
+                            var isLink = false;
+                            if(line.Message.indexOf("<link>") != -1) {
+                                isLink = true;
+                            }
+        
+                            state.chatMessages[monitoredChat.ChatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
+                        }
+                        
+                        state.currentChatMessages = Copy(state.chatMessages[monitoredChat.ChatUID]);
+                        state.chatMessages = Copy(state.chatMessages);
+                    }
+                });
+            });
+
 
             hooks.Register(events.Chat.CloseChat, (chatNum) => {
                 services.WhosOnConn.CloseChat(chatNum);               

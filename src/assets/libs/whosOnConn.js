@@ -161,6 +161,14 @@
             hooks.Call(events.Chat.ChatLeft, chatNum);
         }
 
+        MonitorChat(chatNum) {
+            var self = this;
+
+            self.Socket.Send("monitor", [
+                chatNum
+            ]);
+        }
+
         ChangeStatus(newstatus) {
             var self = this;
             var status = 0;
