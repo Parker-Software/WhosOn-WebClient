@@ -11,14 +11,7 @@
                     <h2>{{groupname}}</h2>
                     <ul>
                         <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
-                            :chatId = "item.ChatUID"
-                            :chatNum="item.Number"
-                            :name="item.Name"
-                            :geoip="item.Location"
-                            :site="item.SiteName" 
-                            :chatstatus="item.Status" 
-                            :waitingWarning="item.WaitingWarning" 
-                            :isSelected="item.IsActiveChat">
+                            :chat = "item">
                         </homeWaitingChat>
                     </ul>
                 </div>

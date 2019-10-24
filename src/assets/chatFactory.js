@@ -15,7 +15,8 @@
             translation,
             ipaddress,
             sessionId,
-            waitedSecs) {
+            waitedSecs,
+            monitoredby) {
             
             //Raw Data From Server
             this.ChatUID = chatId; 
@@ -33,12 +34,14 @@
             this.IPAddress = ipaddress;
             this.SessionID = sessionId;
             this.WaitedSecs = waitedSecs;
+            this.Monitoredby = monitoredby;
 
             this.SiteName = "";
             this.TalkingTo = "";
             this.Status = "";
             this.WaitingWarning = false;
             this.IsActiveChat = false;
+            this.BeingMonitoredByYou = false;
             this.Closed = false;
         }
     }
@@ -65,7 +68,8 @@
                                     rawchat.Translation,
                                     rawchat.VisitorIPAddress,
                                     rawchat.VisitorSessionId,
-                                    rawchat.WaitedSecs);
+                                    rawchat.WaitedSecs,
+                                    rawchat.Monitoredby);
 
                 
                 AddAdditionalChatInfo(chat, sites, operators);
@@ -91,7 +95,9 @@
                 rawChat.Translation,
                 rawChat.VisitorIPAddress,
                 rawChat.VisitorSessionID,
-                rawChat.WaitedSecs);
+                rawChat.WaitedSecs,
+                rawChat.Monitoredby);
+                
 
             AddAdditionalChatInfo(chat, sites, operators);
 
@@ -99,20 +105,21 @@
         }
 
         FromChatChangedOld(rawChat, chat, sites, operators) {
-            chat.ChatUID = rawChat.ChatUID,
-            chat.Dept = rawChat.Dept,
-            chat.Lang = rawChat.Lang,
-            chat.Location = rawChat.Location,
-            chat.Name = rawChat.VisitorName,
-            chat.Number = rawChat.Number,
-            chat.QueuePos = rawChat.QueuePos,
-            chat.SiteKey = rawChat.SiteKey,
-            chat.SkillNames = rawChat.WantsSkills,
-            chat.TalkingToClientConnection = rawChat.TalkingToClientNo,
-            chat.Translation = rawChat.Translation,
-            chat.VisitorIPAddress = rawChat.VisitorIPAddress,
-            chat.VisitorSessionID = rawChat.VisitorSessionID,
-            chat.WaitedSecs = rawChat.WaitedSecs
+            chat.ChatUID = rawChat.ChatUID;
+            chat.Dept = rawChat.Dept;
+            chat.Lang = rawChat.Lang;
+            chat.Location = rawChat.Location;
+            chat.Name = rawChat.VisitorName;
+            chat.Number = rawChat.Number;
+            chat.QueuePos = rawChat.QueuePos;
+            chat.SiteKey = rawChat.SiteKey;
+            chat.SkillNames = rawChat.WantsSkills;
+            chat.TalkingToClientConnection = rawChat.TalkingToClientNo;
+            chat.Translation = rawChat.Translation;
+            chat.VisitorIPAddress = rawChat.VisitorIPAddress;
+            chat.VisitorSessionID = rawChat.VisitorSessionID;
+            chat.WaitedSecs = rawChat.WaitedSecs;
+            chat.Monitoredby = rawChat.Monitoredby;
 
             AddAdditionalChatInfo(chat, sites, operators);
 

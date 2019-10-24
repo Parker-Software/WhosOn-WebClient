@@ -74,9 +74,10 @@
                     showNoActiveChats();
                 });
 
-                hooks.Register(events.Chat.MonitorChat, (chatInfo) => {
-                    // todo: implement monitoring
-                    alert('Monitoring not available');
+                hooks.Register(events.Chat.MonitorChat, (chatNum) => {
+                    hideAll();
+                    showChat();
+                    showActiveChats();
                 });
 
                 hooks.Register(events.Home.StatusChanged, (status) => {

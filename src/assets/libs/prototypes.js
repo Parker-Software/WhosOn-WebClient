@@ -8,6 +8,10 @@ function Filter(obj, predicate) {
     .reduce( (res, key) => (res[key] = obj[key], res), {} );
 }
 
+function YNToBool(variable) {
+    return variable == "Y" ? true : false;
+}
+
 
 function getDate(timeStamp)
 {
