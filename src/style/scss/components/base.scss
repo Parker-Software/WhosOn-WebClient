@@ -603,6 +603,10 @@ a[disabled] {
     background-color: #EBDBEB !important;
 }
 
+.chat-icons a[disabled] {
+    cursor: not-allowed;
+}
+
 // Loading
 // Here is where the magic happens
 

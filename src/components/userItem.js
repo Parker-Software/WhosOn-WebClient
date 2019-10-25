@@ -8,7 +8,7 @@
         setTimeout(function() {
             for(var i = 0; i < state.users.length; i++) {
                 var user = state.users[i];
-                if(user.HasPhoto && user.Photo != "") {
+                if(user.HasPhoto && user.Photo != null && user.Photo != "") {
                     var userElems = document.getElementsByClassName(user.Username);
                     for(var k = 0; k < userElems.length; k++) {
                         var userElem = userElems[k];   
