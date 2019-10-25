@@ -11,8 +11,8 @@
                     <div class="columns">
                         <div id="chatScroller" class="column is-full message-list">
                             <div v-for="(v,k) in this.$store.state.currentChatMessages">
-                                <chatConversationVisitor v-if="v.code === 0" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationVisitor>
-                                <chatConversationOperator v-else-if="v.code === 1" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationOperator>
+                                <chatConversationVisitor v-if="v.code === 0" :message="v"></chatConversationVisitor>
+                                <chatConversationOperator v-else-if="v.code > 0" :message="v"></chatConversationOperator>
                                 <br/>
                             </div>
                         </div>

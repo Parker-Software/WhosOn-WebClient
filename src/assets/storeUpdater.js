@@ -203,7 +203,6 @@
                 
 
                 var hasCurrentChat = Object.keys(state.currentChat).length != 0;
-
                 if(hasCurrentChat) {
                     if(state.currentChat.ChatUID == chatId) {
                         state.currentChatTypingstate = false;
@@ -478,6 +477,31 @@
                     var skill = e.Data[x];
                     state.skills.push(skill);
                 });
+            });
+
+            hooks.Register(events.Connection.MonitoredWhisper, (whisper) => {
+                var info = whisper.Header.split(":");
+                var chatNum = info[0];
+                var opName = info[1];
+
+                var chatBelongingTo = state.chats.find((v) => v.Number == chatNum);
+                if(chatBelongingTo == null) {
+                    return;
+                }
+
+                
+                var message = { code:1, msg:whisper.Data, date: getDate(new Date()), isWhisper: true, Name: opName};
+                state.chatMessages[chatBelongingTo.ChatUID].push(message);
+                state.chatMessages = Copy(state.chatMessages);
+
+                var hasCurrentChat = Object.keys(state.currentChat).length != 0;
+                if(hasCurrentChat) {
+                    if(state.currentChat.ChatUID == chatBelongingTo.ChatUID) {
+                        state.currentChatTypingstate = false;
+                        state.currentChatMessages = Copy(state.chatMessages[chatBelongingTo.ChatUID]);
+                        hooks.Call(events.Chat.ScrollChat);
+                    }
+                }
             });
         }
     }
