@@ -11,7 +11,7 @@
         ],
         template: `
             <li @click="onClicked">
-                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.Monitoredby != null}" class="box status-border chat-info">
+                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
@@ -44,7 +44,7 @@
                 if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == services.Store.state.currentConnectionId) {
                     hooks.Call(chatEvents.AcceptChat, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
                 } else if (this.chat.TalkingToClientConnection !== services.Store.state.currentConnectionId) {
-                  if(this.$store.state.rights.MonitorChats) hooks.Call(chatEvents.MonitorChat, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
+                  if(this.$store.state.rights.MonitorChats) hooks.Call(chatEvents.MonitorChatClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
                 }
             }
         }

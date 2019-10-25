@@ -13,7 +13,6 @@
                             <div v-for="(v,k) in this.$store.state.currentChatMessages">
                                 <chatConversationVisitor v-if="v.code === 0" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationVisitor>
                                 <chatConversationOperator v-else-if="v.code === 1" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationOperator>
-                                <chatConversationOperator v-else-if="v.code === 2" :message="v.msg" :timeStamp="v.date" :isFile="v.isLink"></chatConversationOperator>
                                 <br/>
                             </div>
                         </div>

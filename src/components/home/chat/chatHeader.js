@@ -18,7 +18,13 @@
                 <div class="chat-header">
                     <div class="content">
                         <p>
-                            <strong>{{this.$store.state.currentChat.Name}} <span v-if="this.$store.state.currentChat.Closed">(Closed)</span> </strong><br>
+                            <strong v-if="BeingMonitoredByYou == false">
+                                {{this.$store.state.currentChat.Name}} 
+                                <span v-if="this.$store.state.currentChat.Closed">(Closed)</span> 
+                            </strong><br  v-if="BeingMonitoredByYou == false">
+                            <strong v-if="BeingMonitoredByYou">
+                                {{this.$store.state.currentChat.Name}} Chatting to {{this.$store.state.currentChat.TalkingTo}}
+                            </strong><br  v-if="BeingMonitoredByYou" />
                             <small v-if="BeingMonitoredByYou"><strong>Monitoring</strong><br/></small>
                             <small>{{this.$store.state.currentChat.SiteName}}</small><br />
                             <small>{{this.$store.state.currentChat.Location}}</small><br />
@@ -73,6 +79,7 @@
         beforeCreate() {
             hooks.Register(events.Chat.CloseChat, () => {
                 this.disableCloseChatButton();
+                this.disableStopMonitoringButton();
 
                 
                 if(this.BeingMonitoredByYou == false) {
@@ -90,7 +97,12 @@
             });
 
             hooks.Register(events.Connection.MonitoredChat, () => {
-                this.enableCloseChatButton();
+                this.enableStopMonitoringButton();
+            });
+            hooks.Register(events.Chat.MonitorChatClicked, () => {
+                setTimeout(() => {
+                    this.enableStopMonitoringButton();
+                }, 100);
             })
         },
         computed: {
@@ -120,6 +132,14 @@
             enableCloseChatButton() {
                 var closeChatButton = document.getElementById("closeChatBtn");
                 if(closeChatButton != null) closeChatButton.removeAttribute("disabled");
+            },
+            enableStopMonitoringButton() {
+                var stopMonitoringChatButton = document.getElementById("stopMonitoringChatBtn");
+                if(stopMonitoringChatButton != null) stopMonitoringChatButton.removeAttribute("disabled");
+            },
+            disableStopMonitoringButton() {
+                var stopMonitoringChatButton = document.getElementById("stopMonitoringChatBtn");
+                if(stopMonitoringChatButton != null) stopMonitoringChatButton.setAttribute("disabled", true);
             },
             disableTransferButton() {
                 var transferButton = document.getElementById("transferBtn");

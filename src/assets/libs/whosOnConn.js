@@ -169,6 +169,14 @@
             ]);
         }
 
+        StopMonitoringChat(chatNum) {
+            var self = this;
+
+            self.Socket.Send("stopmonitor", [
+                chatNum
+            ]);
+        }
+
         ChangeStatus(newstatus) {
             var self = this;
             var status = 0;

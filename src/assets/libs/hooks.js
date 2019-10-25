@@ -83,7 +83,7 @@
             CloseChatClicked: "home.chat.CloseChatClicked",
             PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
-            MonitorChat: "home.chat.MonitorChat",
+            MonitorChatClicked: "home.chat.MonitorChatClicked",
             TabClicked: "home.chat.TabClicked",
             CRMIFrameChangedSrc: "home.chat.CRMIFrameChangedSrc",
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",

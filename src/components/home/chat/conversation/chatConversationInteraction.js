@@ -61,7 +61,8 @@
                 this.InputArea().innerText = "";
             });
 
-            hooks.Register(events.Connection.ChatAccepted, (e) => {
+            hooks.Register(events.Chat.AcceptChat, (e) => {
+                var self = this;
                 this.HasSuggestion = false;
                 this.AttachedFile = null;
                 
@@ -69,11 +70,25 @@
                 this.enableInput();
                 this.emojiBtn().removeAttribute("disabled");
                 this.cannedResponsesBtn().removeAttribute("disabled");
-                if(this.sendFileBtn() != null) this.sendFileBtn().removeAttribute("disabled");
-                if(this.requestFileBtn() != null) this.requestFileBtn().removeAttribute("disabled");
+
+                setTimeout(function() {
+                    self.sendFileBtn().removeAttribute("disabled");
+                    self.requestFileBtn().removeAttribute("disabled");
+                }, 100);
+
             });
 
             hooks.Register(events.Connection.MonitoredChat, (e) => {
+                this.HasSuggestion = false;
+                this.AttachedFile = null;
+                
+                this.InputArea().innerText = "";
+                this.enableInput();
+                this.emojiBtn().removeAttribute("disabled");
+                this.cannedResponsesBtn().removeAttribute("disabled");
+            });
+
+            hooks.Register(events.Chat.MonitorChatClicked, (e) => {
                 this.HasSuggestion = false;
                 this.AttachedFile = null;
                 

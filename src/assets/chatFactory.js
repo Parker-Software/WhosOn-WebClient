@@ -1,4 +1,7 @@
 (function(services){
+
+    var state = services.Store.state;
+
     class Chat {
         constructor(
             chatId,
@@ -132,10 +135,18 @@
         chat.SiteName = site.Name; 
 
         if(chat.TalkingToClientConnection != null && chat.TalkingToClientConnection != 0) { 
-            var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
-            chat.TalkingTo = op.Name; 
+
+            if(chat.TalkingToClientConnection == state.currentConnectionId) {
+                chat.TalkingTo = state.userInfo.Name; 
+                chat.Status = `Talking To You`; 
+            } else {
+                var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
+                chat.TalkingTo = op.Name; 
+                chat.Status = `Talking To ${chat.TalkingTo}`; 
+            }
+
             chat.WaitingWarning = false;
-            chat.Status = `Talking to ${chat.TalkingTo}`; 
+           
         } else {
             chat.Status = chat.WaitedSecs.toFormattedWaitTime();
             chat.TalkingTo = ""; 
