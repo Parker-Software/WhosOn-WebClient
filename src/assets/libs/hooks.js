@@ -77,13 +77,10 @@
             ShowActiveChats: "home.chat.ShowActiveChats",
             ChatClicked: "home.chat.ChatClicked",
             SendMessage: "home.chat.SendMessage",
-            AcceptChat: "home.chat.AcceptChat",
-            CloseChat: "home.chat.CloseChat",
             ChatLeft: "home.chat.ChatLeft",
             CloseChatClicked: "home.chat.CloseChatClicked",
             PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
-            MonitorChatClicked: "home.chat.MonitorChatClicked",
             TabClicked: "home.chat.TabClicked",
             CRMIFrameChangedSrc: "home.chat.CRMIFrameChangedSrc",
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
@@ -95,6 +92,14 @@
             MessageFromWaitingChat: "home.chat.MessageFromWaitingChat",
             TransferClicked: "home.chat.TransferClicked",
             ChatTransfered: "home.chat.ChatTransfered",
+        },
+        ChatItem: {
+            AcceptClicked: "chatItem.AcceptClicked",
+            MonitorClicked: "chatItem.MonitorClicked"
+        },
+        ChatModal: {
+            CloseChatConfirmed: "chatModal.CloseChatConfirmed",
+            StopMonitoringChatConfirmed: "chatModal.StopMonitoringChatConfirmed"
         },
         FileUploader: {
             FileItemClicked: "fileuploader.FileItemClicked",
@@ -140,6 +145,8 @@
                     var result = self._hooks[name][i](args);
                     if(typeof(args) != null && result != null) args = result;
                 }
+            } else {
+                console.log(`No hooks registered for that hook - ${name}`);
             }
             if(typeof(args) != null) return args;
         }

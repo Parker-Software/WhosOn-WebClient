@@ -47,7 +47,7 @@
         </section>
         `,
         beforeCreate() {
-            hooks.Register(events.Chat.CloseChat, (e) => {
+            hooks.Register(events.ChatModal.CloseChatConfirmed, (e) => {
                 this.disableInput();
             });
 
@@ -61,7 +61,7 @@
                 this.InputArea().innerText = "";
             });
 
-            hooks.Register(events.Chat.AcceptChat, (e) => {
+            hooks.Register(events.ChatItem.AcceptClicked, (e) => {
                 var self = this;
                 this.HasSuggestion = false;
                 this.AttachedFile = null;
@@ -88,7 +88,7 @@
                 this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
-            hooks.Register(events.Chat.MonitorChatClicked, (e) => {
+            hooks.Register(events.ChatItem.MonitorClicked, (e) => {
                 this.HasSuggestion = false;
                 this.AttachedFile = null;
                 

@@ -56,17 +56,23 @@
                     showOptions();
                 });
 
-                hooks.Register(events.Chat.AcceptChat, (chatInfo) => {
+                hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => {
                     hideAll();
                     showChat();
                     showActiveChats();
                 });
 
-                hooks.Register(events.Chat.CloseChat, (chatNum) => {    
+                hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {    
                     hideAll();
                     showChat();
                     showNoActiveChats();
                 });
+
+                hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum => {
+                    hideAll();
+                    showChat();
+                    showNoActiveChats();
+                }));
                 
                 hooks.Register(events.Chat.ChatLeft, (chatNum) => {    
                     hideAll();
@@ -74,7 +80,7 @@
                     showNoActiveChats();
                 });
 
-                hooks.Register(events.Chat.MonitorChatClicked, (chatNum) => {
+                hooks.Register(events.ChatItem.MonitorClicked, (chatNum) => {
                     hideAll();
                     showChat();
                     showActiveChats();

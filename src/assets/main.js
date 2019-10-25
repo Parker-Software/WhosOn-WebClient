@@ -30,7 +30,7 @@
                     var chatId = state.previousAcceptedChats[i];
                     var chat = state.chats.find(x => x.ChatUID == chatId);
                     if(chat != null && chat.TalkingToClientConnection == 0) {
-                        hooks.Call(events.Chat.AcceptChat, { "Number": chat.Number, "ChatId": chat.ChatUID });
+                        hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                     }
                 }
             });
@@ -43,7 +43,7 @@
                 if(notification != null) notification.close();
                 notification = services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
                     window.focus();
-                    hooks.Call(events.Chat.AcceptChat, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
+                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
                 });
             });
 
@@ -51,7 +51,7 @@
                 if(notification != null) notification.close();
                 notification = services.Notifications.CreateNotification(`Chat With ${info.name}`, info.msg.Data, () => {
                     window.focus();
-                    hooks.Call(events.Chat.AcceptChat, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
+                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
                 });
             });
 
@@ -71,7 +71,7 @@
                 var chat = state.chats.find(x => x.Number == chatNum);
                 if(notification != null) notification.close();
                 notification = services.Notifications.CreateNotification(`Transfer Request`, `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
-                    hooks.Call(events.Chat.AcceptChat, { "Number": chat.Number, "ChatId": chat.ChatUID });
+                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });
         }

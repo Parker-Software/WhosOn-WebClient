@@ -44,7 +44,7 @@
                 }
             });
 
-            hooks.Register(events.Chat.AcceptChat, () => {
+            hooks.Register(events.ChatItem.AcceptClicked, () => {
                 this.UnSelectAllTreeItems();
                 this.UnSelectAllSearchedItems();
                 this.Close();

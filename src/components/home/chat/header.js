@@ -77,21 +77,17 @@
         </div>
         `,
         beforeCreate() {
-            hooks.Register(events.Chat.CloseChat, () => {
+            hooks.Register(events.ChatModal.CloseChatConfirmed, () => {
                 this.disableCloseChatButton();
                 this.disableStopMonitoringButton();
-
-                
-                if(this.BeingMonitoredByYou == false) {
-                    this.disableTransferButton();
-                }
+                this.disableTransferButton();
             });
 
             hooks.Register(events.Connection.CurrentChatClosed, () => {
                 this.disableTransferButton();
             });
 
-            hooks.Register(events.Chat.AcceptChat, (e) => {
+            hooks.Register(events.ChatItem.AcceptClicked, (e) => {
                 this.enableCloseChatButton();
                 this.enableTransferButton();
             });
@@ -99,7 +95,7 @@
             hooks.Register(events.Connection.MonitoredChat, () => {
                 this.enableStopMonitoringButton();
             });
-            hooks.Register(events.Chat.MonitorChatClicked, () => {
+            hooks.Register(events.ChatItem.MonitorClicked, () => {
                 setTimeout(() => {
                     this.enableStopMonitoringButton();
                 }, 100);

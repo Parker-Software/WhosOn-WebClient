@@ -23,16 +23,5 @@
                <br />
             </div>
         `,
-        computed: {
-            address: () => {
-                var address = this.$store.state.connectionAddress;
-                address = address.replace("ws://", "");
-
-                var portIdx = address.indexOf(":");
-                address = address.substring(0, portIdx);
-
-                return address;
-            }
-        }
     });
 })(woServices);
