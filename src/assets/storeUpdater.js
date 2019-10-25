@@ -435,15 +435,19 @@
                 var chatObject = {
                     "code" : 1,
                     "date" : getDate(new Date()),
-                    "msg" : message.Text
+                    "msg" : message.Text,
+                    isWhisper: message.Whisper,
                 }
 
-                if(services.Store.state.chatMessages[message.ChatId] == null) services.Store.state.chatMessages[message.ChatId] = [];
+                if(chatObject.isWhisper) {
+                    chatObject.Name = "You"
+                }
 
-                services.Store.state.chatMessages[message.ChatId].push(chatObject);
-                services.Store.state.currentChatMessages.push(chatObject)
-                services.WhosOnConn.SendMessage(message.Num, message.Text);
-
+                if(state.chatMessages[message.ChatId] == null) state.chatMessages[message.ChatId] = [];
+                state.chatMessages[message.ChatId].push(chatObject);
+                state.currentChatMessages.push(chatObject)
+                if(message.Whisper != true) services.WhosOnConn.SendMessage(message.Num, message.Text); 
+                else services.WhosOnConn.Whisper(message.ToConnection, message.Num, message.Text); 
                 hooks.Call(events.Chat.ScrollChat, "");
             });
 
@@ -502,6 +506,31 @@
                         hooks.Call(events.Chat.ScrollChat);
                     }
                 }
+            });
+
+            hooks.Register(events.Connection.MonitoredOpChatMessage, (message) => {
+                var info = message.Header.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+
+                var chat = state.chats.find(v => v.Number == chatNum);
+
+                var chatObject = {
+                    "code" : 1,
+                    "date" : getDate(new Date()),
+                    "msg" : message.Data
+                }
+                if(state.chatMessages[chat.ChatUID] == null) state.chatMessages[chat.ChatUID] = [];
+                state.chatMessages[chat.ChatUID].push(chatObject);
+                state.currentChatMessages.push(chatObject);
+
+            });
+
+            hooks.Register(events.Connection.MonitoredVisitorChatMessage, (message) => {
+                var info = message.Header.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+                hooks.Call(events.Connection.ChatMessage, {Header:chatNum, Data:message.Data});
             });
         }
     }

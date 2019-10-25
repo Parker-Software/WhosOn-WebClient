@@ -95,11 +95,12 @@
             hooks.Register(events.Connection.MonitoredChat, () => {
                 this.enableStopMonitoringButton();
             });
+
             hooks.Register(events.ChatItem.MonitorClicked, () => {
                 setTimeout(() => {
                     this.enableStopMonitoringButton();
                 }, 100);
-            })
+            });
         },
         computed: {
             visitorsEmail() {
