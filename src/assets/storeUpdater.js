@@ -343,8 +343,35 @@
 
             });
 
-            hooks.Register(events.Chat.MonitorChat, (chatInfo) => {
-                services.WhosOnConn.MonitorChat(chatInfo.Number);
+            hooks.Register(events.Chat.MonitorChatClicked, (chatInfo) => {
+                var foundChat;
+                Object.keys(state.chats).forEach(key => {
+                    var chat = state.chats[key];
+                    chat.IsActiveChat = false;
+                    if(chat.ChatUID == chatInfo.ChatId && chat.BeingMonitoredByYou) {
+                        foundChat = chat;
+                       
+                    }
+                });
+
+                if(foundChat != null) {
+                    foundChat.IsActiveChat = true;
+                    state.currentChat = foundChat;
+
+                    if(state.chatMessages[foundChat.ChatUID] != null) {
+                        state.currentChatMessages = Copy(state.chatMessages[foundChat.ChatUID]);
+                    } else {
+                        state.currentChatMessages = Copy([]);
+                    }
+
+                   if (state.chatPreSurveys[foundChat.Number] != null) {
+                        state.currentChatPreSurveys = Copy(state.chatPreSurveys[chatInfo.Number]);
+                        hooks.Call(events.Chat.PreChatSurveysLoaded);
+                    } else {
+                        state.currentChatPreSurveys = {};
+                    }
+                    hooks.Call(events.Chat.ClickTab, "conversation");
+                } else services.WhosOnConn.MonitorChat(chatInfo.Number);
             });
 
             hooks.Register(events.Connection.MonitoredChat, (info) => {
@@ -352,11 +379,13 @@
 
                 Object.keys(state.chats).forEach(key => {
                     var chat = state.chats[key];
-                    if(chat.ChatUID = monitoredChat.ChatUID) {
+                    chat.IsActiveChat = false;
+                    
+                    if(chat.ChatUID == monitoredChat.ChatUID) {
                         chat.BeingMonitoredByYou = true;
                         chat.IsActiveChat = true;
                         state.currentChat = chat;
-                        state.chatMessages[monitoredChat.ChatUID] = [];
+                        state.chatMessages[chat.ChatUID] = [];
                         for(var i = 0; i < monitoredChat.Lines.length; i++) {
                             var line = monitoredChat.Lines[i];
                             var parsedDate = new Date(line.Dated);
@@ -366,11 +395,19 @@
                                 isLink = true;
                             }
         
-                            state.chatMessages[monitoredChat.ChatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
+                            state.chatMessages[chat.ChatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
                         }
                         
-                        state.currentChatMessages = Copy(state.chatMessages[monitoredChat.ChatUID]);
+                        state.currentChatMessages = Copy(state.chatMessages[chat.ChatUID]);
                         state.chatMessages = Copy(state.chatMessages);
+
+                        state.chatPreSurveys[chat.Number] = [];
+                        for(var i = 0; i < monitoredChat.PreChatSurvey.length; i++) {
+                            var survey = monitoredChat.PreChatSurvey[i];
+                            state.chatPreSurveys[chat.Number].push({Name: survey.FieldName, Value: survey.FieldValue});
+                        }
+                        state.currentChatPreSurveys = Copy(state.chatPreSurveys[chat.Number]);
+                        hooks.Call(events.Chat.PreChatSurveysLoaded);
                     }
                 });
             });

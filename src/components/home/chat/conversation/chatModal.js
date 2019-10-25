@@ -4,6 +4,11 @@
     var events = services.HookEvents;
 
     Vue.component('homeCloseChat', {
+        data: () => {
+            return {
+                Close: false
+            }
+        },
         template: `
         <div id="closeChatModal" class="modal">
             <div class="modal-background"></div>
@@ -25,6 +30,10 @@
             `,
         beforeCreate() { 
             hooks.Register(events.Chat.CloseChatClicked, () => {
+                this.ModalElem().classList.add("is-active");
+            });
+
+            hooks.Register(events.Chat.StopMonitoringChatClicked, () => {
                 this.ModalElem().classList.add("is-active");
             });
         },
