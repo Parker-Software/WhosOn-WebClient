@@ -8,7 +8,7 @@
         template:
         `
             <div v-bind:id="this.$store.state.connectingViewName" class="loadingWindow">   
-               <loader text="Attemping connection to WhosOn..." customStyles="left: calc(50% - 120px);"></loader>
+               <loader text="" customStyles="left: calc(50%);"></loader>
             </div>
         `
     });

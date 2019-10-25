@@ -93,6 +93,15 @@
                 }
             });
 
+            hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
+                var chat = state.chats.find((v) => v.Number == chatNum);
+                if (chat != null) {
+                    chat.BeingMonitoredByYou = false;
+                    chat.IsActiveChat = false;
+                }
+                state.currentChat = {};
+            });
+
             hooks.Register(connEvents.ChatRequested, (e) => {
                 var data = e.Data;
                 var info = data.split(":");
@@ -313,7 +322,7 @@
                 }
             });
 
-            hooks.Register(events.Chat.AcceptChat, (chatInfo) => { 
+            hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => { 
                 var chats = state.chats;
                 Object.keys(chats).forEach((key) => {
                     var chat = chats[key];
@@ -343,7 +352,7 @@
 
             });
 
-            hooks.Register(events.Chat.MonitorChatClicked, (chatInfo) => {
+            hooks.Register(events.ChatItem.MonitorClicked, (chatInfo) => {
                 var foundChat;
                 Object.keys(state.chats).forEach(key => {
                     var chat = state.chats[key];
@@ -410,17 +419,6 @@
                         hooks.Call(events.Chat.PreChatSurveysLoaded);
                     }
                 });
-            });
-
-
-            hooks.Register(events.Chat.CloseChat, (chatNum) => {
-                services.WhosOnConn.CloseChat(chatNum);               
-                state.chats.forEach(function(chat){
-                    if (chat.TalkingTo == woServices.Store.state.userName && chat.ChatUID != state.currentChat.ChatUID) {
-                        hooks.Call(events.Chat.AcceptChat, {"Number": chat.Number, "ChatId": chat.ChatUID});
-                    }
-                })
-
             });
 
             
