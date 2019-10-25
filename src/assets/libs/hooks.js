@@ -47,6 +47,8 @@
             MonitoredVisitorChatMessage: "monitorv",
             MonitoredOperatorTyping: "mc1",
             MonitoredOperatorTypingOff: "mc0",
+            MonitoredVisitorTyping: "m1",
+            MonitoredVisitorTypingOff: "m0",
             MonitoredWhisper: "whisper",
             MonitoringStopped: "monitorstop",
             PreviousChats: "chats",

@@ -15,12 +15,16 @@
             return {
                 HasSuggestion: false,
                 AttachedFile: null,
+                CurrentlyTypingNameMonitored: "",
             }
         },
         template: `
         <section class="reply-container">
-            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate">
+            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate && BeingMonitoredByYou == false">
                 <span>{{this.$store.state.currentChat.Name}} is typing...</span>
+            </div>
+            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate && BeingMonitoredByYou">
+                <span>{{this.CurrentlyTypingNameMonitored}} is typing...</span>
             </div>
             <div class="column is-full">
                 <div id="inputArea" v-bind:class="{'beingMonitored':BeingMonitoredByYou}" class="textarea" contenteditable="true"  placeholder="Enter your reply"
@@ -47,6 +51,47 @@
         </section>
         `,
         beforeCreate() {
+            hooks.Register(events.Connection.MonitoredOperatorTyping, (e) => {
+                var msg = e;
+                var info = msg.Data.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+                if(state.currentChat.Number == chatNum) {
+                    state.currentChatTypingstate = true;
+                    this.CurrentlyTypingNameMonitored = name;
+                }
+            });
+            hooks.Register(events.Connection.MonitoredOperatorTypingOff, (e) => {
+                var msg = e;
+                var info = msg.Data.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+                if(state.currentChat.Number == chatNum) {
+                    state.currentChatTypingstate = false;
+                    this.CurrentlyTypingNameMonitored = name;
+                }
+            });
+            hooks.Register(events.Connection.MonitoredVisitorTyping, (e) => {
+                var msg = e;
+                var info = msg.Data.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+                if(state.currentChat.Number == chatNum) {
+                    state.currentChatTypingstate = true;
+                    this.CurrentlyTypingNameMonitored = state.currentChat.Name;
+                }
+            });
+            hooks.Register(events.Connection.MonitoredVisitorTypingOff, (e) => {
+                var msg = e;
+                var info = msg.Data.split(":");
+                var chatNum = info[0];
+                var name = info[1];
+                if(state.currentChat.Number == chatNum) {
+                    state.currentChatTypingstate = false;
+                    this.CurrentlyTypingNameMonitored = state.currentChat.Name;
+                }
+            });
+
             hooks.Register(events.ChatModal.CloseChatConfirmed, (e) => {
                 this.disableInput();
             });
@@ -192,8 +237,8 @@
                                 connection.SendFile(state.currentChat.Number, this.AttachedFile.FileName, url);
                                 var msg = {code:1, msg:`<link><name>${this.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
                                 
-                                if(state.chatMessages[this.$store.state.currentChat.ChatUID] == null) state.chatMessages[this.$store.state.currentChat.ChatUID] = [];
-                                state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
+                                if(state.chatMessages[state.currentChat.ChatUID] == null) state.chatMessages[state.currentChat.ChatUID] = [];
+                                state.chatMessages[state.currentChat.ChatUID].push(msg);
                                 state.currentChatMessages.push(msg);
                                 this.AttachedFile = null;
                             }
@@ -203,7 +248,11 @@
                         }
 
                         stopTypingStatus();
-                        hooks.Call(chatEvents.SendMessage, { "ChatId": services.Store.state.currentChat.ChatUID, "Num": services.Store.state.currentChat.Number, "Text": text});
+                        hooks.Call(chatEvents.SendMessage, { "ChatId": state.currentChat.ChatUID,
+                            "Num": state.currentChat.Number,
+                            "Text": text,
+                            "Whisper": state.currentChat.BeingMonitoredByYou,
+                            "ToConnection": state.currentChat.TalkingToClientConnection});
                         this.InputArea().innerText = "";
                     }
                     event.preventDefault();
