@@ -124,9 +124,6 @@
                     if(doesExist != null) return;
                     
                     var chat = services.ChatFactory.FromChatChangedNew(data, newChat, state.sites, state.users);
-                    
-                    
-                    
                     state.chats.push(chat);
                     state.activeChatCount = Object.keys(state.chats).length;
                     Vue.delete(state.preRenderedChats, data.Number);
@@ -134,6 +131,15 @@
                 } else {
                     var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
                     if(oldChat != null) services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
+                    else {
+                        var site = state.sites[data.SiteKey];
+                        var chat = services.ChatFactory.FromChatChangedNew(data, {
+                            visitorName: data.VisitorName, domain: site.Domain 
+                        }, state.sites, state.users);
+                        state.chats.push(chat);
+                        state.activeChatCount = Object.keys(state.chats).length;
+                        hooks.Call(events.Connection.NewChat, chat);
+                    }
                 }
             });
 

@@ -53,7 +53,7 @@
                                     <small><strong>{{chat.SiteName}}</strong></small>
                                     <br />
                                     <!-- takling to, waiting etc -->
-                                    <small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}}</strong></small>
+                                    <small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}} <span v-if="chat.QueuePos > 0">(Queued)</span></strong></small>
                                     <br />
                                     <small v-if="chat.Monitoredby != null"><strong>Monitored By {{MonitoredByWho}}</strong></small>
                                 </p>
