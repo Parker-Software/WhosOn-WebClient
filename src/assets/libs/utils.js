@@ -8,6 +8,13 @@ function Filter(obj, predicate) {
     .reduce( (res, key) => (res[key] = obj[key], res), {} );
 }
 
+function Find(obj, predicate) {
+    var key = Object.keys(obj)
+    .find(key => predicate(obj[key]));
+
+    return obj[key];
+}
+
 function YNToBool(variable) {
     return variable == "Y" ? true : false;
 }
@@ -22,6 +29,12 @@ function getDate(timeStamp)
     return h + ':' + m + ':' + s;
 }
 
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
 
 
 function cannedResponsesToTree(data) {

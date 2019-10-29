@@ -26,7 +26,7 @@
                         </span>
                     </p>
                 </div>  
-                <tree @ItemClicked="CannedResponseClicked" treeId="cannedResponses" v-if="IsSearching == false" :data="this.$store.state.cannedResponsesTree"></tree>
+                <tree @ItemClicked="CannedResponseClicked" treeId="cannedResponses" itemKey="Subject" v-if="IsSearching == false" :data="this.$store.state.cannedResponsesTree"></tree>
                 <div v-if="IsSearching" id="fileItems" class="list is-hoverable" style="height: calc(100% - 100px); overflow-y: auto;">
                     <cannedResponseSearchItem treeId="cannedResponses"  @ItemClicked="SearchedCannedResponseClicked" v-for="item in FilteredCannedResponse" :item="item">
                     </cannedResponseSearchItem>

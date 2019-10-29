@@ -5,7 +5,8 @@
     Vue.component('tree', {
         props: [
             "data",
-            "treeId"
+            "treeId",
+            "itemKey"
         ],
         template: `
             <ul style="height: 70%; overflow-y:auto;">
@@ -13,6 +14,7 @@
                     class="item"
                     :item="item"
                     :treeId="treeId"
+                    :itemKey="itemKey"
                     @make-folder="makeFolder"
                     @add-item="addItem"
                     @TreeItemClicked="ItemClicked"

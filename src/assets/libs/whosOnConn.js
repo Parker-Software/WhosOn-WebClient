@@ -246,6 +246,17 @@
             self.Socket.Send("sendfileto", params);
         }
 
+        GetVisitorDetail(siteKey, ip, sessionId, chatId) {
+            var self = this;
+
+            self.Socket.Send("getchatvisit", [
+                siteKey,
+                ip,
+                sessionId,
+                chatId
+            ]);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();
