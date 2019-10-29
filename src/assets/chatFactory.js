@@ -46,6 +46,7 @@
             this.IsActiveChat = false;
             this.BeingMonitoredByYou = false;
             this.Closed = false;
+            this.WrapUpCompleted = false;
         }
     }
 

@@ -78,27 +78,27 @@
         `,
         beforeCreate() {
             hooks.Register(events.ChatModal.CloseChatConfirmed, () => {
-                this.disableCloseChatButton();
-                this.disableStopMonitoringButton();
-                this.disableTransferButton();
+                this.DisableCloseChatButton();
+                this.DisableStopMonitoringButton();
+                this.DisableTransferButton();
             });
 
             hooks.Register(events.Connection.CurrentChatClosed, () => {
-                this.disableTransferButton();
+                this.DisableTransferButton();
             });
 
             hooks.Register(events.ChatItem.AcceptClicked, (e) => {
-                this.enableCloseChatButton();
-                this.enableTransferButton();
+                this.EnableCloseChatButton();
+                this.EnableTransferButton();
             });
 
             hooks.Register(events.Connection.MonitoredChat, () => {
-                this.enableStopMonitoringButton();
+                this.EnableStopMonitoringButton();
             });
 
             hooks.Register(events.ChatItem.MonitorClicked, () => {
                 setTimeout(() => {
-                    this.enableStopMonitoringButton();
+                    this.EnableStopMonitoringButton();
                 }, 100);
             });
         },
@@ -118,42 +118,51 @@
                 return "";
             },
             BeingMonitoredByYou() {
-                return this.$store.state.currentChat.BeingMonitoredByYou;
+                return state.currentChat.BeingMonitoredByYou;
             }
         },
         methods: {
-            disableCloseChatButton() {
-                var closeChatButton = document.getElementById("closeChatBtn");
-                if(closeChatButton != null) closeChatButton.setAttribute("disabled", true);
+            CloseBtn() {
+                return document.getElementById("closeChatBtn");
             },
-            enableCloseChatButton() {
-                var closeChatButton = document.getElementById("closeChatBtn");
-                if(closeChatButton != null) closeChatButton.removeAttribute("disabled");
+            StopMonitoringBtn() {
+                return document.getElementById("stopMonitoringChatBtn");
             },
-            enableStopMonitoringButton() {
-                var stopMonitoringChatButton = document.getElementById("stopMonitoringChatBtn");
-                if(stopMonitoringChatButton != null) stopMonitoringChatButton.removeAttribute("disabled");
+            TransferBtn() {
+                return document.getElementById("transferBtn");
             },
-            disableStopMonitoringButton() {
-                var stopMonitoringChatButton = document.getElementById("stopMonitoringChatBtn");
-                if(stopMonitoringChatButton != null) stopMonitoringChatButton.setAttribute("disabled", true);
+            DisableCloseChatButton() {
+                if(this.CloseBtn() != null) this.CloseBtn().setAttribute("disabled", true);
             },
-            disableTransferButton() {
-                var transferButton = document.getElementById("transferBtn");
-                if(transferButton != null) transferButton.setAttribute("disabled", true);
+            EnableCloseChatButton() {
+                if(this.CloseBtn() != null) this.CloseBtn().removeAttribute("disabled");
             },
-            enableTransferButton() {
-                var transferButton = document.getElementById("transferBtn");
-                if(transferButton != null) transferButton.removeAttribute("disabled");
+            EnableStopMonitoringButton() {
+                if(this.StopMonitoringBtn() != null) this.StopMonitoringBtn().removeAttribute("disabled");
+            },
+            DisableStopMonitoringButton() {
+                if(this.StopMonitoringBtn() != null) this.StopMonitoringBtn().setAttribute("disabled", true);
+            },
+            DisableTransferButton() {
+                if(this.TransferBtn() != null) this.TransferBtn().setAttribute("disabled", true);
+            },
+            EnableTransferButton() {
+                if(this.TransferBtn() != null)  this.TransferBtn().removeAttribute("disabled");
             },
             CloseClicked(e) {
-                hooks.Call(chatEvents.CloseChatClicked, services.Store.state.currentChat.Number);
+                var currentSiteWrapUpRequired = state.sites[state.currentChat.SiteKey].WrapUp.Required;
+                if(currentSiteWrapUpRequired == false || (currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted)) 
+                {
+                    hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
+                } else {
+                    hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
+                }
             },
             TransferClicked(e) {
                 hooks.Call(chatEvents.TransferClicked);
             },
             StopMonitoringClicked(e) {
-                hooks.Call(chatEvents.StopMonitoringChatClicked, services.Store.state.currentChat.Number);
+                hooks.Call(chatEvents.StopMonitoringChatClicked, state.currentChat.Number);
             }
         }
     });

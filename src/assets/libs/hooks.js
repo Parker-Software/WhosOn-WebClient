@@ -94,6 +94,8 @@
             MessageFromWaitingChat: "home.chat.MessageFromWaitingChat",
             TransferClicked: "home.chat.TransferClicked",
             ChatTransfered: "home.chat.ChatTransfered",
+            WrapUpClicked: "home.chat.WrapUpClicked",
+            WrapUpNotCompleted: "home.chat.WrapUpNotCompleted"
         },
         ChatItem: {
             AcceptClicked: "chatItem.AcceptClicked",
@@ -128,7 +130,7 @@
     class Hooks {
         constructor() {
             var self = this;
-
+            self._showHookCall = false;
             self._hooks = [];
         }
 
@@ -140,6 +142,7 @@
 
         Call(name, args) { 
             var self = this;
+            if(self._showHookCall) console.log(name); 
             if('undefined' != typeof(self._hooks[name]))
             {
                 for(var i = 0; i < self._hooks[name].length; i++)

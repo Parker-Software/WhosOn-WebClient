@@ -2,10 +2,11 @@
     var hooks = services.Hooks;
 
     Vue.component('treeItem', {
-        props: {
-            item: Object,
-            treeId: ""
-        },
+        props: [
+            "item",
+            "treeId",
+            "itemKey",
+        ],
         template: `
             <li>
                 <div
@@ -14,7 +15,7 @@
                     :class="{hasChildren: isFolder, noChildren: isFolder == false}"
                     @click="Clicked">
                     <span v-if="isFolder" class="hasChildrenChevron" v-html="IsOpen"></span>
-                    {{item.Subject}}
+                    {{item[itemKey]}}
                 </div>
                 <ul class="treeNode" v-show="isOpen" v-if="isFolder">
                     <tree-item
@@ -23,6 +24,7 @@
                         v-for="(child, index) in item.children"
                         :key="index"
                         :item="child"
+                        :itemKey="itemKey"
                         @make-folder="$emit('make-folder', $event)"
                         @add-item="$emit('add-item', $event)"
                         @TreeItemClicked="ClickedForParent"

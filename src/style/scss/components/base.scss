@@ -459,6 +459,7 @@ a[disabled] {
 
 .treeItem {
     padding: 5px;
+    line-height: 2em;
 }
 .treeItem:hover {
     cursor: pointer;
@@ -574,6 +575,10 @@ a[disabled] {
 
 .modal-card {
     color: $ThemeRoundButtonHoverText;
+}
+
+.modal-card a {
+    color: $ThemeRoundButtonFill;
 }
 
 .button.is-info {

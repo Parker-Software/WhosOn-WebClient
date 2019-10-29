@@ -31,7 +31,10 @@
             });
 
             hooks.Register(connEvents.UserInfo, (e) => {
-                state.userInfo = e.Data.User; 
+                if(e.Data.User != null) {
+                    state.userInfo = e.Data.User;
+                } else state.userInfo = e.Data;
+
                 var split = state.userInfo.Rights.split("");
                 state.rights.LoginToSettingsPortal = YNToBool(split[0]);
                 state.rights.ViewReports = YNToBool(split[1]);
@@ -281,6 +284,8 @@
                     {};
                 state.currentChatTypingstate = false;
                 services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+
+                services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
             });
 
             hooks.Register(connEvents.PreChatSurvey, (e) => {

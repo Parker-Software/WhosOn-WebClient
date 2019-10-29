@@ -74,6 +74,13 @@
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });
+
+            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
+                if(notification != null) notification.close();
+                notification = services.Notifications.CreateNotification(`Chat Wrapup Required`, `Please complete wrapup to close the chat`, () => {
+                    hooks.Call(events.Chat.WrapUpClicked);
+                });
+            });
         }
     }
 
