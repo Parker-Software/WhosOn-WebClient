@@ -79,7 +79,7 @@
                     </a>-->
                 </div>
                 <conversationWrapUp 
-                    v-if="currentSite != null && currentSite.WrapUp.Enabled && ShowWrapUp"
+                    v-if="currentSite != null && currentSite.WrapUp.Enabled && ShowWrapUp && state.currentChat.BeingMonitoredByYou == false"
                     :options="currentSite.WrapUp">
                 </conversationWrapUp>
             </div>

@@ -41,7 +41,7 @@
         ],
         template: `
             <li @click="onClicked">
-                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info">
+                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info" style="padding: 0.5rem">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
@@ -74,7 +74,7 @@
 
                 if(Object.keys(state.currentChat).length > 0) {
                     var currentSiteWrapUpRequired = state.sites[state.currentChat.SiteKey].WrapUp.Required;
-                    if(state.currentChat.Closed && currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted == false) 
+                    if(state.currentChat.BeingMonitoredByYou == false && state.currentChat.Closed && currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted == false) 
                     {
                         hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
                         return;
