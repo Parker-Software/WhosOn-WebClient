@@ -589,6 +589,10 @@ a[disabled] {
     background-color: $ThemeRoundButtonFill;
 }
 
+.button.is-info[disabled] {
+    background-color: $ThemeRoundButtonFill !important;
+}
+
 
 .selectableItem.is-active .box {
     background-color:$ThemeRoundButtonFill;

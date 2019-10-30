@@ -5,6 +5,11 @@
     var state = services.Store.state;
 
     Vue.component('chatHeader', {
+        data: () => {
+            return {
+                ShowWrapUp: false
+            }
+        },
         template: `
         <div v-bind:class="{'beingMonitored': BeingMonitoredByYou}" style="padding: 1rem; height:130px;">
             <div class="customColumn is-narrow" style="width:80px">
@@ -73,6 +78,10 @@
                         </span>
                     </a>-->
                 </div>
+                <conversationWrapUp 
+                    v-if="currentSite != null && currentSite.WrapUp.Enabled && ShowWrapUp"
+                    :options="currentSite.WrapUp">
+                </conversationWrapUp>
             </div>
         </div>
         `,
@@ -101,6 +110,37 @@
                     this.EnableStopMonitoringButton();
                 }, 100);
             });
+
+            hooks.Register(events.ChatItem.AcceptClicked, (num, id) => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  this.ShowWrapUp = true;
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
+
+
+                if(this.currentChat.WrapUpCompleted)  this.ShowWrapUp = true;
+            });
+
+            hooks.Register(events.Connection.CurrentChatClosed, () => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "Session End":
+                    case "Window Close":
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  this.ShowWrapUp = true;
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
+            });
+
+            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
+                this.ShowWrapUp = true
+            });
         },
         computed: {
             visitorsEmail() {
@@ -119,6 +159,17 @@
             },
             BeingMonitoredByYou() {
                 return state.currentChat.BeingMonitoredByYou;
+            },
+            currentSite() {
+                var site = null;
+                if(Object.keys(state.currentChat).length > 0) {
+                    site = state.sites[state.currentChat.SiteKey];
+                }
+
+                return site;
+            },
+            currentChat() {
+                return state.currentChat;
             }
         },
         methods: {

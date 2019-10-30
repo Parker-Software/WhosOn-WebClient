@@ -7,10 +7,17 @@
             "options"
         ],
         template: `
-            <div id="wraup" class="survey-block columns" style="padding: 20px; background-color:transparent;">
+            <div id="wraup" class="survey-block columns" style="background-color:transparent;">
                 <div class="column is-9"></div>
                 <div class="column is-3">
-                <a class="button is-info is-pulled-right" v-on:click="Clicked">{{options.Message}}</a>
+                    <a class="button is-info is-pulled-right"
+                    v-on:click="Clicked" 
+                    v-bind:disabled="this.$store.state.currentChat.WrapUpCompleted">
+                        {{options.Message}}
+                        <span v-if="this.$store.state.currentChat.WrapUpCompleted">
+                            &nbsp;(Completed)
+                        </span>
+                    </a>
                 </div>
                 <wrapupModal id="wrapUpModal" :options="options"></wrapupModal>
             </div>
