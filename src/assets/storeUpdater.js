@@ -506,6 +506,8 @@
 
                 
                 var message = { code:1, msg:whisper.Data, date: getDate(new Date()), isWhisper: true, Name: opName};
+                
+                if(state.chatMessages[chatBelongingTo.ChatUID] == null) state.chatMessages[chatBelongingTo.ChatUID] = [];
                 state.chatMessages[chatBelongingTo.ChatUID].push(message);
                 state.chatMessages = Copy(state.chatMessages);
 
