@@ -71,6 +71,16 @@
         },
         methods: {
             onClicked() {
+
+                if(Object.keys(state.currentChat).length > 0) {
+                    var currentSiteWrapUpRequired = state.sites[state.currentChat.SiteKey].WrapUp.Required;
+                    if(state.currentChat.Closed && currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted == false) 
+                    {
+                        hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
+                        return;
+                    }
+                }
+
                 if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == services.Store.state.currentConnectionId) {
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
                 } else if (this.chat.TalkingToClientConnection !== services.Store.state.currentConnectionId) {

@@ -257,6 +257,16 @@
             ]);
         }
 
+        CompleteWrapUp(siteKey, chatId, value) {
+            var self = this;
+
+            self.Socket.Send("chatwrapupcomplete", [
+                siteKey, 
+                chatId,
+                value
+            ]);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();
