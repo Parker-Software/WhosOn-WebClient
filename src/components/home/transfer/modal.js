@@ -91,7 +91,7 @@
                     </div>
                     <div v-if="SelectedTab == 'skills'">
                         <section class="modal-card-body">
-                            <ul v-for="item in this.$store.state.skills">
+                            <ul v-for="item in $store.state.skills">
                                 <skillItem  @Clicked="SkillClicked(item)" :skill="item" collectionGroup="transfer"> </skillItem>
                             </ul>
                         </section>
@@ -117,7 +117,7 @@
         },
         computed: {
             ValidUsers() {
-                var users = this.$store.state.users.filter(x => x.Username != this.$store.state.userName);
+                var users = state.users.filter(x => x.Username != state.userName);
                 if(this.ShowAvailableOnly) {
                     users = users.filter(x => x.Status == 0);
                 }

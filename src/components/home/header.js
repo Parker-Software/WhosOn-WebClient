@@ -1,4 +1,7 @@
 (function(services){
+
+    var state = services.Store.state;
+
     Vue.component('homeheader', {
         template: `
             <div class="header" id="app-header">
@@ -8,11 +11,11 @@
             </div>`,
             computed: {
                 topDisplayName: function() {
-                    return this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName;
+                    return state.userInfo !== null ? state.userInfo.Name : state.userName;
                 },
                 statusText: function()
                 {
-                    switch (this.$store.state.currentStatus) {
+                    switch (state.currentStatus) {
                         case 0:
                             return "Online";
                         case 1:

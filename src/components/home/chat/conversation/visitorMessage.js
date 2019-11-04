@@ -2,6 +2,7 @@
 
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var state = services.Store.state;
 
     Vue.component('chatConversationVisitor', {
         props: [
@@ -55,7 +56,7 @@
                     } else {
                         message += `<a href="${link}" style="text-decoration: none;" target="_blank"><div class="clickableImage" style="width:300px;">${name}</div></a>`;
                     }
-                    message += `${this.$store.state.currentChat.Name} Uploaded File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
+                    message += `${state.currentChat.Name} Uploaded File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
                     return message;
                 } else return this.message.msg;
             }

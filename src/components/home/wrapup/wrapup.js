@@ -12,9 +12,9 @@
                 <div class="column is-3">
                     <a class="button is-info is-pulled-right"
                     v-on:click="Clicked" 
-                    v-bind:disabled="this.$store.state.currentChat.WrapUpCompleted">
+                    v-bind:disabled="$store.state.currentChat.WrapUpCompleted">
                         {{options.Message}}
-                        <span v-if="this.$store.state.currentChat.WrapUpCompleted">
+                        <span v-if="$store.state.currentChat.WrapUpCompleted">
                             &nbsp;(Completed)
                         </span>
                     </a>

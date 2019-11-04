@@ -436,7 +436,11 @@
                 var currentChat = state.currentChat;
                 var userName = state.userName;
                 var visitorName = state.currentChat.Name;
-                var email = state.currentChatPreSurveys.find((v) => v.Name == "Email").Value;
+                var email;
+                var hasEmail = state.currentChatPreSurveys.find((v) => v.Name == "Email");
+                if(hasEmail != null) {
+                    email = hasEmail.Value;
+                }
 
                 state.crmURL = `https://whosoncrmfuncs.azurewebsites.net/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=https://dev3.whoson.com/whosoncharts/`;
                 hooks.Call(events.Chat.CRMIFrameChangedSrc, state.crmURL);
@@ -464,7 +468,7 @@
 
             hooks.Register(events.Socket.Closed, (e) => {
                 sessionStorage.clear();
-                services.Store.commit("replaceEntireState", services.DefaultState());
+                store.commit("replaceEntireState", services.DefaultState());
             });
 
             hooks.Register(events.Connection.UploadedFiles, (e) => {

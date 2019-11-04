@@ -52,3 +52,10 @@ function cannedResponsesToTree(data) {
 
     return tree;
 }
+
+if(Element.prototype.scrollBy == null) {
+    Element.prototype.scrollBy = function(options) {
+        this.scrollLeft = this.scrollLeft + options.left;
+        this.scrollTop = this.scrollTop + options.top;
+    };
+} 

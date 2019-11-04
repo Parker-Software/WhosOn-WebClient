@@ -1,10 +1,13 @@
 (function(services){
+
+    var state = services.Store.state;
+
     Vue.component('homeActiveChats', {
         template: `
         <div class="customColumn active-chats" id="homeActiveChats">
             <div class="content-header">
-                <h5 v-show="this.$store.state.activeChatCount > 0" class="title is-4">Active Chats: {{this.$store.state.activeChatCount}}</h5>
-                <h5 v-show="this.$store.state.activeChatCount <= 0" class="title is-4">No Active Chats</h5>
+                <h5 v-show="$store.state.activeChatCount > 0" class="title is-4">Active Chats: {{$store.state.activeChatCount}}</h5>
+                <h5 v-show="$store.state.activeChatCount <= 0" class="title is-4">No Active Chats</h5>
             </div>
             <div class="chats">
                 <div v-for="group, groupname in chatsGroupedAndSorted">
@@ -27,7 +30,7 @@
                 const other = [];
                 
                 
-                this.$store.state.chats.forEach(chat => {
+                state.chats.forEach(chat => {
                     if (chat.TalkingToClientConnection == 0) {
                         waiting.push(chat);
                     } else if (chat.TalkingToClientConnection == services.Store.state.currentConnectionId) {

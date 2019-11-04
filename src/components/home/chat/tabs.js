@@ -8,7 +8,7 @@
 
     Vue.component('chatTabs', {
         template: `
-        <div class="tabs" v-bind:class="{'beingMonitored': this.$store.state.currentChat.BeingMonitoredByYou}">
+        <div class="tabs" v-bind:class="{'beingMonitored': $store.state.currentChat.BeingMonitoredByYou}">
             <ul>
                 <li id="conversationTab" class="chatTab is-active" @click="onTabClicked('conversation')"><a>Conversation</a></li>
                 <!--<li><a>Previous Chats</a></li>

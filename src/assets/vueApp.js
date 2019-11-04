@@ -1,4 +1,7 @@
 (function(services) {
+
+    var store = services.Store;
+
     class VueApp {
         constructor() {
 
@@ -7,7 +10,7 @@
                 el: "#app",
                 store: services.Store,
                 beforeCreate() {
-                    this.$store.commit("init");
+                    store.commit("init");
                 }
             }); 
         }

@@ -65,7 +65,7 @@
             `,
         computed: {
             MonitoredByWho() {
-                if(this.chat.Monitoredby == this.$store.state.userInfo.Name) return "You";
+                if(this.chat.Monitoredby == state.userInfo.Name) return "You";
                 else return this.chat.Monitoredby;
             }
         },
@@ -81,10 +81,10 @@
                     }
                 }
 
-                if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == services.Store.state.currentConnectionId) {
+                if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == state.currentConnectionId) {
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
-                } else if (this.chat.TalkingToClientConnection !== services.Store.state.currentConnectionId) {
-                  if(this.$store.state.rights.MonitorChats) hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
+                } else if (this.chat.TalkingToClientConnection !== state.currentConnectionId) {
+                  if(state.rights.MonitorChats) hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
                 }
             }
         }

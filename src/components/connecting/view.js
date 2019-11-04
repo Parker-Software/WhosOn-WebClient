@@ -7,7 +7,7 @@
     Vue.component(state.connectingViewName, {
         template:
         `
-            <div v-bind:id="this.$store.state.connectingViewName" class="loadingWindow">   
+            <div v-bind:id="$store.state.connectingViewName" class="loadingWindow">   
                <loader text="" customStyles="left: calc(50%);"></loader>
             </div>
         `

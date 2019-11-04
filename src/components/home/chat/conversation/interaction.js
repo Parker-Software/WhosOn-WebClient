@@ -20,10 +20,10 @@
         },
         template: `
         <section class="reply-container">
-            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate && BeingMonitoredByYou == false">
-                <span>{{this.$store.state.currentChat.Name}} is typing...</span>
+            <div class="column is-full visitor-typing" v-if="$store.state.currentChatTypingstate && BeingMonitoredByYou == false">
+                <span>{{$store.state.currentChat.Name}} is typing...</span>
             </div>
-            <div class="column is-full visitor-typing" v-if="this.$store.state.currentChatTypingstate && BeingMonitoredByYou">
+            <div class="column is-full visitor-typing" v-if="$store.state.currentChatTypingstate && BeingMonitoredByYou">
                 <span>{{this.CurrentlyTypingNameMonitored}} is typing...</span>
             </div>
             <div class="column is-full">
@@ -182,7 +182,7 @@
         },
         computed: {
             BeingMonitoredByYou() {
-                return this.$store.state.currentChat.BeingMonitoredByYou;
+                return state.currentChat.BeingMonitoredByYou;
             }
         },
         methods: {
@@ -208,7 +208,7 @@
                 hooks.Call(events.Chat.SendFileClicked);
             },
             requestFileClicked() {
-                connection.RequestFile(this.$store.state.currentChat.Number);
+                connection.RequestFile(state.currentChat.Number);
                 hooks.Call(events.Chat.RequestedFileUpload);
             },
             InputArea() {
