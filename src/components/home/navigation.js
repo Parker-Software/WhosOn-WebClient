@@ -13,16 +13,16 @@
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
-                                <span v-if="this.$store.state.currentStatus == 0" class="status online" style="right: -6px; bottom: -18px;">
+                                <span v-if="$store.state.currentStatus == 0" class="status online" style="right: -6px; bottom: -18px;">
                                     <i class="fas fa-circle"></i>
                                 </span>
-                                <span v-if="this.$store.state.currentStatus == 1" class="status busy" style="right: -6px; bottom: -18px;">
+                                <span v-if="$store.state.currentStatus == 1" class="status busy" style="right: -6px; bottom: -18px;">
                                     <i class="fas fa-circle"></i>
                                 </span>
-                                <span v-if="this.$store.state.currentStatus == 2" class="status brb" style="right: -6px; bottom: -18px;">
+                                <span v-if="$store.state.currentStatus == 2" class="status brb" style="right: -6px; bottom: -18px;">
                                     <i class="fas fa-circle"></i>
                                 </span>
-                                <span v-if="this.$store.state.currentStatus == 3" class="status away" style="right: -6px; bottom: -18px;">
+                                <span v-if="$store.state.currentStatus == 3" class="status away" style="right: -6px; bottom: -18px;">
                                     <i class="fas fa-circle"></i>
                                 </span>
                             </span>

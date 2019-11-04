@@ -15,8 +15,8 @@
             <div class="customColumn is-narrow" style="width:80px">
                 <figure class="avatar image is-64x64">
                     <i class="fas fa-user fa-4x"></i>
-                    <div v-if="this.$store.state.currentChat.Closed == false" class="status online"><i class="fas fa-circle"></i></div>
-                    <div v-if="this.$store.state.currentChat.Closed == true" class="status busy"><i class="fas fa-circle"></i></div>
+                    <div v-if="$store.state.currentChat.Closed == false" class="status online"><i class="fas fa-circle"></i></div>
+                    <div v-if="$store.state.currentChat.Closed == true" class="status busy"><i class="fas fa-circle"></i></div>
                 </figure>
             </div>
             <div class="customColumn">
@@ -24,15 +24,15 @@
                     <div class="content">
                         <p>
                             <strong v-if="BeingMonitoredByYou == false">
-                                {{this.$store.state.currentChat.Name}} 
-                                <span v-if="this.$store.state.currentChat.Closed">(Closed)</span> 
+                                {{$store.state.currentChat.Name}} 
+                                <span v-if="$store.state.currentChat.Closed">(Closed)</span> 
                             </strong><br  v-if="BeingMonitoredByYou == false">
                             <strong v-if="BeingMonitoredByYou">
-                                {{this.$store.state.currentChat.Name}} Chatting to {{this.$store.state.currentChat.TalkingTo}}
+                                {{$store.state.currentChat.Name}} Chatting to {{$store.state.currentChat.TalkingTo}}
                             </strong><br  v-if="BeingMonitoredByYou" />
                             <small v-if="BeingMonitoredByYou"><strong>Monitoring</strong><br/></small>
-                            <small>{{this.$store.state.currentChat.SiteName}}</small><br />
-                            <small>{{this.$store.state.currentChat.Location}}</small><br />
+                            <small>{{$store.state.currentChat.SiteName}}</small><br />
+                            <small>{{$store.state.currentChat.Location}}</small><br />
                             <small>{{visitorsEmail}}</small>
                         </p>
                     </div>
@@ -82,8 +82,8 @@
                     v-if="currentSite != null &&
                         currentSite.WrapUp.Enabled &&
                         ShowWrapUp && 
-                        this.$store.state.currentChat != null &&
-                        this.$store.state.currentChat.BeingMonitoredByYou == false"
+                        $store.state.currentChat != null &&
+                        $store.state.currentChat.BeingMonitoredByYou == false"
                     :options="currentSite.WrapUp">
                 </conversationWrapUp>
             </div>

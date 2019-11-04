@@ -46,6 +46,7 @@
 
         Connect(address) {
             var self = this;
+            console.log(address);
             self.Socket.Connect(address);
         }
 

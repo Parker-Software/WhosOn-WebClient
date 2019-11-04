@@ -2,6 +2,7 @@
 
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var state = services.Store.state;
     var connection = services.WhosOnConn;
 
     Vue.component('cannedResponses', {
@@ -26,7 +27,7 @@
                         </span>
                     </p>
                 </div>  
-                <tree @ItemClicked="CannedResponseClicked" treeId="cannedResponses" itemKey="Subject" v-if="IsSearching == false" :data="this.$store.state.cannedResponsesTree"></tree>
+                <tree @ItemClicked="CannedResponseClicked" treeId="cannedResponses" itemKey="Subject" v-if="IsSearching == false" :data="$store.state.cannedResponsesTree"></tree>
                 <div v-if="IsSearching" id="fileItems" class="list is-hoverable" style="height: calc(100% - 100px); overflow-y: auto;">
                     <cannedResponseSearchItem treeId="cannedResponses"  @ItemClicked="SearchedCannedResponseClicked" v-for="item in FilteredCannedResponse" :item="item">
                     </cannedResponseSearchItem>
@@ -111,11 +112,11 @@
                 if(txt.length > 0) {
                     var actualTxt = txt.toLowerCase();
                     this.IsSearching = true;
-                    this.FilteredCannedResponse = Filter(this.$store.state.cannedResponses, x => x.Subject.toLowerCase().includes(actualTxt));
+                    this.FilteredCannedResponse = Filter(state.cannedResponses, x => x.Subject.toLowerCase().includes(actualTxt));
                         
                 } else {
                     this.IsSearching = false;
-                    this.$store.state.cannedResponsesRender = cannedResponsesToTree(this.$store.state.cannedResponses);
+                    state.cannedResponsesRender = cannedResponsesToTree(state.cannedResponses);
                 }
             },
             CannedResponseClicked(item) {

@@ -15,7 +15,12 @@
         Connect(address) {
             var self = this;
             var addressToConnectTo = address || self._connAddress;
-            self._socket = new WebSocket(addressToConnectTo);
+            try {
+                self._socket = new WebSocket(addressToConnectTo);
+            } catch(ex) {
+                console.log(`Web Socket Exception ${ex}`);
+            }
+
             self._socket.onopen = (e) => {
                 self.Connected = true;
                 self.Hooks.Call(self.SocketEvents.Opened, e);
@@ -27,7 +32,6 @@
 
             self._socket.onclose = (e) => {
                 self.Connected = false;
-
                 self.Hooks.Call(self.SocketEvents.Closed, e);
             }
 

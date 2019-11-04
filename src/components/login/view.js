@@ -12,7 +12,7 @@
     Vue.component(state.loginViewName, {
         template:
         `
-        <div v-bind:id="this.$store.state.loginViewName" class="view">           
+        <div v-bind:id="$store.state.loginViewName" class="view">           
             <div class="header" id="app-header">
                 <div class="has-text-centered">
                     <h1 class="is-size-5">WhosOn</h1>

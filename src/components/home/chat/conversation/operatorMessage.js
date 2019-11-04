@@ -11,13 +11,13 @@
         <div class="columns is-gapless">
             <div class="column is-3"></div>
             <div class="column is-8">
-                <strong v-if="this.message.Name != null && this.message.Name != ''"><small>Whisper From {{this.message.Name}}</small></strong>
-                <div v-bind:class="{'fileMessage':this.message.isLink, 'is-pulled-right':this.message.isLink, 'beingMonitored':this.message.isWhisper == true}" class="notification operator" v-html="messageFormatted">
+                <strong v-if="message.Name != null && message.Name != ''"><small>Whisper From {{message.Name}}</small></strong>
+                <div v-bind:class="{'fileMessage':message.isLink, 'is-pulled-right':message.isLink, 'beingMonitored':message.isWhisper == true}" class="notification operator" v-html="messageFormatted">
                 </div>
             </div>
             <div class="column is-1 is-flex time-col"
                 style="margin: auto;flex-direction: column;text-align: center;">
-                <time>{{this.message.date}}</time>
+                <time>{{message.date}}</time>
             </div>
         </div>
         `,  

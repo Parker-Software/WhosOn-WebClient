@@ -3,6 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
+    var state = services.Store.state;
 
     Vue.component('fileUploader', {
         data: function() {
@@ -97,7 +98,7 @@
         },
         computed: {
             validFiles() {
-                return this.$store.state.uploadedFilesSearchResult.filter(item => item.VisitorUploaded == false);
+                return state.uploadedFilesSearchResult.filter(item => item.VisitorUploaded == false);
             }
         },
         methods: {
@@ -133,7 +134,7 @@
                 this.UnSelectAllFiles();
                 this.SearchTextBoxElem().value = "";
                 this.statusMessage = "";
-                this.$store.state.uploadedFilesSearchResult = this.$store.state.uploadedFiles;
+                state.uploadedFilesSearchResult = state.uploadedFiles;
             },
             Send() {
                 this.statusMessage = "";
@@ -141,9 +142,9 @@
                 var fileToSend = this.SelectedFile();
                 var hash = fileToSend.id;
 
-                var file = this.$store.state.uploadedFilesSearchResult.find(x => x.HashedFileName == hash);
-                var url =  `${this.$store.state.webChartsURL}document.aspx?f=${file.HashedFileName}`;
-                connection.SendFile(this.$store.state.currentChat.Number,
+                var file = state.uploadedFilesSearchResult.find(x => x.HashedFileName == hash);
+                var url =  `${state.webChartsURL}document.aspx?f=${file.HashedFileName}`;
+                connection.SendFile(state.currentChat.Number,
                     file.FileName,
                     url
                 );
@@ -154,13 +155,13 @@
                 this.UnSelectAllFiles();
 
                 this.SearchTextBoxElem().value = "";
-                this.$store.state.uploadedFilesSearchResult = this.$store.state.uploadedFiles;
+                state.uploadedFilesSearchResult = state.uploadedFiles;
 
                 var msg = {code:1, msg:`<link><name>${file.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
 
-                if(this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID] == null) this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID] = [];
-                this.$store.state.chatMessages[this.$store.state.currentChat.ChatUID].push(msg);
-                this.$store.state.currentChatMessages.push(msg);
+                if(state.chatMessages[state.currentChat.ChatUID] == null) state.chatMessages[state.currentChat.ChatUID] = [];
+                state.chatMessages[state.currentChat.ChatUID].push(msg);
+                state.currentChatMessages.push(msg);
                 
                 hooks.Call(events.Chat.ScrollChat);
             },
@@ -168,15 +169,14 @@
                 var txt = this.SearchTextBoxElem().value;
                 if(txt.length > 0) {
                     var actualText = txt.toLowerCase();
-                    this.$store.state.uploadedFilesSearchResult =
-                        Copy(this.$store.state.uploadedFiles.filter(x => x.FileName.toLowerCase().includes(actualText)));
+                    state.uploadedFilesSearchResult =
+                        Copy(state.uploadedFiles.filter(x => x.FileName.toLowerCase().includes(actualText)));
                 } else {
-                    this.$store.state.uploadedFilesSearchResult = this.$store.state.uploadedFiles;
+                    state.uploadedFilesSearchResult = state.uploadedFiles;
                 }
             },
             UploadFile(elem) {
                 var self = this;
-                var store = this.$store;
                 var uploader = elem.target;
                 var files = uploader.files;
 
@@ -199,9 +199,9 @@
                         <DocumentWrite xmlns="http://www.whoson.com/webservices/kb/">
                           <Contents>${base64}</Contents>
                           <FileName>${file.name}</FileName>
-                          <UserName>${store.state.userName}</UserName>
-                          <Password>${store.state.password}</Password>
-                          <Domain>${store.state.currentChat.Domain}</Domain>
+                          <UserName>${state.userName}</UserName>
+                          <Password>${state.password}</Password>
+                          <Domain>${state.currentChat.Domain}</Domain>
                         </DocumentWrite>
                       </soap:Body>
                     </soap:Envelope>`;

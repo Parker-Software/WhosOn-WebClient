@@ -6,7 +6,7 @@
 
     Vue.component(services.Store.state.homeViewName, {
         template: `
-            <section v-bind:id="this.$store.state.homeViewName" class="view">
+            <section v-bind:id="$store.state.homeViewName" class="view">
                 <homeheader></homeheader>
                 <div id="app-content">
                     <homenav></homenav>
