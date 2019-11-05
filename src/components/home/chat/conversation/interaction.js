@@ -16,6 +16,9 @@
                 HasSuggestion: false,
                 AttachedFile: null,
                 CurrentlyTypingNameMonitored: "",
+                ShowingEmojiMenu: false,
+                ShowingCannedResponses: false,
+                ShowingFiles: false,
             }
         },
         template: `
@@ -31,17 +34,18 @@
                     style="resize: none;" v-on:keydown="keymonitor"></div>
             </div>
             <div class="column is-full" style="padding-top:0px;">
-                <div class="is-pulled-right chat-icons">
-                    <a id="emojiBtn" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                <div class="is-pulled-right chat-icons" style="position:relative">
+                    <emojiMenu v-if="ShowingEmojiMenu"></emojiMenu>
+                    <a v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="button" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-smile"></i>
                     </a>
-                    <a id="cannedResponsesBtn" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a id="cannedResponsesBtn" class="button" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-comment-dots"></i>
                     </a>
-                    <a v-if="BeingMonitoredByYou == false" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" class="button" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
                     </a>
-                    <a v-if="BeingMonitoredByYou == false" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" class="button" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
                     </a>
                 </div>
@@ -96,14 +100,26 @@
                 this.disableInput();
             });
 
+            hooks.Register(events.Chat.CannedResponsesClosed, () => {
+                this.ShowingCannedResponses = false;
+            });
+
+            hooks.Register(events.Chat.PickAFileClosed, () => {
+                this.ShowingFiles = false
+            });
+
             hooks.Register(events.Connection.CurrentChatClosed, (e) => {
                 this.disableInput();
-                this.emojiBtn().setAttribute("disabled", true);
+                if(this.emojiBtn() != null) this.emojiBtn().setAttribute("disabled", true);
                 this.cannedResponsesBtn().setAttribute("disabled", true);
                 if(this.sendFileBtn() != null) this.sendFileBtn().setAttribute("disabled", true);
                 if(this.requestFileBtn() != null) this.requestFileBtn().setAttribute("disabled", true);
 
                 this.InputArea().innerText = "";
+
+                this.ShowingEmojiMenu = false;
+                this.ShowingCannedResponses = false;
+                this.ShowingFiles = false
             });
 
             hooks.Register(events.ChatItem.AcceptClicked, (e) => {
@@ -113,10 +129,9 @@
                 
                 this.InputArea().innerText = "";
                 this.enableInput();
-                this.emojiBtn().removeAttribute("disabled");
-                this.cannedResponsesBtn().removeAttribute("disabled");
-
                 setTimeout(function() {
+                    if(self.emojiBtn() != null) self.emojiBtn().removeAttribute("disabled");
+                    self.cannedResponsesBtn().removeAttribute("disabled");
                     self.sendFileBtn().removeAttribute("disabled");
                     self.requestFileBtn().removeAttribute("disabled");
                 }, 100);
@@ -129,7 +144,7 @@
                 
                 this.InputArea().innerText = "";
                 this.enableInput();
-                this.emojiBtn().removeAttribute("disabled");
+                if(this.emojiBtn() != null) this.emojiBtn().removeAttribute("disabled");
                 this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
@@ -139,7 +154,7 @@
                 
                 this.InputArea().innerText = "";
                 this.enableInput();
-                this.emojiBtn().removeAttribute("disabled");
+                if(this.emojiBtn() != null) this.emojiBtn().removeAttribute("disabled");
                 this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
@@ -179,6 +194,14 @@
                 this.HasSuggestion = true;
                 this.InputArea().focus();
             });
+
+            hooks.Register(events.EmojiMenu.Clicked, (emoji) => {
+                var oldContent = this.InputArea().innerHTML;
+                this.InputArea().innerHTML = oldContent + emoji;
+                this.InputArea().focus();
+                document.execCommand('selectAll', false, null);
+                document.getSelection().collapseToEnd();
+            });
         },
         computed: {
             BeingMonitoredByYou() {
@@ -199,12 +222,17 @@
                 return document.getElementById("requestFileBtn");
             },
             emojiBtnClicked() {
-                console.log("Open Emoji Menu");
+                this.ShowingEmojiMenu = !this.ShowingEmojiMenu;
+                hooks.Call(events.Chat.EmojiMenuClicked);
             },
             cannedResponsesClicked() {
+                this.ShowingCannedResponses = !this.ShowingCannedResponses;
+                this.ShowingEmojiMenu = false;
                 hooks.Call(events.Chat.CannedResponsesClicked);
             },
             sendFileClicked() {
+                this.ShowingFiles = !this.ShowingFiles;
+                this.ShowingEmojiMenu = false;
                 hooks.Call(events.Chat.SendFileClicked);
             },
             requestFileClicked() {
@@ -225,6 +253,9 @@
             keymonitor(event) {
                 if (event.shiftKey == false && event.keyCode == 13)
                 {
+                    this.ShowingEmojiMenu = false;
+
+
                     var text = this.InputArea().innerHTML.trim();
                     if (text.length > 0)
                     {
@@ -250,7 +281,7 @@
                         stopTypingStatus();
                         hooks.Call(chatEvents.SendMessage, { "ChatId": state.currentChat.ChatUID,
                             "Num": state.currentChat.Number,
-                            "Text": text,
+                            "Text": this.InputArea().innerText.trim(),
                             "Whisper": state.currentChat.BeingMonitoredByYou,
                             "ToConnection": state.currentChat.TalkingToClientConnection});
                         this.InputArea().innerText = "";

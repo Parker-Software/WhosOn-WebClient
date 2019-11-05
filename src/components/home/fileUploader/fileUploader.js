@@ -135,6 +135,8 @@
                 this.SearchTextBoxElem().value = "";
                 this.statusMessage = "";
                 state.uploadedFilesSearchResult = state.uploadedFiles;
+
+                hooks.Call(events.Chat.PickAFileClosed);
             },
             Send() {
                 this.statusMessage = "";

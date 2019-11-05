@@ -585,6 +585,10 @@ a[disabled] {
     background-color: $ThemeRoundButtonFill;
 }
 
+.button.is-info i {
+    color: $ThemeRoundButtonHoverText;
+}
+
 .button.is-info:hover {
     background-color: $ThemeRoundButtonFill;
 }
@@ -606,6 +610,44 @@ a[disabled] {
 
 .checkbox:hover, .radio:hover {
     color: $ThemeRoundButtonFill !important;
+}
+
+.emojiMenu {
+    width: 600px;
+    height: 300px;
+    position: absolute;
+    background-color: #7779BF;
+    bottom: 33px;
+    right: 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+    z-index: 99;
+}
+
+.emojiList {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.emojiList::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px $ThemeRoundButtonHoverText;
+	background-color: $ThemeRoundButtonHoverText;
+}
+
+.emojiBtn {
+    display: inline-block;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 30px;
+    width: 35px;
+    height: 35px;
+    
+    text-align:center;
+}
+
+.emojiBtn:hover {
+    background-color: whitesmoke;
 }
 
 .beingMonitored {

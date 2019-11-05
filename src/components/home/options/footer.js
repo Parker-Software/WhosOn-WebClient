@@ -5,9 +5,9 @@
     Vue.component('homeOptionsFooter', {
         template: `
         <div id="homeOptionsFooter" style="position:absolute; bottom:100px;">
-            <button class="button btn-login">Save</button>
-            <button class="button btn-login">Cancel</button>
-            <button class="button btn-login" v-on:click="Logout">Logout</button>
+            <button class="button btn-login is-success">Save</button>
+            <button class="button btn-login is-warning">Cancel</button>
+            <button class="button btn-login is-info" v-on:click="Logout">Logout</button>
         </div>
         `,
         methods: {

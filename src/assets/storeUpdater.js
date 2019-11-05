@@ -340,6 +340,7 @@
                         chat.IsActiveChat = true;
                         chat.BeingMonitoredByYou = false;
                         state.currentChat = chat;
+                        state.currentChatSite = state.sites[chat.SiteKey];
 
                         if(state.chatMessages[chat.ChatUID] != null) {
                             state.currentChatMessages = Copy(state.chatMessages[chat.ChatUID]);
@@ -376,6 +377,7 @@
                 if(foundChat != null) {
                     foundChat.IsActiveChat = true;
                     state.currentChat = foundChat;
+                    state.currentChatSite = state.sites[foundChat.SiteKey];
 
                     if(state.chatMessages[foundChat.ChatUID] != null) {
                         state.currentChatMessages = Copy(state.chatMessages[foundChat.ChatUID]);
@@ -404,6 +406,7 @@
                         chat.BeingMonitoredByYou = true;
                         chat.IsActiveChat = true;
                         state.currentChat = chat;
+                        state.currentChatSite = state.sites[chat.SiteKey];
                         state.chatMessages[chat.ChatUID] = [];
                         for(var i = 0; i < monitoredChat.Lines.length; i++) {
                             var line = monitoredChat.Lines[i];
