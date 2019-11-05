@@ -88,9 +88,11 @@
             CRMIFrameLoaded: "home.chat.CRMIFrameLoaded",
             ClickTab: "home.chat.ClickTab",
             SendFileClicked: "home.chat.SendFileClicked",
+            PickAFileClosed: "home.chat.PickAFileClosed",
             CannedResponsesClicked: "home.chat.CannedResponsesClicked",
             CannedResponsesClosed: "home.chat.CannedResponsesClosed",
             RequestedFileUpload: "home.chat.RequestedFileUpload",
+            EmojiMenuClicked: "home.chat.EmojiMenuClicked",
             MessageFromWaitingChat: "home.chat.MessageFromWaitingChat",
             TransferClicked: "home.chat.TransferClicked",
             ChatTransfered: "home.chat.ChatTransfered",
@@ -116,6 +118,9 @@
         Options: {
             LogoutClicked: "home.options.LogoutClicked",
             TabClicked: "home.options.TabClicked"
+        },
+        EmojiMenu: {
+            Clicked: "emojiMenu.Clicked"
         },
         Home: {
             StatusClosed: "home.StatusClosed",

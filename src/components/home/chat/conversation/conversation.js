@@ -140,8 +140,6 @@
                     grouped.push(groupedMessage);
                     i += groupedMessage.messages.length - 1;
                 }
-
-                console.log(grouped);
                 return grouped;
             }
         }

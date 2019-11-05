@@ -14,7 +14,7 @@
                 <!--<li><a>Previous Chats</a></li>
                 <li><a>Visitor</a></li>
                 <li><a>Contact</a></li>-->
-                <li id="crmTab" class="chatTab" @click="onTabClicked('crm')"><a>CRM</a></li>
+                <li v-if="Object.keys($store.state.currentChatSite).length > 0 && $store.state.currentChatSite.CRM.Enabled && $store.state.currentChatSite.CRM.ShowClientForm" id="crmTab" class="chatTab" @click="onTabClicked('crm')"><a>CRM</a></li>
             </ul>
         </div>
         `,
@@ -23,14 +23,18 @@
                 this.onTabClicked(tab);
             });
 
+
             crmWindowChecker = setInterval(() => {
                 if(crmWindow != null && crmWindow.closed) {
                     crmWindow = null;
-                    document.getElementById("crmTab").classList.remove("is-active");
+                    if(this.CRMTab() != null) this.CRMTab().classList.remove("is-active");
                 }
             }, 100);
         },
         methods: {
+            CRMTab() {
+                return document.getElementById("crmTab");
+            },
             onTabClicked(tab) {
                 switch(tab) {
                     case "conversation":
@@ -45,9 +49,9 @@
 
 
                 if(crmWindow != null && crmWindow.closed == false) {
-                    document.getElementById("crmTab").classList.add("is-active");
+                    if(this.CRMTab() != null) this.CRMTab().classList.add("is-active");
                 } else {
-                    document.getElementById("crmTab").classList.remove("is-active");
+                    if(this.CRMTab() != null) this.CRMTab().classList.remove("is-active");
                 }
 
                 hooks.Call(events.Chat.TabClicked, tab);

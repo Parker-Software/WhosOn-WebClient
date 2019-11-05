@@ -7,7 +7,7 @@
     Vue.component('chatHeader', {
         data: () => {
             return {
-                ShowWrapUp: false
+                ShowWrapUp: false,
             }
         },
         template: `
