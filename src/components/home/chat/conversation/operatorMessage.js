@@ -5,24 +5,25 @@
     
     Vue.component('chatConversationOperator', {
         props: [
-            'message'
+            'groupedMessage'
         ],
         template: `
         <div class="columns is-gapless">
             <div class="column is-3"></div>
             <div class="column is-8">
-                <strong v-if="message.Name != null && message.Name != ''"><small>Whisper From {{message.Name}}</small></strong>
-                <div v-bind:class="{'fileMessage':message.isLink, 'is-pulled-right':message.isLink, 'beingMonitored':message.isWhisper == true}" class="notification operator" v-html="messageFormatted">
+                <strong v-if="groupedMessage.Name != null && groupedMessage.Name != ''"><small>Whisper From {{groupedMessage.Name}}</small></strong>
+                <div 
+                    v-bind:class="{'fileMessage':groupedMessage.isLink, 'is-pulled-right':groupedMessage.isLink, 'beingMonitored':groupedMessage.isWhisper == true}"
+                     class="notification operator" v-html="messageFormatted">
                 </div>
             </div>
             <div class="column is-1 is-flex time-col"
                 style="margin: auto;flex-direction: column;text-align: center;">
-                <time>{{message.date}}</time>
+                <time>{{groupedMessage.time}}</time>
             </div>
         </div>
         `,  
         mounted() {
-            
             hooks.Call(events.Chat.ScrollChat);
             var images = document.getElementsByClassName("clickableImage");
             for(var i = 0; i < images.length; i++){
@@ -33,9 +34,11 @@
         },
         computed: {
             messageFormatted: function() {
-                if(this.message.isLink) {
-                    var message = "";
-                    var xml = new DOMParser().parseFromString(this.message.msg, "text/xml");
+                var messages = this.groupedMessage.messages;
+                var message = "";
+                if(this.groupedMessage.isLink) {
+                    var linkMessage = this.groupedMessage.messages[0];
+                    var xml = new DOMParser().parseFromString(linkMessage.msg, "text/xml");
                     var name = xml.getElementsByTagName("name")[0].innerHTML;
                     var link = xml.getElementsByTagName("url")[0].innerHTML;
 
@@ -49,8 +52,14 @@
                         message += `<a href="${link}" style="text-decoration: none;" target="_blank"><div class="clickableImage" style="width:300px;">${name}</div></a>`;
                     }
                     message += `Operator Sent File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
-                    return message;
-                } else return this.message.msg;
+                } else {
+                    for(var i = 0; i < messages.length; i++) {
+                        var messageItem = messages[i];
+                        message += messageItem.msg + " <br />";
+                    }
+                }
+
+                return message;
             }
         }
     });
