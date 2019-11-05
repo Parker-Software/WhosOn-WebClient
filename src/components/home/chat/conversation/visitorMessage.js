@@ -6,18 +6,18 @@
 
     Vue.component('chatConversationVisitor', {
         props: [
-            'message'
+            'groupedMessage'
         ],
         template: `
             <div class="columns is-gapless">
                 <div class="column is-8">
-                    <div v-bind:class="{'fileMessage':message.isLink}" class="notification visitor" v-html="messageFormatted">
+                    <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor" v-html="messageFormatted">
                     </div>
                 </div>
                 <div class="column is-3"></div>
                 <div class="column is-1 is-flex time-col"
                     style="margin: auto;flex-direction: column;text-align: center;">
-                    <time>{{message.date}}</time>
+                    <time>{{groupedMessage.time}}</time>
                 </div>
             </div>
         `,
@@ -32,17 +32,19 @@
         },
         computed: {
             messageFormatted: function() {
-                if(this.message.isLink) {
-                    var message = "";
+                var messages = this.groupedMessage.messages;
+                var message = "";
+                if(this.groupedMessage.isLink) {
+                    var linkedMessage = this.groupedMessage.messages[0];
                     var name;
                     var link;
 
-                    if(this.message.msg.indexOf("<link>") != -1) {
-                        var xml = new DOMParser().parseFromString(this.message.msg, "text/xml");
+                    if(linkedMessage.msg.indexOf("<link>") != -1) {
+                        var xml = new DOMParser().parseFromString(linkedMessage.msg, "text/xml");
                         name = xml.getElementsByTagName("name")[0].innerHTML;
                         link = xml.getElementsByTagName("url")[0].innerHTML;
                     } else {
-                        var split = this.message.msg.split('\t');
+                        var split = linkedMessage.msg.split('\t');
                         name = split[0];
                         link = split[1];
                     }
@@ -57,8 +59,14 @@
                         message += `<a href="${link}" style="text-decoration: none;" target="_blank"><div class="clickableImage" style="width:300px;">${name}</div></a>`;
                     }
                     message += `${state.currentChat.Name} Uploaded File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
-                    return message;
-                } else return this.message.msg;
+                } else {
+                    for(var i = 0; i < messages.length; i++) {
+                        var messageItem = messages[i];
+                        message += messageItem.msg + " <br />";
+                    }
+                }
+
+                return message;
             }
         }
     });

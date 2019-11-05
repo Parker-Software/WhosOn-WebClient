@@ -11,9 +11,9 @@
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
                         <div id="chatScroller" class="column is-full message-list">
-                            <div v-for="(v,k) in $store.state.currentChatMessages">
-                                <chatConversationVisitor v-if="v.code === 0" :message="v"></chatConversationVisitor>
-                                <chatConversationOperator v-else-if="v.code > 0" :message="v"></chatConversationOperator>
+                            <div v-for="(v,k) in groupedMessages">
+                                <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
+                                <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
                             </div>
                         </div>
@@ -60,7 +60,7 @@
                         top: scroller.scrollHeight,
                         left: 0,
                         behavior: 'smooth'
-                    })
+                    });
                 }, 100);
             },
             Split() {
@@ -70,6 +70,14 @@
             Normal() {
                 this.Container().style.width = "100%";
                 this.Container().style.float = "none";
+            },
+            MessageDateToDate(date) {
+                var timeSplit = date.split(":");
+                var currentDate = new Date();
+                currentDate.setHours(timeSplit[0]);
+                currentDate.setMinutes(timeSplit[1]);
+                currentDate.setSeconds(timeSplit[2]);
+                return currentDate;
             }
         },
         computed: {
@@ -87,6 +95,54 @@
 
                 }
                 return valid;
+            },
+            chatMessages() {
+                return state.currentChatMessages;
+            },
+            groupedMessages() {
+                var grouped = [];
+                for(var i = 0; i < this.chatMessages.length; i++) {
+                    var message = this.chatMessages[i];
+                    var groupedMessage = {
+                        type: message.code,
+                        messages: [
+                            message
+                        ],
+                        time: message.date,
+                        isLink: message.isLink || false,
+                        isWhisper: message.isWhisper || false,
+                        Name: message.Name || ""
+                    };
+
+                    var currentTime = this.MessageDateToDate(message.date);
+
+                    for(var k = i + 1; k < this.chatMessages.length; k++) {
+
+                        var messageTime = this.MessageDateToDate(this.chatMessages[k].date);
+                        var diff = (messageTime - currentTime) / 1000;
+
+                        if(this.chatMessages[k].isWhisper == undefined) this.chatMessages[k].isWhisper = false;
+                        if(this.chatMessages[k].isLink == undefined) this.chatMessages[k].isLink = false;
+
+                        if(
+                            this.chatMessages[k].code == message.code &&
+                            diff <= 10 &&
+                            this.chatMessages[k].isLink == groupedMessage.isLink &&
+                            this.chatMessages[k].isWhisper == groupedMessage.isWhisper) {
+
+                            groupedMessage.messages.push(this.chatMessages[k]);
+                            groupedMessage.time = this.chatMessages[k].date;
+                        } else {
+                            break;
+                        }
+                    }
+
+                    grouped.push(groupedMessage);
+                    i += groupedMessage.messages.length - 1;
+                }
+
+                console.log(grouped);
+                return grouped;
             }
         }
     });
