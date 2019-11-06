@@ -7,37 +7,45 @@
     Vue.component('homeMyStatus', {
         template: `
         <div id="statusModal" class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-            <header class="modal-card-head">
-                <p class="modal-card-title">Change Status To</p>
-                <button class="delete" aria-label="close" v-on:click="closeStatus"></button>
-            </header>
-            <section class="modal-card-body">          
-            
-            <div class="status-options">
-            <a class="button is-online" v-on:click="setToOnline">Online</a> 
-            <a class="button is-busy" v-on:click="setToBusy">Busy</a>
-            <a class="button is-brb" v-on:click="setToBRB">Be right back</a>
-            <a class="button is-away" v-on:click="setToAway">Away</a> 
-            </div>
-                   
-            </section>
-            <footer class="modal-card-foot">
-            </footer>
+            <div class="modal-background" v-on:click="closeStatus"></div>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Change Status To</p>
+                        <button class="delete" aria-label="close" v-on:click="closeStatus"></button>
+                    </header>
+                    <section class="modal-card-body">        
+                        <div class="status-options">
+                            <a class="button is-online" v-on:click="setToOnline">Online</a> 
+                            <a class="button is-busy" v-on:click="setToBusy">Busy</a>
+                            <a class="button is-brb" v-on:click="setToBRB">Be right back</a>
+                            <a class="button is-away" v-on:click="setToAway">Away</a> 
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot">
+                    </footer>
+                </div>
             </div>
         </div>
             `,
         beforeCreate() { 
             hooks.Register(navEvents.MyStatusClicked, (e) => {
-                document.getElementById("statusModal").classList.add("is-active");
+                this.Show()
             });
 
             hooks.Register(events.Home.StatusClosed, () => {
-                document.getElementById("statusModal").classList.remove("is-active");
+                this.Hide();
             });
         },
         methods: {
+            Elem() {
+                return document.getElementById("statusModal");
+            },
+            Show() {
+                this.Elem().classList.add("is-active");
+            },
+            Hide() {
+                this.Elem().classList.remove("is-active");
+            },
             closeStatus() {
                 hooks.Call(events.Home.StatusClosed);
             },
