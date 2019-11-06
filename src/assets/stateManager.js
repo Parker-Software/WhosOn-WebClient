@@ -9,6 +9,7 @@
             var connectingView = document.getElementById(services.Store.state.connectingViewName);
             
             loginView.style.display = "none";
+            connectingView.style.display = "block"; 
             homeView.style.display = "none";
 
             hooks.Register(connEvents.LoggedIn, () => { 

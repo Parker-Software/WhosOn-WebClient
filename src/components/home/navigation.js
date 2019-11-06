@@ -9,7 +9,7 @@
             <div id="navigation" class="customColumn" style="user-select:none">
             <aside class="menu">
                 <ul class="menu-list">
-                    <li @click="onNavButtonClicked('status')" id="myStatusNavButton">
+                    <li @click="OnNavButtonClicked('status')" id="myStatusNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-user"></i>
@@ -31,7 +31,7 @@
                         </a>
                        
                     </li>
-                    <li @click="onNavButtonClicked('chats')" id="chatsNavButton">
+                    <li @click="OnNavButtonClicked('chats')" id="chatsNavButton">
                         <a class="is-active">
                             <span class="icon">
                                 <i class="fas fa-comment-dots"></i>
@@ -40,7 +40,7 @@
                             Chats
                         </a>
                     </li>
-                    <li @click="onNavButtonClicked('team')" id="usersNavButton">
+                    <li @click="OnNavButtonClicked('team')" id="usersNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-users"></i>
@@ -55,7 +55,7 @@
             </aside>
             <aside class="menu menu-bottom">
                 <ul class="menu-list">
-                    <li @click="onNavButtonClicked('options')" id="optionsNavButton">
+                    <li @click="OnNavButtonClicked('options')" id="optionsNavButton">
                         <a class="">
                             <span class="icon">
                                 <i class="fas fa-cog"></i>
@@ -70,32 +70,44 @@
         beforeCreate() {
         },
         methods: {
-            unselectAll() {
-                document.getElementById("myStatusNavButton").firstChild.classList.remove("is-active");
-                document.getElementById("chatsNavButton").firstChild.classList.remove("is-active");
-                document.getElementById("usersNavButton").firstChild.classList.remove("is-active");
-                document.getElementById("optionsNavButton").firstChild.classList.remove("is-active");
+            UnselectAll() {
+                this.StatusBtn().firstChild.classList.remove("is-active");
+                this.ChatBtn().firstChild.classList.remove("is-active");
+                this.UsersBtn().firstChild.classList.remove("is-active");
+                this.OptionsBtn().firstChild.classList.remove("is-active");
             },
-            onNavButtonClicked(status) {
+            StatusBtn() {
+                return document.getElementById("myStatusNavButton");
+            },
+            ChatBtn() {
+                return document.getElementById("chatsNavButton");
+            },
+            UsersBtn() {
+                return document.getElementById("usersNavButton");
+            },
+            OptionsBtn() {
+                return document.getElementById("optionsNavButton");
+            },
+            OnNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);
                 switch(status) {
                     case "status":
-                        hooks.Call(navEvents.MyStatusClicked, "");
+                        hooks.Call(navEvents.MyStatusClicked);
                         break;
                     case "chats":
-                        this.unselectAll();
-                        hooks.Call(navEvents.ChatsClicked, "");
-                        document.getElementById("chatsNavButton").firstChild.classList.add("is-active");
+                        this.UnselectAll();
+                        hooks.Call(navEvents.ChatsClicked);
+                        this.ChatBtn().firstChild.classList.add("is-active");
                         break;
                     case "team":
-                        this.unselectAll();
-                        hooks.Call(navEvents.TeamClicked, "");
-                        document.getElementById("usersNavButton").firstChild.classList.add("is-active");
+                        this.UnselectAll();
+                        hooks.Call(navEvents.TeamClicked);
+                        this.UsersBtn().firstChild.classList.add("is-active");
                         break;
                     case "options":
-                        this.unselectAll();
-                        hooks.Call(navEvents.OptionsClicked, "");
-                        document.getElementById("optionsNavButton").firstChild.classList.add("is-active");
+                        this.UnselectAll();
+                        hooks.Call(navEvents.OptionsClicked);
+                        this.OptionsBtn().firstChild.classList.add("is-active");
                         break;
                 }
             }

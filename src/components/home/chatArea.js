@@ -16,16 +16,27 @@
             `,
             beforeCreate() {
                 hooks.Register(events.Chat.ShowActiveChats, (e) => {
-                    document.getElementById("homeChatArea").style.display = "block";
+                    this.Show();
                 });
 
                 hooks.Register(events.Chat.ShowNoActiveChats, (e) => {
-                    document.getElementById("homeChatArea").style.display = "none";
+                    this.Hide();
                 });    
 
                 hooks.Register(events.Chat.HideAll, (e) => {
-                    document.getElementById("homeChatArea").style.display = "none";
+                    this.Hide();
                 });
+            },
+            methods: {
+                Elem() {
+                    return document.getElementById("homeChatArea");
+                },
+                Hide() {
+                    this.Elem().style.display = "none";
+                },
+                Show() {
+                    this.Elem().style.display = "block";
+                }
             }
     });
 })(woServices);

@@ -80,7 +80,7 @@ function watchFiles() {
     watch("./src/assets/images/*", moveImages);
     watch("./src/html/*", moveHTML);
     watch("./src/assets/**/*.js", series(packLibs, moveJS));
-    watch("./src/components/**/*.js", packComponents)
+    watch("./src/components/**/*.js", packComponents);
     watch(
       [
         "./dist/assets/**/*",

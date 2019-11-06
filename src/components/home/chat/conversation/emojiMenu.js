@@ -5,11 +5,6 @@
     var events = services.HookEvents;
 
     Vue.component('emojiMenu', {
-        data: () => {
-            return {
-
-            }
-        },
         template: `
             <div class="emojiMenu">
                 <ul class="emojiList">
@@ -153,9 +148,6 @@
                 </ul>
             </div>
             `,
-        beforeCreate() { 
-
-        },
         methods: {
             Clicked(e) {
                 var target = e.target;
