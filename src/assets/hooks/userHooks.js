@@ -19,7 +19,7 @@
         state.sites = sites; 
     });
 
-    hooks.Register(event.Connection.UserInfo, (e) => {
+    hooks.Register(events.Connection.UserInfo, (e) => {
         if(e.Data.User != null) {
             state.userInfo = e.Data.User;
         } else state.userInfo = e.Data;

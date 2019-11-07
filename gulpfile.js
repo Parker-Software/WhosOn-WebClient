@@ -38,7 +38,7 @@ function lintjs() {
 }
 
 function moveHTML(){
-    return src("./src/html/*.*")
+    return src("./src/html/index.html")
     .pipe(dest("./dist/"));
 }
 
