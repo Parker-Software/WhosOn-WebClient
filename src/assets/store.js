@@ -31,7 +31,12 @@
                 state.userName = loginDetails.userName;
                 state.password = loginDetails.password;
                 state.department = loginDetails.department;
-                sessionStorage.setItem("woClient", JSON.stringify(loginDetails))
+                sessionStorage.setItem("woClient", JSON.stringify({
+                    userName : loginDetails.userName,
+                    password : loginDetails.password,
+                    department : loginDetails.department,
+                    previousAcceptedChats: state.previousAcceptedChats || []
+                }))
             },
             replaceEntireState(state, newState) {
                 Object.assign(state, newState);
