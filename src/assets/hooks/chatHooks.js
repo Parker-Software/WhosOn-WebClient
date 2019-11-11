@@ -149,8 +149,6 @@
         var chatId = chatInfo[3];
         var chatNum = chatInfo[4];
 
-        store.commit("chatAccepted", chatId);
-
         var chat = e.Data;
         var chatUID = e.Data.ChatUID;
         state.chatMessages[chatUID] = [];
@@ -254,6 +252,14 @@
                 hooks.Call(events.Chat.PreChatSurveysLoaded);
             }
         });
+    });
+
+    hooks.Register(events.Connection.ChatAccepted, (acceptedChat) => {
+        var data = acceptedChat.Data;
+        var split = data.split(":");
+        var chatId = split[0];
+        
+        store.commit("chatAccepted", chatId);
     });
 
     
