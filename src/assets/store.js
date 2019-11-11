@@ -20,9 +20,10 @@
                 }
             },
             chatAccepted(state, chatId) {
-                if(state.previousAcceptedChats.indexOf(chatId) != -1) return;
+                if(state.previousAcceptedChats.indexOf(chatId) == -1) {
+                    state.previousAcceptedChats.push(chatId);
+                }
 
-                state.previousAcceptedChats.push(chatId);
                 var previousSettings = JSON.parse(sessionStorage.getItem("woClient"));
                 previousSettings.previousAcceptedChats = state.previousAcceptedChats;
                 sessionStorage.setItem("woClient", JSON.stringify(previousSettings));
