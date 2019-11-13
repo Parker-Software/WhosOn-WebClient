@@ -2,6 +2,7 @@
     var state = services.Store.state;
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var store = services.Store;
 
     hooks.Register(events.Connection.LoggedIn, (e) => {
         state.serverUID = e.Data.ServerUid;

@@ -2,6 +2,7 @@
     var state = services.Store.state;
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var store = services.Store;
 
     hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
         var chat = state.chats.find((v) => v.Number == chatNum);
