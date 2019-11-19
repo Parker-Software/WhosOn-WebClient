@@ -56,6 +56,7 @@ woServices.Add("DefaultState", function(){
         skills: [],
         cannedResponses: [],
         cannedResponsesTree: {},
+        openingMessage: null,
         settingsPortalAddress: null,
         loginViewName: "loginview",
         homeViewName: "homeview",
