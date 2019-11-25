@@ -5,67 +5,69 @@
     var navEvents = events.Navigation;
 
     Vue.component('homenav', {
-        template: `
-            <div id="navigation" class="customColumn" style="user-select:none">
-            <aside class="menu">
-                <ul class="menu-list">
-                    <li @click="OnNavButtonClicked('status')" id="myStatusNavButton">
-                        <a class="">
-                            <span class="icon">
-                                <i class="fas fa-user"></i>
-                                <span v-if="$store.state.currentStatus == 0" class="status online" style="right: -6px; bottom: -18px;">
-                                    <i class="fas fa-circle"></i>
+        template: `    
+             <div class="wo-sidebar customColumn">
+                <div id="navigation" class="customColumn wo-nav" style="user-select:none">                     
+                <aside class="menu">
+                    <ul class="menu-list">
+                        <li @click="OnNavButtonClicked('status')" id="myStatusNavButton">
+                            <a class="">
+                                <span class="icon">
+                                    <i class="fas fa-user"></i>
+                                    <span v-if="$store.state.currentStatus == 0" class="status online" style="right: -6px; bottom: -18px;">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
+                                    <span v-if="$store.state.currentStatus == 1" class="status busy" style="right: -6px; bottom: -18px;">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
+                                    <span v-if="$store.state.currentStatus == 2" class="status brb" style="right: -6px; bottom: -18px;">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
+                                    <span v-if="$store.state.currentStatus == 3" class="status away" style="right: -6px; bottom: -18px;">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
                                 </span>
-                                <span v-if="$store.state.currentStatus == 1" class="status busy" style="right: -6px; bottom: -18px;">
-                                    <i class="fas fa-circle"></i>
+                                <br>
+                                <span class="nav-label">My Status</span>
+                            </a>
+                        
+                        </li>
+                        <li @click="OnNavButtonClicked('chats')" id="chatsNavButton">
+                            <a class="is-active">
+                                <span class="icon">
+                                    <i class="fas fa-comment-dots"></i>
                                 </span>
-                                <span v-if="$store.state.currentStatus == 2" class="status brb" style="right: -6px; bottom: -18px;">
-                                    <i class="fas fa-circle"></i>
+                                <br>
+                                <span class="nav-label">Chats</span>
+                            </a>
+                        </li>
+                        <li @click="OnNavButtonClicked('team')" id="usersNavButton">
+                            <a class="">
+                                <span class="icon">
+                                    <i class="fas fa-users"></i>
                                 </span>
-                                <span v-if="$store.state.currentStatus == 3" class="status away" style="right: -6px; bottom: -18px;">
-                                    <i class="fas fa-circle"></i>
-                                </span>
-                            </span>
-                            <br>
-                            My Status
-                        </a>
-                       
-                    </li>
-                    <li @click="OnNavButtonClicked('chats')" id="chatsNavButton">
-                        <a class="is-active">
-                            <span class="icon">
-                                <i class="fas fa-comment-dots"></i>
-                            </span>
-                            <br>
-                            Chats
-                        </a>
-                    </li>
-                    <li @click="OnNavButtonClicked('team')" id="usersNavButton">
-                        <a class="">
-                            <span class="icon">
-                                <i class="fas fa-users"></i>
-                            </span>
-                            <br>
-                            Team
-                        </a>
-                    </li>
+                                <br>
+                                <span class="nav-label">Team</span>
+                            </a>
+                        </li>
 
-                </ul>
+                    </ul>
 
-            </aside>
-            <aside class="menu menu-bottom">
-                <ul class="menu-list">
-                    <li @click="OnNavButtonClicked('options')" id="optionsNavButton">
-                        <a class="">
-                            <span class="icon">
-                                <i class="fas fa-cog"></i>
-                            </span>
-                            <br>
-                            Options
-                        </a>
-                    </li>
-                </ul>
-            </aside>
+                </aside>
+                <aside class="menu menu-bottom">
+                    <ul class="menu-list">
+                        <li @click="OnNavButtonClicked('options')" id="optionsNavButton">
+                            <a class="">
+                                <span class="icon">
+                                    <i class="fas fa-cog"></i>
+                                </span>
+                                <br>
+                                Options
+                            </a>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
         </div>`,
         beforeCreate() {
         },

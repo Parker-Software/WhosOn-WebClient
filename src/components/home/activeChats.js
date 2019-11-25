@@ -5,23 +5,36 @@
     Vue.component('homeActiveChats', {
         template: `
         <div class="customColumn active-chats" id="homeActiveChats">
-            <div class="content-header">
-                <h5 v-show="$store.state.activeChatCount > 0" class="title is-4">Active Chats: {{$store.state.activeChatCount}}</h5>
-                <h5 v-show="$store.state.activeChatCount <= 0" class="title is-4">No Active Chats</h5>
-            </div>
-            <div class="chats">
-                <div v-for="group, groupname in chatsGroupedAndSorted">
-                    <h2>{{groupname}}</h2>
-                    <ul>
-                        <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
-                            :chat = "item">
-                        </homeWaitingChat>
-                    </ul>
+            <div id="activeChatsBtn" class="open-chats js-cd-panel-trigger" @click="ActiveChatsBtn()">Active Chats</div>
+  
+            <div id="active-chats-wrapper" class="active-chats-wrapper">
+                <div class="content-header">
+                    <h5 v-show="$store.state.activeChatCount > 0" class="title is-4">Active Chats: {{$store.state.activeChatCount}}</h5>
+                    <h5 v-show="$store.state.activeChatCount <= 0" class="title is-4">No Active Chats</h5>
                 </div>
-            </div>
+                    <div class="chats">     
+                        <div v-for="group, groupname in chatsGroupedAndSorted">
+                            <h2>{{groupname}}</h2>
+                            <ul>
+                                <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
+                                    :chat = "item">
+                                </homeWaitingChat>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
         </div>
             `,
-        computed: {
+            methods: {
+                ActiveChatsBtn() {
+                  console.log("click");
+                  var element = document.getElementById("homeActiveChats");
+                  var wrapper = document.getElementById("active-chats-wrapper");
+                  element.classList.toggle("show");   
+                  wrapper.classList.toggle("opacity");
+                }
+            },
+        computed: {          
             chatsGroupedAndSorted: function () {
                 const result = {};
                 const mychats = [];

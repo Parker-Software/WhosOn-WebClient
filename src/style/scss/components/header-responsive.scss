@@ -1,0 +1,24 @@
+.header {
+
+    @include mobile {
+       .mobile-nav {
+           display: block;
+       }
+       
+      }
+
+      @include tablet {
+        .mobile-nav {
+            display: none;
+      
+        }
+     
+       }
+
+       @include desktop {
+        .mobile-nav {
+            display: none;
+        }
+        
+       }
+}

@@ -168,7 +168,7 @@
         state.currentChatMessages = Copy(state.chatMessages[chatUID]);
         state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ?
             Copy(state.chatPreSurveys[chatNum]) :
-            {};
+            [];
         state.currentChatTypingstate = false;
         services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
 

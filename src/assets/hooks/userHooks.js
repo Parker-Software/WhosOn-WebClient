@@ -10,11 +10,6 @@
         state.chatURL = e.Data.ChatUrl;
     });
 
-
-    hooks.Register(events.Connection.OpeningMessage, (e) => {
-        state.openingMessage = e.Data;
-    });
-
     
     hooks.Register(events.Connection.UserSites, (e) => {
         var sites = {};

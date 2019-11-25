@@ -135,10 +135,8 @@
                     self.sendFileBtn().removeAttribute("disabled");
                     self.requestFileBtn().removeAttribute("disabled");
                 }, 100);
-            });
 
-            hooks.Register(events.Connection.ChatAccepted, (e) => { this.shouldShowOpeningMessage(); });
-            hooks.Register(events.Connection.CurrentChat, (e) =>  { this.shouldShowOpeningMessage(); });
+            });
 
             hooks.Register(events.Connection.MonitoredChat, (e) => {
                 this.HasSuggestion = false;
@@ -181,8 +179,6 @@
                 this.InputArea().focus();
             });
 
-
-
             
             hooks.Register(events.CannedResponses.Clicked, (item) => {
                 var content = item.Content;
@@ -213,37 +209,6 @@
             }
         },
         methods: {
-            shouldShowOpeningMessage() {
-                var shouldShowWelcomeMessage = true;
-                for(var i = state.currentChatMessages.length - 1; i >= 0; i--) {
-                    var msg = state.currentChatMessages[i];
-
-                    if(msg.code > 0 && msg.code < 99) {
-                        shouldShowWelcomeMessage = false;
-                        break;
-                    }
-                }
-
-                if(shouldShowWelcomeMessage && state.openingMessage != null) {
-                    var content = state.openingMessage;
-                    var hasAttachedment = state.openingMessage.match(/\[(.*?)\]/);
-                    if(hasAttachedment != null) {
-                        var attachment = hasAttachedment[1];
-                        this.AttachedFile = state.uploadedFiles.find(x => x.FileName == attachment);
-                        content = content.substring(0, hasAttachedment.index);
-                        content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
-                    } else {
-                        this.AttachedFile = null;
-                    }
-
-                    this.InputArea().innerHTML = content;
-                    this.InputArea().focus();
-                    
-                    this.HasSuggestion = true;
-                } else {
-                    this.InputArea().innerText = ""
-                }
-            },
             emojiBtn() {
                 return document.getElementById("emojiBtn");
             },
@@ -316,7 +281,7 @@
                         stopTypingStatus();
                         hooks.Call(chatEvents.SendMessage, { "ChatId": state.currentChat.ChatUID,
                             "Num": state.currentChat.Number,
-                            "Text": text,
+                            "Text": this.InputArea().innerText.trim(),
                             "Whisper": state.currentChat.BeingMonitoredByYou,
                             "ToConnection": state.currentChat.TalkingToClientConnection});
                         this.InputArea().innerText = "";

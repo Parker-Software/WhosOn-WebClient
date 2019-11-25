@@ -7,13 +7,15 @@
     Vue.component(services.Store.state.homeViewName, {
         template: `
             <section v-bind:id="$store.state.homeViewName" class="view">
-                <homeheader></homeheader>
+                <homeheader></homeheader>               
                 <div id="app-content">
                     <homenav></homenav>
-                    <div class="customColumn" id="page-content">
+     
+                    <div class="main-view customColumn" id="page-content">
+                   
                         <div class="content-body">
                             <homeMyStatus></homeMyStatus>
-                            <div id="Chats" style="width: 100%; height: 100%;">
+                            <div class="main-view-chats" id="Chats" style="width: 100%; height: 100%;">     
                                 <homeActiveChats></homeActiveChats>
                                 <homeChatArea></homeChatArea>
                                 <homeNoChatsArea></homeNoChatsArea>

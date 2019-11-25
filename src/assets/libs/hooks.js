@@ -12,7 +12,6 @@
             Error: "ConnectionError",
             CurrentChatClosed: "CurrentChatClosed",
             NewChat: "NewChat",
-            OpeningMessage: "openingmessage",
             LoggedIn: "connected",
             MessageFromServer: "msg",
             CurrentUserRights: "rights",

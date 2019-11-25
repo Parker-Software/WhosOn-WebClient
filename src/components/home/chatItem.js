@@ -81,10 +81,20 @@
                     }
                 }
 
+                var element = document.getElementById("homeActiveChats");
+                var wrapper = document.getElementById("active-chats-wrapper");
+            
+               
+      
+
                 if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == state.currentConnectionId) {
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
+                    element.classList.toggle("show");   
+                  wrapper.classList.toggle("opacity");
                 } else if (this.chat.TalkingToClientConnection !== state.currentConnectionId) {
                   if(state.rights.MonitorChats) hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
+                  element.classList.toggle("show");   
+                  wrapper.classList.toggle("opacity");
                 }
             }
         }
