@@ -1,7 +1,17 @@
 .chat-conversation {
   height: 100%;
 
- 
+  .survey-block {
+    background-color: $ThemeChatSurveyBackground;
+    padding: 4px 4px;
+    margin-bottom: 2px;
+    z-index: 996;
+    max-height: $survey-container-height;
+    height:$survey-container-height;
+    margin-left: 0px !important;
+    overflow-y: auto;
+    width: 100%;
+  }
 
   .chat-conversation-container {
     width: 100%;
@@ -11,6 +21,10 @@
       overflow-y: auto;
       overflow-x: hidden;
       height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 34px));
+
+      &.surveyScroller {
+        height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + #{$survey-container-height} + 34px));
+      }
       &.beingMonitored {
           background-color: transparent;
           height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 54px));
