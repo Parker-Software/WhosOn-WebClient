@@ -5,13 +5,13 @@
 
     Vue.component('chatConversation', {
         template: `
-        <div id="chatConversation" style="height:100%;">
-            <div id="conversationContainer" style="margin-top: 0.75rem;">
+        <div id="chatConversation" class="chat-conversation">
+            <div id="conversationContainer" class="chat-conversation-container">
                 <chatConversationSurvey v-if="validSurveys.length > 0" :surveys="validSurveys"></chatConversationSurvey>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div id="chatScroller" class="column is-full message-list">
-                            <div v-for="(v,k) in groupedMessages">
+                        <div id="chatScroller" class="column is-full message-list no-gap-top no-gap-bottom">
+                            <div v-for="(v,k) in groupedMessages" class="messages">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
@@ -81,6 +81,9 @@
             }
         },
         computed: {
+            BeingMonitoredByYou() {
+                return state.currentChat.BeingMonitoredByYou;
+            },
             validSurveys() {
                 var surveys = state.currentChatPreSurveys;
                 var valid = [];

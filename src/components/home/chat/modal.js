@@ -29,17 +29,21 @@
             <div class="modal-background" v-on:click="No"></div>
             <div class="modal-card">
             <header class="modal-card-head">
-                <p v-if="Close" class="modal-card-title">Are you sure you wish to close this chat?</p>
-                <p v-if="Close == false" class="modal-card-title">Are you sure you wish to stop monitoring this chat?</p>
+                <p class="modal-card-title">Close Chat</p>     
                 <button class="delete" aria-label="close" v-on:click="No"></button>
             </header>
-            <section class="modal-card-body">          
-            <div class="status-options">
-                <a class="button is-success" v-on:click="Yes">Yes</a> 
-                <a class="button is-danger" v-on:click="No">No</a>
-            </div>
-            </section>
+            <section class="modal-card-body">
+            <p>
+            <span class="fa-stack fa-lg">
+            <i class="fas fa-circle fa-stack-2x"></i>
+            <i class="fas fa-question fa-stack-1x" style="color:white"></i>
+            </span> 
+           <span>Are you sure you want to close with {{getVisitorName}}?</span>
+           </p>
+          </section>
             <footer class="modal-card-foot">
+                <a class="button" v-on:click="Yes">Yes</a> 
+                <a class="button" v-on:click="No">No</a>
             </footer>
             </div>
         </div>
@@ -47,6 +51,11 @@
         computed: {
             CurrentChat() {
                 return services.Store.state.currentChat;
+            },
+            getVisitorName() {
+               var visitorName = state.currentChat.Name;
+               if(visitorName == null) return;
+               return visitorName;
             }
         },
         beforeCreate() { 
@@ -55,12 +64,13 @@
                 this.Close = true;
             });
 
-            hooks.Register(events.Chat.StopMonitoringChatClicked, () => {
-                this.ModalElem().classList.add("is-active");
-                this.Close = false;
-            });
+            // hooks.Register(events.Chat.StopMonitoringChatClicked, () => {
+            //     this.ModalElem().classList.add("is-active");
+            //     this.Close = false;
+            // });
         },
         methods: {
+      
             ModalElem() {
                 return document.getElementById("chatModal");
             },

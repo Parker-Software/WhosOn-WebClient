@@ -4,7 +4,7 @@
 
     Vue.component('homeOptionsContent', {
         template: `
-        <div id="homeOptionsContent" style="height:80%;">
+        <div id="homeOptionsContent" class="options-content">
             <homeOptionsContentGeneral id="optionsGeneralContent"></homeOptionsContentGeneral>
             <homeOptionsContentCannedResponses id="optionsCannedResponsesContent"></homeOptionsContentCannedResponses>
             <homeOptionsContentAbout id="optionsAboutContent"></homeOptionsContentAbout>

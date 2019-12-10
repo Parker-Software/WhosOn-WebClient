@@ -23,6 +23,7 @@
         },
         template: `
         <section class="reply-container">
+        <emojiMenu v-if="ShowingEmojiMenu"></emojiMenu>
             <div class="column is-full visitor-typing" v-if="$store.state.currentChatTypingstate && BeingMonitoredByYou == false">
                 <span>{{$store.state.currentChat.Name}} is typing...</span>
             </div>
@@ -35,23 +36,22 @@
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons" style="position:relative">
-                    <emojiMenu v-if="ShowingEmojiMenu"></emojiMenu>
-                    <a v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="button" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
-                        <i class="fas fa-smile"></i>
+                 
+                    <a v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                        <i class="far fa-smile"></i>
                     </a>
-                    <a id="cannedResponsesBtn" class="button" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
-                        <i class="fas fa-comment-dots"></i>
+                    <a id="cannedResponsesBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
+                        <i class="far fa-comment-dots"></i>
                     </a>
-                    <a v-if="BeingMonitoredByYou == false" class="button" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" class="emoji-icon" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
                     </a>
-                    <a v-if="BeingMonitoredByYou == false" class="button" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="BeingMonitoredByYou == false" class="emoji-icon" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
                     </a>
                 </div>
             </div>
-            <fileUploader></fileUploader>
-            <transfer></transfer>
+            <fileUploader></fileUploader>            
         </section>
         `,
         beforeCreate() {

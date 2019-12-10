@@ -1,0 +1,57 @@
+.chat-conversation {
+  height: 100%;
+
+ 
+
+  .chat-conversation-container {
+    width: 100%;
+
+    .message-list {
+      scroll-behavior: smooth;
+      overflow-y: auto;
+      overflow-x: hidden;
+      height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 34px));
+      &.beingMonitored {
+          background-color: transparent;
+          height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 54px));
+      }
+      .messages {
+        line-height: 0.8;
+      }
+      .columns {
+        margin-bottom: 0;
+        line-height: 1;
+        
+      }
+    }
+  }
+
+  .notification {
+    text-decoration: none;
+    padding: 0.6rem;
+    &.visitor {
+        background-color: $ThemeChatLineBackgroundVisitor;
+
+        user-select: text;
+        .visitor-message-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+      }
+      
+      &.operator {
+        background-color: $ThemeChatLineBackgroundOperator;
+ 
+        user-select: text;
+        .operator-message-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+            line-height: 1.2;
+        }
+      }
+  }
+ 
+  
+ 
+}

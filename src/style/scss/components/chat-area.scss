@@ -1,0 +1,133 @@
+.chat-area {
+
+  .logo {
+    position: absolute;
+    left: calc(50% - 25px);
+    margin-left: -50px;
+    top: calc(50% - 25px);
+    margin-top: -50px;
+    text-align: center;
+    i {
+      font-size: 8rem;
+      color: $ChatViewSeperator;
+    }
+    p{
+      font-size: 0.8rem;
+      font-weight: 600;
+      color:$FontColor;
+    }
+  }
+
+  .columns {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  height: calc(100vh - #{$header-height});
+  position: absolute;
+  left:$activechats-width;
+  background-color: $ThemeChatBackground;
+  padding-left: 0;
+  padding-right: 0;
+  align-self: stretch;
+  width: calc(100% - (#{$activechats-width} + #{$sidebar-width}));
+
+  .chat-header-wrapper {
+    &.beingMonitored {
+      height: $chat-header + 20px;
+    }
+    height: $chat-header;
+  }
+
+
+  .beingMonitored {
+    background-color: #ebdbeb !important;
+    .chat-header {
+      .chat-header-item {
+        &.monitor-label {
+          small {
+            strong {
+              line-height: 1.4;
+            }
+          }
+        }
+        strong {
+          color: $FontColor;
+        }
+      }
+    }
+  }
+
+  .chat-header {
+    .chat-header-item {
+      margin-bottom: 0;
+      line-height: 1.1;
+      strong {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .chat-header-icons {
+    margin-top: -4px;
+    font-size: 0.5rem;
+    a {
+      &:hover {
+        i {
+          color: $ThemeRoundButtonHover;
+          &.white {
+            color: $ThemeRoundButtonHoverText;
+          }
+        }
+      }
+    }
+    i {
+      color: $ThemeRoundButtonFill;
+      padding-left: 2px;
+    }
+
+    .white {
+      color: $ThemeRoundButtonText;
+    }
+  }
+
+  .tabs {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: $chat-tabs;
+    margin-bottom: 10px;
+
+    a {
+      padding: 0;
+      font-weight: 500;
+      color: $ThemeRoundButtonHover;
+      border-bottom-width: 4px;
+    }
+
+    li {
+      margin-right:10px;
+      &.is-active {
+        a {
+          border-bottom-color: $ThemeRoundButtonHover;
+          color: $ThemeRoundButtonHover;
+        }
+      }
+    }
+  }
+
+
+  @include mobile {
+    width: calc(100% - (#{$sidebar-width}));
+    left:0;
+  }
+  @include tablet {
+    width: calc(100% - (#{$sidebar-width}));
+    left:0;
+  }
+
+  @include desktop {
+    width: calc(100% - (#{$activechats-width} + #{$sidebar-width}));
+    left:$activechats-width;
+  }
+}

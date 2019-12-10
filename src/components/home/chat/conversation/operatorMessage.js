@@ -8,18 +8,16 @@
             'groupedMessage'
         ],
         template: `
-        <div class="columns is-gapless">
-            <div class="column is-3"></div>
-            <div class="column is-8">
+        <div class="columns is-gapless">        
+            <div class="column is-4"></div>
+            <div class="column is-8">                
                 <strong v-if="groupedMessage.Name != null && groupedMessage.Name != ''"><small>Whisper From {{groupedMessage.Name}}</small></strong>
                 <div 
                     v-bind:class="{'fileMessage':groupedMessage.isLink, 'is-pulled-right':groupedMessage.isLink, 'beingMonitored':groupedMessage.isWhisper == true}"
-                     class="notification operator" v-html="messageFormatted">
+                     class="notification operator">
+                     <p><small><time>{{groupedMessage.time}}</time></small></p>
+                     <p v-html="messageFormatted" class="operator-message-text"></p>
                 </div>
-            </div>
-            <div class="column is-1 is-flex time-col"
-                style="margin: auto;flex-direction: column;text-align: center;">
-                <time>{{groupedMessage.time}}</time>
             </div>
         </div>
         `,  

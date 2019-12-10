@@ -1,0 +1,67 @@
+.modal-card-body {
+    .status-options {
+        display:inline-block;
+        text-align: center;
+        width:100%;
+
+        .is-online{
+            background-color: $ThemeMyStatusOnline;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-busy{
+            background-color: $ThemeMyStatusBusy;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-brb{
+            background-color: $ThemeMyStatusBeRightBack;    
+            color: $ThemeToolbarText;      
+        }
+
+        .is-away{
+            background-color: $ThemeMyStatusAway;    
+            color: $ThemeToolbarText;      
+        }
+    
+      
+    }
+}
+
+
+
+    .modal-card {
+        background-color:transparent;
+    }
+
+    .modal-card-head {
+        background-color: transparent;
+        border: none;
+    }
+
+    .modal-card-title {
+        color: white !important;
+        font-size: 1rem;
+    }
+
+    .modal-card-body {
+        background-color: transparent;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .modal-card-foot {
+        visibility: hidden;
+    }
+
+    .delete {
+        background-color: transparent;
+        width:25px;
+        height:25px;
+        max-height: 25px;
+        max-width: 25px;
+    }
+
+    .button {
+        border: none;
+    }

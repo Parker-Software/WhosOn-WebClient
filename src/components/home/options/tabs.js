@@ -4,7 +4,7 @@
 
     Vue.component('homeOptionsHeaderTabs', {
         template: `
-            <div class="tabs">
+            <div class="tabs options-tabs">
                 <ul>
                     <li id="optionsGeneralTab" v-on:click="TabClicked('general')" class="is-active"><a>General</a></li>
                     <li id="optionsCannedResponsesTab" v-on:click="TabClicked('cannedResponses')" class=""><a>My Canned Responses</a></li>

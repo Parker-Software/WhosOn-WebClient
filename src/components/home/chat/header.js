@@ -11,34 +11,30 @@
             }
         },
         template: `
-        <div v-bind:class="{'beingMonitored': BeingMonitoredByYou}" style="padding: 1rem; height:130px;">
-            <div class="customColumn is-narrow" style="width:80px">
-                <figure class="avatar image is-64x64">
-                    <i class="fas fa-user fa-4x"></i>
-                    <div v-if="$store.state.currentChat.Closed == false" class="status online"><i class="fas fa-circle"></i></div>
-                    <div v-if="$store.state.currentChat.Closed == true" class="status busy"><i class="fas fa-circle"></i></div>
-                </figure>
+        <div v-bind:class="{'beingMonitored': BeingMonitoredByYou}" class="columns chat-header-wrapper">
+            <div class="customColumn is-narrow column no-gap-right is-tablet">
+                <div v-bind:class="setBackgroundColor" class="badge">{{visitorLetter}}<div class="status"></div></div>         
             </div>
-            <div class="customColumn">
+            <div class="customColumn column is-tablet">
                 <div class="chat-header">
                     <div class="content">
-                        <p>
-                            <strong v-if="BeingMonitoredByYou == false">
+                        <p class="chat-header-item">
+                            <strong v-if="BeingMonitoredByYou == false" class="has-text-weight-medium">
                                 {{$store.state.currentChat.Name}} 
                                 <span v-if="$store.state.currentChat.Closed">(Closed)</span> 
-                            </strong><br  v-if="BeingMonitoredByYou == false">
+                            </strong>
                             <strong v-if="BeingMonitoredByYou">
                                 {{$store.state.currentChat.Name}} Chatting to {{$store.state.currentChat.TalkingTo}}
-                            </strong><br  v-if="BeingMonitoredByYou" />
-                            <small v-if="BeingMonitoredByYou"><strong>Monitoring</strong><br/></small>
-                            <small>{{$store.state.currentChat.SiteName}}</small><br />
-                            <small>{{$store.state.currentChat.Location}}</small><br />
-                            <small>{{visitorsEmail}}</small>
+                            </strong>
                         </p>
+                        <p class="chat-header-item monitor-label"><small v-if="BeingMonitoredByYou"><strong>Monitoring</strong></small></p>
+                        <p class="chat-header-item"><small>{{$store.state.currentChat.SiteName}}</small></p>
+                        <p class="chat-header-item"><small>{{$store.state.currentChat.Location}}</small></p>
+                        <p class="chat-header-item"><small>{{visitorsEmail}}</small></p>
                     </div>
                 </div>
             </div>
-            <div class="customColumn" style="float:right;">
+            <div class="customColumn column is-4 is-tablet">
                 <div class="chat-header-icons is-pulled-right">
                     <a v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="tooltip" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
                         <span class="fa-stack fa-2x">
@@ -86,7 +82,7 @@
                         $store.state.currentChat.BeingMonitoredByYou == false"
                     :options="currentSite.WrapUp">
                 </conversationWrapUp>
-            </div>
+            </div>            
         </div>
         `,
         beforeCreate() {
@@ -174,9 +170,20 @@
             },
             currentChat() {
                 return state.currentChat;
+            },
+            visitorLetter(){
+                var name = state.currentChat.Name;
+                if(name === undefined) return;
+                console.log(name)
+                return name.charAt(0).toUpperCase();
+            },
+            setBackgroundColor() {
+                var name = state.currentChat.Name;
+                if(name === undefined) return;              
+                return name.charAt(0).toLowerCase();
             }
         },
-        methods: {
+        methods: {         
             CloseBtn() {
                 return document.getElementById("closeChatBtn");
             },
@@ -217,7 +224,7 @@
                 hooks.Call(chatEvents.TransferClicked);
             },
             StopMonitoringClicked(e) {
-                hooks.Call(chatEvents.StopMonitoringChatClicked, state.currentChat.Number);
+                hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, state.currentChat.Number);                
             }
         }
     });

@@ -1,0 +1,64 @@
+.reply-container {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  background-color: $ThemeChatBackground;
+
+  .emojiMenu {
+    width: 600px;
+    height: 300px;
+    position: absolute;
+    background-color: $ThemeChatLineBackgroundVisitor;
+    bottom: 170px;
+    right: 12px;
+    padding: 10px;
+    border-radius: 2px;
+    color: #fff;
+    z-index: 99;
+  }
+
+  .emojiList {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  .emojiList::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px $ThemeScrollBar;
+    background-color: $ThemeScrollBar;
+  }
+
+  .emojiBtn {
+    display: inline-block;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+
+    text-align: center;
+  }
+
+  .emojiBtn:hover {
+    background-color: whitesmoke;
+  }
+
+  .emoji-icon {
+    margin-right: 6px;
+    color: $FontColor;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+  textarea {
+    resize: none;
+  }
+  .visitor-typing {
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: -12px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: $ThemeRoundButtonFill;
+  }
+}

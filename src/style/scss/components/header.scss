@@ -1,0 +1,15 @@
+.header {
+    height: 32px;
+    padding: 4px;
+
+    a{
+        color: $ThemeToolbarText;
+    }
+    color:$ThemeToolbarText;
+    background-color: $ThemeTitleBackground;
+    box-shadow: 0 1px 15px 1px rgba(69, 65, 78, .1);
+
+    .is-size-6-half {
+        font-size: 0.9rem;
+    }
+}

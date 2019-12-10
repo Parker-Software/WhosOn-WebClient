@@ -1,0 +1,150 @@
+.transfer-panel {
+  height: calc(100vh - #{$header-height});
+  width: $transfer-panel;
+  background-color: #fff;
+  position: absolute;
+  right: 0;
+  z-index: 999;
+  border-left: 1px solid #dbdbdb;
+
+  .fa,
+  .fas {
+    margin-top: 4px;
+  }
+
+  h2 {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .users-list {
+    line-height: 1;
+    margin-top:8px;
+
+    .user-list-online,.user-list-busy,.user-list-brb,.user-list-away {
+      margin-top: 6px;
+    }
+    small {
+      color: $ThemeChatText;
+      font-weight: 600;
+      &.user-list-title {
+        margin-bottom:4px;
+      }
+    }
+
+  .column {
+      padding: 0.45rem;
+  }
+
+  .userItem {
+    &:hover {
+      cursor: pointer;
+      background-color: $ThemeListItemHover;
+
+      strong,small{
+        color: $ThemeButtonTextHover;
+      }
+    }
+
+    &.is-active {
+      background-color:$ThemeListItemSelected;
+    }
+  }
+
+    .useritem-username {
+      padding-top:4px;
+    }
+  }
+
+  .tabs {
+    margin-bottom: 0;
+
+    a {
+      border-bottom-color: transparent;
+    }
+
+    ul {
+      border-bottom-color: transparent;
+
+      li {
+        &.is-active {
+          a{
+            border-bottom-color: $ThemeRoundButtonHover;
+            color: $ThemeRoundButtonHover;
+            border-bottom-style: solid;
+            border-bottom-width: 4px;
+          }
+    
+        }
+      }
+    }
+  }
+
+  a {
+    color: $ThemeChatText;
+  }
+
+  .column {
+    padding: 0.45rem;
+    padding-top: 4px;
+  }
+
+  .availabilty-section {
+    background-color: $ThemeStatusMenuBackground;
+    padding-top: 4px;
+    padding-bottom: 6px;
+
+    .switch[type="checkbox"] + label {
+      font-size: 0.8rem;
+      color: $ThemeTextColor;
+    }
+
+    .switch[type="checkbox"]:checked + label {
+      &::before {
+        background: $ThemeButtonTextHover !important;
+      }
+    }
+  }
+
+  .status-options {
+    padding: 0.45rem;
+  }
+
+  .users-tab {
+    padding: 0.45rem;
+
+    input{
+      line-height: 1;
+      height:1.5rem;
+      font-size: 0.8rem;
+    }
+
+    .icon{
+      height:1.5rem;
+      width:1.5rem;
+    }
+
+    i{   
+      font-size: 0.8rem;
+      &.fa-search {
+        color:$ThemeChatText;
+      }
+    }
+
+    .button{
+      height: 1.8rem;
+      font-size: 0.8rem;
+      width: 100%;
+      text-align: left;
+      justify-content: left;
+      color:$ThemeChatText;
+      font-weight: 600;
+      padding-left: 4px;
+      
+      span{
+        border-left: 4px solid red;
+        padding-left: 4px;
+      }
+    }
+  }
+}

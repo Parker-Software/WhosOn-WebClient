@@ -515,16 +515,6 @@ a[disabled] {
 }
 
 
-#cannedResponsesCloseBtn {
-    font-size: 20px;
-}
-
-#cannedResponsesCloseBtn:hover {
-    background-color: $ThemeRoundButtonFill;
-    cursor: pointer;
-    color: #fff;
-}
-
 ::-webkit-scrollbar-track
 {
 	-webkit-box-shadow: inset 0 0 6px $ThemeRoundButtonFill;

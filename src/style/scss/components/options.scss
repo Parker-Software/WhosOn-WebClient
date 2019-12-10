@@ -1,0 +1,50 @@
+.options {
+  z-index:91;
+    .options-footer {
+        position: absolute;
+        height:$options-footer-height;
+        bottom: 0;
+        padding:20px;
+        width: calc(100vw - #{$sidebar-width});
+    }
+    
+    .options-content {
+        padding:20px;
+        height: calc(100vh - (#{$header-height} + #{$option-tabs-height + #{$options-footer-height}}));
+        overflow: auto;
+    }
+
+    .tabs {
+        &.options-tabs {
+            padding-left:20px;
+            padding-right:20px;
+        }
+        margin-bottom: 0;
+    
+        a {
+          border-bottom-color: transparent;
+          padding-bottom:4px;
+          border:none;
+          margin:0;
+        }
+    
+        ul {
+          border-bottom-color: transparent;
+    
+          li {
+            &.is-active {
+              a{
+                border-bottom-color: $ThemeRoundButtonHover;
+                color: $ThemeRoundButtonHover;
+                border-bottom-style: solid;
+                border-bottom-width: 4px;
+                padding-bottom:0;
+              }
+        
+            }
+          }
+        }
+      }
+    
+   
+}

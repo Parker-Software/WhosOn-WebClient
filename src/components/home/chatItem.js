@@ -41,22 +41,15 @@
         ],
         template: `
             <li @click="onClicked">
-                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info" style="padding: 0.5rem">
+                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
-                                <p>
-                                    <strong>{{chat.Name}}</strong>
-                                    <br />
-                                    <small>{{chat.Location}}</small>
-                                    <br />
-                                    <small><strong>{{chat.SiteName}}</strong></small>
-                                    <br />
-                                    <!-- takling to, waiting etc -->
-                                    <small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}} <span v-if="chat.QueuePos > 0">(Queued)</span></strong></small>
-                                    <br />
-                                    <small v-if="chat.Monitoredby != null"><strong>Monitored By {{MonitoredByWho}}</strong></small>
-                                </p>
+                                <p class="chat-info-item"><strong>{{chat.Name}}</strong></p>
+                                <p class="chat-info-item"><small>{{chat.Location}}</small></p>
+                                <p class="chat-info-item"><small><strong>{{chat.SiteName}}</strong></small></p>
+                                <p class="chat-info-item"><small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}} <span v-if="chat.QueuePos > 0">(Queued)</span></strong></small></p>
+                                <p class="chat-info-item"><small v-if="chat.Monitoredby != null"><strong>Monitored By {{MonitoredByWho}}</strong></small></p>                            
                             </div>
                         </div>
                     </article>
