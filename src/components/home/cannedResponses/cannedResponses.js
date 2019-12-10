@@ -14,15 +14,15 @@
             }
         },
         template: `
-            <div id="cannedResponses" style="display:none; width: 30%; float:left; padding: 10px; height: 100%; border-left: 1px solid lightgray; height: calc(100vh - (100px + 310px ));">
-                <h5 class="title is-5 is-pulled-left">Canned Responses</h5> 
-                <div id="cannedResponsesCloseBtn" @click="Close" class="icon is-pulled-right" style="width: 20px; height: 20px;">
-                    <span>&times;</span>
+            <div id="cannedResponses" class="chat-responses-container">
+                <h2 class="title is-6-half is-pulled-left">Canned Responses</h2> 
+                <div id="cannedResponsesCloseBtn" @click="Close" class="icon is-pulled-right">
+                    <i class="fas fa-times"></i>
                 </div>
                 <div class="field">
-                    <p class="control has-icons-left">
+                    <p class="control has-icons-right">
                         <input id="cannedResponseSearchTxtBox" class="input" placeholder="Search" v-on:keyup.enter="Search">
-                        <span class="icon is-small is-left">
+                        <span class="icon is-small is-right">
                             <i class="fas fa-search"></i>
                         </span>
                     </p>

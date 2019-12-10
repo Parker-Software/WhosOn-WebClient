@@ -1,0 +1,39 @@
+.modal{
+    z-index: 999;
+    .modal-card {
+        .modal-card-head{
+            padding: 8px;
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            background-color: $ThemeModalHeaderBackground;
+            
+
+            .modal-card-title{
+                
+                color:$ThemeModalHeaderFontColor;
+                font-size: 0.9rem;
+            }           
+        }
+
+        .modal-card-body {
+            text-align: center;
+            padding-top: 30px;
+            .fa-stack{
+                margin-top: -14px;
+            }
+        }
+
+        .modal-card-foot {
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            justify-content: flex-end;
+            padding: 8px;
+
+            .button {
+                   color:$ThemeChatText;
+                    font-weight: 600;
+                    width:100px;
+            }
+        }
+    }
+}

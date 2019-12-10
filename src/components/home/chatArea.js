@@ -6,6 +6,7 @@
     Vue.component('homeChatArea', {
         template: `
             <div class="customColumn chat-area" id="homeChatArea" style="display:none">
+                <chatTransfer></chatTransfer>                
                 <div>
                     <chatHeader></chatHeader>
                     <chatTabs></chatTabs>
@@ -26,6 +27,7 @@
                 hooks.Register(events.Chat.HideAll, (e) => {
                     this.Hide();
                 });
+                
             },
             methods: {
                 Elem() {

@@ -10,15 +10,13 @@
         ],
         template: `
             <div class="columns is-gapless">
-                <div class="column is-8">
-                    <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor" v-html="messageFormatted">
+                <div class="column">
+                    <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
+                    <p><small>{{visitorName}} <time>{{groupedMessage.time}}</time></small></p>
+                    <p v-html="messageFormatted" class="visitor-message-text"></p>
                     </div>
                 </div>
-                <div class="column is-3"></div>
-                <div class="column is-1 is-flex time-col"
-                    style="margin: auto;flex-direction: column;text-align: center;">
-                    <time>{{groupedMessage.time}}</time>
-                </div>
+                <div class="column is-4"></div>
             </div>
         `,
         mounted() {
@@ -31,6 +29,11 @@
             }
         },
         computed: {
+            visitorName(){
+                var name = state.currentChat.Name;
+                if(name === undefined) return;
+                return name;
+            },
             messageFormatted: function() {
                 var messages = this.groupedMessage.messages;
                 var message = "";

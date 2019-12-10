@@ -43,25 +43,18 @@
         ],
         template: `
             <li v-bind:class="ItemClass" v-on:click="Clicked" class="selectableItem userItem">
-                <div class="box chat-info">
-                    <article class="media">
-                        <div class="media-content">
-                            <div class="content">
-                                <figure class="image is-64x64" style="margin:0; float:left;">
-                                    <i v-if="user.HasPhoto == false" class="fas fa-user fa-3x" style="margin-top: 10px"></i>
-                                    <img v-if="user.HasPhoto" v-bind:class="user.Username" src="https://bulma.io/images/placeholders/64x64.png" alt="Image" class="userPhoto is-rounded">
-                                    <div v-if="user.Status == 0" class="status online"><i class="fas fa-circle"></i></div>
-                                    <div v-if="user.Status == 1" class="status busy"><i class="fas fa-circle"></i></div>
-                                    <div v-if="user.Status == 2" class="status brb"><i class="fas fa-circle"></i></div>
-                                    <div v-if="user.Status == 3" class="status away"><i class="fas fa-circle"></i></div>
-                                </figure>
-                                <div style="float:left; margin-left: 10px; margin-top: 10px;">  
-                                    <strong>{{user.Name}}</strong> <br />
-                                    <small style="margin-left: 5px">{{user.Dept}}</small>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
+                <div class="columns">
+                    <div class="customColumn is-narrow column no-gap-right">
+                        <div v-if="user.HasPhoto == false" v-bind:class="setBackgroundColor" class="badge">{{visitorLetter}}<div class="status"></div></div>
+                        <figure class="image is-48x48 " v-if="user.HasPhoto">
+                        <div class="status"></div>
+                            <img v-bind:class="user.Username" src="https://bulma.io/images/placeholders/48x48.png" alt="Image" class="is-rounded">    
+                        </figure>                           
+                    </div>
+                    <div class="column">
+                        <strong class="useritem-username">{{user.Name}}</strong><br/>
+                        <small>{{user.Dept}}Test</small>
+                    </div>
                 </div>
             </li>
         `,
@@ -71,6 +64,17 @@
                 classes[this.collectionGroup || 'userItem'] = true;
                 classes[(this.collectionGroup || 'userItem') + '-' +  this.user.Username] = true;
                 return classes;
+            },
+            visitorLetter(){
+                var name = this.user.Username;
+                if(name === undefined) return;
+                console.log(name)
+                return name.charAt(0).toUpperCase();
+            },
+            setBackgroundColor() {
+                var name = this.user.Username;
+                if(name === undefined) return;              
+                return name.charAt(0).toLowerCase();
             }
         },
         methods: {

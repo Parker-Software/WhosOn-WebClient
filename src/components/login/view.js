@@ -15,7 +15,7 @@
         <div v-bind:id="$store.state.loginViewName" class="view">           
             <div class="header" id="app-header">
                 <div class="has-text-centered">
-                    <h1 class="is-size-5">WhosOn</h1>
+                    <h1 class="is-size-6-half has-text-weight-medium">WhosOn Login</h1>
                 </div>
             </div>
             <section class="wo-login">
@@ -23,19 +23,19 @@
             <div class="column is-4 is-offset-4">
                 <div class="box">
                     <figure class="avatar" style="margin-bottom: 4px;">
-                        <i class="fas fa-user fa-7x"></i>
+                        <i class="fas fa-user fa-6x"></i>
                     </figure>
                     <form>
                         <div class="field">
                             <div class="control">
-                                <label>Username</label>
+                                <label>Username:</label>
                                 <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" required>
                             </div>
                         </div>
 
                         <div class="field">
                             <div class="control">
-                                <label>Password</label>
+                                <label>Password:</label>
                                 <input v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
                             </div>
                         </div>                        

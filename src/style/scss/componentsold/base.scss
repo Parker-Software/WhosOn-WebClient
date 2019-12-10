@@ -1,3 +1,5 @@
+@import "./variables.scss";
+
 * {
     user-select: none;
 }
@@ -256,9 +258,21 @@ nav.navbar {
 }
 
 .header {
+    a{
+        color: $ThemeToolbarText;
+    }
     color:#fff;
     background-color: #3F487F;
     box-shadow: 0 1px 15px 1px rgba(69, 65, 78, .1);
+    .mobile-nav {
+        position: absolute;
+    left: 15px;
+    top: 15px;  
+    i{
+        font-size: 1.5em;
+    }
+ 
+    }
 }
 
 .table-wrapper {
@@ -500,16 +514,6 @@ a[disabled] {
     background-color: #3273dc !important;
 }
 
-
-#cannedResponsesCloseBtn {
-    font-size: 20px;
-}
-
-#cannedResponsesCloseBtn:hover {
-    background-color: $ThemeRoundButtonFill;
-    cursor: pointer;
-    color: #fff;
-}
 
 ::-webkit-scrollbar-track
 {

@@ -1,0 +1,176 @@
+.wo-sidebar {
+  z-index: 90;
+  border-top: 2px dashed #990000;
+  display: block;
+  width: $sidebar-width;
+  position: absolute;
+  top:$header-height;
+  bottom: 0;
+  left:0;
+  padding: 0;
+  background: $ThemeToolbarBackGround;
+
+  .status-popout {
+    height:175px;
+    width: $activechats-width;
+    position: absolute;
+    top:0;
+    left:$sidebar-width;
+    background-color: $ThemeStatusMenuBackground;
+    z-index: 998;
+
+    .status-container {
+      padding:0.3rem;
+
+      label{
+        margin-bottom: 0;
+        font-weight: normal;
+          font-size: 0.8rem;  
+      }
+
+      hr{
+        margin: 0.5rem 0;
+      }
+
+      input{
+        font-size: 0.8rem;
+        width:211px;
+        margin-right:6px;
+      }
+
+      
+      .is-info {
+        background-color: $ThemeButtonFill;
+        color: $ThemeToolbarText;
+        font-size: 0.8rem;
+      }
+
+      li{
+        
+        padding-left:8px;
+        &.is-active{
+          background-color:$ThemeListItemSelected;
+        }
+
+        &:hover{
+          cursor: pointer;
+          background-color: $ThemeListItemHover;
+          .status-item {
+            color: $ThemeRoundButtonHoverText;
+          }
+          
+        }
+
+        .status-item {
+          font-style: normal;
+          margin-left:8px;
+          color: $ThemeTextColor;
+          font-weight: normal;
+          font-size: 0.8rem;       
+        }
+      }
+
+      
+
+      ul{
+        
+      }
+    }
+  }
+
+  .menu {
+    font-size: 0.78rem;
+    position: fixed;
+    width: inherit;
+    .menu-list {
+      li {
+        a {
+          color: $ThemeToolbarText;
+          text-align: center;
+          padding: 6px 6px;
+          border-radius: 0;
+         
+          .icon {
+            font-size: 1.5em;
+            margin: 0.2rem;
+            margin-bottom: 0.1rem;
+            position: relative;
+            
+            .menu-status {
+               position: absolute;
+               right: 0px;
+               bottom: -2px;
+              i {
+                font-size: 0.6em;
+                &:before {                 
+                    border-radius: 50%;
+                    border: 1px solid white;
+                    padding: 0;
+                    background-color: white;
+                   
+                }
+              }
+            }
+          }
+          &.is-active {
+            background-color: $ThemeToolbarSelected;
+            border-left: 3px solid $ThemeToolbarSelectedBorder;
+          }
+          &:hover {
+            transition: background-color 0.3s;
+            background-color: $ThemeToolbarHover;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+
+
+  .menu-bottom {
+    bottom: 0.5rem;
+  }
+  p.menu-label {
+    color: $ThemeToolbarText;
+    padding: 0px 20px;
+    margin-top: 20px;
+  }
+
+  .view-container { 
+    z-index:90;
+    &.view-container-hover {
+      height: calc(100vh - 32px);
+      position: absolute;
+      width:$activechats-width;
+      background-color:transparent;
+      left:$sidebar-width;    
+      z-index:90; 
+    }  
+  }
+
+ 
+
+  @include mobile {
+    border-top: 2px solid purple;
+
+  }
+  @include tablet {
+    border-top: 2px solid green;
+  
+  }
+
+  @include desktop {
+    border-top: 2px solid orange;
+    .view-container {
+      display: block;      
+    }
+  }
+  @include widescreen-only {
+    border-top: 2px solid blue;
+  }
+
+  @include fullhd {
+    border-top: 2px solid grey;
+  }
+}

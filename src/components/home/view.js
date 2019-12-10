@@ -7,24 +7,24 @@
     Vue.component(services.Store.state.homeViewName, {
         template: `
             <section v-bind:id="$store.state.homeViewName" class="view">
-                <homeheader></homeheader>
+                <homeheader></homeheader>               
                 <div id="app-content">
-                    <homenav></homenav>
-                    <div class="customColumn" id="page-content">
+                    <homenav></homenav>     
+                    <div class="main-view customColumn" id="page-content">                   
                         <div class="content-body">
                             <homeMyStatus></homeMyStatus>
-                            <div id="Chats" style="width: 100%; height: 100%;">
-                                <homeActiveChats></homeActiveChats>
+                            <div class="main-view-chats" id="Chats">                              
                                 <homeChatArea></homeChatArea>
                                 <homeNoChatsArea></homeNoChatsArea>
                             </div>
-                            <div id="Team" style="display: none; width:100%; height: 100%;">
-                                <homeTeamUsers></homeTeamUsers>
+                            <div id="Team" class="team-view">                            
                                 <homeTeamChat></homeTeamChat>
                             </div>
-                            <div id="Options" style="display: none; width:100%; height: 100%; position:relative; padding:20px;">
-                                <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
-                                <homeOptionsContent></homeOptionsContent>
+                            <div id="Options" class="options">
+                                <div class="options-view">
+                                    <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
+                                    <homeOptionsContent></homeOptionsContent>
+                                </div>
                                 <homeOptionsFooter></homeOptionsFooter>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
             mounted() {
                 hideAll();
                 showChat();
-                showNoActiveChats();
+                showNoActiveChats();               
             },
             beforeCreate() {
                 hooks.Register(navEvents.ChatsClicked, (e) => {
@@ -49,7 +49,7 @@
                 hooks.Register(navEvents.TeamClicked, (e) => {
                     hideAll();
                     showTeam();
-                });
+                });              
 
                 hooks.Register(navEvents.OptionsClicked, (e) => {
                     hideAll();
@@ -109,7 +109,7 @@
     }
 
     function showChat() {
-        document.getElementById("Chats").style.display = "block";
+        document.getElementById("Chats").style.display = "flex";
     }
 
     function showOptions() {

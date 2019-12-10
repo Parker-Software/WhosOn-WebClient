@@ -1,59 +1,84 @@
-
-
-html,body{
-    background-color: $ThemeChatBackground;
+html,
+body {
+  background-color: $ThemeChatBackground;
 }
 
 .wo-login {
-   padding-top:5%;
-    overflow-y: auto;
-    height:calc(100vh - 110px);
-    .box{
-        border:none;
-        background-color: transparent;
-        box-shadow: none;
+  label {
+    color: $ThemeTextColor;
+    font-size: 0.8rem;
+    font-weight: normal;
+  }
+  padding-top: 5%;
+  overflow-y: auto;
+  height: calc(100vh - 110px);
+  .box {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    margin-bottom: 0.9rem;
 
-        i{
-            color: $ThemeTitleBackground;
-        }
-
-        .btn-login {
-            background-color: $ThemeTitleBackground;
-            color: #fff;
-            padding-left:20px;
-            padding-right:20px;
-        }
+    i {
+      color: $ThemeToolbarHover;
     }
 
-    .wo-error{
-        margin-top: 10px;
-        margin-bottom: -25px;
+    .btn-login {
+      background-color: $ThemeButtonFill;
+      color: $ThemeToolbarText;
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 1rem;
     }
+  }
 
- 
-    .switch[type="checkbox"] + label {
-        font-size: 0.8rem; 
-    } 
+  .wo-error {
+    margin-top: 10px;
+    margin-bottom: -25px;
+  }
 
-    .switch[type="checkbox"]:checked + label {
-        font-size: 0.8rem;
-        &::before {
-            background: $ThemeTitleBackground !important;
-        }
+  .switch[type="checkbox"] + label {
+    font-size: 0.7rem;
+    color: $ThemeTextColor;
+  }
+
+  .switch[type="checkbox"]:checked + label {
+    &::before {
+      background: $ThemeButtonTextHover !important;
     }
+  }
 
-    .advSettings {
-        border-top: 1px solid $ThemeTitleBackground;
-        text-align: left;
-    }
+  .advSettings {
+    border-top: 1px solid $ThemeTitleBackground;
+    text-align: left;
+    border-radius: 0;
+  }
 }
 
 .footer-bar {
-    background-color: $ThemeChatBackground;
-    position: fixed;
-    width: 100%;
-    text-align: center;
-    bottom: 0;
-    padding-top:5px;
-    padding-bottom:5px;
+  font-size: 0.8rem;
+  background-color: $ThemeChatBackground;
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  bottom: 0;
+  padding-top: 5px;
+  padding-bottom: 10px;
+
+  a {
+    color:$ThemeRoundButtonHover;
+  }
+}
+
+.switch[type="checkbox"] + label::after,
+.switch[type="checkbox"] + label:after {
+  background: $ThemeButtonFill;
+}
+
+.switch[type="checkbox"] + label::before,
+.switch[type="checkbox"] + label:before {
+  background: $ThemeButtonTextHover;
+}
+
+.wo-login .switch[type="checkbox"]:checked + label::before {
+  background: $ThemeSwitchSelected !important;
 }

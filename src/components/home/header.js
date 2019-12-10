@@ -6,8 +6,8 @@
         template: `
             <div class="header" id="app-header">
                 <div class="has-text-centered">
-                    <h1 class="is-size-5">{{topDisplayName}} ({{statusText}}) | WhosOn</h1>
-                </div>
+                    <h1 class="is-size-6-half has-text-weight-medium">{{topDisplayName}} ({{statusText}}) | WhosOn</h1>
+                </div>              
             </div>`,
             computed: {
                 topDisplayName: function() {

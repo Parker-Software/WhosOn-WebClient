@@ -1,0 +1,26 @@
+.chat-responses-container {
+  display: none;
+  width: 30%;
+  padding:10px;
+  border-left: 1px solid lightgray;
+  height: calc(100vh - (#{$chat-interactions} + #{$chat-tabs} + #{$chat-header} + #{$header-height}));
+  overflow-y: auto;
+
+  input{
+    line-height: 1;
+    height:1.5rem;
+    font-size: 0.8rem;
+  }
+
+  .icon{
+    height:1.5rem !important;
+    width:1.5rem !important;
+  }
+
+  i{   
+    font-size: 0.7rem;
+    &.fa-search {
+      color:$ThemeChatText;
+    }
+  }
+}

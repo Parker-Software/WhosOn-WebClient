@@ -1,0 +1,129 @@
+.active-chats {
+
+
+  background-color: #fff;
+  width: 290px;
+  overflow-y: auto;
+  position: relative;
+  height: calc(100vh - 32px);
+
+  .media-content {
+    overflow:hidden;
+}
+ 
+  .active-chats-wrapper {
+    padding: 5px;
+    padding-right:0;
+  }
+
+  .open-chats {
+    z-index: 10;
+    display: none;
+    position: absolute;
+    right: -61px;
+    transform: rotate(90deg);
+    top: calc(50% - 50px);
+    background-color: white;
+    color: black;
+    padding-top: 0 !important;
+    padding-left: 0.6em;
+    padding-right: 0.6em;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    width: 100px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .status-border {
+    border-left: 4px solid $ThemeTextColor;
+  }
+  .chat-info {
+    box-shadow: none;
+    margin-bottom: 8px;
+    padding: 0.4rem;
+    line-height: 1.1;
+   
+
+    .chat-info-item {
+        margin-bottom: 0;
+        color: $ThemeChatText;   
+    }
+  
+    &.is-selected {
+      background-color:$ThemeListItemSelected;
+    }
+  
+    &:hover {
+      background-color: $ThemeListItemHover;
+      cursor: pointer;
+      color:$ThemeRoundButtonHoverText; 
+      small,strong{
+        color:$ThemeRoundButtonHoverText; 
+      }
+    }
+  }
+
+  .active-team-wrapper {
+
+    padding: 0;
+    padding-right:0;
+    h5{
+      padding:5px;
+      &.title {
+        margin-bottom: 1.5rem;
+      }
+      
+    }
+
+    .columns {
+      margin-left: 0;
+      margin-right: 0;
+      margin-top: 0;
+  }
+
+    .users-list {
+      line-height: 1;
+      margin-top:8px;
+  
+      .user-list-team {
+        margin-top: 6px;
+      }
+      small {
+        color: $ThemeChatText;
+        font-weight: 600;
+        &.user-list-title {
+          margin-bottom:4px;
+        }
+      }
+  
+    .column {
+        padding: 0.45rem;
+    }
+  
+    .userItem {
+      &:hover {
+        cursor: pointer;
+        background-color: $ThemeListItemHover;
+  
+        strong,small{
+          color: $ThemeButtonTextHover;
+        }
+      }
+  
+      &.is-active {
+        background-color:$ThemeListItemSelected;
+      }
+    }
+  
+      .useritem-username {
+        padding-top:4px;
+      }
+    }
+
+  }
+
+
+}
+
+

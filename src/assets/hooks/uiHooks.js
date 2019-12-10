@@ -46,7 +46,7 @@
                     state.currentChatPreSurveys = Copy(state.chatPreSurveys[chatInfo.Number]);
                     hooks.Call(events.Chat.PreChatSurveysLoaded);
                 } else {
-                    state.currentChatPreSurveys = {};
+                    state.currentChatPreSurveys = [];
                 }
                 services.WhosOnConn.AcceptChat(chatInfo.Number);
                 hooks.Call(events.Chat.ClickTab, "conversation");
@@ -81,7 +81,7 @@
                 state.currentChatPreSurveys = Copy(state.chatPreSurveys[chatInfo.Number]);
                 hooks.Call(events.Chat.PreChatSurveysLoaded);
             } else {
-                state.currentChatPreSurveys = {};
+                state.currentChatPreSurveys = [];
             }
             hooks.Call(events.Chat.ClickTab, "conversation");
         } else services.WhosOnConn.MonitorChat(chatInfo.Number);
@@ -93,10 +93,14 @@
         var userName = state.userName;
         var visitorName = state.currentChat.Name;
         var email;
-        var hasEmail = state.currentChatPreSurveys.find((v) => v.Name == "Email");
-        if(hasEmail != null) {
-            email = hasEmail.Value;
-        }
+
+  
+       
+            var hasEmail = state.currentChatPreSurveys.find((v) => v.Name == "Email");
+            if(hasEmail != null) {
+                email = hasEmail.Value;
+            }
+        
 
         state.crmURL = `https://whosoncrmfuncs.azurewebsites.net/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=https://dev3.whoson.com/whosoncharts/`;
         hooks.Call(events.Chat.CRMIFrameChangedSrc, state.crmURL);

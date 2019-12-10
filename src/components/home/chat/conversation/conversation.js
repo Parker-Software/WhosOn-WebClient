@@ -3,15 +3,15 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    Vue.component('chatConversation', {
+    Vue.component('chatConversation', {   
         template: `
-        <div id="chatConversation" style="height:100%;">
-            <div id="conversationContainer" style="margin-top: 0.75rem;">
+        <div id="chatConversation" class="chat-conversation">
+            <div id="conversationContainer" class="chat-conversation-container">
                 <chatConversationSurvey v-if="validSurveys.length > 0" :surveys="validSurveys"></chatConversationSurvey>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div id="chatScroller" class="column is-full message-list">
-                            <div v-for="(v,k) in groupedMessages">
+                        <div id="chatScroller" class="column is-full message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
+                            <div v-for="(v,k) in groupedMessages" class="messages">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
@@ -47,6 +47,22 @@
             });
         },
         methods: {
+            setSize() {
+                var surveys = state.currentChatPreSurveys;
+                var valid = [];
+
+                for(var i = 0; i < surveys.length; i++)
+                {
+                    var survey = surveys[i];
+                    if(survey.BuiltInField != "visitor name" && survey.Value != "") {
+
+                        valid.push(survey);
+                    }
+
+                }
+                console.log(valid);
+                return (valid.length > 0) ? true: false;
+            },
             Element() {
                 return document.getElementById("chatConversation");
             },
@@ -81,6 +97,9 @@
             }
         },
         computed: {
+            BeingMonitoredByYou() {
+                return state.currentChat.BeingMonitoredByYou;
+            },
             validSurveys() {
                 var surveys = state.currentChatPreSurveys;
                 var valid = [];
@@ -98,7 +117,7 @@
             },
             chatMessages() {
                 return state.currentChatMessages;
-            },
+            },            
             groupedMessages() {
                 var grouped = [];
                 for(var i = 0; i < this.chatMessages.length; i++) {
