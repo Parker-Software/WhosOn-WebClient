@@ -22,7 +22,7 @@
                     </ul>
                     <hr/>
                     <div class="field">
-                        <label class="label">Name</label>
+                        <label class="label">Status Message</label>
                         <div class="control">
                             <input class="input" type="text" placeholder="Text input"><button class="button is-info">Update</button>
                         </div>
