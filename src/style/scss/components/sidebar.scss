@@ -1,6 +1,5 @@
 .wo-sidebar {
   z-index: 90;
-  border-top: 2px dashed #990000;
   display: block;
   width: $sidebar-width;
   position: absolute;
@@ -79,7 +78,8 @@
   }
 
   .menu {
-    font-size: 0.78rem;
+    font-size: 11px;
+    font-weight: 600;
     position: fixed;
     width: inherit;
     .menu-list {
@@ -151,26 +151,13 @@
 
  
 
-  @include mobile {
-    border-top: 2px solid purple;
-
-  }
-  @include tablet {
-    border-top: 2px solid green;
-  
-  }
-
+  @include mobile {}
+  @include tablet {}
   @include desktop {
-    border-top: 2px solid orange;
     .view-container {
       display: block;      
     }
   }
-  @include widescreen-only {
-    border-top: 2px solid blue;
-  }
-
-  @include fullhd {
-    border-top: 2px solid grey;
-  }
+  @include widescreen-only {}
+  @include fullhd {}
 }
