@@ -1,0 +1,19 @@
+.btn 
+{
+    background-color: $ThemeButtonFill;
+    color: $ThemeToolbarText;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 0.9rem;
+    border-radius: 4px;
+}
+
+.btn:focus {
+    background-color: $ThemeRoundButtonHover;
+    color: $ThemeRoundButtonHoverText;
+}
+
+.btn:hover {
+    background-color: $ThemeRoundButtonHover;
+    color: $ThemeRoundButtonHoverText;
+} 

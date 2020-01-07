@@ -60,7 +60,6 @@
                     }
 
                 }
-                console.log(valid);
                 return (valid.length > 0) ? true: false;
             },
             Element() {

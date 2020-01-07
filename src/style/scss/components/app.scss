@@ -128,3 +128,7 @@ small {
 	-webkit-box-shadow: inset 0 0 6px $ThemeScrollBar;
 	background-color: $ThemeScrollBar;
 }
+
+a:disabled {
+    pointer-events: none !important;
+}

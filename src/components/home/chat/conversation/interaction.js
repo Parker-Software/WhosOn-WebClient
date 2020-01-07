@@ -37,7 +37,7 @@
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons" style="position:relative">
                  
-                    <a v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <a v-if="$store.state.currentChatSite.AllowEmoji && $store.state.settings.ShowEmoji" id="emojiBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-smile"></i>
                     </a>
                     <a id="cannedResponsesBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
@@ -136,6 +136,25 @@
                     self.requestFileBtn().removeAttribute("disabled");
                 }, 100);
 
+            });
+
+            hooks.Register(events.Connection.ChatChanged, (e) => {
+                if(this.$store.state.currentChat.ChatUID == e.Data.ChatUID) {
+                    if(this.$store.state.currentChatMessages.length <= 0 || (
+                        this.$store.state.currentChatMessages.length == 1 && this.$store.state.currentChatMessages[0].code == 99)) {
+                            if(this.InputArea().innerText == "") {
+
+                                var finalGreetings = this.$store.state.settings.Greeting;
+                                var currentTime = new Date();
+
+                                finalGreetings = finalGreetings.replace(/%TimeOfDay%/g, `${currentTime.getHours() < 12 ? 'Morning' : 'Afternoon'}`);
+                                finalGreetings = finalGreetings.replace(/%Name%/g, this.$store.state.currentChat.Name);
+                                finalGreetings = finalGreetings.replace(/%MyName%/g, this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName);
+                                this.InputArea().innerText = finalGreetings;
+                                this.InputArea().focus();
+                            }
+                    }
+                }
             });
 
             hooks.Register(events.Connection.MonitoredChat, (e) => {

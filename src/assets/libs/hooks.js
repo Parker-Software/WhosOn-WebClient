@@ -58,7 +58,10 @@
             CannedResponseDeleted: "cannedresponsedeleted",
             UserPhoto: "userphoto",
             MonthSummary: "monthsummary",
-            DailySummary: "ds"
+            DailySummary: "ds",
+            PasswordChanged: "passwordchanged",
+            Error: "error",
+            Visitor: "visitor"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -117,7 +120,9 @@
         },
         Options: {
             LogoutClicked: "home.options.LogoutClicked",
-            TabClicked: "home.options.TabClicked"
+            TabClicked: "home.options.TabClicked",
+            SaveClicked: "home.options.SaveClicked",
+            CancelClicked: "home.options.CancelClicked"
         },
         EmojiMenu: {
             Clicked: "emojiMenu.Clicked"
@@ -129,6 +134,11 @@
         },
         Transfer: {
             Clicked: "transfer.Clicked"
+        },
+        Inactivity: {
+            Active: "inactivity.active",
+            Inactive: "inactivity.inactive",
+            ShouldLogOut: "inactivity.shouldLogOut"
         }
     }
     
@@ -156,7 +166,7 @@
                     if(typeof(args) != null && result != null) args = result;
                 }
             } else {
-                console.log(`No hooks registered for that hook - ${name}`);
+                console.log(`No hooks registered for - ${name}`);
             }
             if(typeof(args) != null) return args;
         }

@@ -1,0 +1,15 @@
+input[type="text"] {
+    outline:none !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    border: 1px solid transparent !important;
+}
+
+input[type="text"]:hover {
+    border: 1px solid $ThemeRoundButtonBorder !important;
+}
+
+input[type="text"]:focus {
+    border: 1px solid $ThemeRoundButtonBorder !important;
+}

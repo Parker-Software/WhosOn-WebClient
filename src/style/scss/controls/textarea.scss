@@ -1,0 +1,8 @@
+textarea:focus {
+    border: 1px $ThemeRoundButtonBorder solid !important;
+    box-shadow: none !important;
+}
+
+textarea {
+    font-size: 0.8em !important;
+}

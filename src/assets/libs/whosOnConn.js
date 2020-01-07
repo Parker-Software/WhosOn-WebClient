@@ -46,15 +46,14 @@
 
         Connect(address) {
             var self = this;
-            console.log(address);
             self.Socket.Connect(address);
         }
 
-        Login(auth, displayName, department, phone, version, status, lang, platform, userName, password) {
+        Login(auth, displayName, department, phone, version, status, lang, platform, userName, password, apiKey) {
             var self = this;
 
             self.Socket.Send("login", [
-                auth, displayName, department, phone, version, status, lang, userName, password, platform
+                auth, displayName, department, phone, version, status, lang, userName, password, platform, apiKey
             ]);
         }
 
@@ -266,6 +265,35 @@
                 chatId,
                 value
             ]);
+        }
+
+        ClientOptions(options) {
+            var self = this;
+
+            var newOptions = "";
+            Object.keys(options).forEach((k) => {
+                newOptions += `${k}=${options[k]}\n`
+            });
+
+            self.Socket.Send("ClientOptions", [
+                newOptions
+            ]);
+        }
+
+        ChangePassword(userName, oldpassword, newpassword) {
+            var self = this;
+
+            self.Socket.Send("changepassword", [
+                userName,
+                oldpassword,
+                newpassword
+            ]);
+        }
+
+        StartVisitorEvents() {
+            var self = this;
+
+            self.Socket.Send("StartVisitorEvents", null);
         }
 
         Logout() {

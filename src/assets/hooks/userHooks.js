@@ -5,6 +5,9 @@
     var store = services.Store;
 
     hooks.Register(events.Connection.LoggedIn, (e) => {
+        state.appTitle = e.Data.AppTitle;
+        state.serverBuild = e.Data.ServerBuild;
+        state.registeredUser = e.Data.RegisteredUser;
         state.serverUID = e.Data.ServerUid;
         state.webChartsURL = e.Data.WebChartsUrl;
         state.chatURL = e.Data.ChatUrl;
@@ -46,6 +49,15 @@
         state.rights.SingleUseFile = split[17];
         state.rights.SuperAdmin = split.indexOf("S") != -1;
         state.rights.Invisible = split.indexOf("I") != -1;
+
+
+        var settings = state.userInfo.ClientOptions.split('\n');
+        for(var i = 0; i < settings.length; i++) {
+            if(settings[i].indexOf('=') != -1) {
+                var extracted = IniExtraction(settings[i]);
+                state.settings[extracted[0]] = extracted[1];
+            }
+        }
     });
 
     hooks.Register(events.Connection.CurrentUsersOnline, (e) => {
@@ -93,7 +105,7 @@
         } else {
             changedUser.HasPhoto = true;
             state.users.push(changedUser);
-            connection.GetUserPhoto(changedUser.Username);
+            services.WhosOnConn.GetUserPhoto(changedUser.Username);
         }
     });
 

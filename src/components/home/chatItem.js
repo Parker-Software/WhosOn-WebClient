@@ -13,7 +13,7 @@
         var string = "";
         if(minutes > 0)  string += `${minutes} Mins`;
 
-        return `${string} ${seconds} Secs`;
+        return `${string} ${seconds} Seconds`;
     }
 
     var chatWaitingTimer = setInterval(() => {

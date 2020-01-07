@@ -10,6 +10,7 @@
             self._version = self._state.version;
             self._lang = self._state.lang;
             self._platform = self._state.platform;
+            self._key = self._state.key;
         }
 
 
@@ -26,7 +27,8 @@
                 self._lang,
                 self._platform,
                 userName,
-                password
+                password,
+                self._key
             )
         }
 
