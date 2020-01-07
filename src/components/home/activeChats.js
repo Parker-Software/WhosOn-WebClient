@@ -15,7 +15,9 @@
                             <h2 class="is-6-half has-text-weight-medium pad-4">{{groupname}} {{group.length}}</h2>
                             <ul class="chat-scroller">
                                 <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
-                                    :chat = "item">
+                                    :chat = "item" 
+                                    v-if="item.TalkingToClientConnection == 0 || (item.TalkingToClientConnection == $store.state.currentConnectionId) || 
+                                        (item.TalkingToClientConnection != $store.state.currentConnectionId && $store.state.settings.ShowOtherUsersChats)">
                                 </homeWaitingChat>
                             </ul>
                         </div>
@@ -25,7 +27,6 @@
             `,
             methods: {
                 ActiveChatsBtn() {
-                  console.log("click");
                   var element = document.getElementById("homeActiveChats");
                   var wrapper = document.getElementById("active-chats-wrapper");
                   element.classList.toggle("show");   

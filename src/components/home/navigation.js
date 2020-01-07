@@ -9,8 +9,8 @@
         template: `    
              <div class="wo-sidebar customColumn">
                 <div id="sideBar" class="view-container view-container-hover is-hidden" @mouseover="hoverSideBar(true, 'sidebar')" @mouseleave="hoverSideBar(false, 'sidebar')"> 
-                        <homeActiveChats v-if="showChats"></homeActiveChats>
-                        <homeTeamUsers v-if="showTeam"></homeTeamUsers>
+                        <homeActiveChats v-bind:class="{'is-hidden': showChats == false}"></homeActiveChats>
+                        <homeTeamUsers v-bind:class="{'is-hidden': showTeam == false}"></homeTeamUsers>
                 </div>
              <div id="statusPopout" class="status-popout is-hidden">
                 <div class="status-container">
@@ -90,6 +90,15 @@
                 </aside>
         </div>`,
         beforeCreate() {
+            hooks.Register(events.Options.SaveClicked, () => {
+                this.OnNavButtonClicked('chats');
+            });
+            hooks.Register(events.Options.CancelClicked, () => {
+                this.OnNavButtonClicked('chats');
+            });
+            hooks.Register(events.Connection.PasswordChanged, () => {
+                this.OnNavButtonClicked('chats');
+            });
         },
         mounted() {
             this.$nextTick(function() {
@@ -168,18 +177,22 @@
             },
             setToOnline() {
                 hooks.Call(events.Home.StatusChanged, "online");
+                this.$store.state.statusCanChangeAutomatically = true;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
             setToBusy() {
                 hooks.Call(events.Home.StatusChanged, "busy");
+                this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
             setToBRB() {
                 hooks.Call(events.Home.StatusChanged, "brb");
+                this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
             setToAway() {
                 hooks.Call(events.Home.StatusChanged, "away");
+                this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
             UnselectAll() {
@@ -218,13 +231,16 @@
             SideBar() {
                 return document.getElementById("sideBar");
             },
+            ToggleStatus() {
+                this.StatusPopout().classList.toggle("is-hidden");
+            },
             OnNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);  
                 this.focus = status;        
+                if(this.isHidden(this.StatusPopout()) == false) this.ToggleStatus();
                 switch (status) {
                     case "status":
-                        //hooks.Call(navEvents.MyStatusClicked);
-                        this.StatusPopout().classList.toggle("is-hidden");
+                        this.ToggleStatus();
                         break;
                     case "chats":
                         this.UnselectAll();

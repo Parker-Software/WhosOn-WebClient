@@ -39,7 +39,7 @@
                                 <input v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
                             </div>
                         </div>                        
-                        <input type="button" class="button is-block btn-login" v-on:click="onSubmit" value="Login">                        
+                        <input type="button" class="button is-block btn" v-on:click="onSubmit" value="Login">                        
                     </form>
                     <div class="notification is-danger wo-error is-hidden"></div>
                 </div>

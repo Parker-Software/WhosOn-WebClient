@@ -68,7 +68,6 @@
             visitorLetter(){
                 var name = this.user.Username;
                 if(name === undefined) return;
-                console.log(name)
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {

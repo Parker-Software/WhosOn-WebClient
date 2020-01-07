@@ -12,7 +12,6 @@
                     <homenav></homenav>     
                     <div class="main-view customColumn" id="page-content">                   
                         <div class="content-body">
-                            <homeMyStatus></homeMyStatus>
                             <div class="main-view-chats" id="Chats">                              
                                 <homeChatArea></homeChatArea>
                                 <homeNoChatsArea></homeNoChatsArea>

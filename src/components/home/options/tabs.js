@@ -7,9 +7,9 @@
             <div class="tabs options-tabs">
                 <ul>
                     <li id="optionsGeneralTab" v-on:click="TabClicked('general')" class="is-active"><a>General</a></li>
-                    <li id="optionsCannedResponsesTab" v-on:click="TabClicked('cannedResponses')" class=""><a>My Canned Responses</a></li>
+                    <!--<li id="optionsCannedResponsesTab" v-on:click="TabClicked('cannedResponses')" class=""><a>My Canned Responses</a></li>-->
                     <li id="optionsChatTab" v-on:click="TabClicked('chat')" class=""><a>Chat</a></li>
-                    <li id="optionsOfficeTab" v-on:click="TabClicked('office')" class=""><a>Office 365</a></li>
+                    <!--<li id="optionsOfficeTab" v-on:click="TabClicked('office')" class=""><a>Office 365</a></li>-->
                     <li id="optionsChangePasswordTab" v-on:click="TabClicked('changePassword')" class=""><a>Change Password</a></li>
                     <li id="optionsAboutTab" v-on:click="TabClicked('about')" class=""><a>About</a></li>
                 </ul>
@@ -17,12 +17,12 @@
         `,
         methods: {
             UnSelectAll() {
-                this.GeneralElem().classList.remove("is-active");
-                this.CannedResponsesElem().classList.remove("is-active");
-                this.ChatElem().classList.remove("is-active");
-                this.OfficeElem().classList.remove("is-active");
-                this.ChangePasswordElem().classList.remove("is-active");
-                this.AboutElem().classList.remove("is-active");
+                if(this.GeneralElem()) this.GeneralElem().classList.remove("is-active");
+                if(this.CannedResponsesElem()) this.CannedResponsesElem().classList.remove("is-active");
+                if(this.ChatElem()) this.ChatElem().classList.remove("is-active");
+                if(this.OfficeElem()) this.OfficeElem().classList.remove("is-active");
+                if(this.ChangePasswordElem()) this.ChangePasswordElem().classList.remove("is-active");
+                if(this.AboutElem()) this.AboutElem().classList.remove("is-active");
             },
             TabClicked(tab) {
                 this.UnSelectAll();

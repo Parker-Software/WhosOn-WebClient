@@ -40,7 +40,7 @@
             <div v-if="SelectedTab == 'users'" class="users-tab">
                 <div class="field">
                     <p class="control has-icons-right">
-                        <input id="transferSearchTxtBox" class="input" type="text" placeholder="Search Team">                        
+                        <input id="transferSearchTxtBox" class="input" type="text" placeholder="Search Team" v-on:keyup.enter="Search">                        
                         <span class="icon is-small is-right">
                             <i class="fas fa-search"></i>
                         </span>
@@ -73,11 +73,15 @@
                             <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
                         </ul>
                     </div>
-                    <div v-if="SearchText.length > 0">
-                    <ul v-for="item of ValidSearchUsers">
-                        <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
-                    </ul>                
                 </div>
+                <div v-if="SearchText.length > 0">
+                    <small>Search Results - {{SearchText}}</small>
+                    <ul v-if="ValidSearchUsers.length > 0" v-for="item of ValidSearchUsers">
+                        <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                    </ul>  
+                    <p v-if="ValidSearchUsers.length <= 0">
+                        <span>None</span>
+                    </p>              
                 </div>
             </div>
             <div v-if="SelectedTab == 'departments'" class="is-hidden"></div>
@@ -172,7 +176,7 @@
             Search() {
                 var txt = this.SearchElem().value;
                 if(txt.length > 0) {
-                    this.DisableTransferBtn();
+                    //this.DisableTransferBtn();
                     this.SearchText = txt;
                     this.SearchResult = this.ValidUsers.filter(x => 
                         x.Username.toLowerCase().includes(txt) ||
@@ -182,7 +186,6 @@
                     this.SearchResult = [];
                     this.SearchText = "";
                 }
-
                 hooks.Call(events.Home.UserImagesNeedUpdating);
             },
             Hide() {
@@ -197,11 +200,14 @@
                 hooks.Call(events.Home.UserImagesNeedUpdating);
             },    
             Transfer() {               
-                this.UnSelectAll();                       
+                this.UnSelectAll();   
+
+                var finalMessage = this.$store.state.settings.TransferMessage;
+                finalMessage = finalMessage.replace(/%Name%/g, state.currentChat.Name);
 
                 switch(this.SelectedTab) {
                     case "users":
-                            connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], "");
+                            connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);
                         break;
                     case "departments":
                             connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");

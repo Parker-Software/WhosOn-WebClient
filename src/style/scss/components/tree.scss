@@ -1,0 +1,35 @@
+
+.treeItem {
+    padding: 5px;
+    line-height: 2em;
+}
+.treeItem:hover {
+    cursor: pointer;
+    color: $ThemeRoundButtonHoverText;
+    background-color: $ThemeListItemHover;
+}
+
+.treeItem.selected {
+    color: $ThemeRoundButtonHoverText;
+    background-color: $ThemeListItemHover;
+}
+
+.treeItem.selected span {
+    color: $ThemeRoundButtonHoverText;
+}
+
+.treeItem:hover span {
+    color: $ThemeRoundButtonHoverText;
+}
+
+.hasChildrenChevron {
+    margin-right: 5px;
+    font-size: 10px;
+    color: gray;
+}
+
+.treeNode {
+    padding-left: 1.5em;
+    line-height: 2em;
+    list-style-type: dot;
+}

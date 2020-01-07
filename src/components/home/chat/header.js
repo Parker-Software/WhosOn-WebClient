@@ -174,7 +174,6 @@
             visitorLetter(){
                 var name = state.currentChat.Name;
                 if(name === undefined) return;
-                console.log(name)
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {

@@ -17,19 +17,22 @@
     font-weight: 600;
   }
 
+  
+
+  small {
+    color: $ThemeChatText;
+    font-weight: 600;
+    &.user-list-title {
+      margin-bottom:4px;
+    }
+  }
+
   .users-list {
     line-height: 1;
     margin-top:8px;
 
     .user-list-online,.user-list-busy,.user-list-brb,.user-list-away {
       margin-top: 6px;
-    }
-    small {
-      color: $ThemeChatText;
-      font-weight: 600;
-      &.user-list-title {
-        margin-bottom:4px;
-      }
     }
 
   .column {
