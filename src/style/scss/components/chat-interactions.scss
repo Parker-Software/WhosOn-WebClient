@@ -78,8 +78,9 @@
       margin-right: 0;
     }
   }
-  textarea {
+  .textarea {
     resize: none;
+    overflow: auto;
   }
   .visitor-typing {
     padding-top: 0;

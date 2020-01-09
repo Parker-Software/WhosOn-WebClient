@@ -4,7 +4,7 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    Vue.component('wrapupModal', {
+    Vue.component("wrapupModal", {
         data: () => {
             return {
                 SelectedValue: null

@@ -4,7 +4,7 @@
     var chatEvents = events.Chat;
     var state = services.Store.state;
 
-    Vue.component('chatHeader', {
+    Vue.component("chatHeader", {
         data: () => {
             return {
                 ShowWrapUp: false,
@@ -36,43 +36,43 @@
             </div>
             <div class="customColumn column is-4 is-tablet">
                 <div class="chat-header-icons is-pulled-right">
-                    <button v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="tooltip" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
+                    <button v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="has-tooltip-left" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="tooltip" data-tooltip="Close this chat" v-on:click="CloseClicked">
+                    <button v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="has-tooltip-left" data-tooltip="Close this chat" v-on:click="CloseClicked">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="tooltip" data-tooltip="Show transfer list">
+                    <button v-if="BeingMonitoredByYou == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="has-tooltip-left" data-tooltip="Show transfer list">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
                         </span>
                     </button>
                     <!--
-                    <a href="#" class="tooltip" data-tooltip="Request monitor">
+                    <button href="#" class="has-tooltip-left" data-tooltip="Request monitor">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-graduation-cap fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
-                    <a href="#" class="tooltip" data-tooltip="Email transcript">
+                    </button>
+                    <button href="#" class="has-tooltip-left" data-tooltip="Email transcript">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-envelope fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
-                    <a href="#" class="tooltip" data-tooltip="Show block options">
+                    </button>
+                    <button href="#" class="has-tooltip-left" data-tooltip="Show block options">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-ban fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>-->
+                    </button>-->
                 </div>
                 <conversationWrapUp 
                     v-if="currentSite != null &&
@@ -114,7 +114,7 @@
             hooks.Register(events.ChatItem.AcceptClicked, (num, id) => {
                 switch(this.currentSite.WrapUp.Show) {
                     case "From Start":
-                            if(this.currentChat.WrapUpCompleted == false)  this.ShowWrapUp = true;
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
                         break;
                     default:
                         this.ShowWrapUp = false;
@@ -122,7 +122,7 @@
                 }
 
 
-                if(this.currentChat.WrapUpCompleted)  this.ShowWrapUp = true;
+                if(this.currentChat.WrapUpCompleted)  {this.ShowWrapUp = true;}
             });
 
             hooks.Register(events.Connection.CurrentChatClosed, () => {
@@ -130,7 +130,7 @@
                     case "Session End":
                     case "Window Close":
                     case "From Start":
-                            if(this.currentChat.WrapUpCompleted == false)  this.ShowWrapUp = true;
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
                         break;
                     default:
                         this.ShowWrapUp = false;
@@ -145,7 +145,7 @@
         computed: {
             visitorsEmail() {
                 var surveys = woServices.Store.state.currentChatPreSurveys;
-                if(surveys.length <= 0) return "";
+                if(surveys.length <= 0) {return "";}
 
                 for(var i = 0; i < surveys.length; i++)
                 {
@@ -173,12 +173,13 @@
             },
             visitorLetter(){
                 var name = state.currentChat.Name;
-                if(name === undefined) return;
+                if(name === undefined) {return;}
+                console.log(name)
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {
                 var name = state.currentChat.Name;
-                if(name === undefined) return;              
+                if(name === undefined) {return;}              
                 return name.charAt(0).toLowerCase();
             }
         },
@@ -193,22 +194,22 @@
                 return document.getElementById("transferBtn");
             },
             DisableCloseChatButton() {
-                if(this.CloseBtn() != null) this.CloseBtn().setAttribute("disabled", true);
+                if(this.CloseBtn() != null) {this.CloseBtn().setAttribute("disabled", true);}
             },
             EnableCloseChatButton() {
-                if(this.CloseBtn() != null) this.CloseBtn().removeAttribute("disabled");
+                if(this.CloseBtn() != null) {this.CloseBtn().removeAttribute("disabled");}
             },
             EnableStopMonitoringButton() {
-                if(this.StopMonitoringBtn() != null) this.StopMonitoringBtn().removeAttribute("disabled");
+                if(this.StopMonitoringBtn() != null) {this.StopMonitoringBtn().removeAttribute("disabled");}
             },
             DisableStopMonitoringButton() {
-                if(this.StopMonitoringBtn() != null) this.StopMonitoringBtn().setAttribute("disabled", true);
+                if(this.StopMonitoringBtn() != null) {this.StopMonitoringBtn().setAttribute("disabled", true);}
             },
             DisableTransferButton() {
-                if(this.TransferBtn() != null) this.TransferBtn().setAttribute("disabled", true);
+                if(this.TransferBtn() != null) {this.TransferBtn().setAttribute("disabled", true);}
             },
             EnableTransferButton() {
-                if(this.TransferBtn() != null)  this.TransferBtn().removeAttribute("disabled");
+                if(this.TransferBtn() != null)  {this.TransferBtn().removeAttribute("disabled");}
             },
             CloseClicked(e) {
                 var currentSiteWrapUpRequired = state.sites[state.currentChat.SiteKey].WrapUp.Required;

@@ -51,7 +51,7 @@
         if (newChat != null) {
             
             var doesExist = state.chats.find(x => x.ChatUID == data.ChatUID);
-            if(doesExist != null) return;
+            if(doesExist != null) {return;}
             
             var chat = services.ChatFactory.FromChatChangedNew(data, newChat, state.sites, state.users);
             state.chats.push(chat);
@@ -60,7 +60,7 @@
             hooks.Call(events.Connection.NewChat, chat);
         } else {
             var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
-            if(oldChat != null) services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
+            if(oldChat != null) {services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);}
             else {
                 var site = state.sites[data.SiteKey];
                 var chat = services.ChatFactory.FromChatChangedNew(data, {
@@ -87,7 +87,7 @@
 
         var chatId = chatBelongingTo.ChatUID;
         var messages = state.chatMessages[chatId];
-        if(messages == null) state.chatMessages[chatId] = [];
+        if(messages == null) {state.chatMessages[chatId] = [];}
 
         var suggestionTag = "<Suggest>";
         var suggestionEndingTag = "</Suggest>";
@@ -119,14 +119,14 @@
 
     hooks.Register(events.Connection.CurrentVisitorUploadedFile, (e) => {
         var chatBelongingTo = state.chats.find((v) => v.Number == e.Header);
-        if(chatBelongingTo == null) return;
+        if(chatBelongingTo == null) {return;}
 
         
         var chatId = chatBelongingTo.ChatUID;
 
         var msg = {code:0, msg:e.Data, date: getDate(new Date()), isLink: true};
         
-        if(state.chatMessages[chatId] == null) state.chatMessages[chatId] = [];
+        if(state.chatMessages[chatId] == null) {state.chatMessages[chatId] = [];}
         state.chatMessages[chatId].push(msg);
         state.chatMessages = Copy(state.chatMessages);
 
@@ -166,7 +166,7 @@
         
         state.chatMessages = Copy(state.chatMessages);
         state.currentChatMessages = Copy(state.chatMessages[chatUID]);
-        state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== 'undefined' ?
+        state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
             Copy(state.chatPreSurveys[chatNum]) :
             [];
         state.currentChatTypingstate = false;
@@ -276,7 +276,7 @@
         
         var message = { code:1, msg:whisper.Data, date: getDate(new Date()), isWhisper: true, Name: opName};
         
-        if(state.chatMessages[chatBelongingTo.ChatUID] == null) state.chatMessages[chatBelongingTo.ChatUID] = [];
+        if(state.chatMessages[chatBelongingTo.ChatUID] == null) {state.chatMessages[chatBelongingTo.ChatUID] = [];}
         state.chatMessages[chatBelongingTo.ChatUID].push(message);
         state.chatMessages = Copy(state.chatMessages);
 
@@ -302,7 +302,7 @@
             "date" : getDate(new Date()),
             "msg" : message.Data
         }
-        if(state.chatMessages[chat.ChatUID] == null) state.chatMessages[chat.ChatUID] = [];
+        if(state.chatMessages[chat.ChatUID] == null) {state.chatMessages[chat.ChatUID] = [];}
         state.chatMessages[chat.ChatUID].push(chatObject);
         state.currentChatMessages.push(chatObject);
 

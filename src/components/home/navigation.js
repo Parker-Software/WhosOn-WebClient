@@ -5,7 +5,7 @@
     var navEvents = events.Navigation;
     var state = services.state;
 
-    Vue.component('homenav', {
+    Vue.component("homenav", {
         template: `    
              <div class="wo-sidebar customColumn">
                 <div id="sideBar" class="view-container view-container-hover is-hidden" @mouseover="hoverSideBar(true, 'sidebar')" @mouseleave="hoverSideBar(false, 'sidebar')"> 
@@ -102,37 +102,37 @@
         },
         mounted() {
             this.$nextTick(function() {
-                window.addEventListener('resize', this.windowResize);          
+                window.addEventListener("resize", this.windowResize);          
                 //Init
                 this.windowResize()
               })
         },
         beforeDestroy() {
-            window.removeEventListener('resize', this.windowResize);
+            window.removeEventListener("resize", this.windowResize);
           },
         data: () => {
             return {
                 showChats: true,
                 showTeam: false,
-                focus: 'chats'
+                focus: "chats"
             }
         },
         computed: {
             setOnlineActive() {
                 var status = this.$store.state.currentStatus;
-                if (status === 0) return "is-active";
+                if (status === 0) {return "is-active";}
             },
             setBusyActive() {
                 var status = this.$store.state.currentStatus;
-                if (status === 1) return "is-active";
+                if (status === 1) {return "is-active";}
             },
             setBRBActive() {
                 var status = this.$store.state.currentStatus;
-                if (status === 2) return "is-active";
+                if (status === 2) {return "is-active";}
             },
             setAwayActive() {
                 var status = this.$store.state.currentStatus;
-                if (status === 3) return "is-active";
+                if (status === 3) {return "is-active";}
             }
         },       
         methods: {            
@@ -173,7 +173,7 @@
             },
             isHidden: function (el) {
                 var style = window.getComputedStyle(el);
-                return (style.display === 'none')
+                return (style.display === "none")
             },
             setToOnline() {
                 hooks.Call(events.Home.StatusChanged, "online");

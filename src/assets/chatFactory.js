@@ -139,7 +139,7 @@
 
             if(chat.TalkingToClientConnection == state.currentConnectionId) {
                 chat.TalkingTo = state.userInfo.Name; 
-                chat.Status = `Talking To You`; 
+                chat.Status = "Talking To You"; 
             } else {
                 var op = operators.find((v) => v.Connection == chat.TalkingToClientConnection); 
                 chat.TalkingTo = op.Name; 

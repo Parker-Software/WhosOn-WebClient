@@ -4,13 +4,13 @@
  * @license MIT
  */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-  typeof define === 'function' && define.amd ? define(factory) :
+  typeof exports === "object" && typeof module !== "undefined" ? module.exports = factory() :
+  typeof define === "function" && define.amd ? define(factory) :
   (global = global || self, global.Vuex = factory());
-}(this, function () { 'use strict';
+}(this, function () { "use strict";
 
   function applyMixin (Vue) {
-    var version = Number(Vue.version.split('.')[0]);
+    var version = Number(Vue.version.split(".")[0]);
 
     if (version >= 2) {
       Vue.mixin({ beforeCreate: vuexInit });
@@ -19,7 +19,7 @@
       // for 1.x backwards compatibility.
       var _init = Vue.prototype._init;
       Vue.prototype._init = function (options) {
-        if ( options === void 0 ) options = {};
+        if ( options === void 0 ) {options = {};}
 
         options.init = options.init
           ? [vuexInit].concat(options.init)
@@ -36,7 +36,7 @@
       var options = this.$options;
       // store injection
       if (options.store) {
-        this.$store = typeof options.store === 'function'
+        this.$store = typeof options.store === "function"
           ? options.store()
           : options.store;
       } else if (options.parent && options.parent.$store) {
@@ -45,9 +45,9 @@
     }
   }
 
-  var target = typeof window !== 'undefined'
+  var target = typeof window !== "undefined"
     ? window
-    : typeof global !== 'undefined'
+    : typeof global !== "undefined"
       ? global
       : {};
   var devtoolHook = target.__VUE_DEVTOOLS_GLOBAL_HOOK__;
@@ -57,14 +57,14 @@
 
     store._devtoolHook = devtoolHook;
 
-    devtoolHook.emit('vuex:init', store);
+    devtoolHook.emit("vuex:init", store);
 
-    devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    devtoolHook.on("vuex:travel-to-state", function (targetState) {
       store.replaceState(targetState);
     });
 
     store.subscribe(function (mutation, state) {
-      devtoolHook.emit('vuex:mutation', mutation, state);
+      devtoolHook.emit("vuex:mutation", mutation, state);
     });
   }
 
@@ -85,11 +85,11 @@
   }
 
   function isObject (obj) {
-    return obj !== null && typeof obj === 'object'
+    return obj !== null && typeof obj === "object"
   }
 
   function isPromise (val) {
-    return val && typeof val.then === 'function'
+    return val && typeof val.then === "function"
   }
 
   function assert (condition, msg) {
@@ -112,7 +112,7 @@
     var rawState = rawModule.state;
 
     // Store the origin module's state
-    this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+    this.state = (typeof rawState === "function" ? rawState() : rawState) || {};
   };
 
   var prototypeAccessors = { namespaced: { configurable: true } };
@@ -185,8 +185,8 @@
     var module = this.root;
     return path.reduce(function (namespace, key) {
       module = module.getChild(key);
-      return namespace + (module.namespaced ? key + '/' : '')
-    }, '')
+      return namespace + (module.namespaced ? key + "/" : "")
+    }, "")
   };
 
   ModuleCollection.prototype.update = function update$1 (rawRootModule) {
@@ -195,7 +195,7 @@
 
   ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
       var this$1 = this;
-      if ( runtime === void 0 ) runtime = true;
+      if ( runtime === void 0 ) {runtime = true;}
 
     {
       assertRawModule(path, rawModule);
@@ -240,7 +240,7 @@
           {
             console.warn(
               "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
-              'manual reload is needed'
+              "manual reload is needed"
             );
           }
           return
@@ -255,14 +255,14 @@
   }
 
   var functionAssert = {
-    assert: function (value) { return typeof value === 'function'; },
-    expected: 'function'
+    assert: function (value) { return typeof value === "function"; },
+    expected: "function"
   };
 
   var objectAssert = {
-    assert: function (value) { return typeof value === 'function' ||
-      (typeof value === 'object' && typeof value.handler === 'function'); },
-    expected: 'function or object with "handler" function'
+    assert: function (value) { return typeof value === "function" ||
+      (typeof value === "object" && typeof value.handler === "function"); },
+    expected: "function or object with \"handler\" function"
   };
 
   var assertTypes = {
@@ -289,7 +289,7 @@
   function makeAssertionMessage (path, key, type, value, expected) {
     var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
     if (path.length > 0) {
-      buf += " in module \"" + (path.join('.')) + "\"";
+      buf += " in module \"" + (path.join(".")) + "\"";
     }
     buf += " is " + (JSON.stringify(value)) + ".";
     return buf
@@ -299,23 +299,23 @@
 
   var Store = function Store (options) {
     var this$1 = this;
-    if ( options === void 0 ) options = {};
+    if ( options === void 0 ) {options = {};}
 
     // Auto install if it is not done yet and `window` has `Vue`.
     // To allow users to avoid auto-installation in some cases,
     // this code should be placed here. See #731
-    if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    if (!Vue && typeof window !== "undefined" && window.Vue) {
       install(window.Vue);
     }
 
     {
       assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
-      assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+      assert(typeof Promise !== "undefined", "vuex requires a Promise polyfill in this browser.");
       assert(this instanceof Store, "store must be called with the new operator.");
     }
 
-    var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
-    var strict = options.strict; if ( strict === void 0 ) strict = false;
+    var plugins = options.plugins; if ( plugins === void 0 ) {plugins = [];}
+    var strict = options.strict; if ( strict === void 0 ) {strict = false;}
 
     // store internal state
     this._committing = false;
@@ -404,7 +404,7 @@
     ) {
       console.warn(
         "[vuex] mutation type: " + type + ". Silent option has been removed. " +
-        'Use the filter functionality in the vue-devtools'
+        "Use the filter functionality in the vue-devtools"
       );
     }
   };
@@ -461,7 +461,7 @@
   };
 
   Store.prototype.subscribeAction = function subscribeAction (fn) {
-    var subs = typeof fn === 'function' ? { before: fn } : fn;
+    var subs = typeof fn === "function" ? { before: fn } : fn;
     return genericSubscribe(subs, this._actionSubscribers)
   };
 
@@ -469,7 +469,7 @@
       var this$1 = this;
 
     {
-      assert(typeof getter === 'function', "store.watch only accepts a function.");
+      assert(typeof getter === "function", "store.watch only accepts a function.");
     }
     return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
   };
@@ -483,13 +483,13 @@
   };
 
   Store.prototype.registerModule = function registerModule (path, rawModule, options) {
-      if ( options === void 0 ) options = {};
+      if ( options === void 0 ) {options = {};}
 
-    if (typeof path === 'string') { path = [path]; }
+    if (typeof path === "string") { path = [path]; }
 
     {
       assert(Array.isArray(path), "module path must be a string or an Array.");
-      assert(path.length > 0, 'cannot register the root module by using registerModule.');
+      assert(path.length > 0, "cannot register the root module by using registerModule.");
     }
 
     this._modules.register(path, rawModule);
@@ -501,7 +501,7 @@
   Store.prototype.unregisterModule = function unregisterModule (path) {
       var this$1 = this;
 
-    if (typeof path === 'string') { path = [path]; }
+    if (typeof path === "string") { path = [path]; }
 
     {
       assert(Array.isArray(path), "module path must be a string or an Array.");
@@ -647,7 +647,7 @@
    * if there is no namespace, just use root ones
    */
   function makeLocalContext (store, namespace, path) {
-    var noNamespace = namespace === '';
+    var noNamespace = namespace === "";
 
     var local = {
       dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
@@ -747,7 +747,7 @@
       }
       if (store._devtoolHook) {
         return res.catch(function (err) {
-          store._devtoolHook.emit('vuex:error', err);
+          store._devtoolHook.emit("vuex:error", err);
           throw err
         })
       } else {
@@ -795,7 +795,7 @@
     }
 
     {
-      assert(typeof type === 'string', ("expects string as the type, but found " + (typeof type) + "."));
+      assert(typeof type === "string", ("expects string as the type, but found " + (typeof type) + "."));
     }
 
     return { type: type, payload: payload, options: options }
@@ -805,7 +805,7 @@
     if (Vue && _Vue === Vue) {
       {
         console.error(
-          '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+          "[vuex] already installed. Vue.use(Vuex) should be called only once."
         );
       }
       return
@@ -830,14 +830,14 @@
         var state = this.$store.state;
         var getters = this.$store.getters;
         if (namespace) {
-          var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+          var module = getModuleByNamespace(this.$store, "mapState", namespace);
           if (!module) {
             return
           }
           state = module.context.state;
           getters = module.context.getters;
         }
-        return typeof val === 'function'
+        return typeof val === "function"
           ? val.call(this, state, getters)
           : state[val]
       };
@@ -861,18 +861,18 @@
 
       res[key] = function mappedMutation () {
         var args = [], len = arguments.length;
-        while ( len-- ) args[ len ] = arguments[ len ];
+        while ( len-- ) {args[ len ] = arguments[ len ];}
 
         // Get the commit method from store
         var commit = this.$store.commit;
         if (namespace) {
-          var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+          var module = getModuleByNamespace(this.$store, "mapMutations", namespace);
           if (!module) {
             return
           }
           commit = module.context.commit;
         }
-        return typeof val === 'function'
+        return typeof val === "function"
           ? val.apply(this, [commit].concat(args))
           : commit.apply(this.$store, [val].concat(args))
       };
@@ -895,7 +895,7 @@
       // The namespace has been mutated by normalizeNamespace
       val = namespace + val;
       res[key] = function mappedGetter () {
-        if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        if (namespace && !getModuleByNamespace(this.$store, "mapGetters", namespace)) {
           return
         }
         if (!(val in this.$store.getters)) {
@@ -924,18 +924,18 @@
 
       res[key] = function mappedAction () {
         var args = [], len = arguments.length;
-        while ( len-- ) args[ len ] = arguments[ len ];
+        while ( len-- ) {args[ len ] = arguments[ len ];}
 
         // get dispatch function from store
         var dispatch = this.$store.dispatch;
         if (namespace) {
-          var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+          var module = getModuleByNamespace(this.$store, "mapActions", namespace);
           if (!module) {
             return
           }
           dispatch = module.context.dispatch;
         }
-        return typeof val === 'function'
+        return typeof val === "function"
           ? val.apply(this, [dispatch].concat(args))
           : dispatch.apply(this.$store, [val].concat(args))
       };
@@ -975,11 +975,11 @@
    */
   function normalizeNamespace (fn) {
     return function (namespace, map) {
-      if (typeof namespace !== 'string') {
+      if (typeof namespace !== "string") {
         map = namespace;
-        namespace = '';
-      } else if (namespace.charAt(namespace.length - 1) !== '/') {
-        namespace += '/';
+        namespace = "";
+      } else if (namespace.charAt(namespace.length - 1) !== "/") {
+        namespace += "/";
       }
       return fn(namespace, map)
     }
@@ -1003,7 +1003,7 @@
   var index = {
     Store: Store,
     install: install,
-    version: '3.1.1',
+    version: "3.1.1",
     mapState: mapState,
     mapMutations: mapMutations,
     mapGetters: mapGetters,

@@ -4,19 +4,18 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    Vue.component('chatConversationVisitor', {
+    Vue.component("chatConversationVisitor", {
         props: [
-            'groupedMessage'
+            "groupedMessage"
         ],
         template: `
             <div class="columns is-gapless">
-                <div class="column">
+                <div class="visitor-message">
                     <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
                     <p><small>{{visitorName}} <time>{{groupedMessage.time}}</time></small></p>
                     <p v-html="messageFormatted" class="visitor-message-text"></p>
                     </div>
                 </div>
-                <div class="column is-4"></div>
             </div>
         `,
         mounted() {
@@ -31,7 +30,7 @@
         computed: {
             visitorName(){
                 var name = state.currentChat.Name;
-                if(name === undefined) return;
+                if(name === undefined) {return;}
                 return name;
             },
             messageFormatted: function() {
@@ -47,7 +46,7 @@
                         name = xml.getElementsByTagName("name")[0].innerHTML;
                         link = xml.getElementsByTagName("url")[0].innerHTML;
                     } else {
-                        var split = linkedMessage.msg.split('\t');
+                        var split = linkedMessage.msg.split("\t");
                         name = split[0];
                         link = split[1];
                     }

@@ -5,8 +5,8 @@
     var connection = services.WhosOnConn;
     var state = services.Store.state;
 
-    Vue.component('transferDialog', {
-        props: ['user','visitorName'],  
+    Vue.component("transferDialog", {
+        props: ["user","visitorName"],  
         template: `
         <div id="transferDialog" class="modal">
           <div class="modal-background"></div>
@@ -32,11 +32,11 @@
         `,            
         computed: {
         getUser() {
-           if(this.user === null) return;
+           if(this.user === null) {return;}
            return this.user.Username;
         },
         getVisitorName() {
-            if(this.visitorName === null) return;
+            if(this.visitorName === null) {return;}
            return this.visitorName;
         }
         },

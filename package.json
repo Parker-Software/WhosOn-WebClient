@@ -5,6 +5,7 @@
   "main": "gulpfile.js",
   "dependencies": {
     "bulma": "^0.7.5",
+    "bulma-tooltip": "^3.0.2",
     "del": "^5.0.0",
     "gulp-eslint": "^6.0.0",
     "util": "^0.12.1"

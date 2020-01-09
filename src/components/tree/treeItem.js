@@ -1,7 +1,7 @@
 (function(services){
     var hooks = services.Hooks;
 
-    Vue.component('treeItem', {
+    Vue.component("treeItem", {
         props: [
             "item",
             "treeId",
@@ -11,7 +11,7 @@
             <li>
                 <div
                     :id="treeId + '-' + item.ID"
-                    class="treeItem"
+                    class="treeItem child-item"
                     :class="{hasChildren: isFolder, noChildren: isFolder == false}"
                     @click="Clicked">
                     <span v-if="isFolder" class="hasChildrenChevron" v-html="IsOpen"></span>
@@ -43,7 +43,7 @@
                 return this.item.children && this.item.children.length
             },
             IsOpen: function () {
-                return this.isOpen ? "<i class='fas fa-chevron-right'></i>" : "<i class='fas fa-chevron-down'></i>";
+                return this.isOpen ? "<i class='fas fa-chevron-down'></i>" : "<i class='fas fa-chevron-right'></i>";
             }
         },
         methods: {
@@ -51,14 +51,14 @@
                 if (this.isFolder) {
                     this.isOpen = !this.isOpen
                 }
-                this.$emit('TreeItemClicked', this.item);
+                this.$emit("TreeItemClicked", this.item);
             },
             ClickedForParent(item) {
-                this.$emit('TreeItemClicked', item);
+                this.$emit("TreeItemClicked", item);
             },
             makeFolder: function () {
                 if (!this.isFolder) {
-                    this.$emit('make-folder', this.item)
+                    this.$emit("make-folder", this.item)
                     this.isOpen = true
                 }
             }

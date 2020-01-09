@@ -2,7 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('conversationWrapUp', {
+    Vue.component("conversationWrapUp", {
         props: [
             "options"
         ],

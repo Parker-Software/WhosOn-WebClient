@@ -23,4 +23,15 @@
       color:$ThemeChatText;
     }
   }
+  .item {
+    cursor: pointer;
+  }
+  .bold {
+    font-weight: bold;
+  }
+  ul:not(:first-of-type) {
+    padding-left: 1em;
+    line-height: 1.5em;
+    list-style-type: dot;
+  }
 }

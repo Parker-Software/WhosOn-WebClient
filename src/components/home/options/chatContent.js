@@ -1,5 +1,5 @@
 (function(services){
-    Vue.component('homeOptionsContentChat', {
+    Vue.component("homeOptionsContentChat", {
         props: [
             "id"
         ],

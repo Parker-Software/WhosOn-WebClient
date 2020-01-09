@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     
-    Vue.component('homeChatArea', {
+    Vue.component("homeChatArea", {
         template: `
             <div class="customColumn chat-area" id="homeChatArea" style="display:none">
                 <chatTransfer></chatTransfer>                

@@ -99,8 +99,8 @@
             });
 
             hooks.Register(events.Chat.WrapUpNotCompleted, () => {
-                if(notification != null) notification.close();
-                notification = services.Notifications.CreateNotification(`Chat Wrapup Required`, `Please complete wrapup to close the chat`, () => {
+                if(notification != null) {notification.close();}
+                notification = services.Notifications.CreateNotification("Chat Wrapup Required", "Please complete wrapup to close the chat", () => {
                     hooks.Call(events.Chat.WrapUpClicked);
                 });
             });

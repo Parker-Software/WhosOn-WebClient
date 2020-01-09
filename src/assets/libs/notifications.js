@@ -10,7 +10,7 @@
                 if (Notification.permission === "granted") {
                     self.NotficationsAllowed = true;
                 }
-                else if (Notification.permission !== 'denied') {
+                else if (Notification.permission !== "denied") {
                     Notification.requestPermission(function (permission) {
                         if (permission === "granted") {
                             self.NotficationsAllowed = true;
@@ -23,7 +23,7 @@
         CreateNotification(title, text, onclickFunc, timeToClose) {
             var self = this;
 
-            if(timeToClose == null) timeToClose = -1;
+            if(timeToClose == null) {timeToClose = -1;}
 
             if(self.NotficationsAllowed) {
                 var notification = new Notification(title, { body: text,  icon: "/assets/images/128x128.png" });

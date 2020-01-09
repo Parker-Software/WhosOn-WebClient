@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('cannedResponseSearchItem', {
+    Vue.component("cannedResponseSearchItem", {
         props: [
             "item",
             "treeId"
@@ -20,7 +20,7 @@
             `,
         methods: {
             Clicked() {
-                this.$emit('ItemClicked', this.item);
+                this.$emit("ItemClicked", this.item);
             }
         }
     });

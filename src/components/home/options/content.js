@@ -2,7 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('homeOptionsContent', {
+    Vue.component("homeOptionsContent", {
         template: `
         <div id="homeOptionsContent" class="options-content">
             <homeOptionsContentGeneral id="optionsGeneralContent"></homeOptionsContentGeneral>

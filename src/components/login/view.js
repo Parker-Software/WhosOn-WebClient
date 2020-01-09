@@ -144,8 +144,8 @@
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
                 var advSettingsArea = document.getElementById("advSettingsBox");
-                if (advSettingsToggle.checked == true) advSettingsArea.style.visibility = "visible";
-                if (advSettingsToggle.checked == false) advSettingsArea.style.visibility = "hidden";
+                if (advSettingsToggle.checked == true) {advSettingsArea.style.visibility = "visible";}
+                if (advSettingsToggle.checked == false) {advSettingsArea.style.visibility = "hidden";}
             },
             resetPasswordRedirect() {
                 var sameServer = window.location.protocol + "//" + window.location.hostname + "/settings";

@@ -4,7 +4,7 @@
     var connEvents = events.Connection;
     var state = services.Store.state;
 
-    Vue.component('departmentItem', {
+    Vue.component("departmentItem", {
         props: [
             "collectionGroup",
             "department"
@@ -38,20 +38,20 @@
         computed: {
             ItemClass() {
                 var classes = {};
-                classes[this.collectionGroup || 'departmentItem'] = true;
-                classes[(this.collectionGroup || 'departmentItem') + '-' +  this.department.Name] = true;
+                classes[this.collectionGroup || "departmentItem"] = true;
+                classes[(this.collectionGroup || "departmentItem") + "-" +  this.department.Name] = true;
                 return classes;
             }
         },
         methods: {
             Elem() {
-                return document.getElementsByClassName(`${this.collectionGroup || 'departmentItem'}-${this.department.Name}`)[0];
+                return document.getElementsByClassName(`${this.collectionGroup || "departmentItem"}-${this.department.Name}`)[0];
             },
             Clicked() {
                 this.$emit("Clicked", this.department);
                 if (this.Elem().classList.contains("is-active")) {
                     this.Elem().classList.remove("is-active");
-                } else this.Elem().classList.add("is-active");
+                } else {this.Elem().classList.add("is-active");}
             }
         }
     });

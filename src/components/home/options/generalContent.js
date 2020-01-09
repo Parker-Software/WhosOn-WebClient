@@ -1,5 +1,5 @@
 (function(services){
-    Vue.component('homeOptionsContentGeneral', {
+    Vue.component("homeOptionsContentGeneral", {
         props: [
             "id"
         ],

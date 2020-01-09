@@ -3,15 +3,15 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    Vue.component('chatConversation', {   
+    Vue.component("chatConversation", {   
         template: `
         <div id="chatConversation" class="chat-conversation">
             <div id="conversationContainer" class="chat-conversation-container">
                 <chatConversationSurvey v-if="validSurveys.length > 0" :surveys="validSurveys"></chatConversationSurvey>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div id="chatScroller" class="column is-full message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
-                            <div v-for="(v,k) in groupedMessages" class="messages">
+                        <div id="chatScroller" class="message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
+                            <div v-for="(v,k) in groupedMessages" class="messages" v-bind:class="{ messageRight: getMessageType(v.type) }">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
@@ -26,8 +26,8 @@
         `,
         beforeCreate() {
             hooks.Register(events.Chat.TabClicked, (tab) => {
-                if(tab != "conversation" && tab != "crm") this.Element().style.display = "none";
-                else this.Element().style.display = "block";
+                if(tab != "conversation" && tab != "crm") {this.Element().style.display = "none";}
+                else {this.Element().style.display = "block";}
             });
 
             hooks.Register(events.Chat.ScrollChat, (e) => {
@@ -62,6 +62,12 @@
                 }
                 return (valid.length > 0) ? true: false;
             },
+            getMessageType(type) {
+               if(type === 0){
+                   return false;
+               }
+               return true;              
+            },
             Element() {
                 return document.getElementById("chatConversation");
             },
@@ -69,12 +75,12 @@
                 return document.getElementById("conversationContainer");
             },
             ScrollChat() {
-                var scroller = document.getElementById('chatScroller');
+                var scroller = document.getElementById("chatScroller");
                 setTimeout(() => {
                     scroller.scrollBy({
                         top: scroller.scrollHeight,
                         left: 0,
-                        behavior: 'smooth'
+                        behavior: "smooth"
                     });
                 }, 100);
             },
@@ -140,8 +146,8 @@
                             var messageTime = this.MessageDateToDate(this.chatMessages[k].date);
                             var diff = (messageTime - currentTime) / 1000;
 
-                            if(this.chatMessages[k].isWhisper == undefined) this.chatMessages[k].isWhisper = false;
-                            if(this.chatMessages[k].isLink == undefined) this.chatMessages[k].isLink = false;
+                        if(this.chatMessages[k].isWhisper == undefined) {this.chatMessages[k].isWhisper = false;}
+                        if(this.chatMessages[k].isLink == undefined) {this.chatMessages[k].isLink = false;}
 
                             if(
                                 this.chatMessages[k].code == message.code &&

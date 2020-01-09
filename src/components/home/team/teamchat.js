@@ -1,6 +1,6 @@
 (function(services){
 
-    Vue.component('homeTeamChat', {
+    Vue.component("homeTeamChat", {
         template: `
         <div class="customColumn chat-area" id="hometeamChat">
             <div class="logo">

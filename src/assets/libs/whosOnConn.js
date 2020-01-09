@@ -29,7 +29,7 @@
                 });
 
                 if(validMessageType == false) 
-                    console.log(`Unhandled message - ${data.EventName}`); 
+                    {console.log(`Unhandled message - ${data.EventName}`);} 
                 else {
                     hooks.Call(data.EventName, data);
                 }

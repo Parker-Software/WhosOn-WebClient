@@ -152,24 +152,24 @@
 
         Register(name, callback) {
             var self = this;
-            if('undefined' == typeof(self._hooks[name])) self._hooks[name] = [];
+            if("undefined" == typeof(self._hooks[name])) {self._hooks[name] = [];}
             self._hooks[name].push(callback);
         }
 
         Call(name, args) { 
             var self = this;
-            if(self._showHookCall) console.log(name); 
-            if('undefined' != typeof(self._hooks[name]))
+            if(self._showHookCall) {console.log(name);} 
+            if("undefined" != typeof(self._hooks[name]))
             {
                 for(var i = 0; i < self._hooks[name].length; i++)
                 {
                     var result = self._hooks[name][i](args);
-                    if(typeof(args) != null && result != null) args = result;
+                    if(typeof(args) != null && result != null) {args = result;}
                 }
             } else {
                 console.log(`No hooks registered for - ${name}`);
             }
-            if(typeof(args) != null) return args;
+            if(typeof(args) != null) {return args;}
         }
     }
 
