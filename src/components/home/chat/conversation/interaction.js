@@ -23,38 +23,46 @@
         },
         template: `
         <section class="reply-container">
-        <emojiMenu v-if="ShowingEmojiMenu"></emojiMenu>
+            <emojiMenu v-if="ShowingEmojiMenu"></emojiMenu>
+            <fileMenu v-bind:class="{'is-hidden': !ShowingFiles}"></fileMenu>
             <div class="column is-full visitor-typing" v-if="$store.state.currentChatTypingstate && BeingMonitoredByYou == false">
-                <span>{{$store.state.currentChat.Name}} is typing...</span>
+                <span>{{$store.state.currentChat.Name}} is typing</span>
             </div>
             <div class="column is-full visitor-typing" v-if="$store.state.currentChatTypingstate && BeingMonitoredByYou">
-                <span>{{this.CurrentlyTypingNameMonitored}} is typing...</span>
+                <span>{{this.CurrentlyTypingNameMonitored}} is typing</span>
             </div>
-            <div class="column is-full">
+            <div class="column is-full" style="padding-top:0.5rem;">
                 <div id="inputArea" v-bind:class="{'beingMonitored':BeingMonitoredByYou}" class="textarea" contenteditable="true"  placeholder="Enter your reply"
                     style="resize: none;" v-on:keydown="keymonitor"></div>
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons" style="position:relative">
-                 
-                    <a v-if="$store.state.currentChatSite.AllowEmoji && $store.state.settings.ShowEmoji" id="emojiBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="$store.state.currentChatSite.AllowEmoji && $store.state.settings.ShowEmoji" id="emojiBtn" class="emoji-icon emojiBtn" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-smile"></i>
-                    </a>
-                    <a id="cannedResponsesBtn" class="emoji-icon" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
+                    </button>
+                    <button id="cannedResponsesBtn" class="emoji-icon emojiBtn" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-comment-dots"></i>
-                    </a>
-                    <a v-if="BeingMonitoredByYou == false" class="emoji-icon" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    </button>
+                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon emojiBtn" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
-                    </a>
-                    <a v-if="BeingMonitoredByYou == false" class="emoji-icon" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    </button>
+                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon emojiBtn" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
-                    </a>
+                    </button>
                 </div>
             </div>
-            <fileUploader></fileUploader>            
+            <!--<fileUploader></fileUploader>-->         
         </section>
         `,
         beforeCreate() {
+            hooks.Register(events.FileUploader.Yes, (e) => { 
+                this.ShowingFiles = false;
+            });
+
+            hooks.Register(events.FileUploader.Successful, (e) => {
+                this.ShowingFiles = false;
+            });
+
             hooks.Register(events.Connection.MonitoredOperatorTyping, (e) => {
                 var msg = e;
                 var info = msg.Data.split(":");
@@ -242,16 +250,20 @@
             },
             emojiBtnClicked() {
                 this.ShowingEmojiMenu = !this.ShowingEmojiMenu;
+                this.ShowingCannedResponses = false;
+                this.ShowingFiles = false;
                 hooks.Call(events.Chat.EmojiMenuClicked);
             },
             cannedResponsesClicked() {
                 this.ShowingCannedResponses = !this.ShowingCannedResponses;
                 this.ShowingEmojiMenu = false;
+                this.ShowingFiles = false;
                 hooks.Call(events.Chat.CannedResponsesClicked);
             },
             sendFileClicked() {
                 this.ShowingFiles = !this.ShowingFiles;
                 this.ShowingEmojiMenu = false;
+                this.ShowingCannedResponses = false;
                 hooks.Call(events.Chat.SendFileClicked);
             },
             requestFileClicked() {
@@ -322,6 +334,9 @@
                         stopTypingStatus();
                     }, 2000);
                 }
+
+                this.ShowingFiles = false;
+                this.ShowingEmojiMenu = false;
             },
             sendTypingStatus() {
                 sendingTypingStatus = true;

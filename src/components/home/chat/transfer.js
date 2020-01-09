@@ -176,7 +176,6 @@
             Search() {
                 var txt = this.SearchElem().value;
                 if(txt.length > 0) {
-                    //this.DisableTransferBtn();
                     this.SearchText = txt;
                     this.SearchResult = this.ValidUsers.filter(x => 
                         x.Username.toLowerCase().includes(txt) ||

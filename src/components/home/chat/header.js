@@ -36,24 +36,24 @@
             </div>
             <div class="customColumn column is-4 is-tablet">
                 <div class="chat-header-icons is-pulled-right">
-                    <a v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="tooltip" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
+                    <button v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="tooltip" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
-                    <a v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="tooltip" data-tooltip="Close this chat" v-on:click="CloseClicked">
+                    </button>
+                    <button v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="tooltip" data-tooltip="Close this chat" v-on:click="CloseClicked">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
-                    <a v-if="BeingMonitoredByYou == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="tooltip" data-tooltip="Show transfer list">
+                    </button>
+                    <button v-if="BeingMonitoredByYou == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="tooltip" data-tooltip="Show transfer list">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </a>
+                    </button>
                     <!--
                     <a href="#" class="tooltip" data-tooltip="Request monitor">
                         <span class="fa-stack fa-2x">

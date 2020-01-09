@@ -14,7 +14,6 @@
   }
 
   .chat-conversation-container {
-    width: 100%;
 
     .message-list {
       scroll-behavior: smooth;
@@ -43,13 +42,15 @@
   .notification {
     text-decoration: none;
     padding: 0.6rem;
+    word-break: break-all;
+
     &.visitor {
         background-color: $ThemeChatLineBackgroundVisitor;
 
         user-select: text;
         .visitor-message-text {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             line-height: 1.2;
         }
       }
@@ -60,7 +61,7 @@
         user-select: text;
         .operator-message-text {
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             line-height: 1.2;
         }
       }

@@ -112,6 +112,7 @@
         },
         FileUploader: {
             FileItemClicked: "fileuploader.FileItemClicked",
+            Yes: "fileuploader.Yes",
             Successful: "fileuploader.Successful",
             Failed: "fileuploader.Failed"
         },

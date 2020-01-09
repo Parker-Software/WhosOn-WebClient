@@ -46,9 +46,12 @@
                 <div class="columns">
                     <div class="customColumn is-narrow column no-gap-right">
                         <div v-if="user.HasPhoto == false" v-bind:class="setBackgroundColor" class="badge">{{visitorLetter}}<div class="status"></div></div>
-                        <figure class="image is-48x48 " v-if="user.HasPhoto">
-                        <div class="status"></div>
-                            <img v-bind:class="user.Username" src="https://bulma.io/images/placeholders/48x48.png" alt="Image" class="is-rounded">    
+                        <figure class="image is-48x48" v-if="user.HasPhoto">
+                        <div class="status online-user" v-if="user.Status == 0"></div>
+                        <div class="status busy-user" v-if="user.Status == 1"></div>
+                        <div class="status brb-user" v-if="user.Status == 2"></div>
+                        <div class="status away-user" v-if="user.Status >= 3"></div>
+                        <img v-bind:class="user.Username" src="https://bulma.io/images/placeholders/48x48.png" alt="Image" class="is-rounded">    
                         </figure>                           
                     </div>
                     <div class="column">

@@ -79,11 +79,11 @@
                 }, 100);
             },
             Split() {
-                this.Container().style.width = "70%";
+                this.Container().style.width = "calc(70% - 4px)";
                 this.Container().style.float = "left";
             },
             Normal() {
-                this.Container().style.width = "100%";
+                this.Container().style.width = "calc(100% - 4px)";
                 this.Container().style.float = "none";
             },
             MessageDateToDate(date) {
@@ -134,25 +134,27 @@
 
                     var currentTime = this.MessageDateToDate(message.date);
 
-                    for(var k = i + 1; k < this.chatMessages.length; k++) {
+                    if(message.isLink == undefined || message.isLink == false) { 
+                        for(var k = i + 1; k < this.chatMessages.length; k++) {
 
-                        var messageTime = this.MessageDateToDate(this.chatMessages[k].date);
-                        var diff = (messageTime - currentTime) / 1000;
+                            var messageTime = this.MessageDateToDate(this.chatMessages[k].date);
+                            var diff = (messageTime - currentTime) / 1000;
 
-                        if(this.chatMessages[k].isWhisper == undefined) this.chatMessages[k].isWhisper = false;
-                        if(this.chatMessages[k].isLink == undefined) this.chatMessages[k].isLink = false;
+                            if(this.chatMessages[k].isWhisper == undefined) this.chatMessages[k].isWhisper = false;
+                            if(this.chatMessages[k].isLink == undefined) this.chatMessages[k].isLink = false;
 
-                        if(
-                            this.chatMessages[k].code == message.code &&
-                            diff <= 10 &&
-                            this.chatMessages[k].isLink == groupedMessage.isLink &&
-                            this.chatMessages[k].isWhisper == groupedMessage.isWhisper) {
+                            if(
+                                this.chatMessages[k].code == message.code &&
+                                diff <= 10 &&
+                                this.chatMessages[k].isLink == groupedMessage.isLink &&
+                                this.chatMessages[k].isWhisper == groupedMessage.isWhisper) {
 
-                            groupedMessage.messages.push(this.chatMessages[k]);
-                            groupedMessage.time = this.chatMessages[k].date;
-                        } else {
-                            break;
-                        }
+                                groupedMessage.messages.push(this.chatMessages[k]);
+                                groupedMessage.time = this.chatMessages[k].date;
+                            } else {
+                                break;
+                            }
+                        } 
                     }
 
                     grouped.push(groupedMessage);
