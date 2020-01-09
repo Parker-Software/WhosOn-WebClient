@@ -13,3 +13,19 @@
 .away {
     color: $ThemeMyStatusAway;
 }
+
+.online-user {
+    background-color: $ThemeMyStatusOnline !important;
+}
+
+.busy-user {
+    background-color: $ThemeMyStatusBusy !important;
+}
+
+.brb-user {
+    background-color: $ThemeMyStatusBeRightBack !important;
+}
+
+.away-user {
+    background-color: $ThemeMyStatusAway !important;
+}

@@ -1,0 +1,23 @@
+.table {
+    color: black;
+    background-color: transparent;
+    font-size: 0.75rem;
+
+    .bold {
+        font-weight: bold;
+    }
+
+    tr {
+        cursor: pointer;
+    }
+
+    tr:hover {
+        background-color: $ThemeRoundButtonHover;
+        color: $ThemeRoundButtonHoverText;
+    }
+
+    td {
+        border: none;
+        overflow: auto;
+    }
+}

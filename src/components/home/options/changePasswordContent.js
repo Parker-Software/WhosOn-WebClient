@@ -9,21 +9,23 @@
         ],
         template: `
             <div v-bind:id="id">
-                <div class="field">
-                    <label for="currentPassword"><small>Current password:</small></label> <br />
-                    <input id="currentPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
-                </div>
-                <div class="field">
-                    <label for="newPassword"><small>New password:</small></label> <br />
-                    <input id="newPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
-                </div>  
-                <div class="field">
-                    <label for="repeatNewPassword"><small>Repeat new password:</small></label> <br />
-                    <input id="repeatNewPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
-                </div>
-                <div class="field">
-                    <button class="button btn" v-on:click="ChangePassword">Change</button>
-                </div>
+                <form class="form" autocomplete="off" onsubmit="event.preventDefault();">
+                    <div class="field">
+                        <label for="currentPassword"><small>Current password:</small></label> <br />
+                        <input id="currentPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
+                    </div>
+                    <div class="field">
+                        <label for="newPassword"><small>New password:</small></label> <br />
+                        <input id="newPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
+                    </div>  
+                    <div class="field">
+                        <label for="repeatNewPassword"><small>Repeat new password:</small></label> <br />
+                        <input id="repeatNewPassword" class="input" type="password"  v-on:keyup.enter="ChangePassword">
+                    </div>
+                    <div class="field">
+                        <button class="button btn" v-on:click="ChangePassword">Change</button>
+                    </div>
+                </form>
             </div>
         `,
         beforeCreate() {

@@ -2,19 +2,41 @@
   position: absolute;
   bottom: 10px;
   width: 100%;
-  background-color: $ThemeChatBackground;
 
-  .emojiMenu {
-    width: 600px;
-    height: 300px;
+  .fileMenu {
+    width: calc(100% - 24px);
+    height: 220px;
     position: absolute;
     background-color: $ThemeChatLineBackgroundVisitor;
-    bottom: 170px;
-    right: 12px;
+    bottom: 100px;
+    right: 0;
     padding: 10px;
+    margin: 12px;
     border-radius: 2px;
     color: #fff;
     z-index: 99;
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+  }
+
+
+  .emojiMenu {
+    max-width: 400px;
+    min-width: 30%;
+    height: 200px;
+    position: absolute;
+    background-color: $ThemeChatLineBackgroundVisitor;
+    bottom: 100px;
+    right: 0;
+    padding: 10px;
+    margin: 12px;
+    border-radius: 2px;
+    color: #fff;
+    z-index: 99;
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
   }
 
   .emojiList {
@@ -29,17 +51,23 @@
 
   .emojiBtn {
     display: inline-block;
-    padding: 2px;
     cursor: pointer;
-    border-radius: 50%;
-    width: 35px;
-    height: 35px;
-
     text-align: center;
+    border:0;
+    outline:0;
+    padding:0;
+    margin: 0;
+    font-size: 1rem;
   }
 
   .emojiBtn:hover {
-    background-color: whitesmoke;
+    color: $ThemeButtonHover;
+  }
+
+  .emojiBtn[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   .emoji-icon {
@@ -56,9 +84,20 @@
   .visitor-typing {
     padding-top: 0;
     padding-bottom: 0;
-    margin-bottom: -12px;
-    font-weight: bold;
-    font-size: 0.8rem;
+    margin-bottom: -6px;
+    font-size: 0.6rem;
     color: $ThemeRoundButtonFill;
+  }
+
+  #inputArea {
+    min-height: 65px;
+    border: none;
+    -webkit-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.15);
+    overflow: auto;
+    font-weight: bold;
+    padding: 6px;
+    font-size: 0.9rem;
   }
 }

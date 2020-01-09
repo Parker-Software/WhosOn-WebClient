@@ -3,33 +3,32 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('uploadedFileItem', {
+    Vue.component('fileItem', {
         props: [
-            "hashedName",
+            "hashedFileName",
             "name",
             "date",
             "size",
-            "byWho"
+            "who",
+            "isPinned"
         ],
         template: `
-            <a v-bind:id="hashedName" class="fileItem list-item" v-on:click="Clicked">
-                <div class="columns">
-                    <div class="column is-1" v-html="Type">
-                    </div>
-                    <div class="column">
-                        {{name}}
-                    </div>
-                    <div class="column">
-                        {{DateFormatted}}
-                    </div>
-                    <div class="column is-2">
-                        {{SizeFormatted}}
-                    </div>
-                    <div class="column">
-                        {{byWho}}
-                    </div>
-                </div>
-            </a>
+            <tr v-bind:id="hashedFileName" v-on:click="Clicked">
+                <td v-html="IsPinned">
+                </td>
+                <td style="width: 70%;">
+                    {{name}}
+                </td>
+                <td>
+                    {{DateFormatted}}
+                </td>
+                <td style="min-width: 90px;">
+                    {{SizeFormatted}}
+                </td>
+                <td>
+                    {{who}}
+                </td>
+            </tr>
             `,
         beforeCreate() { 
             hooks.Register(events.FileUploader.FileItemClicked, (e) => {
@@ -38,21 +37,23 @@
         },
         methods: {
             Item() {
-                return document.getElementById(this.hashedName);
+                return document.getElementById(this.hashedFileName);
             },
             Clicked() {
-                hooks.Call(events.FileUploader.FileItemClicked, this.hashedName);
+                this.$emit("Clicked", this.hashedFileName);
+                hooks.Call(events.FileUploader.FileItemClicked, this.hashedFileName);
                 this.Item().classList.add("is-active");
             }
         },
         computed: {
-            Type() {
-                return `<i class="fas fa-file-image"></i>`;
+            IsPinned() {
+                if(this.isPinned) return `<i class="fas fa-thumbtack"></i>`;
+                else return ``;
             },
             DateFormatted() {
                 var date = new Date(this.date);
                 var day = date.getDate();
-                var month = date.getMonth();
+                var month = date.getMonth() + 1;
                 var year = date.getFullYear();
 
                 if(day < 10) day = `0${day}`;

@@ -90,6 +90,24 @@
     .white {
       color: $ThemeRoundButtonText;
     }
+
+    
+
+    button {
+      outline: none;
+      border: none;
+      margin: 0;
+      padding: 0;
+      color: $ThemeToolbarText;
+      font-size: 0.5rem;
+      cursor: pointer;
+      background-color: transparent;
+    }
+
+    button[disabled] {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 
   .tabs {

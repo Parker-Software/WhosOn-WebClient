@@ -1,0 +1,15 @@
+.roundedBtn {
+    border-radius: 100%;
+    width: 25px;
+    height: 25px;
+    overflow: hidden;
+    outline: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    
+    font-size: 0.9rem;
+    color: $ThemeRoundButtonText;
+    background-color: $ThemeRoundButtonFill;
+}
