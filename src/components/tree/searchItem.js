@@ -9,14 +9,12 @@
             "treeId"
         ],
         template: `
-            <a :id="treeId + '-searchItem-' + item.ID" class="list-item searchListItem"  @click="Clicked">
-                <div class="columns">
-                    <div class="column is-12">
-                        {{item.Subject}} <br />
-                        {{item.Content}}
-                    </div>
+            <li :id="treeId + '-searchItem-' + item.ID" class="search-item"  @click="Clicked">
+                <div>
+                    <h2>{{item.Subject}}</h2>
+                    <p>{{item.Content}}</p>
                 </div>
-            </a>
+            </li>
             `,
         methods: {
             Clicked() {

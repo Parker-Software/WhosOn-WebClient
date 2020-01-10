@@ -15,7 +15,7 @@
                     :class="{hasChildren: isFolder, noChildren: isFolder == false}"
                     @click="Clicked">
                     <span v-if="isFolder" class="hasChildrenChevron" v-html="IsOpen"></span>
-                    {{item[itemKey]}}
+                    <span class="node-text">{{item[itemKey]}}</span>
                 </div>
                 <ul class="treeNode" v-show="isOpen" v-if="isFolder">
                     <tree-item

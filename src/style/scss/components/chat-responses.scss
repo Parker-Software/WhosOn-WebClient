@@ -34,4 +34,76 @@
     line-height: 1.5em;
     list-style-type: dot;
   }
+
+  .treeItem {
+    padding: 0.25px;
+    line-height: 2em;
+    margin-bottom: 4px;
+    font-size: 0.8em;
+}
+.treeItem:hover {
+    cursor: pointer;
+    .node-text {
+      color: $ThemeRoundButtonHoverText;
+      background-color: $ThemeListItemHover;
+      border-radius: 4px;
+      padding: 0.25rem;
+    }
+
+}
+
+.treeItem.selected {
+  .node-text {
+    color: $ThemeRoundButtonHoverText;
+    background-color: $ThemeListItemHover;
+    border-radius: 4px;
+    padding: 0.25rem;
+  }
+
+}
+
+
+.hasChildrenChevron {
+    margin-right: 5px;
+    font-size: 10px;
+    color: gray;
+}
+
+.treeNode {
+    padding-left: 1.5em;
+    line-height: 2em;
+    list-style-type: dot;
+}
+
+.searchListItem {
+    background-color: transparent !important;
+}
+
+.searchListItem.is-active {
+    background-color: #3273dc !important;
+}
+
+.search-list {
+  background-color: transparent;
+  max-height: calc(100% - 100px); 
+  overflow-y: auto;
+  box-shadow: none;
+  .search-item {
+    padding:0.25rem;
+    margin-bottom:4px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    font-size: 0.8em;
+    h2{
+      font-weight: 600;
+      font-size: 0.9em;
+    }
+    &:hover {
+      cursor: pointer;
+      color: $ThemeRoundButtonHoverText;
+      background-color: $ThemeListItemHover !important;
+    
+    }
+  }
+}
 }
