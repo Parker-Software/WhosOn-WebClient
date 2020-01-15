@@ -12,7 +12,7 @@
             <div class="columns is-gapless">
                 <div class="visitor-message">
                     <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
-                    <p><small>{{visitorName}} <time>{{groupedMessage.time}}</time></small></p>
+                    <p><small>{{groupedMessage.Name}} <time>{{groupedMessage.time}}</time></small></p>
                     <p v-html="messageFormatted" class="visitor-message-text"></p>
                     </div>
                 </div>
@@ -28,11 +28,6 @@
             }
         },
         computed: {
-            visitorName(){
-                var name = state.currentChat.Name;
-                if(name === undefined) {return;}
-                return name;
-            },
             messageFormatted: function() {
                 var messages = this.groupedMessage.messages;
                 var message = "";

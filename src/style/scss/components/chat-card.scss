@@ -1,0 +1,86 @@
+.chatCard {
+    width: 260px;
+    height: 110px;
+    background-color: $CardBackground;
+    margin: 5px;
+    display: inline-block;
+    vertical-align:top;
+    -webkit-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);
+    box-shadow: 0px 0px 0px 1px rgba(0,0,0,0.1);
+    cursor: pointer;
+
+    .card-status {
+        width: 4px;
+        height:100%;
+        background-color: $CardGray;
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .card-info {
+        height:100%;
+        width: calc(100% - 10px);
+        display: inline-block;
+        vertical-align: top;
+        padding: 5px;
+        font-size: 0.9rem;
+
+        .card-header {
+            height: 20px;
+        }
+
+        .visitorName {
+            float:left;
+        }
+
+        .timeBetween {
+            float: right;
+            font-size: 0.6rem;
+        }
+
+        .location {
+            min-height: 12px;
+            font-size: 0.6rem;
+        }
+
+
+        .dept {
+            font-size: 0.8rem;
+        }
+
+        .ratings {
+            display: inline-block;
+
+            .fa-star {
+                color:gold;
+            }
+        }
+
+        .sentiment {
+            display: inline-block;
+            float: right;
+        }
+
+    }
+
+    &:hover {
+        background-color: $ThemeRoundButtonFill;
+        color: $ThemeRoundButtonHoverText;
+    }
+
+    &.missed {
+        -webkit-box-shadow: 0px 0px 0px 1px indianred;;
+        -moz-box-shadow: 0px 0px 0px 1px indianred;;
+        box-shadow: 0px 0px 0px 1px indianred;;
+
+        .card-status {
+            background-color: indianred;
+        }
+    }
+
+    &.selected {
+        background-color: $ThemeRoundButtonFill;
+        color: $ThemeRoundButtonHoverText;
+    }
+}

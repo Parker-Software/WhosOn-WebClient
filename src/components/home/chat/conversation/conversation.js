@@ -179,6 +179,7 @@
                 var grouped = [];
                 for(var i = 0; i < this.chatMessages.length; i++) {
                     var message = this.chatMessages[i];
+                    var name = message.code == 0 ? state.currentChat.Name : state.currentChat.TalkingTo;
                     var groupedMessage = {
                         type: message.code,
                         messages: [
@@ -187,8 +188,10 @@
                         time: message.date,
                         isLink: message.isLink || false,
                         isWhisper: message.isWhisper || false,
-                        Name: message.Name || ""
+                        Name: name
                     };
+
+                    console.log(groupedMessage);
 
                     var currentTime = this.MessageDateToDate(message.date);
 
