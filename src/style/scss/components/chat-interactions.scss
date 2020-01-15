@@ -57,11 +57,11 @@
     outline:0;
     padding:0;
     margin: 0;
-    font-size: 1rem;
+    font-size: 1.1rem;
   }
 
   .emojiBtn:hover {
-    color: $ThemeButtonHover;
+    color: $ThemeListItemHover;
   }
 
   .emojiBtn[disabled] {
@@ -78,8 +78,9 @@
       margin-right: 0;
     }
   }
-  textarea {
+  .textarea {
     resize: none;
+    overflow: auto;
   }
   .visitor-typing {
     padding-top: 0;

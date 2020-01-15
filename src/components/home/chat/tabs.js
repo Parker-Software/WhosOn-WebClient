@@ -6,7 +6,7 @@
     var crmWindow = null;
     var crmWindowChecker = null;
 
-    Vue.component('chatTabs', {
+    Vue.component("chatTabs", {
         template: `
         <div class="tabs">
             <ul>
@@ -27,7 +27,7 @@
             crmWindowChecker = setInterval(() => {
                 if(crmWindow != null && crmWindow.closed) {
                     crmWindow = null;
-                    if(this.CRMTab() != null) this.CRMTab().classList.remove("is-active");
+                    if(this.CRMTab() != null) {this.CRMTab().classList.remove("is-active");}
                 }
             }, 100);
         },
@@ -42,16 +42,16 @@
                             document.getElementById("conversationTab").classList.add("is-active");
                         break;
                     case "crm":
-                            if(crmWindow == null) crmWindow = window.open(state.crmURL, "Crm Form", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
-                            else crmWindow.focus();
+                            if(crmWindow == null) {crmWindow = window.open(state.crmURL, "Crm Form", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");}
+                            else {crmWindow.focus();}
                         break;
                 }
 
 
                 if(crmWindow != null && crmWindow.closed == false) {
-                    if(this.CRMTab() != null) this.CRMTab().classList.add("is-active");
+                    if(this.CRMTab() != null) {this.CRMTab().classList.add("is-active");}
                 } else {
-                    if(this.CRMTab() != null) this.CRMTab().classList.remove("is-active");
+                    if(this.CRMTab() != null) {this.CRMTab().classList.remove("is-active");}
                 }
 
                 hooks.Call(events.Chat.TabClicked, tab);

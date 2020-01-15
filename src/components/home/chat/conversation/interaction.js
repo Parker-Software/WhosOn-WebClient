@@ -10,7 +10,7 @@
     var sendingTypingStatus = false;
     var typingStatusTimer = null;
 
-    Vue.component('chatConversationInteraction', {
+    Vue.component("chatConversationInteraction", {
         data: function() {
             return {
                 HasSuggestion: false,
@@ -33,20 +33,21 @@
             </div>
             <div class="column is-full" style="padding-top:0.5rem;">
                 <div id="inputArea" v-bind:class="{'beingMonitored':BeingMonitoredByYou}" class="textarea" contenteditable="true"  placeholder="Enter your reply"
-                    style="resize: none;" v-on:keydown="keymonitor"></div>
+                    style="resize: none;" v-on:keydown="keymonitor" @focus="hideEmojiMenuOnFocus()"></div>
             </div>
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons" style="position:relative">
-                    <button v-if="$store.state.currentChatSite.AllowEmoji && $store.state.settings.ShowEmoji" id="emojiBtn" class="emoji-icon emojiBtn" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                 
+                    <button v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Emoji's" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-smile"></i>
                     </button>
-                    <button id="cannedResponsesBtn" class="emoji-icon emojiBtn" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button id="cannedResponsesBtn" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Canned Responses" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-comment-dots"></i>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon emojiBtn" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="BeingMonitoredByYou == false" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Send File" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon emojiBtn" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="BeingMonitoredByYou == false" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Request File From Visitor" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
                     </button>
                 </div>
@@ -118,10 +119,10 @@
 
             hooks.Register(events.Connection.CurrentChatClosed, (e) => {
                 this.disableInput();
-                if(this.emojiBtn() != null) this.emojiBtn().setAttribute("disabled", true);
+                if(this.emojiBtn() != null) {this.emojiBtn().setAttribute("disabled", true);}
                 this.cannedResponsesBtn().setAttribute("disabled", true);
-                if(this.sendFileBtn() != null) this.sendFileBtn().setAttribute("disabled", true);
-                if(this.requestFileBtn() != null) this.requestFileBtn().setAttribute("disabled", true);
+                if(this.sendFileBtn() != null) {this.sendFileBtn().setAttribute("disabled", true);}
+                if(this.requestFileBtn() != null) {this.requestFileBtn().setAttribute("disabled", true);}
 
                 this.InputArea().innerText = "";
 
@@ -138,7 +139,7 @@
                 this.InputArea().innerText = "";
                 this.enableInput();
                 setTimeout(function() {
-                    if(self.emojiBtn() != null) self.emojiBtn().removeAttribute("disabled");
+                    if(self.emojiBtn() != null) {self.emojiBtn().removeAttribute("disabled");}
                     self.cannedResponsesBtn().removeAttribute("disabled");
                     self.sendFileBtn().removeAttribute("disabled");
                     self.requestFileBtn().removeAttribute("disabled");
@@ -171,7 +172,7 @@
                 
                 this.InputArea().innerText = "";
                 this.enableInput();
-                if(this.emojiBtn() != null) this.emojiBtn().removeAttribute("disabled");
+                if(this.emojiBtn() != null) {this.emojiBtn().removeAttribute("disabled");}
                 this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
@@ -181,7 +182,7 @@
                 
                 this.InputArea().innerText = "";
                 this.enableInput();
-                if(this.emojiBtn() != null) this.emojiBtn().removeAttribute("disabled");
+                if(this.emojiBtn() != null) {this.emojiBtn().removeAttribute("disabled");}
                 this.cannedResponsesBtn().removeAttribute("disabled");
             });
 
@@ -226,7 +227,7 @@
                 var oldContent = this.InputArea().innerHTML;
                 this.InputArea().innerHTML = oldContent + emoji;
                 this.InputArea().focus();
-                document.execCommand('selectAll', false, null);
+                document.execCommand("selectAll", false, null);
                 document.getSelection().collapseToEnd();
             });
         },
@@ -236,6 +237,12 @@
             }
         },
         methods: {
+            hideEmojiMenuOnFocus() {                
+                if(this.ShowingEmojiMenu){
+                    this.ShowingEmojiMenu = false;
+                    hooks.Call(events.Chat.EmojiMenuClicked);
+                }
+            },
             emojiBtn() {
                 return document.getElementById("emojiBtn");
             },
@@ -292,14 +299,14 @@
                     {
                         if(this.HasSuggestion) {
                             if(this.AttachedFile != null) {
-                                var idx = text.indexOf(`<span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">`);
+                                var idx = text.indexOf("<span spellcheck=\"false\" contenteditable=\"false\" class=\"tag attachedFileToMessage noselect\">");
                                 text = text.substring(0, idx);
 
                                 var url =  `${state.webChartsURL}document.aspx?f=${this.AttachedFile.HashedFileName}`;
                                 connection.SendFile(state.currentChat.Number, this.AttachedFile.FileName, url);
                                 var msg = {code:1, msg:`<link><name>${this.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
                                 
-                                if(state.chatMessages[state.currentChat.ChatUID] == null) state.chatMessages[state.currentChat.ChatUID] = [];
+                                if(state.chatMessages[state.currentChat.ChatUID] == null) {state.chatMessages[state.currentChat.ChatUID] = [];}
                                 state.chatMessages[state.currentChat.ChatUID].push(msg);
                                 state.currentChatMessages.push(msg);
                                 this.AttachedFile = null;

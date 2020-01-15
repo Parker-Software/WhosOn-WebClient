@@ -2,7 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('tree', {
+    Vue.component("tree", {
         props: [
             "data",
             "treeId",
@@ -23,16 +23,16 @@
        `,
         methods: {
             makeFolder: function (item) {
-                Vue.set(item, 'children', [])
+                Vue.set(item, "children", [])
                 this.addItem(item)
             },
             addItem: function (item) {
                 item.children.push({
-                name: 'new stuff'
+                name: "new stuff"
               })
             },
             ItemClicked(item) {
-                this.$emit('ItemClicked', item);
+                this.$emit("ItemClicked", item);
             }
         }
     });

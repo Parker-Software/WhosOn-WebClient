@@ -28,10 +28,10 @@
                     </p>
                 </div>  
                 <tree @ItemClicked="CannedResponseClicked" treeId="cannedResponses" itemKey="Subject" v-if="IsSearching == false" :data="$store.state.cannedResponsesTree"></tree>
-                <div v-if="IsSearching" id="fileItems" class="list is-hoverable" style="height: calc(100% - 100px); overflow-y: auto;">
+                <ul v-if="IsSearching" id="fileItems" class="search-list">
                     <cannedResponseSearchItem treeId="cannedResponses"  @ItemClicked="SearchedCannedResponseClicked" v-for="item in FilteredCannedResponse" :item="item">
                     </cannedResponseSearchItem>
-                </div>
+                </ul>
             </div>
         `,
         beforeCreate() {

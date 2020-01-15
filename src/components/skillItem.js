@@ -4,7 +4,7 @@
     var connEvents = events.Connection;
     var state = services.Store.state;
 
-    Vue.component('skillItem', {
+    Vue.component("skillItem", {
         props: [
             "collectionGroup",
             "skill"
@@ -38,20 +38,20 @@
         computed: {
             ItemClass() {
                 var classes = {};
-                classes[this.collectionGroup || 'skillItem'] = true;
-                classes[(this.collectionGroup || 'skillItem') + '-' +  this.skill.Name] = true;
+                classes[this.collectionGroup || "skillItem"] = true;
+                classes[(this.collectionGroup || "skillItem") + "-" +  this.skill.Name] = true;
                 return classes;
             }
         },
         methods: {
             Elem() {
-                return document.getElementsByClassName(`${this.collectionGroup || 'skillItem'}-${this.skill.Name}`)[0];
+                return document.getElementsByClassName(`${this.collectionGroup || "skillItem"}-${this.skill.Name}`)[0];
             },
             Clicked() {
                 this.$emit("Clicked", this.skill);
                 if (this.Elem().classList.contains("is-active")) {
                     this.Elem().classList.remove("is-active");
-                } else this.Elem().classList.add("is-active");
+                } else {this.Elem().classList.add("is-active");}
             }
         }
     });

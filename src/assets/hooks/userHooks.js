@@ -26,7 +26,7 @@
     hooks.Register(events.Connection.UserInfo, (e) => {
         if(e.Data.User != null) {
             state.userInfo = e.Data.User;
-        } else state.userInfo = e.Data;
+        } else {state.userInfo = e.Data;}
 
         var split = state.userInfo.Rights.split("");
         state.rights.LoginToSettingsPortal = YNToBool(split[0]);
@@ -71,8 +71,8 @@
 
         state.users = users; 
         var clientUser = state.users.find((v) => v.Username == state.userName);
-        if(clientUser != null) state.currentConnectionId = clientUser.Connection;
-        else state.isSuperAdmin = true;
+        if(clientUser != null) {state.currentConnectionId = clientUser.Connection;}
+        else {state.isSuperAdmin = true;}
     });
 
     hooks.Register(events.Connection.UserDisconnecting, (e) => {

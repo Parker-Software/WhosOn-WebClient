@@ -5,7 +5,7 @@
     var connection = services.WhosOnConn;
     var state = services.Store.state;
 
-    Vue.component('chatTransfer', {
+    Vue.component("chatTransfer", {
         data: function() {
             return {
                 SelectedTab: "users",

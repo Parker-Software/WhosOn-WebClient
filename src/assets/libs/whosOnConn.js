@@ -29,7 +29,7 @@
                 });
 
                 if(validMessageType == false) 
-                    console.log(`Unhandled message - ${data.EventName}`); 
+                    {console.log(`Unhandled message - ${data.EventName}`);} 
                 else {
                     hooks.Call(data.EventName, data);
                 }
@@ -260,7 +260,7 @@
         CompleteWrapUp(siteKey, chatId, value) {
             var self = this;
 
-            self.Socket.Send("chatwrapupcomplete", [
+            self.Socket.Send("ChatWrapUpComplete", [
                 siteKey, 
                 chatId,
                 value

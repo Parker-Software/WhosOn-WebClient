@@ -1,0 +1,83 @@
+.wrapup-block {
+    background-color: $ThemeListItemSelected;
+    padding: 0.75em;
+    margin-bottom: 2px;
+    z-index: 996;
+    max-height: $survey-container-height;
+    height:auto;
+    margin-left: 0px !important;
+    overflow-y: auto;
+    width: 100%;
+    font-size: 0.9em;
+    line-height: 1.2;
+    border-radius: 4px;
+    border: 1px solid $ThemeSwitchSelected;
+
+    .wrapup-content {
+        h2{
+            font-weight: 600;
+            margin-bottom:8px;
+            color: $ThemeTextColorLighter;
+        }
+        .button {
+            &.is-option{
+                background-color: $ThemeToolbarBackGround;
+                color: $ThemeToolbarText;
+                border-radius: 4px;
+                font-weight: 600;
+                &:hover{
+                    background-color: $ThemeToolbarHover;
+                }
+            }
+        }
+        .wrapup-select {
+            padding: 0.25em;
+            border-radius: 4px;
+        }
+
+        .tree-options{        
+            .item {
+                cursor: pointer;
+              }
+              .bold {
+                font-weight: bold;
+              }
+              ul {
+                padding-left: 1em;
+                line-height: 1.5em;
+                list-style-type: dot;
+              }
+              ul:not(:first-of-type) {
+                padding-left: 1em;
+                line-height: 1.5em;
+                list-style-type: dot;
+              }
+            
+              .treeItem {
+                padding: 0.25px;
+                line-height: 2em;
+                margin-bottom: 4px;
+                font-size: 0.8em;
+
+                &.selected {
+                  .node-text {
+                    color: $ThemeRoundButtonHoverText;
+                    background-color: $ThemeListItemHover;
+                    border-radius: 4px;
+                    padding: 0.25rem;
+                  }
+                }
+              }
+              .treeItem:hover {
+                cursor: pointer;
+                .node-text {
+                  color: $ThemeRoundButtonHoverText;
+                  background-color: $ThemeListItemHover;
+                  border-radius: 4px;
+                  padding: 0.25rem;
+                }        
+            }
+        }
+      
+    }
+}

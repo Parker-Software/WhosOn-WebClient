@@ -1,6 +1,6 @@
 (function(services){
 
-    Vue.component('homeOptionsContentCannedResponses', {
+    Vue.component("homeOptionsContentCannedResponses", {
         props: [
             "id"
         ],

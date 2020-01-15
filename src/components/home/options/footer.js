@@ -2,7 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('homeOptionsFooter', {
+    Vue.component("homeOptionsFooter", {
         template: `
         <div id="homeOptionsFooter" class="options-footer">
             <button class="button btn" v-on:click="Save">Save</button>

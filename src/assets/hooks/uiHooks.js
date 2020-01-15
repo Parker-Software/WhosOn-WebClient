@@ -84,7 +84,7 @@
                 state.currentChatPreSurveys = [];
             }
             hooks.Call(events.Chat.ClickTab, "conversation");
-        } else services.WhosOnConn.MonitorChat(chatInfo.Number);
+        } else {services.WhosOnConn.MonitorChat(chatInfo.Number);}
     });
 
     
@@ -118,11 +118,11 @@
             chatObject.Name = "You"
         }
 
-        if(state.chatMessages[message.ChatId] == null) state.chatMessages[message.ChatId] = [];
+        if(state.chatMessages[message.ChatId] == null) {state.chatMessages[message.ChatId] = [];}
         state.chatMessages[message.ChatId].push(chatObject);
         state.currentChatMessages.push(chatObject)
-        if(message.Whisper != true) services.WhosOnConn.SendMessage(message.Num, message.Text); 
-        else services.WhosOnConn.Whisper(message.ToConnection, message.Num, message.Text); 
+        if(message.Whisper != true) {services.WhosOnConn.SendMessage(message.Num, message.Text);} 
+        else {services.WhosOnConn.Whisper(message.ToConnection, message.Num, message.Text);} 
         hooks.Call(events.Chat.ScrollChat, "");
     });
 

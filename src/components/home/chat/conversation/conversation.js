@@ -3,15 +3,27 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    Vue.component('chatConversation', {   
+    Vue.component("chatConversation", {   
+        data: () => {
+            return {
+                ShowWrapUp: false,
+            }
+        }, 
         template: `
         <div id="chatConversation" class="chat-conversation">
             <div id="conversationContainer" class="chat-conversation-container">
                 <chatConversationSurvey v-if="validSurveys.length > 0" :surveys="validSurveys"></chatConversationSurvey>
+                <div class="customColumn column" v-if="currentSite != null &&
+                    currentSite.WrapUp.Enabled &&
+                    ShowWrapUp && 
+                    $store.state.currentChat != null &&
+                    $store.state.currentChat.BeingMonitoredByYou == false">
+                        <chatWrapUp :options="currentSite.WrapUp"></chatWrapUp>
+                </div>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div id="chatScroller" class="column is-full message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
-                            <div v-for="(v,k) in groupedMessages" class="messages">
+                        <div id="chatScroller" class="message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
+                            <div v-for="(v,k) in groupedMessages" class="messages" v-bind:class="{ messageRight: getMessageType(v.type) }">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
@@ -26,8 +38,8 @@
         `,
         beforeCreate() {
             hooks.Register(events.Chat.TabClicked, (tab) => {
-                if(tab != "conversation" && tab != "crm") this.Element().style.display = "none";
-                else this.Element().style.display = "block";
+                if(tab != "conversation" && tab != "crm") {this.Element().style.display = "none";}
+                else {this.Element().style.display = "block";}
             });
 
             hooks.Register(events.Chat.ScrollChat, (e) => {
@@ -44,6 +56,35 @@
 
             hooks.Register(events.Chat.CannedResponsesClosed, () => {
                 this.Normal();
+            });
+            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
+                this.ShowWrapUp = true
+            });
+            hooks.Register(events.ChatItem.AcceptClicked, (num, id) => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
+
+
+                if(this.currentChat.WrapUpCompleted)  {this.ShowWrapUp = true;}
+            });
+
+            hooks.Register(events.Connection.CurrentChatClosed, () => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "Session End":
+                    case "Window Close":
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
             });
         },
         methods: {
@@ -62,6 +103,12 @@
                 }
                 return (valid.length > 0) ? true: false;
             },
+            getMessageType(type) {
+               if(type === 0){
+                   return false;
+               }
+               return true;              
+            },
             Element() {
                 return document.getElementById("chatConversation");
             },
@@ -69,12 +116,12 @@
                 return document.getElementById("conversationContainer");
             },
             ScrollChat() {
-                var scroller = document.getElementById('chatScroller');
+                var scroller = document.getElementById("chatScroller");
                 setTimeout(() => {
                     scroller.scrollBy({
                         top: scroller.scrollHeight,
                         left: 0,
-                        behavior: 'smooth'
+                        behavior: "smooth"
                     });
                 }, 100);
             },
@@ -116,7 +163,18 @@
             },
             chatMessages() {
                 return state.currentChatMessages;
-            },            
+            },
+            currentSite() {
+                var site = null;
+                if(Object.keys(state.currentChat).length > 0) {
+                    site = state.sites[state.currentChat.SiteKey];
+                }
+
+                return site;
+            },
+            currentChat() {
+                return state.currentChat;
+            },          
             groupedMessages() {
                 var grouped = [];
                 for(var i = 0; i < this.chatMessages.length; i++) {
@@ -140,8 +198,8 @@
                             var messageTime = this.MessageDateToDate(this.chatMessages[k].date);
                             var diff = (messageTime - currentTime) / 1000;
 
-                            if(this.chatMessages[k].isWhisper == undefined) this.chatMessages[k].isWhisper = false;
-                            if(this.chatMessages[k].isLink == undefined) this.chatMessages[k].isLink = false;
+                        if(this.chatMessages[k].isWhisper == undefined) {this.chatMessages[k].isWhisper = false;}
+                        if(this.chatMessages[k].isLink == undefined) {this.chatMessages[k].isLink = false;}
 
                             if(
                                 this.chatMessages[k].code == message.code &&

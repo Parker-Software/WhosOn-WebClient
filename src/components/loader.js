@@ -7,9 +7,9 @@
 
     Vue.component("loader", {
         props: [
-            'id',
-            'text',
-            'customStyles',
+            "id",
+            "text",
+            "customStyles",
         ],
         template:
         `

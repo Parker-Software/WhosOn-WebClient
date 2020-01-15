@@ -1,5 +1,5 @@
 (function(services){
-    Vue.component('homeOptionsContentOffice', {
+    Vue.component("homeOptionsContentOffice", {
         props: [
             "id"
         ],

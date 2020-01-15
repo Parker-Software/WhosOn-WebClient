@@ -18,7 +18,7 @@
         services.WhosOnConn.StopMonitoringChat(chatNum);   
     });
 
-    Vue.component('chatModal', {
+    Vue.component("chatModal", {
         data: () => {
             return {
                 Close: false
@@ -54,7 +54,7 @@
             },
             getVisitorName() {
                var visitorName = state.currentChat.Name;
-               if(visitorName == null) return;
+               if(visitorName == null) {return;}
                return visitorName;
             }
         },
@@ -76,8 +76,8 @@
             },
             Yes() {
                 this.ModalElem().classList.remove("is-active");   
-                if(this.Close) hooks.Call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);
-                else hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);
+                if(this.Close) {hooks.Call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);}
+                else {hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);}
             },
             No() {
                 this.ModalElem().classList.remove("is-active");

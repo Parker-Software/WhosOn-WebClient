@@ -4,7 +4,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('emojiMenu', {
+    Vue.component("emojiMenu", {
         template: `
             <div class="emojiMenu">
                 <ul class="emojiList">

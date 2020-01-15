@@ -1,5 +1,5 @@
 (function(services){
-    Vue.component('homeTeamUsers', {
+    Vue.component("homeTeamUsers", {
         template: `
             <div class="customColumn active-chats" id="homeTeamUsers">
                 <div class="active-team-wrapper">

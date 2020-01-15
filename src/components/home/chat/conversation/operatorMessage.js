@@ -3,14 +3,13 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     
-    Vue.component('chatConversationOperator', {
+    Vue.component("chatConversationOperator", {
         props: [
-            'groupedMessage'
+            "groupedMessage"
         ],
         template: `
-        <div class="columns is-gapless">        
-            <div class="column is-4"></div>
-            <div class="column is-8">                
+        <div class="columns is-gapless">
+            <div class="operator-message">                
                 <strong v-if="groupedMessage.Name != null && groupedMessage.Name != ''"><small>Whisper From {{groupedMessage.Name}}</small></strong>
                 <div 
                     v-bind:class="{'fileMessage':groupedMessage.isLink, 'is-pulled-right':groupedMessage.isLink, 'beingMonitored':groupedMessage.isWhisper == true}"
