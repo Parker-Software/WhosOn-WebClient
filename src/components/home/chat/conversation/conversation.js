@@ -4,10 +4,22 @@
     var state = services.Store.state;
 
     Vue.component("chatConversation", {   
+        data: () => {
+            return {
+                ShowWrapUp: false,
+            }
+        }, 
         template: `
         <div id="chatConversation" class="chat-conversation">
             <div id="conversationContainer" class="chat-conversation-container">
                 <chatConversationSurvey v-if="validSurveys.length > 0" :surveys="validSurveys"></chatConversationSurvey>
+                <div class="customColumn column" v-if="currentSite != null &&
+                    currentSite.WrapUp.Enabled &&
+                    ShowWrapUp && 
+                    $store.state.currentChat != null &&
+                    $store.state.currentChat.BeingMonitoredByYou == false">
+                        <chatWrapUp :options="currentSite.WrapUp"></chatWrapUp>
+                </div>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
                         <div id="chatScroller" class="message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
@@ -44,6 +56,35 @@
 
             hooks.Register(events.Chat.CannedResponsesClosed, () => {
                 this.Normal();
+            });
+            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
+                this.ShowWrapUp = true
+            });
+            hooks.Register(events.ChatItem.AcceptClicked, (num, id) => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
+
+
+                if(this.currentChat.WrapUpCompleted)  {this.ShowWrapUp = true;}
+            });
+
+            hooks.Register(events.Connection.CurrentChatClosed, () => {
+                switch(this.currentSite.WrapUp.Show) {
+                    case "Session End":
+                    case "Window Close":
+                    case "From Start":
+                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
+                }
             });
         },
         methods: {
@@ -122,7 +163,18 @@
             },
             chatMessages() {
                 return state.currentChatMessages;
-            },            
+            },
+            currentSite() {
+                var site = null;
+                if(Object.keys(state.currentChat).length > 0) {
+                    site = state.sites[state.currentChat.SiteKey];
+                }
+
+                return site;
+            },
+            currentChat() {
+                return state.currentChat;
+            },          
             groupedMessages() {
                 var grouped = [];
                 for(var i = 0; i < this.chatMessages.length; i++) {

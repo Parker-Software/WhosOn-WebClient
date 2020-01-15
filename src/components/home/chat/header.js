@@ -4,12 +4,7 @@
     var chatEvents = events.Chat;
     var state = services.Store.state;
 
-    Vue.component("chatHeader", {
-        data: () => {
-            return {
-                ShowWrapUp: false,
-            }
-        },
+    Vue.component("chatHeader", {       
         template: `
         <div v-bind:class="{'beingMonitored': BeingMonitoredByYou}" class="columns chat-header-wrapper">
             <div class="customColumn is-narrow column no-gap-right is-tablet">
@@ -33,8 +28,8 @@
                         <p class="chat-header-item"><small>{{visitorsEmail}}</small></p>
                     </div>
                 </div>
-            </div>
-            <div class="customColumn column is-4 is-tablet">
+            </div>        
+            <div class="customColumn column is-tablet">
                 <div class="chat-header-icons is-pulled-right">
                     <button v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="has-tooltip-left" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
                         <span class="fa-stack fa-2x">
@@ -72,16 +67,8 @@
                             <i class="fas fa-circle fa-stack-2x"></i>
                             <i class="fas fa-ban fa-stack-1x fa-inverse white"></i>
                         </span>
-                    </button>-->
-                </div>
-                <conversationWrapUp 
-                    v-if="currentSite != null &&
-                        currentSite.WrapUp.Enabled &&
-                        ShowWrapUp && 
-                        $store.state.currentChat != null &&
-                        $store.state.currentChat.BeingMonitoredByYou == false"
-                    :options="currentSite.WrapUp">
-                </conversationWrapUp>
+                    </a>-->
+                </div>             
             </div>            
         </div>
         `,
@@ -109,37 +96,6 @@
                 setTimeout(() => {
                     this.EnableStopMonitoringButton();
                 }, 100);
-            });
-
-            hooks.Register(events.ChatItem.AcceptClicked, (num, id) => {
-                switch(this.currentSite.WrapUp.Show) {
-                    case "From Start":
-                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
-                        break;
-                    default:
-                        this.ShowWrapUp = false;
-                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
-                }
-
-
-                if(this.currentChat.WrapUpCompleted)  {this.ShowWrapUp = true;}
-            });
-
-            hooks.Register(events.Connection.CurrentChatClosed, () => {
-                switch(this.currentSite.WrapUp.Show) {
-                    case "Session End":
-                    case "Window Close":
-                    case "From Start":
-                            if(this.currentChat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
-                        break;
-                    default:
-                        this.ShowWrapUp = false;
-                        console.log(`Wrap up not accounted for - ${this.currentSite.WrapUp.Show}`);
-                }
-            });
-
-            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
-                this.ShowWrapUp = true
             });
         },
         computed: {

@@ -260,7 +260,7 @@
         CompleteWrapUp(siteKey, chatId, value) {
             var self = this;
 
-            self.Socket.Send("chatwrapupcomplete", [
+            self.Socket.Send("ChatWrapUpComplete", [
                 siteKey, 
                 chatId,
                 value

@@ -38,16 +38,16 @@
             <div class="column is-full" style="padding-top:0px;">
                 <div class="is-pulled-right chat-icons" style="position:relative">
                  
-                    <button v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="emoji-icon has-tooltip-left" data-tooltip="Emoji's" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="$store.state.currentChatSite.AllowEmoji" id="emojiBtn" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Emoji's" v-bind:class="{'is-info':ShowingEmojiMenu}" v-on:click="emojiBtnClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-smile"></i>
                     </button>
-                    <button id="cannedResponsesBtn" class="emoji-icon has-tooltip-left" data-tooltip="Canned Responses" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button id="cannedResponsesBtn" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Canned Responses" v-bind:class="{'is-info':ShowingCannedResponses}" v-on:click="cannedResponsesClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="far fa-comment-dots"></i>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon has-tooltip-left" data-tooltip="Send File" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="BeingMonitoredByYou == false" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Send File" v-bind:class="{'is-info':ShowingFiles}" id="sendFileBtn" v-on:click="sendFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-paperclip"></i>
                     </button>
-                    <button v-if="BeingMonitoredByYou == false" class="emoji-icon has-tooltip-left" data-tooltip="Request File From Visitor" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
+                    <button v-if="BeingMonitoredByYou == false" class="emojiBtn emoji-icon has-tooltip-left" data-tooltip="Request File From Visitor" id="requestFileBtn" v-on:click="requestFileClicked" data-show="quickview" data-target="responsesView" disabled>
                         <i class="fas fa-download"></i>
                     </button>
                 </div>
