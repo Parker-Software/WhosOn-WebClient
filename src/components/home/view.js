@@ -7,24 +7,27 @@
     Vue.component(services.Store.state.homeViewName, {
         template: `
             <section v-bind:id="$store.state.homeViewName" class="view">
-                <homeheader></homeheader>               
+                <appheader></appheader>               
                 <div id="app-content">
-                    <homenav></homenav>     
+                    <navigation></navigation>     
                     <div class="main-view customColumn" id="page-content">                   
                         <div class="content-body">
                             <div class="main-view-chats" id="Chats">                              
-                                <homeChatArea></homeChatArea>
-                                <homeNoChatsArea></homeNoChatsArea>
+                                <chattingArea></chattingArea>
+                                <noChatsArea></noChatsArea>
                             </div>
                             <div id="Team" class="team-view">                            
-                                <homeTeamChat></homeTeamChat>
+                                <teamArea></teamArea>
                             </div>
                             <div id="Options" class="options">
                                 <div class="options-view">
-                                    <homeOptionsHeaderTabs></homeOptionsHeaderTabs> 
-                                    <homeOptionsContent></homeOptionsContent>
+                                    <optionsHeaderTabs></optionsHeaderTabs> 
+                                    <optionsContent></optionsContent>
                                 </div>
-                                <homeOptionsFooter></homeOptionsFooter>
+                                <optionsFooter></optionsFooter>
+                            </div>
+                            <div id="Sites" class="sites">
+                                <sitesArea></sitesArea>
                             </div>
                         </div>
                     </div>
@@ -53,6 +56,11 @@
                 hooks.Register(navEvents.OptionsClicked, (e) => {
                     hideAll();
                     showOptions();
+                });
+
+                hooks.Register(navEvents.SitesClicked, (e) => {
+                    hideAll();
+                    showSites();
                 });
 
                 hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => {
@@ -88,7 +96,6 @@
                 hooks.Register(events.Home.StatusChanged, (status) => {
                    services.WhosOnConn.ChangeStatus(status);
                 });
-                
             }
     });
 
@@ -96,6 +103,7 @@
         document.getElementById("Chats").style.display = "none";
         document.getElementById("Team").style.display = "none";
         document.getElementById("Options").style.display = "none";
+        document.getElementById("Sites").style.display = "none";
     };
 
 
@@ -109,6 +117,10 @@
 
     function showOptions() {
         document.getElementById("Options").style.display = "block";
+    }
+
+    function showSites() {
+        document.getElementById("Sites").style.display = "block";
     }
 
     function showNoActiveChats() {

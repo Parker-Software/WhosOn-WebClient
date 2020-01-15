@@ -9,7 +9,7 @@
 
   .media-content {
     overflow:hidden;
-}
+  }
  
   .active-chats-wrapper {
     padding: 5px;
@@ -80,7 +80,7 @@
       margin-left: 0;
       margin-right: 0;
       margin-top: 0;
-  }
+    }
 
     .users-list {
       line-height: 1;
@@ -124,8 +124,19 @@
   }
 
 
+  .active-sites-wrapper {
+    padding: 0;
+    padding-right:0;
+    h5
+    {
+      &.title {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+  
+  
 }
-
 
 
 .chat-waiting-warning {

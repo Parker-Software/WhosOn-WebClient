@@ -2,7 +2,7 @@
 
     var state = services.Store.state;
 
-    Vue.component("homeActiveChats", {
+    Vue.component('chats', {
         template: `
         <div class="customColumn active-chats" id="homeActiveChats">  
             <div id="active-chats-wrapper" class="active-chats-wrapper">
@@ -14,11 +14,11 @@
                         <div v-for="group, groupname in chatsGroupedAndSorted">
                             <h2 class="is-6-half has-text-weight-medium pad-4">{{groupname}} {{group.length}}</h2>
                             <ul class="chat-scroller">
-                                <homeWaitingChat v-for="item in group" v-bind:key="item.ChatUID"
+                                <chat v-for="item in group" v-bind:key="item.ChatUID"
                                     :chat = "item" 
                                     v-if="item.TalkingToClientConnection == 0 || (item.TalkingToClientConnection == $store.state.currentConnectionId) || 
                                         (item.TalkingToClientConnection != $store.state.currentConnectionId && $store.state.settings.ShowOtherUsersChats)">
-                                </homeWaitingChat>
+                                </chat>
                             </ul>
                         </div>
                     </div>

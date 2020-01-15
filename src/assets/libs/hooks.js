@@ -71,7 +71,8 @@
             MyStatusClicked: "navigation.MyStatusClicked",
             ChatsClicked: "navigation.ChatsClicked",
             TeamClicked: "navigation.TeamClicked",
-            OptionsClicked: "navigation.OptionsClicked"
+            OptionsClicked: "navigation.OptionsClicked",
+            SitesClicked: "navigation.SitesClicked"
         },
         Chat: {
             SuggestionFromServer: "home.chat.SuggestionFromServer",
@@ -140,6 +141,9 @@
             Active: "inactivity.active",
             Inactive: "inactivity.inactive",
             ShouldLogOut: "inactivity.shouldLogOut"
+        },
+        Sites: {
+            Clicked: "sites.clicked"
         }
     }
     

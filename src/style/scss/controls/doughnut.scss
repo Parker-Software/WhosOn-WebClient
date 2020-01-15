@@ -1,0 +1,65 @@
+.doughnut {
+    padding: 10px;
+    font-size: 0.9rem;
+    text-align: center;
+    width:175px;
+    height:200px;
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+
+    canvas {
+        margin-left:auto;
+        margin-right:auto;
+    }
+
+    .value {
+        margin-top: 2px;
+        font-size: 1rem;
+        color: $ThemeRoundButtonFill;
+    }
+
+    .percent {
+        width: 40px;
+        position: absolute;
+        left: calc(50% - 20px);
+        top: 75px;
+        font-size: 1rem;
+
+        .percentage {
+            position: relative;
+
+            .percent-number {
+                float:left;
+                width: calc(100% - 12px);
+                overflow: hidden;
+                text-overflow: ellipsis;
+                text-align: right;
+                margin-left: -3px;
+            }
+
+            .symbol {
+                float:left;
+            }
+        }
+
+        .percentage.zero {
+            color: red;
+        }
+    }
+
+    .face {
+        width: 40px;
+        position: absolute;
+        left: calc(50% - 20px);
+        top: 72px;
+
+        .fa-meh {
+            color: orange;
+        }
+
+        .fa-frown {
+            color: red;
+        }
+    }
+}

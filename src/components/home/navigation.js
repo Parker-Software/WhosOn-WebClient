@@ -3,14 +3,24 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var navEvents = events.Navigation;
+    var connection = services.WhosOnConn;
     var state = services.state;
 
-    Vue.component("homenav", {
+    Vue.component('navigation', {
+        data: () => {
+            return {
+                showChats: true,
+                showTeam: false,
+                showSites: false,
+                focus: 'chats'
+            }
+        },
         template: `    
              <div class="wo-sidebar customColumn">
                 <div id="sideBar" class="view-container view-container-hover is-hidden" @mouseover="hoverSideBar(true, 'sidebar')" @mouseleave="hoverSideBar(false, 'sidebar')"> 
-                        <homeActiveChats v-bind:class="{'is-hidden': showChats == false}"></homeActiveChats>
-                        <homeTeamUsers v-bind:class="{'is-hidden': showTeam == false}"></homeTeamUsers>
+                        <chats v-bind:class="{'is-hidden': showChats == false}"></chats>
+                        <team v-bind:class="{'is-hidden': showTeam == false}"></team>
+                        <sites v-bind:class="{'is-hidden': showSites == false}"></sites>
                 </div>
              <div id="statusPopout" class="status-popout is-hidden">
                 <div class="status-container">
@@ -71,9 +81,16 @@
                                 <span class="nav-label">Team</span>
                             </a>
                         </li>
-
+                        <li @click="OnNavButtonClicked('sites')" id="sitesNavButton" @mouseover="hoverSideBar(true,'sites')" @mouseleave="hoverSideBar(false, 'sites')">
+                            <a class="">
+                                <span class="icon">
+                                    <i class="fas fa-id-badge"></i>
+                                </span>
+                                <br>
+                                <span class="nav-label">Sites</span>
+                            </a>
+                        </li>
                     </ul>
-
                 </aside>
                 <aside class="menu menu-bottom">
                     <ul class="menu-list">
@@ -110,13 +127,6 @@
         beforeDestroy() {
             window.removeEventListener("resize", this.windowResize);
           },
-        data: () => {
-            return {
-                showChats: true,
-                showTeam: false,
-                focus: "chats"
-            }
-        },
         computed: {
             setOnlineActive() {
                 var status = this.$store.state.currentStatus;
@@ -150,20 +160,27 @@
                         case "chats":
                             this.showChats = true;
                             this.showTeam = false;
+                            this.showSites = false;
                             break;
                         case "team":
                             this.showChats = false;
                             this.showTeam = true;
+                            this.showSites = false;
+                            break;
+                        case "sites":
+                            this.showChats = false;
+                            this.showTeam = false;
+                            this.showSites = true;
                             break;
                         case "options":
                             this.showChats = false;
                             this.showTeam = false;
+                            this.showSites = false;
                             break;
                     }
                     if (state) {
                         this.SideBar().classList.remove("is-hidden");
-                    }
-                    if (!state) {
+                    } else {
                         this.SideBar().classList.add("is-hidden");  
                     }
                 } 
@@ -200,6 +217,7 @@
                 this.ChatBtn().firstChild.classList.remove("is-active");
                 this.UsersBtn().firstChild.classList.remove("is-active");
                 this.OptionsBtn().firstChild.classList.remove("is-active");
+                this.SitesBtn().firstChild.classList.remove("is-active");
             },
             online() {
                 return document.getElementById("online");
@@ -225,6 +243,9 @@
             OptionsBtn() {
                 return document.getElementById("optionsNavButton");
             },
+            SitesBtn() {
+                return document.getElementById("sitesNavButton");
+            },
             StatusPopout() {
                 return document.getElementById("statusPopout");
             },
@@ -237,7 +258,7 @@
             OnNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);  
                 this.focus = status;        
-                if(this.isHidden(this.StatusPopout()) == false) this.ToggleStatus();
+                if(this.isHidden(this.StatusPopout()) == false && status != "status") this.ToggleStatus();
                 switch (status) {
                     case "status":
                         this.ToggleStatus();
@@ -247,6 +268,7 @@
                         hooks.Call(navEvents.ChatsClicked);
                         this.showChats = true;
                         this.showTeam = false;
+                        this.showSites = false;      
                         this.SideBar().classList.remove("is-hidden"); 
                         this.ChatBtn().firstChild.classList.add("is-active");
                         break;
@@ -254,16 +276,28 @@
                         this.UnselectAll();                        
                         hooks.Call(navEvents.TeamClicked);
                         this.showChats = false;
-                        this.showTeam = true;                    
+                        this.showTeam = true;     
+                        this.showSites = false;                
                         this.SideBar().classList.remove("is-hidden");   
                         this.UsersBtn().firstChild.classList.add("is-active");
                         break;
+                    case "sites":
+                        this.UnselectAll();  
+                        hooks.Call(navEvents.SitesClicked);   
+                        this.showChats = false;
+                        this.showTeam = false; 
+                        this.showSites = true; 
+                        this.SideBar().classList.remove("is-hidden");     
+                        this.SitesBtn().firstChild.classList.add("is-active");  
+
+                        connection.GetDailySummary();
+                        break;
                     case "options":
-                        this.UnselectAll();        
+                        this.UnselectAll();               
+                        hooks.Call(navEvents.OptionsClicked);   
                         this.showChats = false;
                         this.showTeam = false;     
-                        this.SideBar().classList.add("is-hidden");          
-                        hooks.Call(navEvents.OptionsClicked);
+                        this.SideBar().classList.add("is-hidden");
                         this.OptionsBtn().firstChild.classList.add("is-active");
                         break;
                 }

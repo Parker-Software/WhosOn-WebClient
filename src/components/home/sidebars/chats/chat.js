@@ -11,7 +11,7 @@
         var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
         var string = "";
-        if(minutes > 0)  {string += `${minutes} Mins`;}
+        if(minutes > 0)  string += `${minutes} Mins`;
 
         return `${string} ${seconds} Seconds`;
     }
@@ -35,9 +35,9 @@
         }
     }, 1000);
 
-    Vue.component("homeWaitingChat", {
+    Vue.component('chat', {
         props: [
-            "chat"
+            'chat'
         ],
         template: `
             <li @click="onClicked">
@@ -58,8 +58,8 @@
             `,
         computed: {
             MonitoredByWho() {
-                if(this.chat.Monitoredby == state.userInfo.Name) {return "You";}
-                else {return this.chat.Monitoredby;}
+                if(this.chat.Monitoredby == state.userInfo.Name) return "You";
+                else return this.chat.Monitoredby;
             }
         },
         methods: {
@@ -85,7 +85,7 @@
                     element.classList.toggle("show");   
                   wrapper.classList.toggle("opacity");
                 } else if (this.chat.TalkingToClientConnection !== state.currentConnectionId) {
-                  if(state.rights.MonitorChats) {hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });}
+                  if(state.rights.MonitorChats) hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });
                   element.classList.toggle("show");   
                   wrapper.classList.toggle("opacity");
                 }

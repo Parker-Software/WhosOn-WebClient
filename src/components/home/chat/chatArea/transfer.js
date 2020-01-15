@@ -52,32 +52,32 @@
                     <div v-if="OnlineUsers.length > 0">
                         <small>Online {{ OnlineUsers.length }}</small>
                         <ul v-for="item of OnlineUsers" class="user-list-online">
-                            <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
                         </ul>
                      </div>
                     <div v-if="BusyUsers.length > 0">
                         <small>Busy {{ BusyUsers.length }}</small>
                         <ul v-for="item of BusyUsers" class="user-list-busy">
-                            <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
                         </ul>
                     </div>
                     <div v-if="BrbUsers.length > 0">
                         <small>Be Right Back {{ BrbUsers.length }}</small>
                         <ul v-for="item of BrbUsers" class="user-list-brb">
-                            <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
                         </ul>
                     </div>
                     <div v-if="AwayUsers.length > 0">
                         <small>Away {{ AwayUsers.length }}</small>
                         <ul v-for="item of AwayUsers" class="user-list-away">
-                            <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
                         </ul>
                     </div>
                 </div>
                 <div v-if="SearchText.length > 0">
                     <small>Search Results - {{SearchText}}</small>
                     <ul v-if="ValidSearchUsers.length > 0" v-for="item of ValidSearchUsers">
-                        <userItem collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></userItem>
+                        <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
                     </ul>  
                     <p v-if="ValidSearchUsers.length <= 0">
                         <span>None</span>

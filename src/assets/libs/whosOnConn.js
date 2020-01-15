@@ -228,6 +228,32 @@
             self.Socket.Send("getSkills", null);
         }
 
+        GetDailySummary() {
+            var self = this;
+            self.Socket.Send('GetDS');
+        }
+
+        GetMonthlySummary(siteKey) {
+            var self = this;
+            self.Socket.Send('GetMonthSummary', [siteKey]);
+        }
+
+        GetPreviousChats(sitekey, date) {
+            var self = this;
+            self.Socket.Send('GetChats', [
+                sitekey,
+                date
+            ]);
+        }
+
+        GetPreviousChat(sitekey, chatid) {
+            var self = this;
+            self.Socket.Send('GetPrevChat ', [
+                sitekey,
+                chatid
+            ]);
+        }
+
         RequestFile(chatNum) {
             var self = this;
             self.Socket.Send("filerequest", [
@@ -292,9 +318,10 @@
 
         StartVisitorEvents() {
             var self = this;
-
             self.Socket.Send("StartVisitorEvents", null);
         }
+
+
 
         Logout() {
             var self = this;

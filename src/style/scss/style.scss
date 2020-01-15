@@ -9,6 +9,7 @@
 @import "./fontawesome/regular.scss";
 @import "./fontawesome/solid.scss";
 @import "./themes/light.scss";
+@import "./Chart.min";
 @import "./components/status.scss";
 @import "./components/background-colors.scss";
 @import "./components/modal.scss";
@@ -27,6 +28,10 @@
 @import "./components/options.scss";
 @import "./components/loading.scss";
 @import "./components/file-menu.scss";
+@import "./components/sites.scss";
+@import "./components/sites-area.scss";
+@import "./components/previous-chats.scss";
+@import "./components/chat-card.scss";
 
 @import "./controls/input.scss";
 @import "./controls/switch.scss";
@@ -39,4 +44,5 @@
 @import "./controls/searchBox.scss";
 @import "./controls/roundedBtn.scss";
 @import "./controls/table.scss";
+@import "./controls/doughnut.scss";
 

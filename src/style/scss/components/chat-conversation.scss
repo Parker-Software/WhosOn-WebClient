@@ -57,35 +57,32 @@
       }
     }
   }
+}
 
-  .notification {
-    text-decoration: none;
-    padding: 0.6rem;
-    word-break: break-all;
+.notification {
+  text-decoration: none;
+  padding: 0.6rem;
+  word-break: break-word;
 
-    &.visitor {
-        background-color: $ThemeChatLineBackgroundVisitor;
+  &.visitor {
+      background-color: $ThemeChatLineBackgroundVisitor;
 
-        user-select: text;
-        .visitor-message-text {
-            font-weight: 600;
-            font-size: 0.8rem;
-            line-height: 1.2;
-        }
+      user-select: text;
+      .visitor-message-text {
+          font-weight: 600;
+          font-size: 0.8rem;
+          line-height: 1.2;
       }
-      
-      &.operator {
-        background-color: $ThemeChatLineBackgroundOperator;
- 
-        user-select: text;
-        .operator-message-text {
-            font-weight: 600;
-            font-size: 0.8rem;
-            line-height: 1.2;
-        }
+    }
+    
+    &.operator {
+      background-color: $ThemeChatLineBackgroundOperator;
+
+      user-select: text;
+      .operator-message-text {
+          font-weight: 600;
+          font-size: 0.8rem;
+          line-height: 1.2;
       }
-  }
- 
-  
- 
+    }
 }
