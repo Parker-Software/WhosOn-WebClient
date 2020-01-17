@@ -2,6 +2,7 @@
 
     Vue.component('visitorsToday', {
         props: [
+            "selectedDate",
             "NewVisitors",
             "NewVisitorsTotal",
             "TotalVisitors",
@@ -42,15 +43,10 @@
                 ></doughnut>
             </div>
         `,
-        computed: {
-            CurrentDate() {
-                return new Date();
-            }
-        },
         methods: {
             AverageDay(total) {
                 var day;
-                switch(this.CurrentDate.getDay()) {
+                switch(this.UnixToDate(this.selectedDate).getDay()) {
                     case 0:
                         day = "Sun";
                         break;
@@ -75,6 +71,9 @@
                 }
                 
                 return `Avg For ${day} ${total}`;
+            },
+            UnixToDate(UNIX_timestamp) {
+                return new Date(UNIX_timestamp * 1000);
             }
         }
     });

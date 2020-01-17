@@ -70,7 +70,7 @@
                 <br />
                 <a v-on:click="createAccountRedirect">Create WhosOn Account</a>
                 <br />
-                <p style="bottom:5px; ">Copyright &copy; Parker Software 2019</p>
+                <p style="bottom:5px; ">Copyright &copy; Parker Software {{CurrentYear}}</p>
             </div>
         </div>
         `,
@@ -124,6 +124,11 @@
                         department);
                 }
             });
+        },
+        computed: {
+            CurrentYear() {
+                return new Date().getFullYear();
+            }
         },
         methods: {
             onSubmit() {

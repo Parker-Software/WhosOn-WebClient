@@ -7,6 +7,7 @@
     Vue.component('chatsToday', {
         props: [
             "site",
+            "selectedDate",
             "chats",
             "ChatRequests",
             "ChatRequestsTotal",
@@ -53,9 +54,6 @@
             </div>
         `,
         computed: {
-            CurrentDate() {
-                return new Date();
-            },
             Site() {
                 return this.$store.state.sites[this.site];
             },
@@ -77,7 +75,7 @@
                     var chat = this.chats[i];
                     result += chat.WaitedForSecs;
                 }
-                return result / this.chats.length;
+                return Math.round(result / this.chats.length);
             },
             AverageRating() {
                 var result = 0;
@@ -94,9 +92,12 @@
             },
         },
         methods: {
+            UnixToDate(UNIX_timestamp) {
+                return new Date(UNIX_timestamp * 1000);
+            },
             AverageDay(total) {
                 var day;
-                switch(this.CurrentDate.getDay()) {
+                switch(this.UnixToDate(this.selectedDate).getDay()) {
                     case 0:
                         day = "Sun";
                         break;

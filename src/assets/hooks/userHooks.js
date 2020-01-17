@@ -133,9 +133,5 @@
         state.cannedResponsesTree = cannedResponsesToTree(e.Data);
     });
 
-    hooks.Register(events.Connection.DailySummary, (e) => {
-        state.dailySummaries = e.Data.DaySummary;
-    });
-
     
 })(woServices);

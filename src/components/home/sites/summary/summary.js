@@ -3,137 +3,187 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
     Vue.component('siteSummary', {
         props: [
+            "selectedDate",
             "site",
             "chats",
+            "dailySummary",
             "monthlySummary"
         ],
         template: `
             <div>
-                <visitorsToday 
-                    :NewVisitors="Site.New" 
-                    :NewVisitorsTotal="NewVisitorsTotal"
-                    :TotalVisitors="Site.Total" 
-                    :TotalVisitorsTotal="NewTotalVisitorsTotal" 
-                    :PageViews="Site.PageViews" 
-                    :PageViewsTotal="PageViewsTotal"
-                    :Prospects="Site.Prospects"
-                    :ProspectsTotal="ProspectsTotal">
-                </visitorsToday>
-                <chatsToday 
-                    :site="site"
-                    :chats="chats"
-                    :ChatRequests="Site.ChatRequests" 
-                    :ChatRequestsTotal="ChatRequestsTotal"
-                    :MissedChats="Site.ChatsMissed"
-                    :ChatsMissedTotal="ChatsMissedTotal"
-                    :Sentiment="Site.AvgChatSentiment"></chatsToday>
-                <month
-                    :NewVisitors="MonthNewVisitors"
-                    :NewVisitorsTotal="LastMonthsNewVisitors"
-                    :TotalVisitors="MonthTotalVisitors"
-                    :TotalVisitorsTotal="LastMonthsTotalVisitors"
-                    :Prospects="MonthProspects"
-                    :ProspectsTotal="LastMonthsTotalProspects"
-                    :Chats="MonthChats"
-                    :ChatsTotal="LastMonthsTotalChats"
-                ></month>
+                <div v-if="DaySummaries != null">
+                    <visitorsToday 
+                        :selectedDate="selectedDate"
+                        :NewVisitors="DaySummaries.New" 
+                        :NewVisitorsTotal="NewVisitorsTotal"
+                        :TotalVisitors="DaySummaries.Total" 
+                        :TotalVisitorsTotal="NewTotalVisitorsTotal" 
+                        :PageViews="DaySummaries.PageViews" 
+                        :PageViewsTotal="PageViewsTotal"
+                        :Prospects="DaySummaries.Prospects"
+                        :ProspectsTotal="ProspectsTotal">
+                    </visitorsToday>
+                    <chatsToday 
+                        :site="site"
+                        :selectedDate="selectedDate"
+                        :chats="chats"
+                        :ChatRequests="DaySummaries.ChatRequests" 
+                        :ChatRequestsTotal="ChatRequestsTotal"
+                        :MissedChats="DaySummaries.ChatsMissed"
+                        :ChatsMissedTotal="ChatsMissedTotal"
+                        :Sentiment="DaySummaries.AvgChatSentiment"></chatsToday>
+                    <month
+                        :selectedDate="selectedDate"
+                        :NewVisitors="MonthNewVisitors"
+                        :NewVisitorsTotal="LastMonthsNewVisitors"
+                        :TotalVisitors="MonthTotalVisitors"
+                        :TotalVisitorsTotal="LastMonthsTotalVisitors"
+                        :Prospects="MonthProspects"
+                        :ProspectsTotal="LastMonthsTotalProspects"
+                        :Chats="MonthChats"
+                        :ChatsTotal="LastMonthsTotalChats"
+                    ></month>
+                </div>
+                <div v-else>
+                    <small>No Data Available</small>
+                </div>
             </div>
         `,
         computed: {
-            Site() {
-                var site = this.$store.state.dailySummaries.find(x => x.SiteKey == this.site);
-                return site;
+            DaySummaries() {
+                if(this.SameDay(this.CurrentDate, this.UnixToDate(this.selectedDate)))
+                {
+                    var site = this.dailySummary.find(x => x.SiteKey == this.site);
+                    return site;
+                } else {
+                    var summary = null;
+                    for(var i = this.monthlySummary.length - 1; i >= 0; i--) {
+                        var monthlySummary = this.monthlySummary[i];
+                        if(monthlySummary == undefined || monthlySummary == null) {
+                            console.log(this.monthlySummary);
+                            break;
+                        }
+
+                        var date = new Date(monthlySummary.Date);
+                        if(this.SameDay(date, this.UnixToDate(this.selectedDate))) {
+                            var data = monthlySummary.Data.split("|");
+                            summary = {
+                                New: Number(data[3]),
+                                Total: Number(data[0]),
+                                PageViews: Number(data[10]),
+                                Prospects: Number(data[5]),
+                                ChatRequests: Number(data[8]),
+                                ChatsMissed: Number(data[9]),
+                                AvgChatSentiment: Number(data[15]),
+                            };
+                            summary.ChatRequests = this.chats.length;
+                            summary.ChatsMissed = this.chats.filter(x => x.Missed).length;
+
+                            summary.AvgChatSentiment = 0;
+                            for(var i = 0; i < this.chats.length; i++ ){
+                                var chat = this.chats[i];
+                                summary.AvgChatSentiment += Number(chat.SentimentScore);
+                            }
+                            summary.AvgChatSentiment = Math.round(summary.AvgChatSentiment / this.chats.filter(x => x.SentimentScore > 0).length);
+                        }
+                    }
+                    return summary;
+                }
             },
             CurrentDate() {
                 return new Date();
             },
-            Today() {
-                return this.CurrentDate.getDay();
+            Day() {
+                return this.UnixToDate(this.selectedDate).getDay();
             },
             LastMonth() {
-                var lastMonth = this.CurrentDate.getMonth();
-                if(lastMonth == 0) lastMonth = 11;
-                return lastMonth;
+                var month = this.CurrentDate.getMonth() - 1;
+                if(month == -1) month = 11;
+                return month;
             },
             NewVisitorsTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
                             result += Number(data[3]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.New;
+                return Math.round(result / count);
             },
             NewTotalVisitorsTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
                             result += Number(data[0]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.Total;
+                
+                return Math.round(result / count);
             },
             PageViewsTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
-                            result += Number(data[11]);
+                            result += Number(data[10]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.PageViews;
+                return Math.round(result / count);
             },
             ProspectsTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
                             result += Number(data[5]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.Prospects;
+
+                return Math.round(result / count);
             },
             ChatRequestsTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
                             result += Number(data[8]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.ChatRequests;
+                return Math.round(result / count);
             },
             ChatsMissedTotal() {
                 var result = 0;
+                var count = 0;
                 for(var i = 0; i < this.monthlySummary.length; i++) {
                     var date = new Date(this.monthlySummary[i].Date);
-                    if(
-                        this.CurrentDate.getMonth() != date.getMonth() && 
-                        this.Today == date.getDay()) {
+                    if(this.Day == date.getDay()) {
                             var data = this.monthlySummary[i].Data.split("|");
                             result += Number(data[9]);
+                            count += 1;
                     }
                 }
-                return result + this.Site.ChatsMissed;
+                return Math.round(result / count);
             },
             LastMonthsNewVisitors() {
                 var result = 0;
@@ -200,7 +250,13 @@
                         result += Number(data[3]);
                     }
                 }
-                return result + this.Site.New;
+                
+                if(this.SameDay(this.CurrentDate, this.UnixToDate(this.selectedDate)) 
+                    &&  this.DaySummaries != null) 
+                {   
+                     result += this.DaySummaries.New;
+                }
+                return result;
             },
             MonthTotalVisitors() {
                 var result = 0;
@@ -212,7 +268,13 @@
                         result += Number(data[0]);
                     }
                 }
-                return result + this.Site.Total;
+                
+                if(this.SameDay(this.CurrentDate, this.UnixToDate(this.selectedDate)) 
+                    &&  this.DaySummaries != null) 
+                {   
+                    result += this.DaySummaries.Total;
+                }
+                return result;
             },
             MonthProspects() {
                 var result = 0;
@@ -224,7 +286,13 @@
                         result += Number(data[5]);
                     }
                 }
-                return result + this.Site.Prospects;
+                
+                if(this.SameDay(this.CurrentDate, this.UnixToDate(this.selectedDate)) 
+                    &&  this.DaySummaries != null) 
+                {   
+                     result += this.DaySummaries.Prospects;
+                }
+                return result;
             },
             MonthChats() {
                 var result = 0;
@@ -236,7 +304,23 @@
                         result += Number(data[8]);
                     }
                 }
-                return result + this.Site.ChatRequests;
+                
+                if(this.SameDay(this.CurrentDate, this.UnixToDate(this.selectedDate)) 
+                    &&  this.DaySummaries != null) 
+                {   
+                    result += this.DaySummaries.ChatRequests;
+                }
+                return result;
+            }
+        },
+        methods: {
+            UnixToDate(UNIX_timestamp) {
+                return new Date(UNIX_timestamp * 1000);
+            },
+            SameDay(date1, date2) {
+                return  date1.getFullYear() == date2.getFullYear() &&
+                        date1.getMonth() == date2.getMonth() &&
+                        date1.getDate() == date2.getDate();
             }
         }
     });
