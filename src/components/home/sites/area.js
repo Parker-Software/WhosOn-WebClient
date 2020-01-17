@@ -12,7 +12,7 @@
                 chats: [],
                 monthlySummary: [],
                 dailySummary: [],
-                selectedTab: "summary"
+                selectedTab: ''
             }
         },
         template: `
@@ -53,18 +53,30 @@
                         </div>
                         <div class="tabs options-tabs">
                             <ul>
-                                <li v-on:click="TabClicked('summary')" class="is-active summary">Summary</li>
+                                <li v-if="CanSeeSummary" v-on:click="TabClicked('summary')" class="summary" v-bind:class="{'is-active': SelectedTab() == 'summary'}">Summary</li>
                                 <!--<li>Active Visitors</li>
                                 <li>Previous Visits</li>-->
-                                <li v-on:click="TabClicked('previous')" class="previous">Previous Chats</li>
+                                <li v-on:click="TabClicked('previous')" class="previous" v-bind:class="{'is-active': SelectedTab() == 'previous'}">Previous Chats</li>
                                 <!--<li>Search Chats</li>
                                 <li>Reports</li>-->
                             </ul>
                         </div>
                     </div>
                     <div class="sites-area-content">
-                        <siteSummary class="siteSummary" v-if="selectedTab == 'summary'" :selectedDate="selectedDate" :site="site.SiteKey" :chats="chats" :dailySummary="dailySummary" :monthlySummary="monthlySummary"></siteSummary>
-                        <previousChats :site="site.SiteKey" :chats="chats" v-bind:class="{'is-hidden':selectedTab != 'previous'}"></previousChats>
+                        <siteSummary 
+                            class="siteSummary" 
+                            v-if="CanSeeSummary && SelectedTab() == 'summary'"
+                            :selectedDate="selectedDate"
+                            :site="site.SiteKey"
+                            :chats="chats" 
+                            :dailySummary="dailySummary" 
+                            :monthlySummary="monthlySummary"
+                        ></siteSummary>
+                        <previousChats 
+                            :site="site.SiteKey" 
+                            :chats="chats" 
+                            v-bind:class="{'is-hidden':SelectedTab() != 'previous'}"
+                        ></previousChats>
                     </div>
                 </div>
             </div>
@@ -72,14 +84,12 @@
         beforeCreate() {
             hooks.Register(events.Sites.Clicked, (site) => {
                 if(site == this.site.SiteKey) return;
-
+                this.site = this.$store.state.sites[site];
 
                 var date = this.UnixToDate(this.selectedDate);
                 connection.GetPreviousChats(site, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
 
-                this.site = this.$store.state.sites[site];
-                connection.GetMonthlySummary(site);
-                
+                if(this.$store.state.rights.ViewDailySummary) connection.GetMonthlySummary(site);
             });
 
             hooks.Register(events.Connection.DailySummary, (e) => {
@@ -97,21 +107,27 @@
         computed: {
             Today() {
                 return new Date();
+            },
+            CanSeeSummary() {
+                return this.$store.state.rights.ViewDailySummary;
             }
         },
         methods: {
-            AllTabs() {
-                return document.querySelectorAll(".sites-area .options-tabs li");
+            SelectedTab() {
+                if(this.selectedTab == '') {
+                    if(this.Tabs().length > 0) {
+                        var tab = this.Tabs()[0].className;
+                        this.selectedTab = tab;
+                        return tab;
+                    }
+                } else {
+                    return this.selectedTab;
+                }
             },
-            GetTabByClass(tabClass) {
-                return document.querySelector(`.sites-area .options-tabs .${tabClass}`);
-            },
-            UnselectAll() {
-                this.AllTabs().forEach(x => x.classList.remove("is-active"));
+            Tabs() {
+                return document.querySelectorAll(".sites-area .tabs li");
             },
             TabClicked(tab) {
-                this.UnselectAll();
-                this.GetTabByClass(tab).classList.add('is-active');
                 this.selectedTab = tab;
             },
             SameDay(date1, date2) {
