@@ -8,8 +8,6 @@ woServices.Add("DefaultState", function(){
         lang: "en",
         platform: "WebClient",
         key: "3yhqII6Zntve73GngYJQCbwADEKUty03",
-        connectionAddress: "",
-        settingsPortalURL: "",
         discoveryAddress: "https://discoveryfuncs.azurewebsites.net/api/Discover",
         webChartsURL: null,
         chatURL: null,
