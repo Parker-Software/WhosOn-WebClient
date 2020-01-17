@@ -13,12 +13,12 @@ function browserSync(done) {
       port: 3000
     });
     done();
-  }
+}
   
-  function browserSyncReload(done) {
-    browsersync.reload();
-    done();
-  }
+function browserSyncReload(done) {
+  browsersync.reload();
+  done();
+}
 
 function clean() {
     return del(["dist"]);
@@ -38,7 +38,7 @@ function lintjs() {
 }
 
 function moveHTML(){
-    return src("./src/html/*.html")
+    return src("./src/html/index.html")
     .pipe(dest("./dist/"));
 }
 
@@ -55,6 +55,11 @@ function packLibs(){
 function packComponents(){
   return src("./src/components/**/*.js")
   .pipe(concat("components.js"))
+  .pipe(dest("./dist/assets/js/"))
+}
+
+function moveConnectionSettings() {
+  return src("./src/connectionSettings.js")  
   .pipe(dest("./dist/assets/js/"))
 }
 
@@ -80,6 +85,7 @@ function moveVendor(){
 }
 
 function watchFiles() {
+    watch("./src/*.js", moveConnectionSettings);
     watch("./src/style/**/*", scss);
     watch("./src/assets/images/*", moveImages);
     watch("./src/html/*", moveHTML);
@@ -109,5 +115,5 @@ exports.packLibs = packLibs;
 exports.packComponents = packComponents;
 
 exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor, 
-                          packLibs, packComponents, moveJS]);
+                          packLibs, packComponents, moveJS, moveConnectionSettings]);
 
