@@ -12,7 +12,7 @@
                 id: uuidv4(),
                 colours: ["#7779BF", "rgba(255,255,255,0.2)"],
                 data: [],
-                upperLimit: 100
+                upperLimit: 100,
             };
         },
         template:`
@@ -20,7 +20,7 @@
                 <b>{{title}}</b>
                 <canvas v-bind:id="id" width="100" height="100"></canvas>
                 <div class="value">
-                    <b>{{value}}</b>
+                    <b>{{ActualValue}}</b>
                 </div>
                 <div class="dougnut-subtitle">
                     <small v-html="subtitle"></small>
@@ -36,9 +36,9 @@
                 </div>
 
                 <div v-if="happiness == true" class="face">
-                    <i v-if="value >= (upperLimit * 0.75)" class="far fa-smile fa-2x"></i>
-                    <i v-if="value < (upperLimit * 0.75) && value > (upperLimit * 0.25)" class="far fa-meh fa-2x"></i>
-                    <i v-if="value <= (upperLimit * 0.25)" class="far fa-frown fa-2x"></i>
+                    <i v-if="ActualValue >= (upperLimit * 0.75)" class="far fa-smile fa-2x"></i>
+                    <i v-if="ActualValue < (upperLimit * 0.75) && ActualValue > (upperLimit * 0.25)" class="far fa-meh fa-2x"></i>
+                    <i v-if="ActualValue <= (upperLimit * 0.25)" class="far fa-frown fa-2x"></i>
                 </div>
             </div>
         `,
@@ -51,9 +51,10 @@
         methods: {
             Bind() {
                 if(this.max != null) this.upperLimit = this.max;
-                if(this.value >= this.upperLimit) this.data = [this.value];
+
+                if(this.ActualValue >= this.upperLimit) this.data = [this.ActualValue];
                 else {
-                    this.data = [this.value, this.upperLimit - this.value];
+                    this.data = [this.ActualValue , this.upperLimit - this.ActualValue];
                 }
 
                 var chart = document.getElementById(this.id);
@@ -73,7 +74,6 @@
                         options: {
                             responsive: false,
                             cutoutPercentage: 60,
-                            circumference: 2 * Math.PI,
                             tooltips: {
                                 enabled: false
                             }
@@ -87,6 +87,11 @@
                 if(this.upperLimit == 0) return 0;
                 return Math.round(this.value / this.upperLimit * 100);
             },
+            ActualValue() {
+                var value = this.value;
+                if(isNaN(value)) value = 0;
+                return value;
+            }
         }
     });
 })(woServices);

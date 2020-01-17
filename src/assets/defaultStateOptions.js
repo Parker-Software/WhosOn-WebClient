@@ -76,7 +76,6 @@ woServices.Add("DefaultState", function(){
             Invisible: false
         },
         sites: {},
-        dailySummaries: [],
         skills: [],
         cannedResponses: [],
         cannedResponsesTree: {},
