@@ -10,12 +10,15 @@
         ],
         template: `
             <div class="columns is-gapless">
-                <div class="visitor-message">
-                    <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
-                    <p><small>{{groupedMessage.Name}} <time>{{groupedMessage.time}}</time></small></p>
-                    <p v-html="messageFormatted" class="visitor-message-text"></p>
+                <div class="column is-8">  
+                    <div class="visitor-message">
+                        <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
+                        <p><small>{{groupedMessage.Name}} <time>{{groupedMessage.time}}</time></small></p>
+                        <p v-html="messageFormatted" class="visitor-message-text"></p>
+                        </div>
                     </div>
                 </div>
+                <div class="column is-4"></div>
             </div>
         `,
         mounted() {
