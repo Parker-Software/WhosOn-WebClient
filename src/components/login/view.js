@@ -48,10 +48,11 @@
                         checked="checked">
                     <label for="RememberMe">Keep me signed in</label>
                 </div>
+                <!--
                 <div class="field has-text-left" style="padding-left:20px;">
                     <input id="advSettings" type="checkbox" name="advSettings" class="switch is-rounded" v-on:change="toggleAdvancedSettings">
                     <label for="advSettings">Advanced settings</label>
-                </div>
+                </div> -->
                 <!-- toggle is-hidden  -->
                 <div class="box advSettings" id="advSettingsBox" style="visibility: hidden;">  
                     <div class="field">
@@ -60,7 +61,7 @@
                             <input class="input" type="text" id="departmentInput" autofocus="">
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
             
         </div>
