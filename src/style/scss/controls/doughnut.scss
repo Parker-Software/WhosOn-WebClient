@@ -19,27 +19,28 @@
         color: $ThemeRoundButtonFill;
     }
 
+    .doingWell {
+        color: $DoingWell;
+    }
+
+    .doingBad {
+        color: $DoingBad;
+    }
+
     .percent {
-        width: 40px;
+        width: 45px;
         position: absolute;
-        left: calc(50% - 20px);
-        top: 75px;
-        font-size: 1rem;
+        left: calc(50% - 22px);
+        top: 70px;
+        font-size: 1.25rem;
+        text-align: center;
 
         .percentage {
             position: relative;
 
             .percent-number {
-                float:left;
-                width: calc(100% - 12px);
                 overflow: hidden;
                 text-overflow: ellipsis;
-                text-align: right;
-                margin-left: -3px;
-            }
-
-            .symbol {
-                float:left;
             }
         }
 
@@ -52,7 +53,7 @@
         width: 40px;
         position: absolute;
         left: calc(50% - 20px);
-        top: 72px;
+        top: 64px;
 
         .fa-meh {
             color: orange;

@@ -58,16 +58,20 @@
                             <i v-for="star in chat.Rating" class="fas fa-star"></i>
                         </div>
                     </div>
-                    <div v-for="field in detail.PreChatSurvey" class="info-item">
-                        <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
-                        <div class="is-pulled-left"> 
-                            {{field.FieldValue}}
+                    <div v-if="detail.PreChatSurvey != null && detail.PreChatSurvey.length > 0" class="PreChatSurveys">
+                        <div v-for="field in detail.PreChatSurvey" class="info-item info-survey">
+                            <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
+                            <div class="is-pulled-left"> 
+                                <b>{{field.FieldValue}}</b>
+                            </div>
                         </div>
                     </div>
-                    <div v-for="field in detail.PostChatSurvey" v-if="field.FieldName != 'RatingField'" class="info-item">
-                        <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
-                        <div class="is-pulled-left"> 
-                            {{field.FieldValue}}
+                    <div v-if="detail.PostChatSurvey != null && detail.PostChatSurvey.length > 1" class="PostChatSurveys">
+                        <div v-for="field in detail.PostChatSurvey" v-if="field.FieldName != 'RatingField'" class="info-item info-survey">
+                            <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
+                            <div class="is-pulled-left"> 
+                                <b>{{field.FieldValue}}</b>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -80,8 +84,8 @@
                 <div class="content">
                     <div v-if="selectedTab == 'convo'" class="conversation">
                         <div v-for="(v,k) in GroupedMessages" class="messages">
-                            <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
-                            <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
+                            <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v" preview="true"></chatConversationVisitor>
+                            <chatConversationOperator v-if="v.type > 0" :groupedMessage="v" preview="true"></chatConversationOperator>
                         </div>
                     </div>
                     <div v-if="selectedTab == 'visitor' && detail.VisitDetail != null" class="visitorInfo">
@@ -206,7 +210,6 @@
             GroupedMessages() {
                 var grouped = [];
                 if(this.detail.Lines == undefined || this.detail.Lines == null) return grouped;
-
                 for(var i = 0; i < this.detail.Lines.length; i++) {
                     var message = this.detail.Lines[i];
                     var time = new Date(message.Dated);
@@ -222,6 +225,10 @@
                         isWhisper: message.isWhisper || false,
                         Name: ""
                     };
+                    if (message.OperatorIndex == 0) groupedMessage.Name = this.detail.VisitorName;
+                    else if(message.OperatorIndex == 99) groupedMessage.Name = "Server";
+                    else groupedMessage.Name = this.detail.TakenByUser;
+
                     var currentTime = this.MessageDateToDate(message.Dated);
 
                     if(message.isLink == undefined || message.isLink == false) { 

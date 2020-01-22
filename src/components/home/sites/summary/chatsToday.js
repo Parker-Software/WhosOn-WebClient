@@ -81,6 +81,7 @@
                 var result = 0;
                 var totalRated = 0;
                 if(this.chats == null) return result;
+
                 for(var i = 0; i < this.chats.length; i++) {
                     var chat = this.chats[i];
                     if(chat.Rating > 0) {
@@ -88,7 +89,9 @@
                         result += chat.Rating;
                     }
                 }
-                return Math.floor(result / totalRated).toFixed(0);
+
+                result = Math.floor(result / totalRated).toFixed(0);
+                return isNaN(result) ? 0 : result;
             },
         },
         methods: {

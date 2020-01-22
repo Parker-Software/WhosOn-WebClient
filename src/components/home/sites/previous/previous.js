@@ -96,7 +96,6 @@
             });
 
             hooks.Register(events.Connection.PreviousChat, (chat) => {
-                console.log(chat.Data);
                 this.chatDetail = chat.Data;
             });
         },

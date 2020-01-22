@@ -23,7 +23,7 @@
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
                         <div id="chatScroller" class="message-list no-gap-top no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
-                            <div v-for="(v,k) in groupedMessages" class="messages" v-bind:class="{ messageRight: getMessageType(v.type) }">
+                            <div v-for="(v,k) in groupedMessages" class="messages">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
                                 <br/>
