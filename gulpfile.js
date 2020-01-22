@@ -1,9 +1,11 @@
 const { src, dest, series, watch, parallel } = require("gulp");
-var eslint = require("gulp-eslint");
-var del = require("del");
-var sass = require("gulp-sass");
+const replace = require('gulp-replace');
+const eslint = require("gulp-eslint");
+const del = require("del");
+const sass = require("gulp-sass");
 const concat = require("gulp-concat");
 const browsersync = require("browser-sync").create();
+
 
 function browserSync(done) {
     browsersync.init({
@@ -37,8 +39,45 @@ function lintjs() {
     .pipe(eslint.failAfterError());
 }
 
-function moveHTML(){
-    return src(["./src/html/index.html", "./src/html/favicon.ico"])
+function html() {
+  var urls = {
+    favicon: "favicon.ico",
+    style: "assets/css/style.css",
+    vue: "assets/vendor/vue.js",
+    vuex: "assets/vendor/vuex.js",
+    chart: "assets/vendor/Chart.min.js",
+    libs: "assets/js/libs.js",
+    connection: "assets/js/connectionSettings.js",
+    componenets: "assets/js/components.js",
+    main: "assets/js/main.js"
+  }
+
+  var baseURL = {
+    staging: "cdn.whoson.com/webclient/staging_v1",
+    prod: "cdn.whoson.com/webclient/v1"
+  }
+
+  Object.keys(urls).forEach((k) => {
+    if(baseURL[build]) {
+      urls[k] = `${baseURL[build]}/${urls[k]}`;
+    }
+  });
+
+  return src(["./src/html/index.html"])
+    .pipe(replace('$favicon', urls['favicon']))
+    .pipe(replace('$style', urls['style']))
+    .pipe(replace('$vueLib', urls['vue']))
+    .pipe(replace('$vuexLib', urls['vuex']))
+    .pipe(replace('$chart', urls['chart']))
+    .pipe(replace('$libs', urls['libs']))
+    .pipe(replace('$connection', urls['connection']))
+    .pipe(replace('$components', urls['componenets']))
+    .pipe(replace('$main', urls['main']))
+    .pipe(dest("./dist/"));
+}
+
+function moveFavIcon(){
+    return src(["./src/html/favicon.ico"])
     .pipe(dest("./dist/"));
 }
 
@@ -88,7 +127,7 @@ function watchFiles() {
     watch("./src/*.js", moveConnectionSettings);
     watch("./src/style/**/*", scss);
     watch("./src/assets/images/*", moveImages);
-    watch("./src/html/*", moveHTML);
+    watch("./src/html/*", series(moveFavIcon, html));
     watch("./src/assets/**/*.js", series(packLibs, moveJS));
     watch("./src/components/**/*.js", packComponents);
     watch(
@@ -102,18 +141,34 @@ function watchFiles() {
 
 
 const monitor = parallel(watchFiles, browserSync);
-exports.clean = clean;
-exports.lintjs = lintjs;
-exports.scss = scss;
-exports.moveHTML = moveHTML;
-exports.moveImages = moveImages;
 exports.monitor = monitor;
-exports.moveFonts = moveFonts;
-exports.moveVendor = moveVendor;
-exports.moveJS = moveJS;
-exports.packLibs = packLibs;
-exports.packComponents = packComponents;
 
-exports.default = series(clean, scss, lintjs, [moveHTML, moveImages,moveFonts, moveVendor, 
-                          packLibs, packComponents, moveJS, moveConnectionSettings]);
+const commandLineArgs = require('command-line-args');
+const optionDefinitions = [
+  { name: 'monitor' },
+  { name: 'mode', type: String },
+  { name: 'build', type: String }
+]
 
+var mode = 'dev'; // modes - dev, cdn, prod
+var build = 'dev'; // build - dev, staging, prod
+
+const options = commandLineArgs(optionDefinitions, { partial: true });
+
+mode = options.mode || mode;
+build = options.build || build;
+
+exports.default = series((cb) => {
+  if(mode == 'dev') devBuild();
+  else if(mode == 'cdn') cdnBuild();
+  else if(mode == 'prod') prodBuild();
+  cb();
+});
+
+
+var devBuild = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
+  packLibs, packComponents, moveJS, moveConnectionSettings], html);
+
+var cdnBuild = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
+  packLibs, packComponents, moveJS]);
+var prodBuild = series(clean, [moveConnectionSettings], html);
