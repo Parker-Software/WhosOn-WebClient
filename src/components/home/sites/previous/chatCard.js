@@ -26,7 +26,7 @@
                         <div>
                             <span class="dept">{{chat.TakenByDept}}</span>
                         </div>
-                        <div>
+                        <div style="min-height: 25px">
                             <div v-if="chat.Rating > 0" class="ratings">
                                 <i v-for="star in chat.Rating" class="fas fa-star"></i>
                             </div>
@@ -39,6 +39,9 @@
                     </div>
                     <div v-else>
                         <b>Not Responded</b>
+                    </div>
+                    <div v-if="chat.Summary" class="summary">
+                        {{chat.Summary}}
                     </div>
                 </div>
             </div>

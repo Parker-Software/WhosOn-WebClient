@@ -5,7 +5,8 @@
     
     Vue.component("chatConversationOperator", {
         props: [
-            "groupedMessage"
+            "groupedMessage",
+            "preview"
         ],
         template: `
         <div class="columns is-gapless">        
@@ -15,7 +16,7 @@
                 <div 
                     v-bind:class="{'fileMessage':groupedMessage.isLink, 'is-pulled-right':groupedMessage.isLink, 'beingMonitored':groupedMessage.isWhisper == true}"
                      class="notification operator">
-                     <p><small><time>{{groupedMessage.time}}</time></small></p>
+                     <p><small> <span v-if="preview">{{groupedMessage.Name}}</span> <span v-if="preview">@</span> <time>{{groupedMessage.time}}</time></small></p>
                      <p v-html="messageFormatted" class="operator-message-text"></p>
                 </div>
             </div>

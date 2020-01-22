@@ -21,24 +21,28 @@
                     :subtitle="AverageDate(NewVisitorsTotal)"
                     :value="NewVisitors"
                     :max="NewVisitorsTotal"
+                    showArrow="true"
                 ></doughnut>
                 <doughnut 
                     title="Total Visitors"
                     :subtitle="AverageDate(TotalVisitorsTotal)"
                     :value="TotalVisitors"
                     :max="TotalVisitorsTotal"
+                    showArrow="true"
                 ></doughnut>
                 <doughnut 
                     title="Prospects"
                     :subtitle="AverageDate(ProspectsTotal)"
                     :value="Prospects"
                     :max="ProspectsTotal"
+                    showArrow="true"
                 ></doughnut>
                 <doughnut 
                     title="Chats"
                     :subtitle="AverageDate(ChatsTotal)"
                     :value="Chats"
                     :max="ChatsTotal"
+                    showArrow="true"
                 ></doughnut>
             </div>
         `,

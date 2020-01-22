@@ -56,7 +56,7 @@
                                 <li v-if="CanSeeSummary" v-on:click="TabClicked('summary')" class="summary" v-bind:class="{'is-active': SelectedTab() == 'summary'}">Summary</li>
                                 <!--<li>Active Visitors</li>
                                 <li>Previous Visits</li>-->
-                                <li v-on:click="TabClicked('previous')" class="previous" v-bind:class="{'is-active': SelectedTab() == 'previous'}">Previous Chats</li>
+                                <li v-on:click="TabClicked('previous')" class="previous" v-bind:class="{'is-active': SelectedTab() == 'previous'}">Previous Chats <i v-if="chats.filter(x => x.Missed).length > 0" class="fas fa-exclamation-circle"></i></li>
                                 <!--<li>Search Chats</li>
                                 <li>Reports</li>-->
                             </ul>

@@ -46,6 +46,10 @@
                     border-bottom-width: 6px;
                     border-bottom-color: $ThemeRoundButtonHover;
                 }
+
+                i {
+                    color: $ThemeMyStatusBusy;
+                }
               }
             }
         }
