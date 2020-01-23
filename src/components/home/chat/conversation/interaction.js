@@ -56,6 +56,7 @@
         </section>
         `,
         beforeCreate() {
+
             hooks.Register(events.FileUploader.Yes, (e) => { 
                 this.ShowingFiles = false;
             });
@@ -208,17 +209,17 @@
             });
 
             
-            hooks.Register(events.CannedResponses.Clicked, (item) => {
+            hooks.Register(events.CannedResponses.Clicked, (e) => {
+                var {item, event} = e;
                 var content = item.Content;
-
                 if(item.Attachments != "") {
                     this.AttachedFile = state.uploadedFiles.find(x => x.HashedFileName == item.Attachments);
-                    content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
+                    if(this.AttachedFile) content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
                 } else {
                     this.AttachedFile = null;
                 }
 
-                this.InputArea().innerHTML = content;
+                this.InputArea().innerHTML = event.ctrlKey ? `${this.InputArea().innerHTML}  ${content}` : content;
                 this.HasSuggestion = true;
                 this.InputArea().focus();
             });

@@ -31,8 +31,8 @@
                 name: "new stuff"
               })
             },
-            ItemClicked(item) {
-                this.$emit("ItemClicked", item);
+            ItemClicked(item, event) {
+                this.$emit("ItemClicked", item, event);
             }
         }
     });
