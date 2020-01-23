@@ -64,7 +64,6 @@
                     for(var i = this.monthlySummary.length - 1; i >= 0; i--) {
                         var monthlySummary = this.monthlySummary[i];
                         if(monthlySummary == undefined || monthlySummary == null) {
-                            console.log(this.monthlySummary);
                             break;
                         }
 

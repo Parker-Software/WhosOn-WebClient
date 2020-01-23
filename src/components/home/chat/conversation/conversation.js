@@ -191,8 +191,6 @@
                         Name: name
                     };
 
-                    console.log(groupedMessage);
-
                     var currentTime = this.MessageDateToDate(message.date);
 
                     if(message.isLink == undefined || message.isLink == false) { 

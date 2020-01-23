@@ -13,7 +13,7 @@
                     :id="treeId + '-' + item.ID"
                     class="treeItem child-item"
                     :class="{hasChildren: isFolder, noChildren: isFolder == false}"
-                    @click="Clicked">
+                    @click="Clicked($event)">
                     <span v-if="isFolder" class="hasChildrenChevron" v-html="IsOpen"></span>
                     <span class="node-text">{{item[itemKey]}}</span>
                 </div>
@@ -47,14 +47,14 @@
             }
         },
         methods: {
-            Clicked: function () {
+            Clicked(event) {
                 if (this.isFolder) {
                     this.isOpen = !this.isOpen
                 }
-                this.$emit("TreeItemClicked", this.item);
+                this.$emit("TreeItemClicked", this.item, event);
             },
-            ClickedForParent(item) {
-                this.$emit("TreeItemClicked", item);
+            ClickedForParent(item, event) {
+                this.$emit("TreeItemClicked", item, event);
             },
             makeFolder: function () {
                 if (!this.isFolder) {

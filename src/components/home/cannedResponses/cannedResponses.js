@@ -119,16 +119,22 @@
                     state.cannedResponsesRender = cannedResponsesToTree(state.cannedResponses);
                 }
             },
-            CannedResponseClicked(item) {
+            CannedResponseClicked(item, event) {
                 this.UnSelectAllTreeItems();
                 var clickedItemElem = this.GetTreeItemById(item);
                 clickedItemElem.classList.add("selected");
-                hooks.Call(events.CannedResponses.Clicked, item);
+                hooks.Call(events.CannedResponses.Clicked, {
+                    item,
+                    event
+                });
             },
-            SearchedCannedResponseClicked(item) {
+            SearchedCannedResponseClicked(item, event) {
                 this.UnSelectAllSearchedItems();
                 this.GetSearchedItemById(item).classList.add("is-active");
-                hooks.Call(events.CannedResponses.Clicked, item);
+                hooks.Call(events.CannedResponses.Clicked, {
+                    item,
+                    event
+                });
             }
         }
     });
