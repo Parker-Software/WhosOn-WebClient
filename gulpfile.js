@@ -41,20 +41,18 @@ function lintjs() {
 
 function html() {
   var urls = {
-    favicon: "favicon.ico",
     style: "assets/css/style.css",
     vue: "assets/vendor/vue.js",
     vuex: "assets/vendor/vuex.js",
     chart: "assets/vendor/Chart.min.js",
     libs: "assets/js/libs.js",
-    connection: "assets/js/connectionSettings.js",
     componenets: "assets/js/components.js",
     main: "assets/js/main.js"
   }
 
   var baseURL = {
-    staging: "cdn.whoson.com/webclient/staging_v1",
-    prod: "cdn.whoson.com/webclient/v1"
+    staging: "https://cdn.whoson.com/webclient/staging_v1",
+    prod: "https://cdn.whoson.com/webclient/v1"
   }
 
   Object.keys(urls).forEach((k) => {
@@ -64,13 +62,13 @@ function html() {
   });
 
   return src(["./src/html/index.html"])
-    .pipe(replace('$favicon', urls['favicon']))
+    .pipe(replace('$favicon', "favicon.ico"))
     .pipe(replace('$style', urls['style']))
     .pipe(replace('$vueLib', urls['vue']))
     .pipe(replace('$vuexLib', urls['vuex']))
     .pipe(replace('$chart', urls['chart']))
     .pipe(replace('$libs', urls['libs']))
-    .pipe(replace('$connection', urls['connection']))
+    .pipe(replace('$connection', "assets/js/connectionSettings.js"))
     .pipe(replace('$components', urls['componenets']))
     .pipe(replace('$main', urls['main']))
     .pipe(dest("./dist/"));
@@ -169,6 +167,6 @@ exports.default = series((cb) => {
 var devBuild = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS, moveConnectionSettings], html);
 
-var cdnBuild = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
+var cdnBuild = series(clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS]);
-var prodBuild = series(clean, [moveConnectionSettings], html);
+var prodBuild = series(clean, [moveFavIcon, moveConnectionSettings], html);
