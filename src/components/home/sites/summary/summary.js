@@ -61,6 +61,7 @@
                     return site;
                 } else {
                     var summary = null;
+
                     for(var i = this.monthlySummary.length - 1; i >= 0; i--) {
                         var monthlySummary = this.monthlySummary[i];
                         if(monthlySummary == undefined || monthlySummary == null) {
@@ -83,11 +84,13 @@
                             summary.ChatsMissed = this.chats.filter(x => x.Missed).length;
 
                             summary.AvgChatSentiment = 0;
-                            for(var i = 0; i < this.chats.length; i++ ){
-                                var chat = this.chats[i];
+
+                            for(var k = 0; k < this.chats.length; k++){
+                                var chat = this.chats[k];
                                 summary.AvgChatSentiment += Number(chat.SentimentScore);
                             }
                             summary.AvgChatSentiment = Math.round(summary.AvgChatSentiment / this.chats.filter(x => x.SentimentScore > 0).length);
+                           
                         }
                     }
                     return summary;
