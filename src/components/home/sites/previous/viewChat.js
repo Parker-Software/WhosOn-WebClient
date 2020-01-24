@@ -19,49 +19,49 @@
                 <div class="info-header">
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Visitor Name: </div>
-                        <div class="is-pulled-left"> <b>{{chat.VisitorName}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{chat.VisitorName}}</b> </div>
                     </div>
                     <div v-if="chat.Location" class="info-item">
                         <div class="is-pulled-left info-item-label"> Location: </div>
-                        <div class="is-pulled-left"> <b>{{Location}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{Location}}</b> </div>
                     </div>
                     <div  v-if="chat.Location" class="info-item">
                         <div class="is-pulled-left info-item-label"> Organization: </div>
-                        <div class="is-pulled-left"> <b>{{Org}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{Org}}</b> </div>
                     </div>
                     <div  v-if="chat.DNS" class="info-item">
                         <div class="is-pulled-left info-item-label"> DNS: </div>
-                        <div class="is-pulled-left"> <b>{{chat.DNS}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{chat.DNS}}</b> </div>
                     </div>
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Chatted to: </div>
-                        <div class="is-pulled-left"> 
+                        <div class="is-pulled-right"> 
                             <b v-if="chat.TakenByUsers">{{chat.TakenByUsers}}</b>
                             <b v-else>Missed Chat</b>
                         </div>
                     </div>
                     <div v-if="chat.TakenByDept" class="info-item">
                         <div class="is-pulled-left info-item-label"> Department: </div>
-                        <div class="is-pulled-left"> <b>{{chat.TakenByDept}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{chat.TakenByDept}}</b> </div>
                     </div>
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Started: </div>
-                        <div class="is-pulled-left"> <b>{{FormattedDate(chat.StartTime)}} <span v-if="chat.WaitedForSecs > 0">(Waited {{TimeFor(chat.WaitedForSecs)}})</span></b></div>
+                        <div class="is-pulled-right"> <b>{{FormattedDate(chat.StartTime)}} <span v-if="chat.WaitedForSecs > 0">(Waited {{TimeFor(chat.WaitedForSecs)}})</span></b></div>
                     </div>
                     <div  v-if="chat.TakenByUsers" class="info-item">
                         <div class="is-pulled-left info-item-label"> Finished: </div>
-                        <div class="is-pulled-left"> <b>{{FormattedDate(chat.FinishTime)}} <span v-if="chat.ChattedForSecs > 0">(Chatted {{TimeFor(chat.ChattedForSecs)}})</span></b> </div>
+                        <div class="is-pulled-right"> <b>{{FormattedDate(chat.FinishTime)}} <span v-if="chat.ChattedForSecs > 0">(Chatted {{TimeFor(chat.ChattedForSecs)}})</span></b> </div>
                     </div>
                     <div v-if="chat.Rating > 0" class="info-item">
                         <div class="is-pulled-left info-item-label"> Rating: </div>
-                        <div class="is-pulled-left"> 
+                        <div class="is-pulled-right"> 
                             <i v-for="star in chat.Rating" class="fas fa-star"></i>
                         </div>
                     </div>
                     <div v-if="detail.PreChatSurvey != null && detail.PreChatSurvey.length > 0" class="PreChatSurveys">
                         <div v-for="field in detail.PreChatSurvey" class="info-item info-survey">
                             <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
-                            <div class="is-pulled-left"> 
+                            <div class="is-pulled-right"> 
                                 <b>{{field.FieldValue}}</b>
                             </div>
                         </div>
@@ -69,7 +69,7 @@
                     <div v-if="detail.PostChatSurvey != null && detail.PostChatSurvey.length > 1" class="PostChatSurveys">
                         <div v-for="field in detail.PostChatSurvey" v-if="field.FieldName != 'RatingField'" class="info-item info-survey">
                             <div class="is-pulled-left info-item-label"> {{field.FieldName}}: </div>
-                            <div class="is-pulled-left"> 
+                            <div class="is-pulled-right"> 
                                 <b>{{field.FieldValue}}</b>
                             </div>
                         </div>
@@ -92,35 +92,35 @@
                         <div class="info">
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> IP address: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.IP}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.IP}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Started: </div>
-                                <div class="is-pulled-left"> <b>{{FormattedDate(detail.VisitDetail.SessionStarted)}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{FormattedDate(detail.VisitDetail.SessionStarted)}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Session Id: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.SessionID}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.SessionID}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Country: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.GeoIP.CountryName}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.GeoIP.CountryName}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Location: </div>
-                                <div class="is-pulled-left"> <b>{{chat.VisitorName}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{chat.VisitorName}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Visit number: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.VisitNumber}} Of {{detail.VisitDetail.TotalVisits}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.VisitNumber}} Of {{detail.VisitDetail.TotalVisits}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Operating system: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.OS}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.OS}}</b> </div>
                             </div>
                             <div class="info-item">
                                 <div class="is-pulled-left info-item-label"> Browser: </div>
-                                <div class="is-pulled-left"> <b>{{detail.VisitDetail.Browser}}</b> </div>
+                                <div class="is-pulled-right"> <b>{{detail.VisitDetail.Browser}}</b> </div>
                             </div>
                         </div>
                         <div class="info-pages-viewed">

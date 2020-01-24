@@ -5,7 +5,7 @@
         ],
         template: `
             <div v-bind:id="id">
-                <img src="assets/images/whoson-logo-sm.png" style="width: 200px;" />
+                <img src="https://cdn.whoson.com/webclient/v1/assets/images/whoson-logo-sm.png" style="width: 200px;" />
                 <div class="field" style="max-width: 400px;">
                     <label>WhosOn Web Client Version: <b class="is-pulled-right">{{$store.state.version}}</b></label> <br />
                 </div>
