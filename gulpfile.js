@@ -44,7 +44,6 @@ function html() {
     style: "assets/css/style.css",
     vue: "assets/vendor/vue.js",
     vuex: "assets/vendor/vuex.js",
-    chart: "assets/vendor/Chart.min.js",
     libs: "assets/js/libs.js",
     componenets: "assets/js/components.js",
     main: "assets/js/main.js"
@@ -66,7 +65,6 @@ function html() {
     .pipe(replace('$style', urls['style']))
     .pipe(replace('$vueLib', urls['vue']))
     .pipe(replace('$vuexLib', urls['vuex']))
-    .pipe(replace('$chart', urls['chart']))
     .pipe(replace('$libs', urls['libs']))
     .pipe(replace('$connection', "assets/js/connectionSettings.js"))
     .pipe(replace('$components', urls['componenets']))
