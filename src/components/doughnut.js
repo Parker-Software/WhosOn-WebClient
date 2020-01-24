@@ -11,8 +11,6 @@
         data: () => {
             return {
                 id: uuidv4(),
-                colours: ["#7779BF", "rgba(238, 241, 245)"],
-                data: [],
                 upperLimit: 100,
             };
         },
@@ -23,7 +21,9 @@
                     <i v-if="showArrow && value != 0 && value > max" class="far fa-arrow-alt-circle-up doingWell"></i>
                     <i v-if="showArrow && value != 0 && value < max" class="far fa-arrow-alt-circle-down doingBad"></i>
                 </b>
-                <canvas v-bind:id="id" width="100" height="100"></canvas>
+                <div>
+                    <canvas v-bind:id="id" width="100" height="100"></canvas>
+                </div>
                 <div class="value">
                     <b>{{ActualValue}}</b>
                 </div>
@@ -56,47 +56,29 @@
             Bind() {
                 if(this.max != null) this.upperLimit = this.max;
 
-                if(this.ActualValue >= this.upperLimit) {
-                    this.data = [this.ActualValue];
-                    this.colours = ["#848492"];
-                }
-                else {
-                    this.data = [this.ActualValue , this.upperLimit - this.ActualValue];
-                }
-
                 var chart = document.getElementById(this.id);
                 if(chart) {
-                    var ctx = chart.getContext('2d');
-                    new Chart(ctx, {
-                        type: 'doughnut',
-                        data: {
-                            datasets: [{
-                                data: this.data,
-                                backgroundColor: this.colours,
-                                borderColor: this.colours,
-                                hoverBackgroundColor: this.colours,
-                                borderWidth: 0,
-                            }]
-                        },
-                        options: {
-                            responsive: false,
-                            cutoutPercentage: 60,
-                            tooltips: {
-                                enabled: false
-                            },
-                            animation: {
-                                onProgress: function() {
-                                    var sizeWidth = ctx.canvas.clientWidth;
-                                    var sizeHeight = ctx.canvas.clientHeight;
 
-                                    this.chart.ctx.beginPath();
-                                    this.chart.ctx.arc(sizeWidth * 0.5,  (sizeHeight * 0.5) + 5, 28, 0, 2*Math.PI);
-                                    this.chart.ctx.fillStyle = '#fff';
-                                    this.chart.ctx.fill();
-                                }
-                            }
-                        }
-                    });
+                    var takeOff = 0.5 * Math.PI;
+                    var ctx = chart.getContext('2d');
+                    ctx.clearRect(0, 0, chart.width, chart.height);
+                    ctx.beginPath();
+                    ctx.arc(50,  54, 27, 0, 2*Math.PI);
+                    ctx.fillStyle = '#fff';
+                    ctx.fill();
+
+
+                    var arcAmount = (this.value / (this.upperLimit * 50) * 100) * Math.PI - takeOff;
+                    ctx.beginPath();
+                    ctx.arc(50, 54, 35, -takeOff, arcAmount);
+                    ctx.lineWidth = 15;
+
+                    if(this.ActualValue > this.upperLimit) {
+                        ctx.strokeStyle = '#848492';
+                    } else {
+                        ctx.strokeStyle = '#7779BF';
+                    }
+                    ctx.stroke();
                 }
             }
         },
