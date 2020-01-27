@@ -56,7 +56,7 @@
                     </div>
                     <div class="column">
                         <strong class="useritem-username">{{user.Name}}</strong><br/>
-                        <small>{{user.Dept}}Test</small>
+                        <small>{{user.Dept}}</small>
                     </div>
                 </div>
             </li>
