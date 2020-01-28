@@ -4,6 +4,8 @@ db.json
 *.log
 node_modules/
 dist/
+cdn/
+prod/
+staging/
 .deploy*/
 src/_drafts
-package-lock.json

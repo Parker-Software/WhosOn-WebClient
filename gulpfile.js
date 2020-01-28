@@ -6,11 +6,14 @@ const sass = require("gulp-sass");
 const concat = require("gulp-concat");
 const browsersync = require("browser-sync").create();
 
+var buildFolder = "./dist" 
+var build = 'dev';
+
 
 function browserSync(done) {
     browsersync.init({
       server: {
-        baseDir: "./dist/"
+        baseDir: "./dist"
       },
       port: 3000
     });
@@ -23,13 +26,13 @@ function browserSyncReload(done) {
 }
 
 function clean() {
-    return del(["dist"]);
+    return del([buildFolder]);
 }
 
 function scss(){
-    return src("./src/style/scss/style.scss")
-    .pipe(sass().on("error", sass.logError))
-    .pipe(dest("./dist/assets/css/"));
+  return src("./src/style/scss/style.scss")
+  .pipe(sass().on("error", sass.logError))
+  .pipe(dest(buildFolder + "/assets/css/"));
 }
 
 function lintjs() {
@@ -69,12 +72,12 @@ function html() {
     .pipe(replace('$connection', "assets/js/connectionSettings.js"))
     .pipe(replace('$components', urls['componenets']))
     .pipe(replace('$main', urls['main']))
-    .pipe(dest("./dist/"));
+    .pipe(dest(buildFolder));
 }
 
 function moveFavIcon(){
     return src(["./src/html/favicon.ico"])
-    .pipe(dest("./dist/"));
+    .pipe(dest(buildFolder));
 }
 
 function packLibs(){
@@ -84,39 +87,39 @@ function packLibs(){
   "./src/assets/chatFactory.js",
   "./src/assets/hooks/**/*.js"])
   .pipe(concat("libs.js"))
-  .pipe(dest("./dist/assets/js/"))
+  .pipe(dest(buildFolder + "/assets/js/"))
 }
 
 function packComponents(){
   return src("./src/components/**/*.js")
   .pipe(concat("components.js"))
-  .pipe(dest("./dist/assets/js/"))
+  .pipe(dest(buildFolder + "/assets/js/"))
 }
 
 function moveConnectionSettings() {
   return src("./src/connectionSettings.js")  
-  .pipe(dest("./dist/assets/js/"))
+  .pipe(dest(buildFolder + "/assets/js/"))
 }
 
 function moveJS() {
   return src(["./src/assets/vueApp.js", "./src/assets/authentication.js", "./src/assets/main.js", "./src/assets/stateManager.js"])  
   .pipe(concat("main.js"))
-  .pipe(dest("./dist/assets/js/"))
+  .pipe(dest(buildFolder + "/assets/js/"))
 }
 
 function moveImages(){
     return src("./src/assets/images/*.*")
-    .pipe(dest("./dist/assets/images/"));
+    .pipe(dest(buildFolder + "/assets/images/"));
 }
 
 function moveFonts(){
   return src("./src/assets/webfonts/*.*")
-  .pipe(dest("./dist/assets/webfonts/"));
+  .pipe(dest(buildFolder + "/assets/webfonts/"));
 }
 
 function moveVendor(){
   return src("./src/assets/vendor/**/*.js")
-  .pipe(dest("./dist/assets/vendor/"));
+  .pipe(dest(buildFolder + "/assets/vendor/"));
 }
 
 function watchFiles() {
@@ -138,33 +141,30 @@ function watchFiles() {
 
 const monitor = parallel(watchFiles, browserSync);
 exports.monitor = monitor;
-
-const commandLineArgs = require('command-line-args');
-const optionDefinitions = [
-  { name: 'monitor' },
-  { name: 'mode', type: String },
-  { name: 'build', type: String }
-]
-
-var mode = 'dev'; // modes - dev, cdn, prod
-var build = 'dev'; // build - dev, staging, prod
-
-const options = commandLineArgs(optionDefinitions, { partial: true });
-
-mode = options.mode || mode;
-build = options.build || build;
-
-exports.default = series((cb) => {
-  if(mode == 'dev') devBuild();
-  else if(mode == 'cdn') cdnBuild();
-  else if(mode == 'prod') prodBuild();
-  cb();
-});
-
-
-var devBuild = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
+exports.default = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS, moveConnectionSettings], html);
-
-var cdnBuild = series(clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, 
+exports.cdn = series(setCDN, clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS]);
-var prodBuild = series(clean, [moveFavIcon, moveConnectionSettings], html);
+exports.prod = series(setPROD, clean, [moveFavIcon, moveConnectionSettings], html);
+exports.stage =  series(setStaging, clean, [moveFavIcon, moveConnectionSettings], html);
+
+function setCDN(){  
+  console.log("<--- Starting CDN Build --->");
+  buildFolder = './cdn';
+  build = 'cdn';
+  return src('.');
+}
+
+function setPROD(){  
+  console.log("<--- Starting Production Build --->");
+  buildFolder = './prod';
+  build = 'prod';
+  return src('.');
+}
+
+function setStaging(){  
+  console.log("<--- Starting Staging Build --->");
+  buildFolder = './staging';
+  build = 'staging';
+  return src('.');
+}
