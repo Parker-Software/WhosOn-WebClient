@@ -157,7 +157,7 @@
                                 var finalGreetings = this.$store.state.settings.Greeting;
                                 var currentTime = new Date();
 
-                                finalGreetings = finalGreetings.replace(/%TimeOfDay%/g, `${currentTime.getHours() < 12 ? 'Morning' : 'Afternoon'}`);
+                                finalGreetings = finalGreetings.replace(/%TimeOfDay%/g, `${currentTime.getHours() < 12 ? "Morning" : "Afternoon"}`);
                                 finalGreetings = finalGreetings.replace(/%Name%/g, this.$store.state.currentChat.Name);
                                 finalGreetings = finalGreetings.replace(/%MyName%/g, this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName);
                                 this.InputArea().innerText = finalGreetings;
@@ -214,7 +214,7 @@
                 var content = item.Content;
                 if(item.Attachments != "") {
                     this.AttachedFile = state.uploadedFiles.find(x => x.HashedFileName == item.Attachments);
-                    if(this.AttachedFile) content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;
+                    if(this.AttachedFile) {content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;}
                 } else {
                     this.AttachedFile = null;
                 }

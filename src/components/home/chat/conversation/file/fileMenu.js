@@ -6,7 +6,7 @@
     var state = services.Store.state;
     var connection = services.WhosOnConn;
 
-    Vue.component('fileMenu', {
+    Vue.component("fileMenu", {
         data: () => {
             return {
                 file: null,
@@ -88,18 +88,18 @@
                 return state.uploadedFilesSearchResult.filter(item => item.VisitorUploaded == false);
             },
             sendFileContent() {
-                return '<span class="fa-stack fa-lg">' +
-                    '<i class="fas fa-circle fa-stack-2x"></i>' +
-                    '<i class="fas fa-question fa-stack-1x" style="color:white"></i>' +
-                '</span>' +
-                '<span>' +
+                return "<span class=\"fa-stack fa-lg\">" +
+                    "<i class=\"fas fa-circle fa-stack-2x\"></i>" +
+                    "<i class=\"fas fa-question fa-stack-1x\" style=\"color:white\"></i>" +
+                "</span>" +
+                "<span>" +
                     `Do you want to send the file <span v-if="file != null">${this.file.FileName}</span>?` +
-                    '<br />' +
-                    'The visitor will be able to download the file via their chat window.' +
-                '</span>'
+                    "<br />" +
+                    "The visitor will be able to download the file via their chat window." +
+                "</span>"
             },
             sendFileAlreadyUploadedContent() {
-                return '<span>File already uploaded. Do you want to upload another copy?<span>'
+                return "<span>File already uploaded. Do you want to upload another copy?<span>"
             }
         },
         methods: {
@@ -117,7 +117,7 @@
 
                 var msg = {code:1, msg:`<link><name>${name}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
 
-                if(state.chatMessages[state.currentChat.ChatUID] == null) state.chatMessages[state.currentChat.ChatUID] = [];
+                if(state.chatMessages[state.currentChat.ChatUID] == null) {state.chatMessages[state.currentChat.ChatUID] = [];}
                 state.chatMessages[state.currentChat.ChatUID].push(msg);
                 state.currentChatMessages.push(msg);
                 hooks.Call(events.Chat.ScrollChat);
@@ -204,7 +204,7 @@
                 var uploader = elem.target;
                 var files = uploader.files;
 
-                if(files.length <= 0) return;
+                if(files.length <= 0) {return;}
 
                 this.file = files[0];
                 var reader = new FileReader(); 
@@ -214,7 +214,7 @@
                     if(alreadyExists.length > 0) {
                         self.ShowAlreadyUploadedModal();
                         return;
-                    } else self.UploadFile();
+                    } else {self.UploadFile();}
                 };
                 reader.readAsDataURL(this.file);
             }

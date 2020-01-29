@@ -5,7 +5,7 @@
     var connection = services.WhosOnConn;
     var state = services.Store.state;
 
-    Vue.component('dialogue', {
+    Vue.component("dialogue", {
         props: [
             "title",
             "content",
@@ -34,10 +34,10 @@
         `,  
         methods: {
             Yes() {
-                if(this.yesCallback) this.yesCallback();
+                if(this.yesCallback) {this.yesCallback();}
             },
             Close() {
-                if(this.noCallback) this.noCallback();
+                if(this.noCallback) {this.noCallback();}
             }
         }
     });

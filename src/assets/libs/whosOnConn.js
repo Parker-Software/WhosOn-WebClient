@@ -230,17 +230,17 @@
 
         GetDailySummary() {
             var self = this;
-            self.Socket.Send('GetDS');
+            self.Socket.Send("GetDS");
         }
 
         GetMonthlySummary(siteKey) {
             var self = this;
-            self.Socket.Send('GetMonthSummary', [siteKey]);
+            self.Socket.Send("GetMonthSummary", [siteKey]);
         }
 
         GetPreviousChats(sitekey, date) {
             var self = this;
-            self.Socket.Send('GetChats', [
+            self.Socket.Send("GetChats", [
                 sitekey,
                 date
             ]);
@@ -248,7 +248,7 @@
 
         GetPreviousChat(sitekey, chatid) {
             var self = this;
-            self.Socket.Send('GetPrevChat ', [
+            self.Socket.Send("GetPrevChat ", [
                 sitekey,
                 chatid
             ]);

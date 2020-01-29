@@ -6,13 +6,13 @@
     var connection = services.WhosOnConn;
     var state = services.state;
 
-    Vue.component('navigation', {
+    Vue.component("navigation", {
         data: () => {
             return {
                 showChats: true,
                 showTeam: false,
                 showSites: false,
-                focus: 'chats'
+                focus: "chats"
             }
         },
         template: `    
@@ -108,13 +108,13 @@
         </div>`,
         beforeCreate() {
             hooks.Register(events.Options.SaveClicked, () => {
-                this.OnNavButtonClicked('chats');
+                this.OnNavButtonClicked("chats");
             });
             hooks.Register(events.Options.CancelClicked, () => {
-                this.OnNavButtonClicked('chats');
+                this.OnNavButtonClicked("chats");
             });
             hooks.Register(events.Connection.PasswordChanged, () => {
-                this.OnNavButtonClicked('chats');
+                this.OnNavButtonClicked("chats");
             });
         },
         mounted() {
@@ -258,7 +258,7 @@
             OnNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);  
                 this.focus = status;        
-                if(this.isHidden(this.StatusPopout()) == false && status != "status") this.ToggleStatus();
+                if(this.isHidden(this.StatusPopout()) == false && status != "status") {this.ToggleStatus();}
                 switch (status) {
                     case "status":
                         this.ToggleStatus();

@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('sites', {
+    Vue.component("sites", {
         data: () => {
             return {
                 allSites: [],
@@ -47,7 +47,7 @@
                 return document.getElementById("sitesSearchTxtBox");
             },
             SearchTerms() {
-                if(this.SearchElem()) return this.SearchElem().value.trim();
+                if(this.SearchElem()) {return this.SearchElem().value.trim();}
                 return "";
             },  
             Search() {

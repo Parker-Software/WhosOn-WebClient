@@ -36,7 +36,7 @@
         hooks.Call(events.Home.UserImagesNeedUpdating);
     });
 
-    Vue.component('user', {
+    Vue.component("user", {
         props: [
             "collectionGroup",
             "user"
@@ -64,30 +64,30 @@
         computed: {
             ItemClass() {
                 var classes = {};
-                classes[this.collectionGroup || 'userItem'] = true;
-                classes[(this.collectionGroup || 'userItem') + '-' +  this.user.Username] = true;
+                classes[this.collectionGroup || "userItem"] = true;
+                classes[(this.collectionGroup || "userItem") + "-" +  this.user.Username] = true;
                 return classes;
             },
             visitorLetter(){
                 var name = this.user.Username;
-                if(name === undefined) return;
+                if(name === undefined) {return;}
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {
                 var name = this.user.Username;
-                if(name === undefined) return;              
+                if(name === undefined) {return;}              
                 return name.charAt(0).toLowerCase();
             }
         },
         methods: {
             Elem() {
-                return document.getElementsByClassName(`${this.collectionGroup || 'userItem'}-${this.user.Username}`)[0];
+                return document.getElementsByClassName(`${this.collectionGroup || "userItem"}-${this.user.Username}`)[0];
             },
             Clicked() {
                 this.$emit("Clicked", this.user);
                 if (this.Elem().classList.contains("is-active")) {
                     this.Elem().classList.remove("is-active");
-                } else this.Elem().classList.add("is-active");
+                } else {this.Elem().classList.add("is-active");}
             }
         }
     });

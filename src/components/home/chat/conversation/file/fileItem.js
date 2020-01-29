@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('fileItem', {
+    Vue.component("fileItem", {
         props: [
             "hashedFileName",
             "name",
@@ -32,7 +32,7 @@
             `,
         beforeCreate() { 
             hooks.Register(events.FileUploader.FileItemClicked, (e) => {
-                if(this.Item() != null) this.Item().classList.remove("is-active");
+                if(this.Item() != null) {this.Item().classList.remove("is-active");}
             });
         },
         methods: {
@@ -47,8 +47,8 @@
         },
         computed: {
             IsPinned() {
-                if(this.isPinned) return `<i class="fas fa-thumbtack"></i>`;
-                else return ``;
+                if(this.isPinned) {return "<i class=\"fas fa-thumbtack\"></i>";}
+                else {return "";}
             },
             DateFormatted() {
                 var date = new Date(this.date);
@@ -56,8 +56,8 @@
                 var month = date.getMonth() + 1;
                 var year = date.getFullYear();
 
-                if(day < 10) day = `0${day}`;
-                if(month < 10) month = `0${month}`;
+                if(day < 10) {day = `0${day}`;}
+                if(month < 10) {month = `0${month}`;}
 
                 return `${day}/${month}/${year}`;
             },

@@ -140,13 +140,17 @@ function watchFiles() {
 
 
 const monitor = parallel(watchFiles, browserSync);
-exports.monitor = monitor;
 exports.default = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS, moveConnectionSettings], html);
 exports.cdn = series(setCDN, clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, 
   packLibs, packComponents, moveJS]);
 exports.prod = series(setPROD, clean, [moveFavIcon, moveConnectionSettings], html);
 exports.stage =  series(setStaging, clean, [moveFavIcon, moveConnectionSettings], html);
+
+
+
+exports.monitor = monitor;
+exports.lint = lintjs;
 
 function setCDN(){  
   console.log("<--- Starting CDN Build --->");

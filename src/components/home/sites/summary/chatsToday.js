@@ -4,7 +4,7 @@
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
     
-    Vue.component('chatsToday', {
+    Vue.component("chatsToday", {
         props: [
             "site",
             "selectedDate",
@@ -59,7 +59,7 @@
             },
             AnsweredOnTime() {
                 var result = 0;
-                if(this.chats == null) return result;
+                if(this.chats == null) {return result;}
                 for(var i = 0; i < this.chats.length; i++) {
                     var chat = this.chats[i];
                     if(chat.Missed == false && chat.WaitedForSecs <= this.Site.SLAWarnSeconds2) {
@@ -70,7 +70,7 @@
             },
             AnsweredOnTimeTotal() {
                 var result = 0;
-                if(this.chats == null) return result;
+                if(this.chats == null) {return result;}
                 for(var i = 0; i < this.chats.length; i++) {
                     var chat = this.chats[i];
                     result += chat.WaitedForSecs;
@@ -80,7 +80,7 @@
             AverageRating() {
                 var result = 0;
                 var totalRated = 0;
-                if(this.chats == null) return result;
+                if(this.chats == null) {return result;}
 
                 for(var i = 0; i < this.chats.length; i++) {
                     var chat = this.chats[i];
@@ -142,14 +142,14 @@
                 return `Avg Wait ${result}`;
             },
             AddZero(string) {
-                if(Number(string) < 10) string = String("0"+string);
+                if(Number(string) < 10) {string = String("0"+string);}
                 return string;
             },
             Stars(count) {
                 var stars = "";
                 if(count > 0) {
                     for(var i = 0; i < count; i++){
-                        stars += `<i v-for="star in chat.Rating" class="fas fa-star"></i>`;
+                        stars += "<i v-for=\"star in chat.Rating\" class=\"fas fa-star\"></i>";
                     }
                 }
                 return stars;;

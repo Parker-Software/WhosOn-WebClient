@@ -92,7 +92,7 @@
                 hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
             },
             AllTreeItems() {
-                return document.getElementById('treeContainer');
+                return document.getElementById("treeContainer");
             },
             UnSelectAllTreeItems() {
                 var container = document.getElementById("treeContainer");
@@ -122,7 +122,7 @@
                 return document.querySelector(`#wrapUpTree-${item.ID}`);
             },
             GetTreeButton(){
-                return document.getElementById('treeSelectButton');
+                return document.getElementById("treeSelectButton");
             },
             AllOptions() {
                 return document.querySelectorAll(`#${this.id} .option`);

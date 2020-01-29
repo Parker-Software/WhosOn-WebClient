@@ -5,7 +5,7 @@
     var state = services.Store.state;
     var connection = services.WhosOnConn;
 
-    Vue.component('cannedResponses', {
+    Vue.component("cannedResponses", {
         data: function() {
             return {
                 IsShowing: false,
@@ -90,14 +90,14 @@
                 var items = this.AllTreeItems();
                 for(var i = 0; i < items.length; i++) {
                     var treeItem = items[i];
-                    if(treeItem != null) treeItem.classList.remove("selected");
+                    if(treeItem != null) {treeItem.classList.remove("selected");}
                 }
             },
             UnSelectAllSearchedItems() {
                 var items = this.AllSearchedItems();
                 for(var i = 0; i < items.length; i++) {
                     var treeItem = items[i];
-                    if(treeItem != null) treeItem.classList.remove("is-active");
+                    if(treeItem != null) {treeItem.classList.remove("is-active");}
                 }
             },
             GetTreeItemById(item) {

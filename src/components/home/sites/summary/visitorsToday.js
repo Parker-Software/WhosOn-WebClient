@@ -1,6 +1,6 @@
 (function(services){
 
-    Vue.component('visitorsToday', {
+    Vue.component("visitorsToday", {
         props: [
             "selectedDate",
             "NewVisitors",

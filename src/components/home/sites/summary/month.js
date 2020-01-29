@@ -1,6 +1,6 @@
 (function(services){
     
-    Vue.component('month', {
+    Vue.component("month", {
         props: [
             "NewVisitors",
             "NewVisitorsTotal",
