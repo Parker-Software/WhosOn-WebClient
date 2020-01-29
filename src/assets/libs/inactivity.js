@@ -27,13 +27,13 @@
             var self = this;
             this.Active();
 
-            if(self.inactive != null) clearTimeout(self.inactive);
+            if(self.inactive != null) {clearTimeout(self.inactive);}
             if(settings.AutoAwayEnabled) {
                 self.inactive = setTimeout(this.SetToAway, Number(settings.AutoAwayMins) * 1000 * 60);
             }
 
             
-            if(self.logout != null) clearTimeout(self.logout);
+            if(self.logout != null) {clearTimeout(self.logout);}
             if(settings.AutoLogoutEnabled) {
                 self.logout = setTimeout(this.Logout, Number(settings.AutoLogoutMins) * 1000 * 60);
             }

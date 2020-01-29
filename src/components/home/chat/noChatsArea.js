@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('noChatsArea', {
+    Vue.component("noChatsArea", {
         template: `
             <div class="customColumn chat-area no-chats" id="homeNoChatsArea" style="display:none;">
                 <div class="logo">

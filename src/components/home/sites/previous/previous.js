@@ -4,7 +4,7 @@
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
 
-    Vue.component('previousChats', {
+    Vue.component("previousChats", {
         props: [
             "site"
         ],
@@ -116,7 +116,7 @@
                 return document.getElementById("FilterBySentiment");
             },
             ChatClicked(chat) {  
-                if(chat == this.selectedChat) return;
+                if(chat == this.selectedChat) {return;}
                 this.selectedChat = chat;
                 connection.GetPreviousChat(this.site, this.selectedChat.ChatUID);
             },
@@ -134,16 +134,16 @@
             FilterByOperator(chats, operator) {
                 var results = [];
 
-                if(operator == "All") return chats;
+                if(operator == "All") {return chats;}
 
                 for(var i = 0; i < chats.length; i++){
                     var takenByUsers = chats[i].TakenByUsers.split(",");
-                    if(takenByUsers.length > 0 && takenByUsers[0] != '')
+                    if(takenByUsers.length > 0 && takenByUsers[0] != "")
                     {
                         for(var k = 0; k < takenByUsers.length; k++) 
                         {
                             var user = takenByUsers[k];
-                            if(user == operator) results.push(chats[i]);
+                            if(user == operator) {results.push(chats[i]);}
                         }
                     }
                 }
@@ -152,16 +152,16 @@
             FilterByDepartment(chats, department) {
                 var results = [];
 
-                if(department == "All") return chats;
+                if(department == "All") {return chats;}
 
                 for(var i = 0; i < chats.length; i++){
                     var takenByDept = chats[i].TakenByDept.split(",");
-                    if(takenByDept.length > 0 && takenByDept[0] != '')
+                    if(takenByDept.length > 0 && takenByDept[0] != "")
                     {
                         for(var k = 0; k < takenByDept.length; k++) 
                         {
                             var dept = takenByDept[k];
-                            if(dept == department) results.push(chats[i]);
+                            if(dept == department) {results.push(chats[i]);}
                         }
                     }
                 }
@@ -171,13 +171,13 @@
             FilterByVisitor(chats, visitor) {
                 var results = [];
 
-                if(visitor == "All") return chats;
+                if(visitor == "All") {return chats;}
 
                 for(var i = 0; i < chats.length; i++){
                     var visitorName = chats[i].VisitorName;
                     if(visitorName)
                     {
-                        if(visitorName == visitor) results.push(chats[i]);
+                        if(visitorName == visitor) {results.push(chats[i]);}
                     }
                 }
 
@@ -186,15 +186,15 @@
             FilterByRating(chats, rating) {
                 var results = [];
 
-                if(rating == "All") return chats;
+                if(rating == "All") {return chats;}
 
-                if(rating == 0) rating = -1;
+                if(rating == 0) {rating = -1;}
 
                 for(var i = 0; i < chats.length; i++){
                     var chatRating = chats[i].Rating;
                     if(chatRating)
                     {
-                        if(chatRating == rating) results.push(chats[i]);
+                        if(chatRating == rating) {results.push(chats[i]);}
                     }
                 }
 
@@ -203,14 +203,14 @@
             FilterBySentiment(chats, sentiment) {
                 var results = [];
 
-                if(sentiment == "All") return chats;
+                if(sentiment == "All") {return chats;}
                 for(var i = 0; i < chats.length; i++){
                     var chatSentiment = chats[i].SentimentScore;
                     if(chatSentiment)
                     {
-                        if(sentiment == "Happy" && chatSentiment >= 75)  results.push(chats[i]);
-                        else if(sentiment == "Meh" && chatSentiment < 75 && chatSentiment > 25) results.push(chats[i]);
-                        else if(sentiment == "Unhappy" && chatSentiment <= 25) results.push(chats[i]);
+                        if(sentiment == "Happy" && chatSentiment >= 75)  {results.push(chats[i]);}
+                        else if(sentiment == "Meh" && chatSentiment < 75 && chatSentiment > 25) {results.push(chats[i]);}
+                        else if(sentiment == "Unhappy" && chatSentiment <= 25) {results.push(chats[i]);}
                     }
                 }
 
@@ -225,7 +225,7 @@
 
                     if(chat.Missed) {
                         missed.push(chat);
-                    } else notMissed.push(chat);
+                    } else {notMissed.push(chat);}
                 }
 
                 return [
@@ -261,7 +261,7 @@
                     var users = takenByUsers.split(",");
                     var departments = takenByDepartments.split(",");
 
-                    if(users.length > 0 && users[0] != '')
+                    if(users.length > 0 && users[0] != "")
                     {
                         for(var k = 0; k < users.length; k++) 
                         {
@@ -274,7 +274,7 @@
                         }
                     }
                    
-                    if(departments.length > 0 && departments[0] != '')
+                    if(departments.length > 0 && departments[0] != "")
                     {
                         for(var k = 0; k < departments.length; k++) {
                             var department = departments[k];
@@ -295,7 +295,7 @@
                     }
 
                     if(rating) {
-                        if(rating == -1) rating = 0;
+                        if(rating == -1) {rating = 0;}
 
                         if(results.ratings[rating] == null) {
                             results.ratings[rating] = 1;
@@ -307,8 +307,8 @@
                     if(sentiment) {
                         var catergory = "Unhappy";
 
-                        if(sentiment >= 75) catergory = "Happy";
-                        else if(sentiment < 75 && sentiment > 25) catergory = "Meh";
+                        if(sentiment >= 75) {catergory = "Happy";}
+                        else if(sentiment < 75 && sentiment > 25) {catergory = "Meh";}
 
                         if(results.sentiment[catergory] == null) {
                             results.sentiment[catergory] = 1;

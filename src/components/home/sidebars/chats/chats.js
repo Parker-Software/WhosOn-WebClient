@@ -2,7 +2,7 @@
 
     var state = services.Store.state;
 
-    Vue.component('chats', {
+    Vue.component("chats", {
         template: `
         <div class="customColumn active-chats" id="homeActiveChats">  
             <div id="active-chats-wrapper" class="active-chats-wrapper">

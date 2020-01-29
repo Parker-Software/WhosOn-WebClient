@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('site', {
+    Vue.component("site", {
         props: [
             "site"
         ],

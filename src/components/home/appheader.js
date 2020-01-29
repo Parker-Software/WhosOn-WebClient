@@ -2,7 +2,7 @@
 
     var state = services.Store.state;
 
-    Vue.component('appheader', {
+    Vue.component("appheader", {
         template: `
             <div class="header" id="app-header">
                 <div class="has-text-centered">

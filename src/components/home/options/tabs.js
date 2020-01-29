@@ -2,7 +2,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('optionsHeaderTabs', {
+    Vue.component("optionsHeaderTabs", {
         template: `
             <div class="tabs options-tabs">
                 <ul>
@@ -17,12 +17,12 @@
         `,
         methods: {
             UnSelectAll() {
-                if(this.GeneralElem()) this.GeneralElem().classList.remove("is-active");
-                if(this.CannedResponsesElem()) this.CannedResponsesElem().classList.remove("is-active");
-                if(this.ChatElem()) this.ChatElem().classList.remove("is-active");
-                if(this.OfficeElem()) this.OfficeElem().classList.remove("is-active");
-                if(this.ChangePasswordElem()) this.ChangePasswordElem().classList.remove("is-active");
-                if(this.AboutElem()) this.AboutElem().classList.remove("is-active");
+                if(this.GeneralElem()) {this.GeneralElem().classList.remove("is-active");}
+                if(this.CannedResponsesElem()) {this.CannedResponsesElem().classList.remove("is-active");}
+                if(this.ChatElem()) {this.ChatElem().classList.remove("is-active");}
+                if(this.OfficeElem()) {this.OfficeElem().classList.remove("is-active");}
+                if(this.ChangePasswordElem()) {this.ChangePasswordElem().classList.remove("is-active");}
+                if(this.AboutElem()) {this.AboutElem().classList.remove("is-active");}
             },
             TabClicked(tab) {
                 this.UnSelectAll();

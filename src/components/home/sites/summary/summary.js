@@ -5,7 +5,7 @@
 
     var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-    Vue.component('siteSummary', {
+    Vue.component("siteSummary", {
         props: [
             "selectedDate",
             "site",
@@ -104,7 +104,7 @@
             },
             LastMonth() {
                 var month = this.CurrentDate.getMonth() - 1;
-                if(month == -1) month = 11;
+                if(month == -1) {month = 11;}
                 return month;
             },
             NewVisitorsTotal() {

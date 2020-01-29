@@ -51,9 +51,9 @@
         state.rights.Invisible = split.indexOf("I") != -1;
 
 
-        var settings = state.userInfo.ClientOptions.split('\n');
+        var settings = state.userInfo.ClientOptions.split("\n");
         for(var i = 0; i < settings.length; i++) {
-            if(settings[i].indexOf('=') != -1) {
+            if(settings[i].indexOf("=") != -1) {
                 var extracted = IniExtraction(settings[i]);
                 state.settings[extracted[0]] = extracted[1];
             }

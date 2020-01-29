@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('viewChat', {
+    Vue.component("viewChat", {
         props: [
             "site",
             "chat",
@@ -11,7 +11,7 @@
         ],
         data: () => {
             return {
-                selectedTab: 'convo'
+                selectedTab: "convo"
             }
         },
         template: `
@@ -187,7 +187,7 @@
             </div>
         `,
         mounted() {
-            window.addEventListener('resize', this.Resize);
+            window.addEventListener("resize", this.Resize);
             this.$nextTick(function() {    
                 this.Resize()
             })
@@ -209,7 +209,7 @@
             },
             GroupedMessages() {
                 var grouped = [];
-                if(this.detail.Lines == undefined || this.detail.Lines == null) return grouped;
+                if(this.detail.Lines == undefined || this.detail.Lines == null) {return grouped;}
                 for(var i = 0; i < this.detail.Lines.length; i++) {
                     var message = this.detail.Lines[i];
                     var time = new Date(message.Dated);
@@ -225,9 +225,9 @@
                         isWhisper: message.isWhisper || false,
                         Name: ""
                     };
-                    if (message.OperatorIndex == 0) groupedMessage.Name = this.detail.VisitorName;
-                    else if(message.OperatorIndex == 99) groupedMessage.Name = "Server";
-                    else groupedMessage.Name = this.detail.TakenByUser;
+                    if (message.OperatorIndex == 0) {groupedMessage.Name = this.detail.VisitorName;}
+                    else if(message.OperatorIndex == 99) {groupedMessage.Name = "Server";}
+                    else {groupedMessage.Name = this.detail.TakenByUser;}
 
                     var currentTime = this.MessageDateToDate(message.Dated);
 
@@ -236,8 +236,8 @@
                             var messageTime = this.MessageDateToDate(this.detail.Lines[k].Dated);
                             var diff = (messageTime - currentTime) / 1000;
 
-                            if(this.detail.Lines[k].isWhisper == undefined) this.detail.Lines[k].isWhisper = false;
-                            if(this.detail.Lines[k].isLink == undefined) this.detail.Lines[k].isLink = false;
+                            if(this.detail.Lines[k].isWhisper == undefined) {this.detail.Lines[k].isWhisper = false;}
+                            if(this.detail.Lines[k].isLink == undefined) {this.detail.Lines[k].isLink = false;}
                             if(
                                 this.detail.Lines[k].OperatorIndex == message.OperatorIndex &&
                                 diff <= 10 &&
@@ -316,7 +316,7 @@
                 return `${hour}:${mins}:${seconds}`;
             },
             AddZero(string) {
-                if(Number(string) < 10) string = String("0"+string);
+                if(Number(string) < 10) {string = String("0"+string);}
                 return string;
             },
             MessageDateToDate(date) {

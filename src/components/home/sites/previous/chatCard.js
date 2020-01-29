@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('chatCard', {
+    Vue.component("chatCard", {
         props: [
             "chat",
             "selected"
@@ -59,10 +59,10 @@
         },
         methods: {
             Clicked() {
-                this.$emit('Clicked', this.chat);
+                this.$emit("Clicked", this.chat);
             },
             AddZero(string) {
-                if(Number(string) < 10) string = String("0"+string);
+                if(Number(string) < 10) {string = String("0"+string);}
                 return string;
             }
         }

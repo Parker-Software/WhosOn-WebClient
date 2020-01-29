@@ -4,7 +4,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('sitesArea', {
+    Vue.component("sitesArea", {
         data: () => {
             return {
                 site: {},
@@ -12,7 +12,7 @@
                 chats: [],
                 monthlySummary: [],
                 dailySummary: [],
-                selectedTab: ''
+                selectedTab: ""
             }
         },
         template: `
@@ -83,13 +83,13 @@
         `,
         beforeCreate() {
             hooks.Register(events.Sites.Clicked, (site) => {
-                if(site == this.site.SiteKey) return;
+                if(site == this.site.SiteKey) {return;}
                 this.site = this.$store.state.sites[site];
 
                 var date = this.UnixToDate(this.selectedDate);
                 connection.GetPreviousChats(site, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
 
-                if(this.$store.state.rights.ViewDailySummary) connection.GetMonthlySummary(site);
+                if(this.$store.state.rights.ViewDailySummary) {connection.GetMonthlySummary(site);}
             });
 
             hooks.Register(events.Connection.DailySummary, (e) => {
@@ -114,7 +114,7 @@
         },
         methods: {
             SelectedTab() {
-                if(this.selectedTab == '') {
+                if(this.selectedTab == "") {
                     if(this.Tabs().length > 0) {
                         var tab = this.Tabs()[0].className;
                         this.selectedTab = tab;

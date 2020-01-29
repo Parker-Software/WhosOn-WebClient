@@ -24,8 +24,8 @@ function IniExtraction(ini) {
     var split = ini.split("=");
 
     if(split.length > 1) {
-        if(split[1].trim() == "True" || split[1].trim() == "true") split[1] = true;
-        else if(split[1].trim() == "False" || split[1].trim() == "false") split[1] = false;
+        if(split[1].trim() == "True" || split[1].trim() == "true") {split[1] = true;}
+        else if(split[1].trim() == "False" || split[1].trim() == "false") {split[1] = false;}
         else if(!isNaN(split[1])) {
             split[1] = Number(split[1]);
         }
@@ -62,7 +62,7 @@ function cannedResponsesToTree(data) {
         response.children = [];
 
         if(response.ParentID != 0) {
-            if(data[response.ParentID]) data[response.ParentID].children.push(response);
+            if(data[response.ParentID]) {data[response.ParentID].children.push(response);}
         } else {
             tree[response.ID] = response;
         }

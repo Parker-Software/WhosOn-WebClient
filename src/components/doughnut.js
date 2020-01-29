@@ -54,17 +54,17 @@
         },
         methods: {
             Bind() {
-                if(this.max != null) this.upperLimit = this.max;
+                if(this.max != null) {this.upperLimit = this.max;}
 
                 var chart = document.getElementById(this.id);
                 if(chart) {
 
                     var takeOff = 0.5 * Math.PI;
-                    var ctx = chart.getContext('2d');
+                    var ctx = chart.getContext("2d");
                     ctx.clearRect(0, 0, chart.width, chart.height);
                     ctx.beginPath();
                     ctx.arc(50,  54, 27, 0, 2*Math.PI);
-                    ctx.fillStyle = '#fff';
+                    ctx.fillStyle = "#fff";
                     ctx.fill();
 
 
@@ -74,9 +74,9 @@
                     ctx.lineWidth = 15;
 
                     if(this.ActualValue > this.upperLimit) {
-                        ctx.strokeStyle = '#848492';
+                        ctx.strokeStyle = "#848492";
                     } else {
-                        ctx.strokeStyle = '#7779BF';
+                        ctx.strokeStyle = "#7779BF";
                     }
                     ctx.stroke();
                 }
@@ -84,14 +84,14 @@
         },
         computed: {
             Percentage() {
-                if(this.upperLimit == 0) return 0;
+                if(this.upperLimit == 0) {return 0;}
                 var value = Math.round(this.value / this.upperLimit * 100);
-                if(isNaN(value)) value = 0;
+                if(isNaN(value)) {value = 0;}
                 return value;
             },
             ActualValue() {
                 var value = this.value;
-                if(isNaN(value)) value = 0;
+                if(isNaN(value)) {value = 0;}
                 return value;
             }
         }

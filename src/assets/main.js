@@ -40,9 +40,9 @@
             });
 
             hooks.Register(connEvents.NewChat, (chatInfo) => {
-                if (state.settings.ShowNotifications == false) return;
+                if (state.settings.ShowNotifications == false) {return;}
 
-                if(notification != null) notification.close();
+                if(notification != null) {notification.close();}
                 notification = services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
                     window.focus();
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
@@ -50,9 +50,9 @@
             });
 
             hooks.Register(events.Chat.MessageFromWaitingChat, (info) => {
-                if (state.settings.ShowNotifications == false) return;
+                if (state.settings.ShowNotifications == false) {return;}
 
-                if(notification != null) notification.close();
+                if(notification != null) {notification.close();}
                 notification = services.Notifications.CreateNotification(`Chat With ${info.name}`, info.msg.Data, () => {
                     window.focus();
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
@@ -60,20 +60,20 @@
             });
 
             hooks.Register(events.Chat.ChatTransfered, (num) => {
-                if (state.settings.ShowNotifications == false) return;
+                if (state.settings.ShowNotifications == false) {return;}
 
-                if(notification != null) notification.close();
-                notification = services.Notifications.CreateNotification(`Chat Transfered`, "", () => {
+                if(notification != null) {notification.close();}
+                notification = services.Notifications.CreateNotification("Chat Transfered", "", () => {
 
                 });
             });
 
             hooks.Register(events.Inactivity.Active, () => {
-                if(state.userInfo != null && state.statusCanChangeAutomatically) connection.ChangeStatus("online");
+                if(state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("online");}
             });
 
             hooks.Register(events.Inactivity.Inactive, () => {
-                if(state.userInfo != null && state.statusCanChangeAutomatically) connection.ChangeStatus("away");
+                if(state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("away");}
             });   
 
             hooks.Register(events.Inactivity.ShouldLogOut, () => {
@@ -81,7 +81,7 @@
             });
 
             hooks.Register(connEvents.ChatTransfered, (data) => {
-                if (state.settings.ShowNotifications == false) return;
+                if (state.settings.ShowNotifications == false) {return;}
 
                 var split = data.Data.split(":");
                 var chatNum = split[0];
@@ -89,11 +89,11 @@
                 var msg = split[2];
                 var fromUser = state.users.find(x => x.Connection == clientConn);
                 var chat = state.chats.find(x => x.Number == chatNum);
-                if(notification != null) notification.close();
+                if(notification != null) {notification.close();}
 
             
 
-                notification = services.Notifications.CreateNotification(`Transfer Request`, msg || `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
+                notification = services.Notifications.CreateNotification("Transfer Request", msg || `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });

@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component('homeOptionsContentChangePassword', {
+    Vue.component("homeOptionsContentChangePassword", {
         props: [
             "id"
         ],
