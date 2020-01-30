@@ -23,7 +23,7 @@
         var user = e.Header;
         var data = e.Data;
 
-        var foundUser = state.users.find((v) => v.Username == user);
+        var foundUser = state.users.find((v) => v.Username.toLowerCase() == user.toLowerCase());
         if(foundUser != null) {
             if(e.Data != "") {
                 foundUser.Photo = data;
