@@ -3,7 +3,7 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
-name: $(Build.DefinitionName)-$(Major).$(Minor)$(rev:.r).$(BuildID)
+name: $(Major).$(Minor)$(rev:.r).$(BuildID)
 
 pool:
   vmImage: 'ubuntu-latest'
