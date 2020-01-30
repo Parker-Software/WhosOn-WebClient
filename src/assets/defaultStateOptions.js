@@ -4,7 +4,7 @@ woServices.Add("DefaultState", function(){
         serverBuild: null,
         registeredUser: null,
         serverUID: null,
-        version: "0.1",
+        version: "$version",
         lang: "en",
         platform: "WebClient",
         key: "3yhqII6Zntve73GngYJQCbwADEKUty03",
