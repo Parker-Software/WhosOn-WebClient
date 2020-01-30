@@ -3,6 +3,7 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+name: $(Build.DefinitionName)-$(Major).$(Minor)$(rev:.r).$(BuildID)
 
 pool:
   vmImage: 'ubuntu-latest'
@@ -15,8 +16,32 @@ steps:
 
 - script: |
     npm install
-    npm run build
-  displayName: 'npm install and build'
+  displayName: 'npm install'
+
+- task: Gulp@1
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 
+    enableCodeCoverage: false
+
+- task: Gulp@1
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 'stage'
+    enableCodeCoverage: false
+
+- task: Gulp@1
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 'prod'
+    enableCodeCoverage: false
+
+- task: Gulp@1
+  inputs:
+    gulpFile: 'gulpfile.js'
+    targets: 'cdn'
+    arguments: '--ver $(Build.BuildNumber)'
+    enableCodeCoverage: false
 
 - task: ArchiveFiles@2
   displayName: 'Archive Dev files'
