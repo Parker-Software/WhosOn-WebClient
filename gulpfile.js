@@ -8,7 +8,18 @@ const browsersync = require("browser-sync").create();
 
 var buildFolder = "./dist" 
 var build = 'dev';
+var version = '1.0.0';
 
+
+function setVersion(){
+  if(Object.entries(args).length > 0){ 
+    version = args.ver;
+    console.log('<--- Building version: ' + version);     
+    return src('.');
+  }
+  console.log('<--- Building Dev version: ' + version); 
+  return src('.');
+}
 
 function browserSync(done) {
     browsersync.init({
@@ -86,6 +97,7 @@ function packLibs(){
   "./src/assets/store.js",
   "./src/assets/chatFactory.js",
   "./src/assets/hooks/**/*.js"])
+  .pipe(replace('$version', version))
   .pipe(concat("libs.js"))
   .pipe(dest(buildFolder + "/assets/js/"))
 }
@@ -138,19 +150,15 @@ function watchFiles() {
     );    
   }
 
-
-const monitor = parallel(watchFiles, browserSync);
-exports.default = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, 
+exports.default = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, setVersion,
   packLibs, packComponents, moveJS, moveConnectionSettings], html);
-exports.cdn = series(setCDN, clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, 
+exports.cdn = series(setCDN, clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, setVersion,
   packLibs, packComponents, moveJS]);
 exports.prod = series(setPROD, clean, [moveFavIcon, moveConnectionSettings], html);
 exports.stage =  series(setStaging, clean, [moveFavIcon, moveConnectionSettings], html);
-
-
-
-exports.monitor = monitor;
+exports.monitor = parallel(watchFiles, browserSync);
 exports.lint = lintjs;
+exports.setVersion = setVersion;
 
 function setCDN(){  
   console.log("<--- Starting CDN Build --->");
@@ -172,3 +180,29 @@ function setStaging(){
   build = 'staging';
   return src('.');
 }
+
+
+const args = (argList => {
+
+  let arg = {}, a, opt, thisOpt, curOpt;
+  for (a = 0; a < argList.length; a++) {
+
+    thisOpt = argList[a].trim();
+    opt = thisOpt.replace(/^\-+/, '');
+
+    if (opt === thisOpt) {
+      if (curOpt) arg[curOpt] = opt;
+      curOpt = null;
+
+    }
+    else {
+      curOpt = opt;
+      arg[curOpt] = true;
+
+    }
+
+  }
+
+  return arg;
+
+})(process.argv);
