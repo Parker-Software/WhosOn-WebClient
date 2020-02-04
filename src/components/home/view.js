@@ -3,8 +3,26 @@
     var events = services.HookEvents;
     var navEvents = events.Navigation;
     var state = services.Store.state;
+    var connection = services.WhosOnConn;
 
     Vue.component(services.Store.state.homeViewName, {
+        data: () => {
+            return {
+                showChat: true,
+                showTeam: false,
+                showOptions: false,
+                showSites: false,
+                chat: {
+                    showNoActiveChats: true,
+                    showActiveChats: false
+                },
+                team: {
+                    showNoActiveChats: true,
+                    showActiveChats: false
+                },
+                selectedUser: null,
+            };
+        },
         template: `
             <section v-bind:id="$store.state.homeViewName" class="view">
                 <appheader></appheader>               
@@ -12,21 +30,22 @@
                     <navigation></navigation>     
                     <div class="main-view customColumn" id="page-content">                   
                         <div class="content-body">
-                            <div class="main-view-chats" id="Chats">                              
-                                <chattingArea></chattingArea>
-                                <noChatsArea></noChatsArea>
+                            <div v-bind:class="{'is-hidden': !showChat}" class="main-view-chats" id="Chats">                              
+                                <chattingArea :show="chat.showActiveChats" :chat="$store.state.currentChat"></chattingArea>
+                                <noChatsArea :show="chat.showNoActiveChats"></noChatsArea>
                             </div>
-                            <div id="Team" class="team-view">                            
-                                <teamArea></teamArea>
+                            <div v-bind:class="{'is-hidden': !showTeam}" id="Team" class="team-view">                            
+                                <chattingArea :show="team.showActiveChats" :user="selectedUser"></chattingArea>
+                                <noChatsArea :show="team.showNoActiveChats"></noChatsArea>
                             </div>
-                            <div id="Options" class="options">
+                            <div id="Options" class="options" v-bind:class="{'is-hidden': showOptions == false}">
                                 <div class="options-view">
                                     <optionsHeaderTabs></optionsHeaderTabs> 
                                     <optionsContent></optionsContent>
                                 </div>
                                 <optionsFooter></optionsFooter>
                             </div>
-                            <div id="Sites" class="sites">
+                            <div id="Sites" class="sites"  v-bind:class="{'is-hidden': showSites == false}">
                                 <sitesArea></sitesArea>
                             </div>
                         </div>
@@ -34,100 +53,117 @@
                 </div>
             </section>
             `,
-            mounted() {
-                hideAll();
-                showChat();
-                showNoActiveChats();               
-            },
             beforeCreate() {
                 hooks.Register(navEvents.ChatsClicked, (e) => {
                     var alreadyViewing = document.getElementById("chatsNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
-                        hideAll();
-                        showChat();
+                        this.hideAll();
+                        this.showChat = true;
                     }
                 });
 
+
                 hooks.Register(navEvents.TeamClicked, (e) => {
-                    hideAll();
-                    showTeam();
+                    var alreadyViewing = document.getElementById("usersNavButton").firstChild.classList.contains("is-active");
+                    if(alreadyViewing == false) {
+                        this.hideAll();
+                        this.showTeam = true;
+                    }
                 });              
 
+                hooks.Register(events.Team.UserClicked, (user) => {
+                    this.hideAll();
+                    this.showTeam = true;
+                    this.showTeamActiveChats();
+                    if(this.selectedUser != user) {
+                        this.selectedUser = this.$store.state.users.find(x => x.Username == user.Username);
+                        var alreadyAccessed = this.$store.state.operatorMessages[user.Username.toLowerCase()];
+                        if(alreadyAccessed == null) {
+                            connection.GetClientChat(user.Username, 0);
+                        } else {
+                             this.$store.state.currentOperatorChatMessages = alreadyAccessed;
+                        }
+                    }
+                    hooks.Call(events.Team.MessagedAdded);
+                });
+
+                
+                hooks.Register(events.Team.CloseChatClicked, () => {
+                    this.selectedUser = null;
+                    this.showTeamNoActiveChats();
+                    this.$store.state.currentOperatorChatMessages = [];
+                });
+
                 hooks.Register(navEvents.OptionsClicked, (e) => {
-                    hideAll();
-                    showOptions();
+                    this.hideAll();
+                    this.showOptions = true;
                 });
 
                 hooks.Register(navEvents.SitesClicked, (e) => {
-                    hideAll();
-                    showSites();
+                    var alreadyViewing = document.getElementById("sitesNavButton").firstChild.classList.contains("is-active");
+                    if(alreadyViewing == false) {
+                        this.hideAll();
+                        this.showSites = true;
+                    }
                 });
 
                 hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => {
-                    hideAll();
-                    showChat();
-                    showActiveChats();
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showActiveChats();
                 });
 
                 hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {    
-                    hideAll();
-                    showChat();
-                    showNoActiveChats();
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showNoActiveChats();
                 });
 
                 hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum => {
-                    hideAll();
-                    showChat();
-                    showNoActiveChats();
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showNoActiveChats();
                 }));
                 
                 hooks.Register(events.Chat.ChatLeft, (chatNum) => {    
-                    hideAll();
-                    showChat();
-                    showNoActiveChats();
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showNoActiveChats();
                 });
 
                 hooks.Register(events.ChatItem.MonitorClicked, (chatNum) => {
-                    hideAll();
-                    showChat();
-                    showActiveChats();
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showActiveChats();
                 });
 
                 hooks.Register(events.Home.StatusChanged, (status) => {
                    services.WhosOnConn.ChangeStatus(status);
                 });
+            },
+            methods: {
+                hideAll() {
+                    this.showChat = false;
+                    this.showTeam = false,
+                    this.showOptions = false;
+                    this.showSites = false;
+                },
+                showActiveChats() {
+                    this.chat.showNoActiveChats = false;
+                    this.chat.showActiveChats = true;
+                },
+                showNoActiveChats() {
+                    this.chat.showActiveChats = false;
+                    this.chat.showNoActiveChats = true;
+                },
+                showTeamActiveChats() {
+                    this.team.showNoActiveChats = false;
+                    this.team.showActiveChats = true;
+                },
+                showTeamNoActiveChats() {
+                    this.team.showActiveChats = false;
+                    this.team.showNoActiveChats = true;
+                }
             }
     });
-
-    function hideAll() {
-        document.getElementById("Chats").style.display = "none";
-        document.getElementById("Team").style.display = "none";
-        document.getElementById("Options").style.display = "none";
-        document.getElementById("Sites").style.display = "none";
-    };
-
-
-    function showTeam() {
-        document.getElementById("Team").style.display = "block";
-    }
-
-    function showChat() {
-        document.getElementById("Chats").style.display = "flex";
-    }
-
-    function showOptions() {
-        document.getElementById("Options").style.display = "block";
-    }
-
-    function showSites() {
-        document.getElementById("Sites").style.display = "block";
-    }
-
-    function showNoActiveChats() {
-        hooks.Call(events.Chat.ShowNoActiveChats);
-    }
-
-    function showActiveChats() {
-        hooks.Call(events.Chat.ShowActiveChats);
-    }
 })(woServices);

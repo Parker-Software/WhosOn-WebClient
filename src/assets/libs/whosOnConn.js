@@ -321,7 +321,12 @@
             self.Socket.Send("StartVisitorEvents", null);
         }
 
-
+        GetClientChat(userName, lowestId, searchText) {
+            var self = this;
+            if(!searchText) searchText = ""; 
+            var params = [userName, lowestId, searchText];
+            self.Socket.Send("GetClientChat", params);
+        }
 
         Logout() {
             var self = this;

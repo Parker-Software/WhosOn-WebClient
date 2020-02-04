@@ -282,6 +282,9 @@
                         this.UsersBtn().firstChild.classList.add("is-active");
                         break;
                     case "sites":
+
+                        if(this.showSites == false) connection.GetDailySummary();
+
                         this.UnselectAll();  
                         hooks.Call(navEvents.SitesClicked);   
                         this.showChats = false;
@@ -289,8 +292,6 @@
                         this.showSites = true; 
                         this.SideBar().classList.remove("is-hidden");     
                         this.SitesBtn().firstChild.classList.add("is-active");  
-
-                        connection.GetDailySummary();
                         break;
                     case "options":
                         this.UnselectAll();               

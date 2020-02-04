@@ -93,9 +93,9 @@ function moveFavIcon(){
 
 function packLibs(){
   return src(["./src/assets/libs/**/*.js",
-  "./src/assets/defaultStateOptions.js",
-  "./src/assets/store.js",
-  "./src/assets/chatFactory.js",
+  "./src/assets/classes/defaultStateOptions.js",
+  "./src/assets/classes/store.js",
+  "./src/assets/classes/chatFactory.js",
   "./src/assets/hooks/**/*.js"])
   .pipe(replace('$version', version))
   .pipe(concat("libs.js"))
@@ -114,7 +114,7 @@ function moveConnectionSettings() {
 }
 
 function moveJS() {
-  return src(["./src/assets/vueApp.js", "./src/assets/authentication.js", "./src/assets/main.js", "./src/assets/stateManager.js"])  
+  return src(["./src/assets/classes/vueApp.js", "./src/assets/classes/authentication.js", "./src/assets/classes/main.js", "./src/assets/classes/stateManager.js"])  
   .pipe(concat("main.js"))
   .pipe(dest(buildFolder + "/assets/js/"))
 }

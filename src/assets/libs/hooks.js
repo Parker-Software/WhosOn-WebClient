@@ -61,7 +61,8 @@
             DailySummary: "ds",
             PasswordChanged: "passwordchanged",
             Error: "error",
-            Visitor: "visitor"
+            Visitor: "visitor",
+            OperatorChat: "clientchat"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -73,6 +74,11 @@
             TeamClicked: "navigation.TeamClicked",
             OptionsClicked: "navigation.OptionsClicked",
             SitesClicked: "navigation.SitesClicked"
+        },
+        Team: {
+            UserClicked: "team.userClicked",
+            CloseChatClicked: "team.closeChatClicked",
+            MessagedAdded: "team.messagesAdded"
         },
         Chat: {
             SuggestionFromServer: "home.chat.SuggestionFromServer",
@@ -101,7 +107,10 @@
             TransferClicked: "home.chat.TransferClicked",
             ChatTransfered: "home.chat.ChatTransfered",
             WrapUpClicked: "home.chat.WrapUpClicked",
-            WrapUpNotCompleted: "home.chat.WrapUpNotCompleted"
+            WrapUpNotCompleted: "home.chat.WrapUpNotCompleted",
+            CannedResponses : {
+                Clicked: "chat.cannedResponses.Clicked"
+            }
         },
         ChatItem: {
             AcceptClicked: "chatItem.AcceptClicked",
@@ -116,9 +125,6 @@
             Yes: "fileuploader.Yes",
             Successful: "fileuploader.Successful",
             Failed: "fileuploader.Failed"
-        },
-        CannedResponses: {
-            Clicked: "cannedResponses.Clicked"
         },
         Options: {
             LogoutClicked: "home.options.LogoutClicked",
