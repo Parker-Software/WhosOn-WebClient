@@ -75,16 +75,14 @@
                     this.hideAll();
                     this.showTeam = true;
                     this.showTeamActiveChats();
-                    if(this.selectedUser != user) {
+
+                    if(user != this.selectedUser) {
                         this.selectedUser = this.$store.state.users.find(x => x.Username == user.Username);
-                        var alreadyAccessed = this.$store.state.operatorMessages[user.Username.toLowerCase()];
-                        if(alreadyAccessed == null) {
-                            connection.GetClientChat(user.Username, 0);
-                        } else {
-                             this.$store.state.currentOperatorChatMessages = alreadyAccessed;
-                        }
+                        delete this.$store.state.operatorMessages[user.Username.toLowerCase()];
+                        this.$store.state.currentOperatorChatMessages = [];
+                        connection.GetClientChat(user.Username, 0);
+                        hooks.Call(events.Team.OtherUserClicked, user);
                     }
-                    hooks.Call(events.Team.MessagedAdded);
                 });
 
                 

@@ -77,9 +77,7 @@
                 this.$store.state.currentOperatorChatMessages = this.$store.state.operatorMessages[userName];
             });
 
-            hooks.Register(events.Team.UserClicked, (user) => {
-                delete this.$store.state.operatorMessages[this.user.Username.toLowerCase()];
-
+            hooks.Register(events.Team.OtherUserClicked, (user) => {
                 this.SearchText = "";
                 this.SearchElem().value = "";
             });
@@ -153,7 +151,6 @@
             },
 
             Search() {
-
                 this.$store.state.operatorMessages[this.user.Username.toLowerCase()] = [];
                 delete this.$store.state.operatorMessages[this.user.Username.toLowerCase()];
                 this.$store.state.currentOperatorChatMessages = [];
