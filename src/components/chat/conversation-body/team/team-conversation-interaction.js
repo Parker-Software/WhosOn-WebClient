@@ -57,9 +57,6 @@
                 </div>
             </section>
         `,
-        beforeCreate() {
-
-        },
         methods: {
             InputArea() {
                 return document.querySelector(`#${this.Id} #inputArea`);

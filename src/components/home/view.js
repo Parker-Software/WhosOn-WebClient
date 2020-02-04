@@ -87,6 +87,7 @@
 
                 
                 hooks.Register(events.Team.CloseChatClicked, () => {
+                    delete this.$store.state.operatorMessages[this.selectedUser.Username.toLowerCase()];
                     this.selectedUser = null;
                     this.showTeamNoActiveChats();
                     this.$store.state.currentOperatorChatMessages = [];

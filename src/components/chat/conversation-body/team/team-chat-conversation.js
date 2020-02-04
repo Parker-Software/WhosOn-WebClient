@@ -2,6 +2,24 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
+    var state = services.Store.state;
+
+    hooks.Register(events.Connection.OperatorChat, (e) => {
+        var userName = e.Header.toLowerCase();
+        var exists = state.operatorMessages[userName];
+        var reversed = e.Data.reverse();
+        
+        if (exists != null) {
+            for(var i = reversed.length - 1; i >= 0; i--) {
+                state.operatorMessages[userName].splice(0, 0, reversed[i]);
+            }
+        } else {
+            state.operatorMessages[userName] = reversed;
+            hooks.Call(events.Team.MessagedAdded);
+        }
+
+        state.currentOperatorChatMessages = state.operatorMessages[userName];
+    });
 
     Vue.component("team-chat-conversation", {   
         props: [
@@ -60,26 +78,13 @@
         `,
         beforeCreate() {
             hooks.Register(events.Connection.OperatorChat, (e) => {
-                var userName = e.Header.toLowerCase();
-                var exists = this.$store.state.operatorMessages[userName];
-                var reversed = e.Data.reverse();
-
-                if(reversed.length <= 0) this.ShowGetPreviousLines = false;
-                if (exists != null) {
-                    for(var i = reversed.length - 1; i >= 0; i--) {
-                        this.$store.state.operatorMessages[userName].splice(0, 0, reversed[i]);
-                    }
-                } else {
-                    this.$store.state.operatorMessages[userName] = reversed;
-                    hooks.Call(events.Team.MessagedAdded);
-                }
-
-                this.$store.state.currentOperatorChatMessages = this.$store.state.operatorMessages[userName];
+                if(e.Data.length <= 0) this.ShowGetPreviousLines = false;
             });
 
             hooks.Register(events.Team.OtherUserClicked, (user) => {
                 this.SearchText = "";
-                this.SearchElem().value = "";
+                if (this.SearchElem() != null) this.SearchElem().value = "";
+                this.ShowGetPreviousLines = true;
             });
 
             hooks.Register(events.Team.MessagedAdded, () => {
