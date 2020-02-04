@@ -78,7 +78,8 @@
         Team: {
             UserClicked: "team.userClicked",
             CloseChatClicked: "team.closeChatClicked",
-            MessagedAdded: "team.messagesAdded"
+            MessagedAdded: "team.messagesAdded",
+            OtherUserClicked: "team.otherUserClicked"
         },
         Chat: {
             SuggestionFromServer: "home.chat.SuggestionFromServer",
