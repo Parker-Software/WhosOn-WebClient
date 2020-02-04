@@ -153,14 +153,14 @@
             },
 
             Search() {
+
+                this.$store.state.operatorMessages[this.user.Username.toLowerCase()] = [];
+                delete this.$store.state.operatorMessages[this.user.Username.toLowerCase()];
+                this.$store.state.currentOperatorChatMessages = [];
+
                 var txt = this.SearchElem().value;
                 if(txt.length > 0) {
                     this.SearchText = txt;
-
-                    this.$store.state.operatorMessages[this.user.Username.toLowerCase()] = [];
-                    delete this.$store.state.operatorMessages[this.user.Username.toLowerCase()];
-                    this.$store.state.currentOperatorChatMessages = [];
-                    
                     connection.GetClientChat(this.user.Username, 0, this.SearchText);
                 } else {
                     this.SearchText = "";
