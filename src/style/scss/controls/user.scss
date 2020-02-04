@@ -1,0 +1,26 @@
+
+
+  .userItem {
+    &:hover {
+      cursor: pointer;
+      background-color: $ThemeListItemHover;
+
+      strong,small{
+        color: $ThemeButtonTextHover;
+      }
+    }
+
+    &.is-active {
+      background-color:$ThemeListItemSelected;
+
+      &:hover {
+        strong,small{
+            color: inherit !important;
+        }
+      }
+    }
+  }
+
+  .useritem-username {
+    padding-top:4px;
+  }

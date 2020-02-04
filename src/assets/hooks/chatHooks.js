@@ -110,8 +110,10 @@
         var hasCurrentChat = Object.keys(state.currentChat).length != 0;
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatId) {
-                state.currentChatTypingstate = false;
                 state.currentChatMessages = Copy(state.chatMessages[chatId]);
+
+                console.log("Scroll Chat");
+
                 hooks.Call(events.Chat.ScrollChat);
             }
         }
@@ -134,7 +136,6 @@
 
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatId) {
-                state.currentChatTypingstate = false;
                 state.currentChatMessages = Copy(state.chatMessages[chatId]);
                 hooks.Call(events.Chat.ScrollChat, "");
             }
@@ -169,7 +170,6 @@
         state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
             Copy(state.chatPreSurveys[chatNum]) :
             [];
-        state.currentChatTypingstate = false;
         services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
 
         services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
@@ -191,29 +191,6 @@
              hooks.Call(events.Chat.PreChatSurveysLoaded);
          }   
      });
-
-     
-     hooks.Register(events.Connection.VisitorTyping, (e) => {
-        var msg = e;
-        var hasCurrentChat = Object.keys(state.currentChat).length != 0;
-
-        if(hasCurrentChat) {
-            if(state.currentChat.Number == msg.Data) {
-                state.currentChatTypingstate = true;
-            }
-        }
-    });
-
-    hooks.Register(events.Connection.VisitorTypingOff, (e) => {
-        var msg = e;
-        var hasCurrentChat = Object.keys(state.currentChat).length != 0;
-
-        if(hasCurrentChat) {
-            if(state.currentChat.Number == msg.Data) {
-                state.currentChatTypingstate = false;
-            }
-        }
-    });
 
     hooks.Register(events.Connection.MonitoredChat, (info) => {
         var monitoredChat = info.Data;
@@ -283,7 +260,6 @@
         var hasCurrentChat = Object.keys(state.currentChat).length != 0;
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatBelongingTo.ChatUID) {
-                state.currentChatTypingstate = false;
                 state.currentChatMessages = Copy(state.chatMessages[chatBelongingTo.ChatUID]);
                 hooks.Call(events.Chat.ScrollChat);
             }

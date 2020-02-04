@@ -1,0 +1,47 @@
+.team-convo {
+    padding: 10px;
+
+    .searchField {
+        width: calc(100% - 30px);
+        display: inline-block;
+    }
+
+    .previousLinesContainer {
+        width: 25px;
+        display: inline-block;
+
+        i {
+            float:right;
+            cursor: pointer;
+        }
+
+        i:hover {
+            font-weight: bold;
+        }
+    }
+
+    input{
+        line-height: 1;
+        height:1.5rem;
+        font-size: 0.8rem;
+        background-color: transparent;
+    }
+
+    .icon {
+        height: 1.5rem !important;
+        width: 1.5rem !important;
+    }
+
+    
+    i
+    {   
+        &.fa-search {
+            color:$ThemeChatText;
+        }
+    }
+  }
+  
+
+  .team-message-list {
+      height:  calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 98px)) !important;
+  }

@@ -1,0 +1,10 @@
+.team-chat-header {
+    background-color: $TeamChatHeaderBackground;
+    strong {
+        color: $TeamChatHeaderTextColour;
+    }
+
+    small {
+        color: $TeamChatHeaderTextColour;
+    } 
+}
