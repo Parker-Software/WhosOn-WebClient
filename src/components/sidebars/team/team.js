@@ -2,13 +2,26 @@
     var connection = services.WhosOnConn;
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var state = services.Store.state;
+    
+
+    hooks.Register(events.Connection.OperatorTyping, (e) => {
+        var user = state.users.find(x => x.Connection == e.Data);
+        if (user) {
+            user.IsTyping = true;
+            state.users = Copy(state.users);
+        }
+    });
+
+    hooks.Register(events.Connection.OperatorTypingStopped, (e) => {
+        var user = state.users.find(x => x.Connection == e.Data);
+        if (user) {
+            user.IsTyping = false;
+            state.users = Copy(state.users);
+        }
+    });
 
     Vue.component("team", {
-        data: () => {
-            return {
-                selectedUser: null
-            }  
-        },
         template: `
             <div class="active-chats" id="homeTeamUsers">
                 <div class="active-team-wrapper">
@@ -17,7 +30,7 @@
                     </div>
                     <div class="users-list">
                         <ul v-for="user of Users" class="user-list-team">
-                            <user collectionGroup="team" :user="user" @Clicked="UserClicked" :selected="selectedUser == user"></user>
+                            <user collectionGroup="team" v-bind:class="{'unanswered': user.UnAnswered != null && user.UnAnswered}" :user="user" @Clicked="UserClicked" :selected="Selected(user)" :isTyping="user.IsTyping"></user>
                         </ul>
                     </div>
                 </div>
@@ -25,7 +38,12 @@
         `,
         beforeCreate() {
             hooks.Register(events.Team.CloseChatClicked, () => {
-                this.selectedUser = null;
+                this.$store.state.selectedOperatorToOperatorUser = null;
+            });
+
+            hooks.Register(events.Team.NotificationClicked, (user) => {
+                this.$store.state.selectedOperatorToOperatorUser = user;
+                hooks.Call(events.Team.UserClicked, user);
             });
         },
         computed: {
@@ -34,12 +52,21 @@
             },
             Users() {
                 return this.$store.state.users;
-            }
+            },
+            SelectedUser() {
+                return this.$store.state.selectedOperatorToOperatorUser;
+            },
         },
         methods: {
             UserClicked(user) {
-                this.selectedUser = user;
+                this.$store.state.selectedOperatorToOperatorUser = user;
                 hooks.Call(events.Team.UserClicked, user);
+            },
+            Selected(user) {
+                if(this.SelectedUser == null) return false;
+                else {
+                    return this.SelectedUser.Username == user.Username;
+                }
             }
         }
     });

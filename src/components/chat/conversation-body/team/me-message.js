@@ -18,8 +18,6 @@
                 >
                     <p class="top-text">
                         <small> 
-                            <span>{{groupedMessage.Name}}</span>
-                            <span v-if="preview">@</span> 
                             <time>{{groupedMessage.time}}</time>
                         </small>
                     </p>
@@ -28,24 +26,24 @@
             </div>
         </div>
         `,  
-        mounted() {
-            /*hooks.Call(events.Chat.ScrollChat);
-            var images = document.getElementsByClassName("clickableImage");
-            for(var i = 0; i < images.length; i++){
-                images[i].onload = function() {
-                    hooks.Call(events.Chat.ScrollChat);
-                }
-            }*/
-        },
         computed: {
             messageFormatted: function() {
                 var messages = this.groupedMessage.messages;
                 var message = "";
                 if(this.groupedMessage.isLink) {
-                    var linkMessage = this.groupedMessage.messages[0];
-                    var xml = new DOMParser().parseFromString(linkMessage.Text, "text/xml");
-                    var name = xml.getElementsByTagName("name")[0].innerHTML;
-                    var link = xml.getElementsByTagName("url")[0].innerHTML;
+                    var linkMessage = this.groupedMessage.messages[0].Text;
+                    var name;
+                    var link;
+                    var html = linkMessage.includes("<link>");
+                    if(html) {
+                        var xml = new DOMParser().parseFromString(linkMessage, "text/xml");
+                        name = xml.getElementsByTagName("name")[0].innerHTML;
+                        link = xml.getElementsByTagName("url")[0].innerHTML;
+                    } else {
+                        var split = linkMessage.split('\t');
+                        name = split[0];
+                        link = split[1];
+                    }
 
                     if (name.indexOf(".jpg") != -1 ||
                         name.indexOf(".png") != -1 ||
@@ -56,7 +54,8 @@
                     } else {
                         message += `<a href="${link}" style="text-decoration: none;" target="_blank"><div class="clickableImage" style="width:300px;">${name}</div></a>`;
                     }
-                    message += `Operator Sent File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
+
+                    message += `Sent File - <a href="${link}" target="_blank">Download <i class="fas fa-file-download"></i></a>`;
                 } else {
                     for(var i = 0; i < messages.length; i++) {
                         var messageItem = messages[i];

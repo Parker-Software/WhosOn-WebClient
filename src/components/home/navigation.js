@@ -116,6 +116,12 @@
             hooks.Register(events.Connection.PasswordChanged, () => {
                 this.OnNavButtonClicked("chats");
             });
+
+            
+
+            hooks.Register(events.Team.NotificationClicked, (user) => {
+                this.OnNavButtonClicked("team");
+            });
         },
         mounted() {
             this.$nextTick(function() {

@@ -7,7 +7,7 @@
     Vue.component("team-conversation-interaction", {
         props: {
             user: {
-                default: null,
+                default: null
             },
             disabled: {
                 default: true
@@ -21,7 +21,6 @@
         },
         data: function() {
             return {
-                Id: elementId(),
                 FileId: elementId(),
                 AttachedFile: null,
                 ShowingEmojiMenu: false,
@@ -30,9 +29,9 @@
             }
         },
         template: `
-            <section v-bind:id="Id" class="reply-container">
+            <section id="team-conversation-interfaction" class="reply-container">
                 <emoji-menu v-if="ShowingEmojiMenu" v-on:Clicked="EmojiClicked"></emoji-menu>
-                <fileMenu :id="FileId" v-bind:class="{'is-hidden': !ShowingFiles}"></fileMenu>
+                <file-menu :show="ShowingFiles" :id="FileId" :files="$store.state.uploadedFiles" v-on:Send="SendFile"></file-menu>
                 <div class="column is-full visitor-typing" v-if="showTyping">
                     <span>{{typingName}} is typing</span>
                 </div>
@@ -57,10 +56,35 @@
                 </div>
             </section>
         `,
+        beforeCreate() {
+            hooks.Register(events.Team.CannedResponses.Clicked, (e) => {
+                var {item, event} = e;
+                var content = item.Content;
+                if(item.Attachments != "") {
+                    this.AttachedFile = state.uploadedFiles.find(x => x.HashedFileName == item.Attachments);
+                    if(this.AttachedFile) {content += ` <span spellcheck="false" contenteditable="false" class="tag attachedFileToMessage noselect">${this.AttachedFile.FileName}</span>`;}
+                } else {
+                    this.AttachedFile = null;
+                }
+
+                this.InputArea().innerHTML = event.ctrlKey ? `${this.InputArea().innerHTML}  ${content}` : content;
+                this.InputArea().focus();
+            });
+
+            hooks.Register(events.Connection.UserDisconnecting, (e) => {
+                var userConn = e.Data;
+                if(userConn == this.user.Connection) {
+                    this.ShowingCannedResponses = false;
+                    this.ShowingEmojiMenu = false;
+                    this.ShowingFiles = false;
+                }
+            });
+        },
         methods: {
             InputArea() {
-                return document.querySelector(`#${this.Id} #inputArea`);
+                return document.querySelector(`#team-conversation-interfaction #inputArea`);
             },
+
             EmojiClicked(emoji) {
                 var oldContent = this.InputArea().innerHTML;
                 this.InputArea().innerHTML = `${oldContent} ${emoji}`;
@@ -68,18 +92,50 @@
                 document.execCommand("selectAll", false, null);
                 document.getSelection().collapseToEnd();
             },
+
             EmojiBtnClicked() {
                 this.ShowingEmojiMenu = !this.ShowingEmojiMenu;
                 this.ShowingCannedResponses = false;
                 this.ShowingFiles = false;
             },
+
             SendFileClicked() {
                 this.ShowingFiles = !this.ShowingFiles;
                 this.ShowingEmojiMenu = false;
                 this.ShowingCannedResponses = false;
             },
-            OnKeyDown() {
 
+            SendFile(fileName, url) {
+                this.ShowingFiles = false;
+                this.$emit("SendFile", fileName, url);
+            },
+
+            OnKeyDown(event) {
+                this.ShowingFiles = false;
+                this.ShowingEmojiMenu = false;
+                var content = this.InputArea().innerHTML.trim();
+                var text = this.InputArea().innerText.trim();
+
+                if (event.shiftKey == false &&
+                    event.keyCode == 13 &&
+                    content.length > 0)
+                {
+                    event.preventDefault();
+
+                    var sendEvntArgs = {
+                        Text: content
+                    };
+
+                    if (this.AttachedFile != null) {
+                        sendEvntArgs["AttachedFile"] = this.AttachedFile;
+                        this.AttachedFile = null;
+                    }
+
+                    this.$emit("Send", sendEvntArgs);
+                    this.InputArea().innerText = "";
+                } else if(event.ctrlKey == false) {
+                    this.$emit("Typing", event, text);
+                }
             }
         }
     });

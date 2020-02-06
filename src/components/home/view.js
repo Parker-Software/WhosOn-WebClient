@@ -19,8 +19,7 @@
                 team: {
                     showNoActiveChats: true,
                     showActiveChats: false
-                },
-                selectedUser: null,
+                }
             };
         },
         template: `
@@ -35,7 +34,7 @@
                                 <noChatsArea :show="chat.showNoActiveChats"></noChatsArea>
                             </div>
                             <div v-bind:class="{'is-hidden': !showTeam}" id="Team" class="team-view">                            
-                                <chattingArea :show="team.showActiveChats" :user="selectedUser"></chattingArea>
+                                <chattingArea :show="team.showActiveChats" :user="$store.state.selectedOperatorToOperatorUser"></chattingArea>
                                 <noChatsArea :show="team.showNoActiveChats"></noChatsArea>
                             </div>
                             <div id="Options" class="options" v-bind:class="{'is-hidden': showOptions == false}">
@@ -76,8 +75,8 @@
                     this.showTeam = true;
                     this.showTeamActiveChats();
 
-                    if(user != this.selectedUser) {
-                        this.selectedUser = this.$store.state.users.find(x => x.Username == user.Username);
+                    if(user != this.selectedOperatorToOperatorUser) {
+                        this.selectedOperatorToOperatorUser = this.$store.state.users.find(x => x.Username == user.Username);
                         delete this.$store.state.operatorMessages[user.Username.toLowerCase()];
                         this.$store.state.currentOperatorChatMessages = [];
                         connection.GetClientChat(user.Username, 0);
@@ -87,8 +86,8 @@
 
                 
                 hooks.Register(events.Team.CloseChatClicked, () => {
-                    delete this.$store.state.operatorMessages[this.selectedUser.Username.toLowerCase()];
-                    this.selectedUser = null;
+                    delete this.$store.state.operatorMessages[this.selectedOperatorToOperatorUser.Username.toLowerCase()];
+                    this.selectedOperatorToOperatorUser = null;
                     this.showTeamNoActiveChats();
                     this.$store.state.currentOperatorChatMessages = [];
                 });

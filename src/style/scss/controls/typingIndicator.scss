@@ -1,0 +1,43 @@
+
+
+.typingindicator {
+  span {
+    background-color: $TeamChatHeaderBackground;
+    border-radius: 50%;
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+  }
+
+  .a {
+    animation: bounce 1s 0s infinite ease-in;
+  }
+
+  .b {
+    animation: bounce 1s 0.25s infinite ease-in;
+  }
+  
+  .c {
+    animation: bounce 1s 0.5s infinite ease-in;
+    margin: 0;
+  }
+
+  @keyframes bounce {
+    0% {
+      opacity: .75;
+      transform: scale(0.5);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1);
+    }
+    67% {
+      opacity: .75;
+      transform: scale(0.5);
+    }
+    100% {
+      opacity: .75;
+      transform: scale(0.5);
+    }
+  }
+}

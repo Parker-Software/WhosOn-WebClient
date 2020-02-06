@@ -248,7 +248,7 @@
 
         GetPreviousChat(sitekey, chatid) {
             var self = this;
-            self.Socket.Send("GetPrevChat ", [
+            self.Socket.Send("GetPrevChat", [
                 sitekey,
                 chatid
             ]);
@@ -326,6 +326,42 @@
             if(!searchText) searchText = ""; 
             var params = [userName, lowestId, searchText];
             self.Socket.Send("GetClientChat", params);
+        }
+
+        SendToOperator(connId, text) {
+            var self = this;
+
+            self.Socket.Send("SendToClient", [
+                connId,
+                text
+            ]);
+        }
+
+        SendFileToOperator(connId, fileName, url) {
+            var self = this;
+            var params = [
+                connId,
+                fileName,
+                url
+            ];
+
+            self.Socket.Send("SendFileToClient", params);
+        }
+
+        SendOperatorTypingStatus(connId) {
+            var self = this;
+
+            self.Socket.Send("C1", [
+                connId
+            ]);
+        }
+
+        StopOperatorTypingStatus(connId) {
+            var self = this;
+
+            self.Socket.Send("C0", [
+                connId
+            ]);
         }
 
         Logout() {

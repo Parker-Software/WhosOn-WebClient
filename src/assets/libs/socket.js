@@ -7,7 +7,6 @@
             self.SocketEvents = services.HookEvents.Socket;
 
             self.Connected = false;
-
             var address = window.location.hostname;
             self._connAddress =`ws://${address}:8013`;
         }

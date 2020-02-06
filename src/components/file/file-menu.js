@@ -1,14 +1,13 @@
 
 (function(services){
-
-    var hooks = services.Hooks;
-    var events = services.HookEvents;
     var state = services.Store.state;
     var connection = services.WhosOnConn;
 
-    Vue.component("fileMenu", {
+    Vue.component("file-menu", {
         props: [
-            "id"
+            "show",
+            "id",
+            "files"
         ],
         data: () => {
             return {
@@ -18,10 +17,11 @@
                 error: false,
                 showSendModal: false,
                 showAlreadyUploadedModal: false,
+                searchText: "",
             };
         },
         template: `
-            <div v-bind:id="id" class="fileMenu">
+            <div v-if="show" v-bind:id="id" class="fileMenu">
                 <div style="position:relative; height: 100%; width: 100%;">
                     <div style="height: 40px;">
                         <form autocomplete="off" class="is-pulled-left" onsubmit="event.preventDefault();" style="width: calc(100% - 35px);">
@@ -38,7 +38,7 @@
                     </div>
                     <section>   
                         <table class="table" style="width:100%">
-                            <fileItem v-for="item in validFiles"
+                            <file-item v-for="item in filesToShow"
                                 :hashedFileName="item.HashedFileName"
                                 :name="item.FileName"
                                 :date="item.Dated"
@@ -46,7 +46,7 @@
                                 :who="item.CreatedByUser"
                                 :isPinned="item.Pinned"
                                 @Clicked="ItemClicked">
-                            </fileItem>
+                            </file-item>
                         </table>
                     </section>
                     <div v-bind:class="{'is-hidden': showLoader == false}" style="width:100%; height:100%; background-color: rgba(255,255,255, 0.5); position:absolute; left: 0; top: 0;">
@@ -73,22 +73,16 @@
                 ></dialogue>
             </div>
             `,
-        beforeCreate() {
-            hooks.Register(events.FileUploader.Successful, (e) => {
-                this.showLoader = false;
-                this.error = false;
-                connection.GetFiles();
-                this.AddFileToChat(e.name, e.url);
-            });
-
-            hooks.Register(events.FileUploader.Failed, (e) => {       
-                this.showLoader = false;
-                this.error = true;
-            });
-        },
         computed: {
+            filesToShow() {
+                if(this.searchText.length > 0) {
+                    return this.validFiles.filter(x => x.FileName.toLowerCase().includes(this.searchText));
+                } else {
+                    return this.validFiles;
+                }
+            },
             validFiles() {
-                return state.uploadedFilesSearchResult.filter(item => item.VisitorUploaded == false);
+                return this.files.filter(item => item.VisitorUploaded == false);
             },
             sendFileContent() {
                 return "<span class=\"fa-stack fa-lg\">" +
@@ -98,7 +92,7 @@
                 "<span>" +
                     `Do you want to send the file <span v-if="file != null">${this.file.FileName}</span>?` +
                     "<br />" +
-                    "The visitor will be able to download the file via their chat window." +
+                    "They will be able to download the file." +
                 "</span>"
             },
             sendFileAlreadyUploadedContent() {
@@ -112,31 +106,12 @@
             UploadFileInputElem() {
                 return document.getElementById("fileUploaderControl");
             },
-            AddFileToChat(name, url) {
-                connection.SendFile(state.currentChat.Number,
-                    name,
-                    url
-                );
-
-                var msg = {code:1, msg:`<link><name>${name}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
-
-                if(state.chatMessages[state.currentChat.ChatUID] == null) {state.chatMessages[state.currentChat.ChatUID] = [];}
-                state.chatMessages[state.currentChat.ChatUID].push(msg);
-                state.currentChatMessages.push(msg);
-                hooks.Call(events.Chat.ScrollChat);
-            },
             Search() {
                 var txt = this.SearchTextBoxElem().value;
-                if(txt.length > 0) {
-                    var actualText = txt.toLowerCase();
-                    state.uploadedFilesSearchResult =
-                        Copy(state.uploadedFiles.filter(x => x.FileName.toLowerCase().includes(actualText)));
-                } else {
-                    state.uploadedFilesSearchResult = state.uploadedFiles;
-                }
+                this.searchText = txt.toLowerCase();
             },
             ItemClicked(fileName) {
-                this.file = state.uploadedFilesSearchResult.find(x => x.HashedFileName == fileName);
+                this.file = this.filesToShow.find(x => x.HashedFileName == fileName);
                 this.ShowSendModal();
             },
             ShowSendModal() {
@@ -152,11 +127,10 @@
                 this.showAlreadyUploadedModal = false
             },
             Send() {
-                hooks.Call(events.FileUploader.Yes, this.id);
                 this.HideSendModal();
                 this.SearchTextBoxElem().value = "";
-                state.uploadedFilesSearchResult = state.uploadedFiles;
-                this.AddFileToChat(this.file.FileName, this.file.URL);
+                this.$emit("Send", this.file.FileName, this.file.URL);
+                this.searchText = "";
             },
             UploadClicked() {
                 this.UploadFileInputElem().click();
@@ -188,13 +162,18 @@
                             var docResult = new DOMParser().parseFromString(documentWriteReq.responseText, "text/xml");
                             var result = docResult.getElementsByTagName("DocumentWriteResult")[0].innerHTML;
                             if(result.indexOf("Error") != -1) {
-                                hooks.Call(events.FileUploader.Failed, {id: self.id, result});
+                                self.showLoader = false;
+                                self.error = true;
                             } else {
-                                hooks.Call(events.FileUploader.Successful, {id: self.id, name:self.file.name, url:result});
+                                self.showLoader = false;
+                                self.error = false;
+                                connection.GetFiles();
+                                self.$emit("Send", self.file.name, result);
                                 self.UploadFileInputElem().value = "";
                             }
                         } else {
-                            hooks.Call(events.FileUploader.Failed, {id: self.id, text:documentWriteReq.responseText});
+                            self.showLoader = false;
+                            self.error = true;
                         }
                     }
                 }
@@ -217,7 +196,9 @@
                     if(alreadyExists.length > 0) {
                         self.ShowAlreadyUploadedModal();
                         return;
-                    } else {self.UploadFile();}
+                    } else {
+                        self.UploadFile();
+                    }
                 };
                 reader.readAsDataURL(this.file);
             }

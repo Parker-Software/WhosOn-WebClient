@@ -24,8 +24,8 @@
             UploadedFiles: "uploadedfiles",
             CannedResponses: "cannedresponses",
             FromOperator: "fromclient",
-            CurrentOperatorTyping: "c1",
-            CurrentOperatorTypingStopped: "c0",
+            OperatorTyping: "c1",
+            OperatorTypingStopped: "c0",
             UserChanged: "clientevent",
             UserDisconnecting: "clientremove",
             ChatChanged: "chatchanged",
@@ -62,7 +62,8 @@
             PasswordChanged: "passwordchanged",
             Error: "error",
             Visitor: "visitor",
-            OperatorChat: "clientchat"
+            OperatorChat: "clientchat",
+            OperatorLink: "linkfromclient",
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -79,7 +80,11 @@
             UserClicked: "team.userClicked",
             CloseChatClicked: "team.closeChatClicked",
             MessagedAdded: "team.messagesAdded",
-            OtherUserClicked: "team.otherUserClicked"
+            OtherUserClicked: "team.otherUserClicked",
+            NotificationClicked: "team.notificationClicked",
+            CannedResponses : {
+                Clicked: "team.cannedResponses.Clicked"
+            }
         },
         Chat: {
             SuggestionFromServer: "home.chat.SuggestionFromServer",
