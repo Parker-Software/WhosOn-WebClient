@@ -62,15 +62,27 @@ function elementId() {
 
 function cannedResponsesToTree(data) {
     var tree = {};
+
     Object.keys(data).forEach(x => {
         var response = data[x];
         response.children = [];
 
-        if(response.ParentID != 0) {
-            if(data[response.ParentID]) {data[response.ParentID].children.push(response);}
-        } else {
-            tree[response.ID] = response;
+        try {
+            if(response.ParentID != 0) {
+                if(data[response.ParentID]) {
+                    if(data[response.ParentID].children == null) {
+                        data[response.ParentID].children = [];
+                    }
+                    data[response.ParentID].children.push(response);
+                }
+            } else {
+                tree[response.ID] = response;
+            }
         }
+        catch (ex) {
+            console.log(ex);
+        }
+       
     });
 
     return tree;
