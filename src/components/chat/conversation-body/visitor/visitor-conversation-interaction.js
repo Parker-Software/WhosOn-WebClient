@@ -42,7 +42,7 @@
         template: `
             <section v-bind:id="Id" class="reply-container">
                 <emoji-menu v-if="ShowingEmojiMenu" v-on:Clicked="EmojiClicked"></emoji-menu>
-                <fileMenu :id="FileId" v-bind:class="{'is-hidden': !ShowingFiles}"></fileMenu>
+                <file-menu :show="ShowingFiles" :id="FileId" :files="$store.state.uploadedFiles" v-on:Send="SendFile"></file-menu>
                 <div class="column is-full visitor-typing" v-if="showTyping">
                     <span>{{typingName}} is typing</span>
                 </div>
@@ -71,14 +71,6 @@
             </section>
         `,
         beforeCreate() {
-            hooks.Register(events.FileUploader.Yes, (e) => { 
-                this.ShowingFiles = false;
-            });
-
-            hooks.Register(events.FileUploader.Successful, (e) => {
-                this.ShowingFiles = false;
-            });
-
             hooks.Register(events.Connection.CurrentChatClosed, (e) => {
                 this.ShowingEmojiMenu = false;
                 this.ShowingCannedResponses = false;
@@ -159,6 +151,7 @@
             InputArea() {
                 return document.querySelector(`#${this.Id} #inputArea`);
             },
+
             EmojiClicked(emoji) {
                 var oldContent = this.InputArea().innerHTML;
                 this.InputArea().innerHTML = `${oldContent} ${emoji}`;
@@ -166,21 +159,39 @@
                 document.execCommand("selectAll", false, null);
                 document.getSelection().collapseToEnd();
             },
+
             EmojiBtnClicked() {
                 this.ShowingEmojiMenu = !this.ShowingEmojiMenu;
                 this.ShowingCannedResponses = false;
                 this.ShowingFiles = false;
             },
+
             SendFileClicked() {
                 this.ShowingFiles = !this.ShowingFiles;
                 this.ShowingEmojiMenu = false;
                 this.ShowingCannedResponses = false;
                 hooks.Call(events.Chat.SendFileClicked);
             },
+
             RequestFileClicked() {
                 connection.RequestFile(state.currentChat.Number);
                 hooks.Call(events.Chat.RequestedFileUpload);
             },
+
+            SendFile(fileName, url) {
+                this.ShowingFiles = false;
+                connection.SendFile(state.currentChat.Number,
+                    fileName,
+                    url
+                );
+
+                var msg = {code:1, msg:`<link><name>${fileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
+
+                if(state.chatMessages[state.currentChat.ChatUID] == null) {state.chatMessages[state.currentChat.ChatUID] = [];}
+                state.chatMessages[state.currentChat.ChatUID].push(msg);
+                state.currentChatMessages.push(msg);
+            },
+
             OnKeyDown(event) {
                 this.ShowingFiles = false;
                 this.ShowingEmojiMenu = false;

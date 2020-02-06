@@ -27,6 +27,7 @@ woServices.Add("DefaultState", function(){
         currentChatMessages: [],
         currentChatPreSurveys: [],
         crmURL: null, 
+        selectedOperatorToOperatorUser: null,
         currentOperatorChatMessages: [],
         operatorMessages: {},
         visitors: [],
@@ -34,7 +35,6 @@ woServices.Add("DefaultState", function(){
         chatMessages: {},
         chatPreSurveys: {},
         uploadedFiles: [],
-        uploadedFilesSearchResult: [],
         settings: {
             Theme: 0,
             AutoAwayEnabled: true,

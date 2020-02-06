@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    Vue.component("fileItem", {
+    Vue.component("file-item", {
         props: [
             "hashedFileName",
             "name",

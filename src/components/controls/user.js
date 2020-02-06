@@ -40,12 +40,13 @@
         props: [
             "collectionGroup",
             "user",
-            "selected"
+            "selected",
+            "isTyping"
         ],
         template: `
             <li v-on:click="Clicked" class="selectableItem userItem" v-bind:class="{ItemClass, 'is-active': selected}">
                 <div class="columns">
-                    <div class="customColumn is-narrow column no-gap-right">
+                    <div class="is-narrow column no-gap-right">
                         <div v-if="user.HasPhoto == false" v-bind:class="setBackgroundColor" class="badge">
                             {{visitorLetter}}
                             <div class="status online-user" v-if="user.Status == 0"></div>
@@ -53,7 +54,7 @@
                             <div class="status brb-user" v-if="user.Status == 2"></div>
                             <div class="status away-user" v-if="user.Status >= 3"></div>
                         </div>
-                        <figure class="image is-48x48" v-if="user.HasPhoto">
+                        <figure v-if="user.HasPhoto" class="image is-48x48">
                             <div class="status online-user" v-if="user.Status == 0"></div>
                             <div class="status busy-user" v-if="user.Status == 1"></div>
                             <div class="status brb-user" v-if="user.Status == 2"></div>
@@ -63,7 +64,8 @@
                     </div>
                     <div class="column">
                         <strong class="useritem-username">{{user.Name}} <span v-if="user.Username == $store.state.userName">(You)</span></strong><br/>
-                        <small>{{user.Dept}}</small>
+                        <small v-if="isTyping == null || isTyping == false">{{user.Dept}}</small>
+                        <typing-indicator v-if="isTyping"></typing-indicator>
                     </div>
                 </div>
             </li>

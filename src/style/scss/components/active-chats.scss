@@ -101,24 +101,6 @@
         padding: 0.45rem;
     }
   
-    .userItem {
-      &:hover {
-        cursor: pointer;
-        background-color: $ThemeListItemHover;
-  
-        strong,small{
-          color: $ThemeButtonTextHover;
-        }
-      }
-  
-      &.is-active {
-        background-color:$ThemeListItemSelected;
-      }
-    }
-  
-      .useritem-username {
-        padding-top:4px;
-      }
     }
 
   }

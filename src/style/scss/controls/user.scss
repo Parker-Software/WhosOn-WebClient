@@ -1,12 +1,14 @@
 
 
   .userItem {
+    border-left: 3px solid transparent;
+
     &:hover {
       cursor: pointer;
       background-color: $ThemeListItemHover;
 
       strong,small{
-        color: $ThemeButtonTextHover;
+        color: $ThemeButtonTextHover !important;
       }
     }
 
@@ -18,6 +20,10 @@
             color: inherit !important;
         }
       }
+    }
+
+    &.unanswered {
+      border-left: 3px solid $Unanswered;
     }
   }
 

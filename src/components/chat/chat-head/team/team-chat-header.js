@@ -7,21 +7,28 @@
         props: [
             "user"
         ],
+        data: () => {
+            return {
+                "Connected": true
+            };
+        },
         template: `
             <div class="columns chat-header team-chat-header">
                 <div class="is-narrow column no-gap-right is-tablet">
                     <div v-if="user.HasPhoto == false" v-bind:class="VisitorLetter.toLowerCase()" class="badge">
                         {{VisitorLetter}}
-                        <div class="status online-user" v-if="user.Status == 0"></div>
-                        <div class="status busy-user" v-if="user.Status == 1"></div>
-                        <div class="status brb-user" v-if="user.Status == 2"></div>
-                        <div class="status away-user" v-if="user.Status >= 3"></div>
+                        <div class="status online-user" v-if="user.Status == 0 && Connected"></div>
+                        <div class="status busy-user" v-if="user.Status == 1 && Connected"></div>
+                        <div class="status brb-user" v-if="user.Status == 2 && Connected"></div>
+                        <div class="status away-user" v-if="user.Status >= 3 && Connected"></div>
+                        <div class="status" v-if="Connected == false"></div>
                     </div>
                     <figure class="image is-48x48" v-if="user.HasPhoto">
-                        <div class="status online-user" v-if="user.Status == 0"></div>
-                        <div class="status busy-user" v-if="user.Status == 1"></div>
-                        <div class="status brb-user" v-if="user.Status == 2"></div>
-                        <div class="status away-user" v-if="user.Status >= 3"></div>
+                        <div class="status online-user" v-if="user.Status == 0 && Connected"></div>
+                        <div class="status busy-user" v-if="user.Status == 1 && Connected"></div>
+                        <div class="status brb-user" v-if="user.Status == 2 && Connected"></div>
+                        <div class="status away-user" v-if="user.Status >= 3 && Connected"></div>
+                        <div class="status" v-if="Connected == false"></div>
                         <img v-bind:class="user.Username" v-bind:src="Photo" alt="Image" class="is-rounded">    
                     </figure>  
                 </div>
@@ -53,7 +60,13 @@
             </div>
         `,
         beforeCreate() {
-
+            hooks.Register(events.Connection.UserDisconnecting, (e) => {
+                var userConn = e.Data;
+                if(userConn == this.user.Connection) {
+                    this.Connected = false;
+                    this.user.Status = 4;
+                }
+            });
         },
         computed: {
             VisitorLetter(){
@@ -65,7 +78,8 @@
                     0: "Online",
                     1: "Busy",
                     2: "Be Right Back",
-                    3: "Away"
+                    3: "Away",
+                    4: "Disconnected"
                 }
 
                 return statuses[this.user.Status];

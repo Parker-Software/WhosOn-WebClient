@@ -111,9 +111,6 @@
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatId) {
                 state.currentChatMessages = Copy(state.chatMessages[chatId]);
-
-                console.log("Scroll Chat");
-
                 hooks.Call(events.Chat.ScrollChat);
             }
         }

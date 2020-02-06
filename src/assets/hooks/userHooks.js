@@ -125,7 +125,6 @@
 
     hooks.Register(events.Connection.UploadedFiles, (e) => {
         state.uploadedFiles = e.Data;
-        state.uploadedFilesSearchResult = state.uploadedFiles;
     });
 
     hooks.Register(events.Connection.CannedResponses, (e) => {

@@ -12,7 +12,7 @@
         <div class="columns is-gapless">        
             <div class="column is-8">                
                 <div 
-                    v-bind:class="{'fileMessage':groupedMessage.isLink,'is-pulled-right':groupedMessage.isLink}"
+                    v-bind:class="{'fileMessage':groupedMessage.isLink}"
                     class="notification visitor"
                 >
                     <p class="top-text">
@@ -28,24 +28,26 @@
             <div class="column is-4"></div>
         </div>
         `,  
-        mounted() {
-            /*hooks.Call(events.Chat.ScrollChat);
-            var images = document.getElementsByClassName("clickableImage");
-            for(var i = 0; i < images.length; i++){
-                images[i].onload = function() {
-                    hooks.Call(events.Chat.ScrollChat);
-                }
-            }*/
-        },
         computed: {
             messageFormatted: function() {
                 var messages = this.groupedMessage.messages;
                 var message = "";
                 if(this.groupedMessage.isLink) {
-                    var linkMessage = this.groupedMessage.messages[0];
-                    var xml = new DOMParser().parseFromString(linkMessage.Text, "text/xml");
-                    var name = xml.getElementsByTagName("name")[0].innerHTML;
-                    var link = xml.getElementsByTagName("url")[0].innerHTML;
+                    var linkMessage = this.groupedMessage.messages[0].Text;
+                    var name;
+                    var link;
+                    var html = linkMessage.includes("<link>");
+                    if(html) {
+                        var xml = new DOMParser().parseFromString(linkMessage, "text/xml");
+                        name = xml.getElementsByTagName("name")[0].innerHTML;
+                        link = xml.getElementsByTagName("url")[0].innerHTML;
+                    } else {
+                        var split = linkMessage.split('\t');
+                        name = split[0];
+                        link = split[1];
+                    }
+
+                 
 
                     if (name.indexOf(".jpg") != -1 ||
                         name.indexOf(".png") != -1 ||

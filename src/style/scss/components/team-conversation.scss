@@ -1,5 +1,6 @@
 .team-convo {
     padding: 10px;
+    padding-bottom: 0;
 
     .searchField {
         width: calc(100% - 30px);
@@ -18,6 +19,10 @@
         i:hover {
             font-weight: bold;
         }
+    }
+
+    .field {
+        margin-bottom: 0;
     }
 
     input{
