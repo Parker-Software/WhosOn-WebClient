@@ -364,6 +364,16 @@
             ]);
         }
 
+        StartCurrentVisitorTotalsEvents() {
+            var self = this;
+            self.Socket.Send("StartCurrentVisitorTotalsEvents");
+        }
+
+        StopCurrentVisitorTotalsEvents() {
+            var self = this;
+            self.Socket.Send("StopCurrentVisitorTotalsEvents");
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();

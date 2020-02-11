@@ -64,6 +64,7 @@
             Visitor: "visitor",
             OperatorChat: "clientchat",
             OperatorLink: "linkfromclient",
+            SiteVisitors: "ct",
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"

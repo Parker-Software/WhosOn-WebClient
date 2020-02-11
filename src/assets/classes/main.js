@@ -19,6 +19,7 @@
             });
 
             hooks.Register(connEvents.LoggedIn, (e) => {
+                connection.StartCurrentVisitorTotalsEvents();
                 connection.GetFiles();  
                 connection.GetCannedResponses();
                 connection.GetSkills();
@@ -107,6 +108,16 @@
 
             hooks.Register(events.Connection.UserInfo, () => {
                 services.Inactivity.Start(state.settings);
+            });
+
+
+            hooks.Register(events.Connection.SiteVisitors, (e) => {
+                Object.keys(e.Data.Current).forEach((k) => {
+                    var site = e.Data.Current[k];
+                    services.Store.state.sitesVisitors[site.SiteKey] = site.Visitors;
+                });
+
+                services.Store.state.sitesVisitors = Copy(services.Store.state.sitesVisitors);
             });
         }
     }
