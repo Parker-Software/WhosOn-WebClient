@@ -37,7 +37,7 @@
       height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + 34px));
 
       &.surveyScroller {
-        height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + #{$survey-container-height} + 34px));
+        //height: calc(100vh - (#{$header-height} + #{$chat-header} + #{$chat-tabs} + #{$chat-interactions} + #{$survey-container-height} + 34px));
       }
       &.beingMonitored {
           background-color: transparent;

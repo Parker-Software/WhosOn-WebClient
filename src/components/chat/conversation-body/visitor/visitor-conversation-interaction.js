@@ -6,6 +6,9 @@
 
     Vue.component("visitor-conversation-interaction", {
         props: {
+            id: {
+                default: elementId(),
+            },
             site: {
                 default: null,
             },
@@ -30,7 +33,6 @@
         },
         data: function() {
             return {
-                Id: elementId(),
                 FileId: elementId(),
                 AttachedFile: null,
                 CurrentlyTypingNameMonitored: "",
@@ -40,7 +42,7 @@
             }
         },
         template: `
-            <section v-bind:id="Id" class="reply-container">
+            <section v-bind:id="id" class="reply-container">
                 <emoji-menu v-if="ShowingEmojiMenu" v-on:Clicked="EmojiClicked"></emoji-menu>
                 <file-menu :show="ShowingFiles" :id="FileId" :files="$store.state.uploadedFiles" :domain="$store.state.currentChat.Domain" v-on:Send="SendFile"></file-menu>
                 <div class="column is-full visitor-typing" v-if="showTyping">
@@ -149,7 +151,7 @@
         },
         methods: { 
             InputArea() {
-                return document.querySelector(`#${this.Id} #inputArea`);
+                return document.querySelector(`#${this.id} #inputArea`);
             },
 
             EmojiClicked(emoji) {
