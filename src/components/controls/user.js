@@ -54,7 +54,7 @@
                             <div class="status brb-user" v-if="user.Status == 2"></div>
                             <div class="status away-user" v-if="user.Status >= 3"></div>
                         </div>
-                        <figure v-if="user.HasPhoto" class="image is-40x40">
+                        <figure v-if="user.HasPhoto" class="image is-35x35">
                             <div class="status online-user" v-if="user.Status == 0"></div>
                             <div class="status busy-user" v-if="user.Status == 1"></div>
                             <div class="status brb-user" v-if="user.Status == 2"></div>

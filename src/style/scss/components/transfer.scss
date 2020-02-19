@@ -17,13 +17,35 @@
     font-weight: 600;
   }
 
-  
-
   small {
     color: $ThemeChatText;
     font-weight: 600;
     &.user-list-title {
       margin-bottom:4px;
+    }
+  }
+
+  
+
+  .departments {
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+
+    .department {
+      display:inline-block;
+      width: 50%;
+      margin-bottom: 2px;
+    }
+  }
+
+  .skills {
+    margin: 0;
+    margin-top: 5px;
+    padding: 0;
+    
+    .skill {
+      margin-bottom: 2px;
     }
   }
 
@@ -35,10 +57,10 @@
       margin-top: 6px;
     }
 
-  .column {
-      padding: 0.45rem;
+    .column {
+        padding: 0.45rem;
+    }
   }
-}
 
   .tabs {
     margin-bottom: 0;
@@ -94,7 +116,7 @@
     padding: 0.45rem;
   }
 
-  .users-tab {
+  .transfer-tab {
     padding: 0.45rem;
 
     input{
@@ -125,9 +147,29 @@
       font-weight: 600;
       padding-left: 4px;
       
-      span{
-        border-left: 4px solid red;
+      .left{
+        border-left: 4px solid transparent;
         padding-left: 4px;
+        font-size: 0.7rem;
+        width: 90%;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: $ThemeRoundButtonFill;
+        color: $ThemeRoundButtonHoverText;
+      }
+
+      &.away {
+        .left {
+          border-color: $ThemeMyStatusAway;
+        }
+      }
+
+      &.online {
+        .left {
+          border-color: $ThemeMyStatusOnline;
+        }
       }
     }
   }
