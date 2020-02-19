@@ -54,7 +54,7 @@
                             <div class="status brb-user" v-if="user.Status == 2"></div>
                             <div class="status away-user" v-if="user.Status >= 3"></div>
                         </div>
-                        <figure v-if="user.HasPhoto" class="image is-48x48">
+                        <figure v-if="user.HasPhoto" class="image is-40x40">
                             <div class="status online-user" v-if="user.Status == 0"></div>
                             <div class="status busy-user" v-if="user.Status == 1"></div>
                             <div class="status brb-user" v-if="user.Status == 2"></div>
@@ -78,12 +78,12 @@
                 return classes;
             },
             visitorLetter(){
-                var name = this.user.Username;
+                var name = this.user.Name;
                 if(name === undefined) {return;}
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {
-                var name = this.user.Username;
+                var name = this.user.Name;
                 if(name === undefined) {return;}              
                 return name.charAt(0).toLowerCase();
             }

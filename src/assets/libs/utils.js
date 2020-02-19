@@ -83,6 +83,18 @@ function uuidv4() {
 function elementId() {
     return `elem-${uuidv4()}`;
 }
+
+function hasLink(text) {
+    var hasLinkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,}|[a-zA-Z0-9.]+\.[a-zA-Z0-9]{2,3}|\.[a-zA-Z0-9]{2,3})/g;
+    return text.match(hasLinkRegex);
+}
+
+function linkToAnchor(link) {
+    var newLink = link;
+    var hasProtocol = link.includes('http');
+    if (hasProtocol == false) newLink = `http://${newLink}`;
+    return `<a href="${newLink}" target="_blank">${link}</a>`;
+}
   
 
 

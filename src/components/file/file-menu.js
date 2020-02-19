@@ -7,7 +7,8 @@
         props: [
             "show",
             "id",
-            "files"
+            "files",
+            "domain"
         ],
         data: () => {
             return {
@@ -150,7 +151,7 @@
                       <FileName>${self.file.name}</FileName>
                       <UserName>${state.userName}</UserName>
                       <Password>${state.password}</Password>
-                      <Domain>${state.currentChat.Domain}</Domain>
+                      <Domain>${self.domain}</Domain>
                     </DocumentWrite>
                   </soap:Body>
                 </soap:Envelope>`;
