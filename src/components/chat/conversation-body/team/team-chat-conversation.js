@@ -31,19 +31,13 @@
             state.users = Copy(state.users);
 
             var isShowing = isVisible(document.getElementById("team-chat-conversation"));
-            if (isShowing == false || state.selectedOperatorToOperatorUser == null ||
+            if (
+                isShowing == false ||
+                state.selectedOperatorToOperatorUser == null ||
                 user.Connection != state.selectedOperatorToOperatorUser.Connection) {
-                
-                if (notification != null) notification.close();
-                notification = 
-                    services.Notifications.CreateNotification(
-                        `Team Chat With ${user.Name}`,
-                        text, () => {
-                        window.focus();
-                        notification.close();
-                        hooks.Call(events.Team.NotificationClicked, user);
-                });
-            } else if(isShowing && state.selectedOperatorToOperatorUser.Connection == userConn) {
+                createNotification();
+            }
+            else if(isShowing && state.selectedOperatorToOperatorUser.Connection == userConn) {
                 state.currentOperatorChatMessages.push({
                     ID: 0,
                     Dated: new Date(),
@@ -51,9 +45,25 @@
                     Text: text,
                     isLink: false
                 });
-                
+
+                if(document.hasFocus() == false) {
+                    createNotification();
+                }
+
                 hooks.Call(events.Team.MessagedAdded);
             }
+        }
+
+        function createNotification() {
+            if (notification != null) notification.close();
+            notification = 
+                services.Notifications.CreateNotification(
+                    `Team Chat With ${user.Name}`,
+                    text, () => {
+                    window.focus();
+                    notification.close();
+                    hooks.Call(events.Team.NotificationClicked, user);
+            });
         }
     });
 
@@ -165,6 +175,7 @@
                 this.SearchText = "";
                 if (this.SearchElem() != null) this.SearchElem().value = "";
                 this.ShowGetPreviousLines = true;
+                this.InteractionDisabled = false;
             });
 
             hooks.Register(events.Team.MessagedAdded, () => {
@@ -201,13 +212,13 @@
             },
 
             Split() {
-                this.Container().style.width = "calc(70% - 4px)";
-                this.Container().style.float = "left";
+                if (this.Container() != null) this.Container().style.width = "calc(70% - 4px)";
+                if (this.Container() != null) this.Container().style.float = "left";
             },
 
             Normal() {
-                this.Container().style.width = "calc(100% - 4px)";
-                this.Container().style.float = "none";
+                if (this.Container() != null) this.Container().style.width = "calc(100% - 4px)";
+                if (this.Container() != null) this.Container().style.float = "none";
             },
 
             ScrollChat() {

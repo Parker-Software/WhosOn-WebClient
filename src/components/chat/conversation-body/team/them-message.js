@@ -30,8 +30,9 @@
         `,  
         computed: {
             messageFormatted: function() {
-                var messages = this.groupedMessage.messages;
+                var messages = Copy(this.groupedMessage.messages);
                 var message = "";
+
                 if(this.groupedMessage.isLink) {
                     var linkMessage = this.groupedMessage.messages[0].Text;
                     var name;
@@ -62,6 +63,13 @@
                 } else {
                     for(var i = 0; i < messages.length; i++) {
                         var messageItem = messages[i];
+                        var haslink = hasLink(messageItem.Text);
+                        if(haslink) {
+                            for(var k = 0; k < haslink.length; k++) {
+                                var link = linkToAnchor(haslink[k]);
+                                messageItem.Text = messageItem.Text.replace(haslink[k], link);
+                            }
+                        }
                         message += messageItem.Text + " <br />";
                     }
                 }

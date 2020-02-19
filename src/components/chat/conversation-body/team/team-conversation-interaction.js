@@ -31,7 +31,7 @@
         template: `
             <section id="team-conversation-interfaction" class="reply-container">
                 <emoji-menu v-if="ShowingEmojiMenu" v-on:Clicked="EmojiClicked"></emoji-menu>
-                <file-menu :show="ShowingFiles" :id="FileId" :files="$store.state.uploadedFiles" v-on:Send="SendFile"></file-menu>
+                <file-menu :show="ShowingFiles" :id="FileId" :files="$store.state.uploadedFiles" domain="" v-on:Send="SendFile"></file-menu>
                 <div class="column is-full visitor-typing" v-if="showTyping">
                     <span>{{typingName}} is typing</span>
                 </div>

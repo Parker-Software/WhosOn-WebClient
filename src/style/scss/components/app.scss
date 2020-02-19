@@ -77,12 +77,16 @@ small {
     padding-bottom:0 !important;
 }
 
+.is-40x40 {
+    width: 40px;
+    height: 40px;
+}
 
 .badge {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
-    line-height: 48px;
+    line-height: 40px;
     color: #fff;
     text-align: center;
     position: relative;   

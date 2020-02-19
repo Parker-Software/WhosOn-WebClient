@@ -23,7 +23,7 @@
                         <div class="status away-user" v-if="user.Status >= 3 && Connected"></div>
                         <div class="status" v-if="Connected == false"></div>
                     </div>
-                    <figure class="image is-48x48" v-if="user.HasPhoto">
+                    <figure class="image is-40x40" v-if="user.HasPhoto">
                         <div class="status online-user" v-if="user.Status == 0 && Connected"></div>
                         <div class="status busy-user" v-if="user.Status == 1 && Connected"></div>
                         <div class="status brb-user" v-if="user.Status == 2 && Connected"></div>
@@ -67,11 +67,15 @@
                     this.user.Status = 4;
                 }
             });
+
+            hooks.Register(events.Team.OtherUserClicked, (user) => {
+                this.Connected = true;
+            });
         },
         computed: {
             VisitorLetter(){
-                if(this.user.Username === undefined) {return;}
-                return this.user.Username.charAt(0).toUpperCase();
+                if(this.user.Name === undefined) {return;}
+                return this.user.Name.charAt(0).toUpperCase();
             },
             FullStatus() {
                 var statuses = {
