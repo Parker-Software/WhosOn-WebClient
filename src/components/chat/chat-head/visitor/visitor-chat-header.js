@@ -11,7 +11,11 @@
         template: `
             <div v-bind:class="{'beingMonitored': BeingMonitoredByYou}" class="columns chat-header">
                 <div class="customColumn is-narrow column no-gap-right is-tablet">
-                    <div v-bind:class="setBackgroundColor" class="badge">{{visitorLetter}}<div class="status"></div></div>         
+                    <div v-bind:class="setBackgroundColor" class="badge">
+                        {{visitorLetter}}
+                        <div class="status online-user" v-if="chat.Closed == false"></div>
+                        <div class="status" v-if="chat.Closed"></div>
+                    </div>         
                 </div>
                 <div class="customColumn column is-tablet">
                     <div class="chat-header">
