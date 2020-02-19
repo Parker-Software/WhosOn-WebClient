@@ -16,6 +16,7 @@
                 ShowWrapUp: false,
                 ContainerId: elementId(),
                 ChatScrollerId: elementId(),
+                ChatInteractionId: elementId(),
                 ShowCannedResponses: false,
                 InteractionDisabled: false,
                 HasSuggestion: false,
@@ -29,7 +30,7 @@
         template: `
         <div class="chat-conversation">
             <div v-bind:id="ContainerId" class="chat-conversation-container">
-                <chatConversationSurvey v-if="ValidSurveys.length > 0" :surveys="ValidSurveys"></chatConversationSurvey>
+                <chatConversationSurvey id="surveys" v-if="ValidSurveys.length > 0" :surveys="ValidSurveys"></chatConversationSurvey>
                 <div class="customColumn column" 
                     v-if="site != null &&
                         site.WrapUp.Enabled &&
@@ -41,7 +42,7 @@
                 </div>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div v-bind:id="ChatScrollerId" class="message-list no-gap-bottom" v-bind:class="{ surveyScroller: setSize() }">
+                        <div v-bind:id="ChatScrollerId" class="message-list no-gap-bottom" v-bind:style="{ height: chatHeight() }">
                             <div v-for="(v,k) in GroupedMessages" class="messages">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
                                 <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
@@ -59,6 +60,7 @@
             >
             </canned-responses>
             <visitor-conversation-interaction
+                :id="ChatInteractionId"
                 :site="site" 
                 :chat="chat" 
                 :disabled="InteractionDisabled"
@@ -226,14 +228,18 @@
                 hooks.Call(events.Chat.CannedResponses.Clicked, evnt);
             },
 
-            setSize() {
-                var valid = [];
-                for(var i = 0; i < this.surveys.length; i++)
-                {
-                    var survey = this.surveys[i];
-                    if(survey.BuiltInField != "visitor name" && survey.Value) valid.push(survey);
+            chatHeight() {
+                var calc = document.body.offsetHeight;
+
+                var interaction = document.getElementById(this.ChatInteractionId);
+                var scroller = document.getElementById(this.ChatScrollerId);
+
+                if(scroller && interaction) {
+                    var rect = scroller.getBoundingClientRect();
+                    calc -= (rect.top + interaction.offsetHeight + 20);
                 }
-                return (valid.length > 0) ? true: false;
+
+                return `${calc}px`;
             },
 
             Container() {

@@ -106,15 +106,19 @@ function cannedResponsesToTree(data) {
         response.children = [];
 
         try {
-            if(response.ParentID != 0) {
+            if (response.ParentID != 0 && tree[response.ParentID] == null) {
                 if(data[response.ParentID]) {
                     if(data[response.ParentID].children == null) {
                         data[response.ParentID].children = [];
                     }
                     data[response.ParentID].children.push(response);
                 }
-            } else {
+            } else if(response.ParentID == 0) {
                 tree[response.ID] = response;
+
+                Object.keys(data).forEach(z => {
+                    if (data[z].ParentID == response.ID) tree[response.ID].children.push(data[z]);
+                });
             }
         }
         catch (ex) {
