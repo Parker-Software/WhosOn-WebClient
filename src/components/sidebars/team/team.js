@@ -59,6 +59,8 @@
         },
         methods: {
             UserClicked(user) {
+                if (this.$store.state.rights.ChatToOtherOperators == false && this.$store.state.operatorMessages[user.Username] == null) return;
+
                 this.$store.state.selectedOperatorToOperatorUser = user;
                 hooks.Call(events.Team.UserClicked, user);
             },
