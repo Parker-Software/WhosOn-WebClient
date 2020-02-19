@@ -30,14 +30,6 @@
             user.UnAnswered = true;
             state.users = Copy(state.users);
 
-            if(state.operatorMessages[user.Username] == null) state.operatorMessages[user.Username] = [];
-            state.operatorMessages[user.Username].push({
-                ID: 0,
-                Dated: new Date(),
-                MyLine: false,
-                Text: text,
-                isLink: false
-            });
 
             var isShowing = isVisible(document.getElementById("team-chat-conversation"));
             if (
@@ -45,6 +37,15 @@
                 state.selectedOperatorToOperatorUser == null ||
                 user.Connection != state.selectedOperatorToOperatorUser.Connection) {
                 createNotification();
+
+                if(state.operatorMessages[user.Username] == null) state.operatorMessages[user.Username] = [];
+                state.operatorMessages[user.Username].push({
+                    ID: 0,
+                    Dated: new Date(),
+                    MyLine: false,
+                    Text: text,
+                    isLink: false
+                });
             }
             else if(isShowing && state.selectedOperatorToOperatorUser.Connection == userConn) {
                 state.currentOperatorChatMessages.push({
