@@ -16,7 +16,13 @@
                 SearchText: "",
                 SearchResult: [],
                 ShowAvailableOnly: false,
-                VisitorName: ""
+                ShowAll: false,
+                VisitorName: "",
+                Dialogues: {
+                    ShowUser: false,
+                    ShowDepartment: false,
+                    ShowSkills: false,
+                }
             }
         },
         template: `
@@ -32,62 +38,117 @@
                     <li v-bind:class="{'is-active':SelectedTab == 'skills'}"v-on:click="TabClicked('skills')"><a>Skills</a></li>
                 </ul>              
             </div>
-            <div class="availabilty-section">
-                <div class="field has-text-left" style="padding-left:35px;">
-                    <input id="availablityToggle" type="checkbox" name="availablityToggle" class="switch is-rounded" v-on:change="OnlyAvailable">
-                    <label for="availablityToggle">Show Available Only</label>
+            <div v-if="SelectedTab == 'users'">
+                <div class="availabilty-section">
+                    <div class="field has-text-left" style="padding-left:35px;">
+                        <input id="availablityToggle" type="checkbox" name="availablityToggle" class="switch is-rounded" v-on:change="OnlyAvailable">
+                        <label for="availablityToggle">Show Available Only</label>
+                    </div>
+                </div>
+                <div class="transfer-tab">
+                    <div class="field">
+                        <p class="control has-icons-right">
+                            <input id="transferSearchTxtBox" class="input" type="text" placeholder="Search Team" v-on:keyup.enter="Search">                        
+                            <span class="icon is-small is-right">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </p>
+                    </div>
+                    <button class="button" v-bind:class="{'online': OnlineUsers.length > 0, 'away': OnlineUsers.length <= 0}" v-on:click="SendToAll" >
+                        <span class="left">Send To All</span>
+                    </button>
+                    <ul class="departments">
+                        <li v-for="department in ValidDepartments" class="department">
+                            <button class="button" v-on:click="DepartmentClicked(department)" v-bind:class="{'online': department.Status == 0, 'away': department.Status != 0}">
+                                <span class="left">{{department.Name}}</span>
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="users-list" v-if="SearchText.length <= 0">
+                        <div v-if="OnlineUsers.length > 0">
+                            <small>Online {{ OnlineUsers.length }}</small>
+                            <ul v-for="item of OnlineUsers" class="user-list-online">
+                                <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
+                            </ul>
+                        </div>
+                        <div v-if="BusyUsers.length > 0">
+                            <small>Busy {{ BusyUsers.length }}</small>
+                            <ul v-for="item of BusyUsers" class="user-list-busy">
+                                <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
+                            </ul>
+                        </div>
+                        <div v-if="BrbUsers.length > 0">
+                            <small>Be Right Back {{ BrbUsers.length }}</small>
+                            <ul v-for="item of BrbUsers" class="user-list-brb">
+                                <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
+                            </ul>
+                        </div>
+                        <div v-if="AwayUsers.length > 0">
+                            <small>Away {{ AwayUsers.length }}</small>
+                            <ul v-for="item of AwayUsers" class="user-list-away">
+                                <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
+                            </ul>
+                        </div>
+                    </div>
+                    <div  class="users-list" v-if="SearchText.length > 0">
+                        <small>Search Results - {{SearchText}}</small>
+                        <ul v-if="ValidSearchUsers.length > 0" v-for="item of ValidSearchUsers">
+                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
+                        </ul>  
+                        <p v-if="ValidSearchUsers.length <= 0">
+                            <span>None</span>
+                        </p>              
+                    </div>
                 </div>
             </div>
-            <div v-if="SelectedTab == 'users'" class="users-tab">
-                <div class="field">
-                    <p class="control has-icons-right">
-                        <input id="transferSearchTxtBox" class="input" type="text" placeholder="Search Team" v-on:keyup.enter="Search">                        
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-search"></i>
-                        </span>
-                    </p>
-                </div>
-                <button class="button" v-on:click="SendToAll"><span>Send To All</span></button>
-                <br/>
-                <div class="users-list" v-if="SearchText.length <= 0">
-                    <div v-if="OnlineUsers.length > 0">
-                        <small>Online {{ OnlineUsers.length }}</small>
-                        <ul v-for="item of OnlineUsers" class="user-list-online">
-                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
-                        </ul>
-                     </div>
-                    <div v-if="BusyUsers.length > 0">
-                        <small>Busy {{ BusyUsers.length }}</small>
-                        <ul v-for="item of BusyUsers" class="user-list-busy">
-                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
-                        </ul>
-                    </div>
-                    <div v-if="BrbUsers.length > 0">
-                        <small>Be Right Back {{ BrbUsers.length }}</small>
-                        <ul v-for="item of BrbUsers" class="user-list-brb">
-                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
-                        </ul>
-                    </div>
-                    <div v-if="AwayUsers.length > 0">
-                        <small>Away {{ AwayUsers.length }}</small>
-                        <ul v-for="item of AwayUsers" class="user-list-away">
-                            <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
-                        </ul>
+            <div v-if="SelectedTab == 'skills'" >
+                <div class="availabilty-section">
+                    <div class="field has-text-left" style="padding-left:35px;">
+                        <input id="showAllToggle" type="checkbox" class="switch is-rounded" v-on:change="ShowAllSkills">
+                        <label for="showAllToggle">Show All</label>
                     </div>
                 </div>
-                <div v-if="SearchText.length > 0">
-                    <small>Search Results - {{SearchText}}</small>
-                    <ul v-if="ValidSearchUsers.length > 0" v-for="item of ValidSearchUsers">
-                        <user collectionGroup="transfer" @Clicked="UserClicked(item)" :user="item"></user>
-                    </ul>  
-                    <p v-if="ValidSearchUsers.length <= 0">
-                        <span>None</span>
-                    </p>              
+                <div class="transfer-tab">
+                    <ul class="skills">
+                        <li v-for="skill in ValidSkills" class="skill">
+                            <button class="button" v-on:click="SkillClicked(skill)" v-bind:class="{'online': skill.Status == 0, 'away': skill.Status != 0}">
+                                <span class="left">{{skill.Name}}</span> <span class="right">{{skill.OnlineCount}}/{{skill.Count}}</span>
+                            </button>
+                        </li>
+                    </ul>
                 </div>
-            </div>
-            <div v-if="SelectedTab == 'departments'" class="is-hidden"></div>
-            <div v-if="SelectedTab == 'skills'"></div>           
-            <transferDialog  @Transfer="Transfer()" v-bind:user="this.SelectedUser" v-bind:visitorName="this.VisitorName"></transferDialog>           
+            </div> 
+
+            <dialogue 
+                v-if="this.SelectedUser != null"
+                title="Transfer Chat" 
+                :content="TransferUserContent" 
+                :show="Dialogues.ShowUser"
+                :yesCallback="Transfer"
+                :noCallback="() => {this.Dialogues.ShowUser = false; }"
+            >
+            </dialogue>
+
+            <dialogue           
+                v-if="this.SelectedDepartment != null"
+                title="Transfer Chat" 
+                :content="TransferDepartmentContent" 
+                :show="Dialogues.ShowDepartment"
+                :yesCallback="Transfer"
+                :noCallback="() => {this.Dialogues.ShowDepartment = false; }"
+            >
+            </dialogue>
+
+            <dialogue           
+                v-if="this.SelectedSkill != null"
+                title="Transfer Chat" 
+                :content="TransferSkillContent" 
+                :show="Dialogues.ShowSkills"
+                :yesCallback="Transfer"
+                :noCallback="() => {this.Dialogues.ShowSkills = false; }"
+            >
+            </dialogue>
+ 
         </div>
         `,
         beforeCreate() {
@@ -100,6 +161,36 @@
             });
         },    
         computed: {
+            TransferUserContent() {
+                return `<span class="fa-stack fa-lg">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-question fa-stack-1x" style="color:white"></i>
+                        </span> 
+                        <span>
+                            Transfer the chat with ${this.VisitorName} to ${this.SelectedUser.Username}?
+                        </span>`;
+            },
+
+            TransferDepartmentContent() {
+                return `<span class="fa-stack fa-lg">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-question fa-stack-1x" style="color:white"></i>
+                        </span> 
+                        <span>
+                            Transfer the chat with ${this.VisitorName} to department: ${this.SelectedDepartment.Name}?
+                        </span>`;
+            },
+
+            TransferSkillContent() {
+                return `<span class="fa-stack fa-lg">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-question fa-stack-1x" style="color:white"></i>
+                        </span> 
+                        <span>
+                            Transfer the chat with ${this.VisitorName} to skill: ${this.SelectedSkill.Name}?
+                        </span>`;
+            },
+
             getPanel() {
                return document.getElementById("transferPanel");
             },
@@ -110,6 +201,14 @@
                 }
 
                 return users;
+            },
+            ValidDepartments() {
+                if(this.ShowAvailableOnly) return this.Departments.filter(x => x.Status == 0);
+                else return this.Departments;
+            },
+            ValidSkills() {
+                if(this.ShowAll == false) return this.Skills.filter(x => x.Status == 0);
+                else return this.Skills;
             },
             ValidSearchUsers() {
                 return this.ValidUsers.filter(x => 
@@ -159,14 +258,44 @@
 
                 }
                 return result;
+            },
+            Skills() {
+                var skills = state.skills;
+                var results = [];
+
+                for(var i = 0; i < skills.length; i++) {
+                    var skill = skills[i];
+                    results[i] = skill;
+
+                    var usersWithSkill = state.users.filter(x => x.Skills.split(',').indexOf(skill.Name) != -1);
+
+                    results[i].Count = usersWithSkill.length;
+                    var online = usersWithSkill.filter(x => x.Status == 0);
+                    results[i].OnlineCount = online.length;
+
+                    var busy = usersWithSkill.filter(x => x.Status == 1);
+                    var brb = usersWithSkill.filter(x => x.Status == 2);
+                    var away = usersWithSkill.filter(x => x.Status == 3);
+                    if(online.length > 0) {
+                        results[i].Status = 0;
+                    } else {
+                        if(busy.length > 0) {
+                            results[i].Status = 1;
+                        } else{
+                            if(brb.length > 0) {
+                                results[i].Status = 2;
+                            } else {
+                                results[i].Status = 3;
+                            }
+                        }
+                    }
+                }
+                return results;
             }
         },
         methods: {
             close() {
                 this.Show = !this.Show;
-            },
-            Elem() {
-                return document.getElementById("transferModal");
             },
             SearchElem() {
                 return document.getElementById("transferSearchTxtBox");
@@ -187,7 +316,6 @@
             },
             Hide() {
                 this.ShowAvailableOnly = false;
-                this.UnSelectAll();
                 this.SelectedUser = null;
                 this.SelectedDepartment = null;
                 this.SelectedSkill = null;
@@ -196,48 +324,50 @@
                 this.SearchText = "";
                 hooks.Call(events.Home.UserImagesNeedUpdating);
             },    
-            Transfer() {               
-                this.UnSelectAll();   
-
+            Transfer() {   
                 var finalMessage = this.$store.state.settings.TransferMessage;
                 finalMessage = finalMessage.replace(/%Name%/g, state.currentChat.Name);
 
-                switch(this.SelectedTab) {
-                    case "users":
-                            connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);
-                        break;
-                    case "departments":
-                            connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");
-                        break;
-                    case "skills":
-                            connection.TransferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");
-                        break;
-                }
+                if (this.Dialogues.ShowUser)
+                        connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);
 
+                if (this.Dialogues.ShowDepartment)
+                        connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");
+
+                if (this.Dialogues.ShowSkills)
+                        connection.TransferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");
+
+                
+                this.Dialogues.ShowUser = false;
+                this.Dialogues.ShowDepartment = false;
+                this.Dialogues.ShowSkills = false;
+
+                this.SelectedUser = null;
+                this.SelectedDepartment = null;
+                this.SelectedSkill = null;
                 this.close();
             },
-            UnSelectAll() {
-                var elems = document.querySelectorAll(".transfer");
-                for(var i = 0; i < elems.length; i++) {
-                    elems[i].classList.remove("is-active");
-                }
-            },
             UserClicked(user) {
-                this.UnSelectAll();
+                this.SelectedDepartment = null;
+                this.SelectedSkill = null;
+
                 this.SelectedUser = user;
                 this.VisitorName = state.currentChat.Name;
-                var modal = document.getElementById("transferDialog");
-                modal.classList.toggle("is-active");
+                this.Dialogues.ShowUser = true;
             },
             DepartmentClicked(dept) {
-                this.UnSelectAll();
+                this.SelectedUser = null;
+                this.SelectedSkill = null;
+
                 this.SelectedDepartment = dept;
-                this.EnableTransferBtn();
+                this.Dialogues.ShowDepartment = true;
             },
             SkillClicked(skill){
-                this.UnSelectAll();
+                this.SelectedUser = null;
+                this.SelectedDepartment = null;
+
                 this.SelectedSkill = skill;
-                this.EnableTransferBtn();
+                this.Dialogues.ShowSkills = true;
             },
             TabClicked(tab) {
                 this.SelectedTab = tab;
@@ -253,12 +383,15 @@
                 this.ShowAvailableOnly = e.srcElement.checked;
                 hooks.Call(events.Home.UserImagesNeedUpdating);
             },
+            ShowAllSkills(e) {
+                this.ShowAll = e.srcElement.checked;
+            },
             SendToAll() {
                 var usersToSendTo = state.users.map(x => x.Connection);
                 this.UnSelectAll();
                 connection.TransferChat(state.currentChat.Number, usersToSendTo, "");
                 this.close();
-            }
+            },
         }
     });
 })(woServices);
