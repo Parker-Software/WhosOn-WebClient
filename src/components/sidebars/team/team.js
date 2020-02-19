@@ -29,8 +29,8 @@
                         <h5 class="title is-6-half">Connected Operators: {{UserCount}}</h5>
                     </div>
                     <div class="users-list">
-                        <ul v-for="user of Users" class="user-list-team">
-                            <user collectionGroup="team" v-bind:class="{'unanswered': user.UnAnswered != null && user.UnAnswered}" :user="user" @Clicked="UserClicked" :selected="Selected(user)" :isTyping="user.IsTyping"></user>
+                        <ul class="user-list-team">
+                            <user v-for="user of Users" collectionGroup="team" v-bind:class="{'unanswered': user.UnAnswered != null && user.UnAnswered}" :user="user" @Clicked="UserClicked" :selected="Selected(user)" :isTyping="user.IsTyping"></user>
                         </ul>
                     </div>
                 </div>
