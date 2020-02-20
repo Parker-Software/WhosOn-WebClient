@@ -102,29 +102,21 @@ function cannedResponsesToTree(data) {
     var tree = {};
 
     Object.keys(data).forEach(x => {
+        data[x].children = [];
+    });
+
+    Object.keys(data).forEach(x => {
         var response = data[x];
-        response.children = [];
 
-        try {
-            if (response.ParentID != 0 && tree[response.ParentID] == null) {
-                if(data[response.ParentID]) {
-                    if(data[response.ParentID].children == null) {
-                        data[response.ParentID].children = [];
-                    }
-                    data[response.ParentID].children.push(response);
-                }
-            } else if(response.ParentID == 0) {
+        if(response.ParentID != 0) {
+            try {
+                data[response.ParentID].children.push(response);
+            } catch (ex) {
                 tree[response.ID] = response;
-
-                Object.keys(data).forEach(z => {
-                    if (data[z].ParentID == response.ID) tree[response.ID].children.push(data[z]);
-                });
             }
+        } else {
+            tree[response.ID] = response;
         }
-        catch (ex) {
-            console.log(ex);
-        }
-       
     });
 
     return tree;
