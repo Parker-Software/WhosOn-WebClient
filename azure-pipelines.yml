@@ -5,6 +5,9 @@
 
 name: $(Major).$(Minor)$(rev:.r).$(BuildID)
 
+trigger:
+- releases/*
+
 pool:
   vmImage: 'ubuntu-latest'
 
