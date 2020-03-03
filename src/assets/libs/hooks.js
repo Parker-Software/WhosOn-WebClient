@@ -65,6 +65,8 @@
             OperatorChat: "clientchat",
             OperatorLink: "linkfromclient",
             SiteVisitors: "ct",
+            ChatAcquired: "chataquired",
+            TransferConfirmed: "transferconfirmed"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -115,6 +117,7 @@
             ChatTransfered: "home.chat.ChatTransfered",
             WrapUpClicked: "home.chat.WrapUpClicked",
             WrapUpNotCompleted: "home.chat.WrapUpNotCompleted",
+            AquireChatClicked: "home.chat.AquireChatClicked",
             CannedResponses : {
                 Clicked: "chat.cannedResponses.Clicked"
             }

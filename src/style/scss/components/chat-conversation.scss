@@ -63,6 +63,7 @@
     background-color: $ThemeRoundButtonFill;
     color: $ThemeRoundButtonText;
   }
+
 }
 
 .notification {
@@ -98,4 +99,16 @@
           user-select: auto;
       }
     }
+}
+
+
+  
+
+.emptyNotificationArea {
+  border-bottom: 1px solid $DarkLine;
+}
+
+.inline-chat-notification-message {
+  text-align: center;
+  vertical-align: bottom;
 }

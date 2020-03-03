@@ -388,7 +388,6 @@
             },
             SendToAll() {
                 var usersToSendTo = state.users.map(x => x.Connection);
-                this.UnSelectAll();
                 connection.TransferChat(state.currentChat.Number, usersToSendTo, "");
                 this.close();
             },

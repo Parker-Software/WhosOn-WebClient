@@ -19,6 +19,7 @@ woServices.Add("DefaultState", function(){
         userInfo: null,
         currentStatus: 0,
         statusCanChangeAutomatically: true,
+        aquiringChatFrom: "",
         currentChat: {},
         currentChatSite: {},
         currentConnectionId: null,

@@ -24,7 +24,8 @@
                 TypingName: "",
                 SendingTypingStatus: false,
                 TypingTimer: null,
-                SelectedCannedResponse: null
+                SelectedCannedResponse: null,
+                Height: "0px",
             }
         }, 
         template: `
@@ -42,10 +43,11 @@
                 </div>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
-                        <div v-bind:id="ChatScrollerId" class="message-list no-gap-bottom" v-bind:style="{ height: chatHeight() }">
+                        <div v-bind:id="ChatScrollerId" class="message-list no-gap-bottom" v-bind:style="{ height: Height }">
                             <div v-for="(v,k) in GroupedMessages" class="messages">
                                 <chatConversationVisitor v-if="v.type === 0" :groupedMessage="v"></chatConversationVisitor>
-                                <chatConversationOperator v-if="v.type > 0" :groupedMessage="v"></chatConversationOperator>
+                                <chatConversationOperator v-if="v.type > 0 && v.type < 100" :groupedMessage="v"></chatConversationOperator>
+                                <inline-chat-notification v-if="v.type > 100" :msg="v"></inline-chat-notification>
                                 <br/>
                             </div>
                         </div>
@@ -74,7 +76,17 @@
             ></visitor-conversation-interaction>
         </div>
         `,
+        mounted() {
+            this.Height = this.ChatHeight();
+        },
+        created() {
+            window.onresize = () => {
+                this.Height = this.ChatHeight();
+            }
+        },
         updated() {
+            this.Height = this.ChatHeight();
+
             if(this.site == null) return;
 
             switch(this.site.WrapUp.Show) {
@@ -205,6 +217,10 @@
             hooks.Register(events.Chat.SuggestionFromServer, (msg) => {
                 this.HasSuggestion = true;
             });
+
+            hooks.Register(events.Connection.ChatAcquired, (e) => {
+                this.InteractionDisabled = true;
+            });
         },
         methods: {
             CannedResponsesClicked() {
@@ -228,9 +244,8 @@
                 hooks.Call(events.Chat.CannedResponses.Clicked, evnt);
             },
 
-            chatHeight() {
+            ChatHeight() {
                 var calc = document.body.offsetHeight;
-
                 var interaction = document.getElementById(this.ChatInteractionId);
                 var scroller = document.getElementById(this.ChatScrollerId);
 
@@ -378,7 +393,8 @@
                                 this.messages[k].code == message.code &&
                                 diff <= 10 &&
                                 this.messages[k].isLink == groupedMessage.isLink &&
-                                this.messages[k].isWhisper == groupedMessage.isWhisper) {
+                                this.messages[k].isWhisper == groupedMessage.isWhisper &&
+                                this.messages[k].code < 100) {
 
                                 groupedMessage.messages.push(this.messages[k]);
                                 groupedMessage.time = this.messages[k].date;
