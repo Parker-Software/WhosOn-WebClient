@@ -374,6 +374,14 @@
             self.Socket.Send("StopCurrentVisitorTotalsEvents");
         }
 
+        AquireChat(chatNumber) {
+            var self = this;
+
+            self.Socket.Send("AquireChat", [
+                chatNumber
+            ]);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();

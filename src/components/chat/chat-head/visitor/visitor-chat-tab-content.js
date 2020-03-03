@@ -1,6 +1,9 @@
 (function(services){
 
-    var state = services.Store.state;
+    const hooks = services.Hooks;
+    const events = services.HookEvents;
+    const state = services.Store.state;
+    const connection = services.WhosOnConn;
 
     Vue.component("visitor-chat-tab-content", {
         template: `

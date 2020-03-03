@@ -116,6 +116,47 @@
         }
     });       
 
+    hooks.Register(events.Connection.TransferConfirmed, (e) => {
+        var chat = state.chats.find(x => Number(x.Number) == Number(e.Data));
+
+        if(chat) {
+            var msg = {
+                code: 101,
+                date: new Date().toLocaleTimeString(),
+                msg: `Chat acquired from ${state.aquiringChatFrom}`
+            };
+
+            state.chatMessages[chat.ChatUID].push(msg)
+            state.currentChatMessages.push(msg);
+    
+            state.aquiringChatFrom = "";
+            hooks.Call(events.Chat.ScrollChat);
+        }
+    });
+
+
+    hooks.Register(events.Connection.ChatAcquired, (e) => {
+        var split = e.Data.split(":");
+        var chatNumber = split[0];
+        var opName = split[1];
+        
+        if(Number(chatNumber) == Number(state.currentChat.Number)) {
+            var chat = state.chats.find(x => Number(x.Number) == Number(chatNumber));
+
+            var msg = {
+                code: 101,
+                date: new Date().toLocaleTimeString(),
+                msg: `Chat has been acquired by ${opName}`
+            };
+
+            state.chatMessages[chat.ChatUID].push(msg)
+            state.currentChatMessages.push(msg);
+            hooks.Call(events.Chat.ScrollChat);
+        }
+    });
+
+
+
     hooks.Register(events.Connection.CurrentVisitorUploadedFile, (e) => {
         var chatBelongingTo = state.chats.find((v) => v.Number == e.Header);
         if(chatBelongingTo == null) {return;}
@@ -149,27 +190,30 @@
 
         var chat = e.Data;
         var chatUID = e.Data.ChatUID;
-        state.chatMessages[chatUID] = [];
-        for(var i = 0; i < chat.Lines.length; i++) {
-            var line = chat.Lines[i];
-            var parsedDate = new Date(line.Dated);
 
-            var isLink = false;
-            if(line.Message.indexOf("<link>") != -1) {
-                isLink = true;
+        if(state.chatMessages[chatUID] == null || state.chatMessages[chatUID].length <= 0) {
+            state.chatMessages[chatUID] = [];
+            
+            for(var i = 0; i < chat.Lines.length; i++) {
+                var line = chat.Lines[i];
+                var parsedDate = new Date(line.Dated);
+
+                var isLink = false;
+                if(line.Message.indexOf("<link>") != -1) {
+                    isLink = true;
+                }
+                state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
             }
 
-            state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
-        }
-        
-        state.chatMessages = Copy(state.chatMessages);
-        state.currentChatMessages = Copy(state.chatMessages[chatUID]);
-        state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
-            Copy(state.chatPreSurveys[chatNum]) :
-            [];
-        services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+            state.chatMessages = Copy(state.chatMessages);
+            state.currentChatMessages = Copy(state.chatMessages[chatUID]);
+            state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
+                Copy(state.chatPreSurveys[chatNum]) :
+                [];
 
-        services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
+            services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+            services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
+        }
     });
 
     
