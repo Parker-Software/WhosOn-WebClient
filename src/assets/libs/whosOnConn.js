@@ -323,7 +323,7 @@
 
         GetClientChat(userName, lowestId, searchText) {
             var self = this;
-            if(!searchText) searchText = ""; 
+            if(!searchText) {searchText = "";} 
             var params = [userName, lowestId, searchText];
             self.Socket.Send("GetClientChat", params);
         }
@@ -380,6 +380,16 @@
             self.Socket.Send("AquireChat", [
                 chatNumber
             ]);
+        }
+
+        StartListening() {
+            var self = this;
+            self.Socket.Send("StartListening");
+        }
+
+        StopListening() {
+            var self = this;
+            self.Socket.Send("StopListening");
         }
 
         Logout() {

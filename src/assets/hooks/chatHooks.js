@@ -3,6 +3,7 @@
     var state = services.Store.state;
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var connection = services.WhosOnConn;
 
     
     hooks.Register(events.Connection.CurrentChats, (e) => {
@@ -224,6 +225,9 @@
          var msg = e;
 
          state.chatPreSurveys[msg.Header] = msg.Data;
+         state.chatPreSurveys = Copy(state.chatPreSurveys);
+
+
          var hasCurrentChat = Object.keys(state.currentChat).length != 0;
          if(hasCurrentChat) {
              if(state.currentChat.Number == msg.Header) {
@@ -315,9 +319,9 @@
         var chat = state.chats.find(v => v.Number == chatNum);
 
         var chatObject = {
-            "code" : 1,
-            "date" : getDate(new Date()),
-            "msg" : message.Data
+            code : 1,
+            date : getDate(new Date()),
+            msg : message.Data
         }
         if(state.chatMessages[chat.ChatUID] == null) {state.chatMessages[chat.ChatUID] = [];}
         state.chatMessages[chat.ChatUID].push(chatObject);
@@ -332,5 +336,54 @@
         hooks.Call(events.Connection.ChatMessage, {Header:chatNum, Data:message.Data});
     });
 
+    hooks.Register(events.Connection.ListeningClient, (data) => {
+        var info = data.Header.split(":");
+        var chatNumber = info[0];
+        var chatuid = info[1];
+
+        var chat = state.chats.find(x => x.ChatUID == chatuid);
+
+        if(state.chatMessages[chatuid] == null) {
+            connection.GetPreviousChat(chat.SiteKey, chatuid);
+        } else {
+
+            if(chat.TalkingToClientConnection == state.currentConnectionId || chat.BeingMonitoredByYou) {return;}
+
+            state.chatMessages[chatuid].push({
+                date: new Date(),
+                code: 1,
+                msg: data.Data
+            });
+            state.chatMessages = Copy(state.chatMessages);
+        }
+    });
+    
+    hooks.Register(events.Connection.ListeningVisitor, (data) => {
+        var info = data.Header.split(":");
+        var chatNumber = info[0];
+        var chatuid = info[1];
+
+        var chat = state.chats.find(x => x.ChatUID == chatuid);
+
+        if(state.chatMessages[chatuid] == null) {
+            connection.GetPreviousChat(chat.SiteKey, chatuid);
+        } else {
+            if(chat.TalkingToClientConnection == state.currentConnectionId || chat.BeingMonitoredByYou) {return;}
+
+            hooks.Call(events.Connection.ChatMessage, {Header:chatNumber, Data:data.Data});
+        }
+    });
+
+    hooks.Register(events.Connection.PreviousChat, (e) => {
+        var chat = state.chats.find(x => x.ChatUID == e.Data.ChatUID);
+
+        if(chat) {
+            state.chatPreSurveys[chat.Number] = e.Data.PreChatSurvey;
+            state.chatPreSurveys = Copy(state.chatPreSurveys);
+
+            state.chatMessages[chat.ChatUID] = e.Data.Lines;
+            state.chatMessages = Copy(state.chatMessages);
+        }
+    });
 
 })(woServices);

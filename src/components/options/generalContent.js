@@ -42,10 +42,10 @@
                 <input id="enableAutoResponses" type="checkbox" v-model="$store.state.settings.ShowAutoResponse" name="enableAutoResponses" class="switch is-rounded">
                 <label for="enableAutoResponses"><small>Show canned response auto-responses</small></label>
             </div>-->
-            <!--<div class="field">
+            <div v-if="$store.state.rights.MonitorChats" class="field">
                 <input id="enableAutoMonitor" type="checkbox" v-model="$store.state.settings.ListenModeActive" name="enableAutoMonitor" class="switch is-rounded">
                 <label for="enableAutoMonitor"><small>Auto monitor all chats (supervisor mode)</small></label>
-            </div>-->
+            </div>
             <div class="field">
                 <input id="enableShowEmojis" type="checkbox" v-model="$store.state.settings.ShowEmoji" name="enableShowEmojis" class="switch is-rounded">
                 <label for="enableShowEmojis"><small>Show Emoji popup when chatting</small></label>

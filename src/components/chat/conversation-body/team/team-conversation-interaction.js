@@ -82,7 +82,7 @@
         },
         methods: {
             InputArea() {
-                return document.querySelector(`#team-conversation-interfaction #inputArea`);
+                return document.querySelector("#team-conversation-interfaction #inputArea");
             },
 
             EmojiClicked(emoji) {

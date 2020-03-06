@@ -32,6 +32,9 @@
                     chat.Status = chat.WaitedFor;
                 }
             });
+            
+
+            state.chats = Copy(state.chats);
         }
     }, 1000);
 

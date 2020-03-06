@@ -66,7 +66,9 @@
             OperatorLink: "linkfromclient",
             SiteVisitors: "ct",
             ChatAcquired: "chataquired",
-            TransferConfirmed: "transferconfirmed"
+            TransferConfirmed: "transferconfirmed",
+            ListeningClient: "listenc",
+            ListeningVisitor: "listenv"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -77,6 +79,7 @@
             ChatsClicked: "navigation.ChatsClicked",
             TeamClicked: "navigation.TeamClicked",
             OptionsClicked: "navigation.OptionsClicked",
+            MonitorClicked: "navigation.MonitorClicked",
             SitesClicked: "navigation.SitesClicked"
         },
         Team: {

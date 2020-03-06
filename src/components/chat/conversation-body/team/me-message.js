@@ -40,7 +40,7 @@
                         name = xml.getElementsByTagName("name")[0].innerHTML;
                         link = xml.getElementsByTagName("url")[0].innerHTML;
                     } else {
-                        var split = linkMessage.split('\t');
+                        var split = linkMessage.split("\t");
                         name = split[0];
                         link = split[1];
                     }

@@ -39,12 +39,12 @@ function IniExtraction(ini) {
 }
 
 function isVisible(elem) {
-    if(elem == null) return false;
-    if (!(elem instanceof Element)) throw Error('DomUtil: elem is not an element.');
+    if(elem == null) {return false;}
+    if (!(elem instanceof Element)) {throw Error("DomUtil: elem is not an element.");}
     const style = getComputedStyle(elem);
-    if (style.display === 'none') return false;
-    if (style.visibility !== 'visible') return false;
-    if (style.opacity < 0.1) return false;
+    if (style.display === "none") {return false;}
+    if (style.visibility !== "visible") {return false;}
+    if (style.opacity < 0.1) {return false;}
     if (elem.offsetWidth + elem.offsetHeight + elem.getBoundingClientRect().height +
         elem.getBoundingClientRect().width === 0) {
         return false;
@@ -53,13 +53,13 @@ function isVisible(elem) {
         x: elem.getBoundingClientRect().left + elem.offsetWidth / 2,
         y: elem.getBoundingClientRect().top + elem.offsetHeight / 2
     };
-    if (elemCenter.x < 0) return false;
-    if (elemCenter.x > (document.documentElement.clientWidth || window.innerWidth)) return false;
-    if (elemCenter.y < 0) return false;
-    if (elemCenter.y > (document.documentElement.clientHeight || window.innerHeight)) return false;
+    if (elemCenter.x < 0) {return false;}
+    if (elemCenter.x > (document.documentElement.clientWidth || window.innerWidth)) {return false;}
+    if (elemCenter.y < 0) {return false;}
+    if (elemCenter.y > (document.documentElement.clientHeight || window.innerHeight)) {return false;}
     let pointContainer = document.elementFromPoint(elemCenter.x, elemCenter.y);
     do {
-        if (pointContainer === elem) return true;
+        if (pointContainer === elem) {return true;}
     } while (pointContainer = pointContainer.parentNode);
     return false;
 }
@@ -91,8 +91,8 @@ function hasLink(text) {
 
 function linkToAnchor(link) {
     var newLink = link;
-    var hasProtocol = link.includes('http');
-    if (hasProtocol == false) newLink = `http://${newLink}`;
+    var hasProtocol = link.includes("http");
+    if (hasProtocol == false) {newLink = `http://${newLink}`;}
     return `<a href="${newLink}" target="_blank">${link}</a>`;
 }
   
