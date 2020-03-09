@@ -75,6 +75,7 @@ woServices.Add("DefaultState", function(){
             SuperAdmin: false,
             Invisible: false
         },
+        
         sites: {},
         sitesVisitors: {},
         skills: [],

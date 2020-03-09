@@ -96,7 +96,10 @@
             });
 
             hooks.Register(events.Connection.PreviousChat, (chat) => {
-                this.chatDetail = chat.Data;
+                if(this.selectedChat != null && chat.Data.ChatUID == this.selectedChat.ChatUID)
+                {
+                    this.chatDetail = chat.Data;
+                }
             });
         },
         methods: {

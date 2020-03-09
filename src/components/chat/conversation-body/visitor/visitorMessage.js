@@ -14,7 +14,7 @@
                 <div class="column is-8">  
                     <div class="visitor-message">
                         <div v-bind:class="{'fileMessage':groupedMessage.isLink}" class="notification visitor">
-                        <p class="top-text"><small>{{groupedMessage.Name}} <span v-if="preview">@</span> <time>{{groupedMessage.time}}</time></small></p>
+                        <p class="top-text"><small>{{groupedMessage.Name}} <span v-if="preview && groupedMessage.Name">@</span> <time>{{groupedMessage.time}}</time></small></p>
                         <p v-html="messageFormatted" class="visitor-message-text"></p>
                         </div>
                     </div>

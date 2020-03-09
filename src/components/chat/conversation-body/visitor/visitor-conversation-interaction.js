@@ -202,17 +202,21 @@
 
                 if (event.shiftKey == false &&
                     event.keyCode == 13 &&
-                    content.length > 0)
+                    text.length > 0)
                 {
+                    if(this.hasSuggestion == false) {
+                        content = text;
+                    } 
+
+
                     event.preventDefault();
-                    
                     var sendEvntArgs = {
                         ChatId: this.chat.ChatUID,
                         Suggestion: this.hasSuggestion,
                         ChatNumber: this.chat.Number,
                         Text: content,
                         Whisper: this.monitoring,
-                        To: this.chat.TalkingToClientConnection
+                        To: this.chat.TalkingToClientConnection,
                     };
                     
                     if (this.AttachedFile != null) {

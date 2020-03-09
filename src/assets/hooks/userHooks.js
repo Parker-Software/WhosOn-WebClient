@@ -3,6 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var store = services.Store;
+    var connection = services.WhosOnConn;
 
     hooks.Register(events.Connection.LoggedIn, (e) => {
         state.appTitle = e.Data.AppTitle;
@@ -57,6 +58,12 @@
                 var extracted = IniExtraction(settings[i]);
                 state.settings[extracted[0]] = extracted[1];
             }
+        }
+
+
+
+        if(state.settings.ListenModeActive) {
+            connection.StartListening();
         }
     });
 

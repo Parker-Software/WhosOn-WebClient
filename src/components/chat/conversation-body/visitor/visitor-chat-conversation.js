@@ -3,6 +3,7 @@
     const events = services.HookEvents;
     const state = services.Store.state;
     const connection = services.WhosOnConn;
+    const messageGrouper = services.MessageGrouper;
 
     Vue.component("visitor-chat-conversation", {   
         props: [
@@ -25,6 +26,7 @@
                 SendingTypingStatus: false,
                 TypingTimer: null,
                 SelectedCannedResponse: null,
+                OldHeight: "0px",
                 Height: "0px",
             }
         }, 
@@ -87,7 +89,7 @@
         updated() {
             this.Height = this.ChatHeight();
 
-            if(this.site == null) return;
+            if(this.site == null) {return;}
 
             switch(this.site.WrapUp.Show) {
                 case "From Start":
@@ -170,6 +172,8 @@
             hooks.Register(events.ChatItem.AcceptClicked, (e) => {
                 this.InteractionDisabled = false; 
                 this.HasSuggestion = false;
+
+                this.Height = this.ChatHeight();
             });
 
             hooks.Register(events.Chat.ScrollChat, (e) => {
@@ -191,12 +195,17 @@
             hooks.Register(events.ChatItem.MonitorClicked, (e) => {
                 this.HasSuggestion = false;
                 this.InteractionDisabled = false;
+
+                
+                this.Height = this.ChatHeight();
+                
+                this.ScrollChat();
             });
 
             hooks.Register(events.Connection.CurrentChatClosed, () => {
                 this.InteractionDisabled = true;
 
-                if(this.chat == null || this.site == null) return;
+                if(this.chat == null || this.site == null) {return;}
 
                 switch(this.site.WrapUp.Show) {
                     case "Session End":
@@ -211,7 +220,7 @@
             });
 
             hooks.Register(events.Navigation.ChatsClicked, () => {
-                if(this.chat != null) this.ScrollChat();
+                if(this.chat != null) {this.ScrollChat();}
             })
 
             hooks.Register(events.Chat.SuggestionFromServer, (msg) => {
@@ -221,6 +230,15 @@
             hooks.Register(events.Connection.ChatAcquired, (e) => {
                 this.InteractionDisabled = true;
             });
+
+            setInterval(() => {
+                var height = this.ChatHeight();
+                if(height != this.OldHeight) {
+                    this.Height = height;
+                    this.ScrollChat();
+                    this.OldHeight = this.Height;
+                }
+            }, 50);
         },
         methods: {
             CannedResponsesClicked() {
@@ -282,15 +300,6 @@
                 this.Container().style.float = "none";
             },
 
-            MessageDateToDate(date) {
-                var timeSplit = date.split(":");
-                var currentDate = new Date();
-                currentDate.setHours(timeSplit[0]);
-                currentDate.setMinutes(timeSplit[1]);
-                currentDate.setSeconds(timeSplit[2]);
-                return currentDate;
-            },
-
             SendToVisitor(eventArgs) {
                 if(eventArgs.Suggestion && eventArgs.AttachedFile) {
                     var idx = eventArgs.Text.indexOf("<span spellcheck=\"false\" contenteditable=\"false\" class=\"tag attachedFileToMessage noselect\">");
@@ -300,7 +309,7 @@
                     connection.SendFile(eventArgs.ChatNumber, eventArgs.AttachedFile.FileName, url);
                     var msg = {code:1, msg:`<link><name>${eventArgs.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
                     
-                    if(this.$store.state.chatMessages[eventArgs.ChatId] == null) this.$store.state.chatMessages[eventArgs.ChatId] = [];
+                    if(this.$store.state.chatMessages[eventArgs.ChatId] == null) {this.$store.state.chatMessages[eventArgs.ChatId] = [];}
                     this.$store.state.chatMessages[eventArgs.ChatId].push(msg);
                     this.$store.state.currentChatMessages.push(msg);
                 }
@@ -316,13 +325,15 @@
                     chat.Name = "You"
                 }
         
-                if(this.$store.state.chatMessages[eventArgs.ChatId] == null) this.$store.state.chatMessages[eventArgs.ChatId] = [];
+                if(this.$store.state.chatMessages[eventArgs.ChatId] == null) {this.$store.state.chatMessages[eventArgs.ChatId] = [];}
                 this.$store.state.chatMessages[eventArgs.ChatId].push(chat);
+
+                this.$store.state.chatMessages = Copy(this.$store.state.chatMessages);
 
                 this.$store.state.currentChatMessages.push(chat);
 
-                if(eventArgs.Whisper != true) connection.SendMessage(eventArgs.ChatNumber, eventArgs.Text);
-                else connection.Whisper(eventArgs.To, eventArgs.ChatNumber, eventArgs.Text);
+                if(eventArgs.Whisper != true) {connection.SendMessage(eventArgs.ChatNumber, eventArgs.Text);}
+                else {connection.Whisper(eventArgs.To, eventArgs.ChatNumber, eventArgs.Text);}
                 this.ScrollChat();
 
                 this.SendingTypingStatus = false;
@@ -368,36 +379,42 @@
                 var grouped = [];
                 for(var i = 0; i < this.messages.length; i++) {
                     var message = this.messages[i];
-                    var name = message.code == 0 ? this.chat.Name : this.chat.TalkingTo;
+                    var code = message.code != null ? message.code : message.OperatorIndex;
+                    var name = code == 0 ? this.chat.Name : this.chat.TalkingTo;
+
                     var groupedMessage = {
-                        type: message.code,
+                        type: code,
                         messages: [
                             message
                         ],
-                        time: message.date,
+                        time: message.date || message.Dated,
                         isLink: message.isLink || false,
                         isWhisper: message.isWhisper || false,
                         Name: name
                     };
+                    var currentTime = messageGrouper.MessageDateToDate(message.date || message.Dated);
 
-                    var currentTime = this.MessageDateToDate(message.date);
                     if(message.isLink == undefined || message.isLink == false) { 
                         for(var k = i + 1; k < this.messages.length; k++) {
-                            var messageTime = this.MessageDateToDate(this.messages[k].date);
+                            var olderMessage = this.messages[k];
+                            var olderCode = olderMessage.code != null ? olderMessage.code : olderMessage.OperatorIndex;
+
+                            var messageTime = messageGrouper.MessageDateToDate(olderMessage.date || olderMessage.Dated);
                             var diff = (messageTime - currentTime) / 1000;
 
-                            if(this.messages[k].isWhisper == undefined) {this.messages[k].isWhisper = false;}
-                            if(this.messages[k].isLink == undefined) {this.messages[k].isLink = false;}
+                            if(olderMessage.isWhisper == undefined) {olderMessage.isWhisper = false;}
+                            if(olderMessage.isLink == undefined) {olderMessage.isLink = false;}
 
                             if(
-                                this.messages[k].code == message.code &&
+                                olderCode == code &&
                                 diff <= 10 &&
-                                this.messages[k].isLink == groupedMessage.isLink &&
-                                this.messages[k].isWhisper == groupedMessage.isWhisper &&
-                                this.messages[k].code < 100) {
-
-                                groupedMessage.messages.push(this.messages[k]);
-                                groupedMessage.time = this.messages[k].date;
+                                olderMessage.isLink == groupedMessage.isLink &&
+                                olderMessage.isWhisper == groupedMessage.isWhisper &&
+                                olderCode < 100) {
+                                    
+                                olderMessage.msg = olderMessage.Message || olderMessage.msg;
+                                groupedMessage.messages.push(olderMessage);
+                                groupedMessage.time = olderMessage.date || olderMessage.Dated;
                             } else {
                                 break;
                             }
