@@ -12,6 +12,18 @@
             "messages",
             "site"
         ],  
+        watch: {
+            chat() {
+                switch(this.site.WrapUp.Show) {
+                    case "From Start":
+                            if (this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                        break;
+                    default:
+                        this.ShowWrapUp = false;
+                        console.log(`Wrap up not accounted for - ${this.site.WrapUp.Show}`);
+                }
+            }
+        },
         data: () => {
             return {
                 ShowWrapUp: false,
@@ -88,20 +100,6 @@
         },
         updated() {
             this.Height = this.ChatHeight();
-
-            if(this.site == null) {return;}
-
-            switch(this.site.WrapUp.Show) {
-                case "From Start":
-                        if(this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
-                    break;
-                default:
-                    this.ShowWrapUp = false;
-                    console.log(`Wrap up not accounted for - ${this.site.WrapUp.Show}`);
-            }
-
-
-            if(this.chat.WrapUpCompleted)  {this.ShowWrapUp = true;}
         },
         beforeCreate() {
             hooks.Register(events.Connection.VisitorTyping, (e) => {
@@ -211,7 +209,7 @@
                     case "Session End":
                     case "Window Close":
                     case "From Start":
-                            if(this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                            if (this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
                         break;
                     default:
                         this.ShowWrapUp = false;
