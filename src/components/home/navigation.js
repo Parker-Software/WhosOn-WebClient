@@ -12,6 +12,7 @@
                 showChats: true,
                 showTeam: false,
                 showSites: false,
+                showMonitorAll: false,
                 focus: "chats"
             }
         },
@@ -73,7 +74,7 @@
                             </a>
                         </li>
                         <li @click="OnNavButtonClicked('team')" id="usersNavButton" @mouseover="hoverSideBar(true,'team')" @mouseleave="hoverSideBar(false, 'team')">
-                            <a class="">
+                            <a>
                                 <span class="icon">
                                     <i class="fas fa-users"></i>
                                 </span>
@@ -81,8 +82,17 @@
                                 <span class="nav-label">Team</span>
                             </a>
                         </li>
+                        <li v-if="$store.state.settings.ListenModeActive && $store.state.rights.MonitorChats" @click="OnNavButtonClicked('monitor')" id="monitorNavButton"  @mouseover="hoverSideBar(false,'monitor')" @mouseleave="hoverSideBar(false, 'monitor')">
+                            <a>
+                                <span class="icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </span>
+                                <br>
+                                <span class="nav-label">Monitor All</span>
+                            </a>
+                        </li>
                         <li @click="OnNavButtonClicked('sites')" id="sitesNavButton" @mouseover="hoverSideBar(true,'sites')" @mouseleave="hoverSideBar(false, 'sites')">
-                            <a class="">
+                            <a>
                                 <span class="icon">
                                     <i class="fas fa-id-badge"></i>
                                 </span>
@@ -110,29 +120,32 @@
             hooks.Register(events.Options.SaveClicked, () => {
                 this.OnNavButtonClicked("chats");
             });
+
             hooks.Register(events.Options.CancelClicked, () => {
                 this.OnNavButtonClicked("chats");
             });
+
             hooks.Register(events.Connection.PasswordChanged, () => {
                 this.OnNavButtonClicked("chats");
             });
 
-            
-
             hooks.Register(events.Team.NotificationClicked, (user) => {
                 this.OnNavButtonClicked("team");
+            });
+
+            hooks.Register(events.Sites.Clicked, (site) => {
+                this.OnNavButtonClicked("sites");
             });
         },
         mounted() {
             this.$nextTick(function() {
                 window.addEventListener("resize", this.windowResize);          
-                //Init
                 this.windowResize()
               })
         },
         beforeDestroy() {
             window.removeEventListener("resize", this.windowResize);
-          },
+        },
         computed: {
             setOnlineActive() {
                 var status = this.$store.state.currentStatus;
@@ -156,11 +169,18 @@
                 if(this.isTablet() && this.focus != "options"){    
                     this.SideBar().classList.add("is-hidden"); 
                 }
-                if(!this.isTablet() && this.focus != "options"){               
+
+                if(this.isTablet() == false && this.focus != "options"){               
                     this.SideBar().classList.remove("is-hidden"); 
+                    this.OnNavButtonClicked(this.focus);
                 }
             },
             hoverSideBar: function (state, el) {    
+                if(el == "sidebar") {
+                    if(this.isTablet() && state == false) {this.SideBar().classList.add("is-hidden");}
+                    return;
+                }
+
                 if(this.isTablet()){ 
                     switch (el) {
                         case "chats":
@@ -178,7 +198,7 @@
                             this.showTeam = false;
                             this.showSites = true;
                             break;
-                        case "options":
+                        default:
                             this.showChats = false;
                             this.showTeam = false;
                             this.showSites = false;
@@ -186,8 +206,6 @@
                     }
                     if (state) {
                         this.SideBar().classList.remove("is-hidden");
-                    } else {
-                        this.SideBar().classList.add("is-hidden");  
                     }
                 } 
             },
@@ -224,6 +242,7 @@
                 this.UsersBtn().firstChild.classList.remove("is-active");
                 this.OptionsBtn().firstChild.classList.remove("is-active");
                 this.SitesBtn().firstChild.classList.remove("is-active");
+                if (this.MonitorAllBtn()) {this.MonitorAllBtn().firstChild.classList.remove("is-active");}
             },
             online() {
                 return document.getElementById("online");
@@ -248,6 +267,9 @@
             },
             OptionsBtn() {
                 return document.getElementById("optionsNavButton");
+            },
+            MonitorAllBtn() {
+                return document.getElementById("monitorNavButton");
             },
             SitesBtn() {
                 return document.getElementById("sitesNavButton");
@@ -287,9 +309,19 @@
                         this.SideBar().classList.remove("is-hidden");   
                         this.UsersBtn().firstChild.classList.add("is-active");
                         break;
+                    case "monitor":
+                        this.UnselectAll();   
+                        hooks.Call(navEvents.MonitorClicked);
+                        this.showChats = false;
+                        this.showTeam = false;     
+                        this.showSites = false;   
+                        this.showMonitorAll = true;       
+                        
+                        this.SideBar().classList.add("is-hidden");
+                        this.MonitorAllBtn().firstChild.classList.add("is-active");
+                        break;
                     case "sites":
-
-                        if(this.showSites == false) connection.GetDailySummary();
+                        if(this.showSites == false) {connection.GetDailySummary();}
 
                         this.UnselectAll();  
                         hooks.Call(navEvents.SitesClicked);   

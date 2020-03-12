@@ -65,6 +65,10 @@
             OperatorChat: "clientchat",
             OperatorLink: "linkfromclient",
             SiteVisitors: "ct",
+            ChatAcquired: "chataquired",
+            TransferConfirmed: "transferconfirmed",
+            ListeningClient: "listenc",
+            ListeningVisitor: "listenv"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
@@ -75,6 +79,7 @@
             ChatsClicked: "navigation.ChatsClicked",
             TeamClicked: "navigation.TeamClicked",
             OptionsClicked: "navigation.OptionsClicked",
+            MonitorClicked: "navigation.MonitorClicked",
             SitesClicked: "navigation.SitesClicked"
         },
         Team: {
@@ -115,6 +120,7 @@
             ChatTransfered: "home.chat.ChatTransfered",
             WrapUpClicked: "home.chat.WrapUpClicked",
             WrapUpNotCompleted: "home.chat.WrapUpNotCompleted",
+            AquireChatClicked: "home.chat.AquireChatClicked",
             CannedResponses : {
                 Clicked: "chat.cannedResponses.Clicked"
             }

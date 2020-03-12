@@ -12,6 +12,7 @@
                 showTeam: false,
                 showOptions: false,
                 showSites: false,
+                showMonitorAll: false,
                 chat: {
                     showNoActiveChats: true,
                     showActiveChats: false
@@ -43,6 +44,9 @@
                                     <optionsContent></optionsContent>
                                 </div>
                                 <optionsFooter></optionsFooter>
+                            </div>
+                            <div id="MonitorAll" v-show="showMonitorAll">
+                                <monitor-all-view :chats="$store.state.chats"></monitor-all-view>
                             </div>
                             <div id="Sites" class="sites"  v-bind:class="{'is-hidden': showSites == false}">
                                 <sitesArea></sitesArea>
@@ -97,6 +101,22 @@
                     this.showOptions = true;
                 });
 
+                hooks.Register(navEvents.MonitorClicked, (e) => {
+                    this.hideAll();
+                    this.showMonitorAll = true;
+
+
+                    for(var i = 0; i < this.$store.state.chats.length; i++) {
+                        var chat = this.$store.state.chats[i];
+                        var messages = this.$store.state.chatMessages[chat.ChatUID];
+
+                        if(messages == null || messages.length <= 0) {
+                            connection.GetPreviousChat(chat.SiteKey, chat.ChatUID);
+                        }
+
+                    }
+                });
+
                 hooks.Register(navEvents.SitesClicked, (e) => {
                     var alreadyViewing = document.getElementById("sitesNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
@@ -145,6 +165,7 @@
                     this.showTeam = false,
                     this.showOptions = false;
                     this.showSites = false;
+                    this.showMonitorAll = false;
                 },
                 showActiveChats() {
                     this.chat.showNoActiveChats = false;

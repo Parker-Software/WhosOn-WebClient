@@ -1,0 +1,85 @@
+.monitorAllView {
+    padding: 5px;
+    
+
+    .chat {
+        border-radius: 3px;
+        width: 300px;
+        border: 1px solid $DarkLine;
+        display: inline-block;
+        line-height: 1.2rem;
+
+        &.waiting {
+            border-color: $ThemeRoundButtonHover;
+        }
+    }
+
+    .chat:not(:first-child) {
+        margin-left: 0.5rem;
+    }
+
+    .chat-header {
+        padding: 8px;
+        background-color: $MonitorAllChatHeader;
+        position: relative;
+        overflow-y: scroll;
+        max-height:120px;
+
+
+        .chat-sentiment {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+        }
+
+        .waitingWarning {
+            color: $Unanswered;
+        }
+    }
+
+    .chat-surveys {
+        overflow-y: scroll;
+        max-height:120px;
+        flex-direction: column;
+        background-color: #F3F5F8;
+        font-size: 0.7rem;
+        
+        border-bottom: 1px solid $LessFaintBorder;
+        
+    }
+    
+
+    .info-item {
+        padding: 5px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+        width:100%;
+        min-height: 18px;
+        overflow:auto;
+
+        .fa-star {
+            color: gold;
+        }
+
+        .is-pulled-right {
+            width: 70%;
+            word-break: break-all;
+        }
+    }
+
+    .info-item-label {
+        width: 30%;
+        overflow: hidden;
+    }
+
+    .chat-content {
+        overflow-y: scroll;
+        margin: 8px;
+        padding: 8px;
+    }
+
+    .messages {
+        margin-bottom: 10px;
+    }
+
+}

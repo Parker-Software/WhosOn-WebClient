@@ -38,7 +38,7 @@
                 user.Connection != state.selectedOperatorToOperatorUser.Connection) {
                 createNotification();
 
-                if(state.operatorMessages[user.Username] == null) state.operatorMessages[user.Username] = [];
+                if(state.operatorMessages[user.Username] == null) {state.operatorMessages[user.Username] = [];}
                 state.operatorMessages[user.Username].push({
                     ID: 0,
                     Dated: new Date(),
@@ -65,7 +65,7 @@
         }
 
         function createNotification() {
-            if (notification != null) notification.close();
+            if (notification != null) {notification.close();}
             notification = 
                 services.Notifications.CreateNotification(
                     `Team Chat With ${user.Name}`,
@@ -178,12 +178,12 @@
             });
 
             hooks.Register(events.Connection.OperatorChat, (e) => {
-                if(e.Data.length <= 0) this.ShowGetPreviousLines = false;
+                if(e.Data.length <= 0) {this.ShowGetPreviousLines = false;}
             });
 
             hooks.Register(events.Team.OtherUserClicked, (user) => {
                 this.SearchText = "";
-                if (this.SearchElem() != null) this.SearchElem().value = "";
+                if (this.SearchElem() != null) {this.SearchElem().value = "";}
                 this.ShowGetPreviousLines = true;
                 this.InteractionDisabled = false;
             });
@@ -194,12 +194,12 @@
             });
 
             hooks.Register(events.Chat.CannedResponsesClicked, (type) => {
-                if (type != "team") return;
+                if (type != "team") {return;}
                 this.Split();
             });
 
             hooks.Register(events.Chat.CannedResponsesClosed, (type) => {
-                if (type != "team") return;
+                if (type != "team") {return;}
                 this.Normal();
             });
 
@@ -222,13 +222,13 @@
             },
 
             Split() {
-                if (this.Container() != null) this.Container().style.width = "calc(70% - 4px)";
-                if (this.Container() != null) this.Container().style.float = "left";
+                if (this.Container() != null) {this.Container().style.width = "calc(70% - 4px)";}
+                if (this.Container() != null) {this.Container().style.float = "left";}
             },
 
             Normal() {
-                if (this.Container() != null) this.Container().style.width = "calc(100% - 4px)";
-                if (this.Container() != null) this.Container().style.float = "none";
+                if (this.Container() != null) {this.Container().style.width = "calc(100% - 4px)";}
+                if (this.Container() != null) {this.Container().style.float = "none";}
             },
 
             ScrollChat() {

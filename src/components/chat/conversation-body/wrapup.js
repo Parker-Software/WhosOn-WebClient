@@ -7,12 +7,20 @@
     Vue.component("chatWrapUp", {    
         props: [
             "options"
-        ],      
+        ],  
+
         data: () => {
             return {
                 SelectedValue: null
             }
         }, 
+
+        mounted() {
+            if(this.options.Type == "List") {
+                this.SelectedValue = this.OptionsAsList[0];
+            }
+        },
+
         template: `
         <div id="wrapup" class="wrapup-block"> 
             <div class="wrapup-content" v-if="isWrapUpComplete">
@@ -30,13 +38,13 @@
                         </a>
                     </div>                    
                     <div v-if="options.Type == 'List'" > 
-                        <select class="wrapup-select">
+                        <select class="wrapup-select" v-model="SelectedValue">
                             <option v-for="item in OptionsAsList">
                                 {{item}}
                             </option>
                         </select>
                         <span>
-                            <a class="button is-option is-small">Select</a>
+                            <a class="button is-option is-small" v-on:click="SelectClicked($event)">Select</a>
                         </span>                      
                     </div>
                     <div v-if="options.Type == 'Menu'" class="tree-options" id="treeContainer"> 
@@ -88,12 +96,19 @@
                     this.SelectedValue);
                 state.currentChat.WrapUpCompleted = true;
             },
+
+            SelectClicked(e) {
+                this.Clicked(e, this.SelectedValue);
+            },
+
             CloseChat(){               
                 hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
             },
+
             AllTreeItems() {
                 return document.getElementById("treeContainer");
             },
+
             UnSelectAllTreeItems() {
                 var container = document.getElementById("treeContainer");
                 var elements = container.getElementsByClassName("selected");
@@ -102,6 +117,7 @@
                     elements[0].classList.remove("selected");
                 }
             },
+
             TreeItemClicked(item) {
                 this.UnSelectAllTreeItems();
                 this.GetTreeItemById(item).classList.add("selected");
@@ -109,6 +125,7 @@
                 var button = this.GetTreeButton();
                 button.disabled = false;
             },
+
             treeSelectButtonClicked(){
                 hooks.Call(events.Chat.WrapUpClicked);
                 this.isCompleted = true;
@@ -118,26 +135,32 @@
                     this.SelectedValue);
                 state.currentChat.WrapUpCompleted = true;
             },
+
             GetTreeItemById(item) {
                 return document.querySelector(`#wrapUpTree-${item.ID}`);
             },
+
             GetTreeButton(){
                 return document.getElementById("treeSelectButton");
             },
+
             AllOptions() {
                 return document.querySelectorAll(`#${this.id} .option`);
             },
+
             UnSelectAllListItems() {
                 var items = this.AllOptions();
                 for(var i = 0; i < items.length; i++) {
                     items[i].classList.remove("is-active");
                 }
             },
+
             ListItemClicked(e, item) {
                 this.UnSelectAllListItems();
                 e.target.classList.add("is-active");
                 this.SelectedValue = item;               
             },
+
             UnSelectAllButtons() {
                 var items = this.AllOptions();
                 for(var i = 0; i < items.length; i++) {
@@ -145,12 +168,14 @@
                     items[i].classList.add("is-info");
                 }
             },
+
             ButtonClicked(e, item) {
                 this.UnSelectAllButtons();
                 e.target.classList.remove("is-info");
                 e.target.classList.add("is-success");
                 this.SelectedValue = item;
             },
+
             HyperLinkClicked(e, item) {
                 state.currentChat.WrapUpCompleted = true;              
             }

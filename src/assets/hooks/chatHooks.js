@@ -3,6 +3,7 @@
     var state = services.Store.state;
     var hooks = services.Hooks;
     var events = services.HookEvents;
+    var connection = services.WhosOnConn;
 
     
     hooks.Register(events.Connection.CurrentChats, (e) => {
@@ -116,6 +117,47 @@
         }
     });       
 
+    hooks.Register(events.Connection.TransferConfirmed, (e) => {
+        var chat = state.chats.find(x => Number(x.Number) == Number(e.Data));
+
+        if(chat) {
+            var msg = {
+                code: 101,
+                date: new Date().toLocaleTimeString(),
+                msg: `Chat acquired from ${state.aquiringChatFrom}`
+            };
+
+            state.chatMessages[chat.ChatUID].push(msg)
+            state.currentChatMessages.push(msg);
+    
+            state.aquiringChatFrom = "";
+            hooks.Call(events.Chat.ScrollChat);
+        }
+    });
+
+
+    hooks.Register(events.Connection.ChatAcquired, (e) => {
+        var split = e.Data.split(":");
+        var chatNumber = split[0];
+        var opName = split[1];
+        
+        if(Number(chatNumber) == Number(state.currentChat.Number)) {
+            var chat = state.chats.find(x => Number(x.Number) == Number(chatNumber));
+
+            var msg = {
+                code: 101,
+                date: new Date().toLocaleTimeString(),
+                msg: `Chat has been acquired by ${opName}`
+            };
+
+            state.chatMessages[chat.ChatUID].push(msg)
+            state.currentChatMessages.push(msg);
+            hooks.Call(events.Chat.ScrollChat);
+        }
+    });
+
+
+
     hooks.Register(events.Connection.CurrentVisitorUploadedFile, (e) => {
         var chatBelongingTo = state.chats.find((v) => v.Number == e.Header);
         if(chatBelongingTo == null) {return;}
@@ -149,27 +191,30 @@
 
         var chat = e.Data;
         var chatUID = e.Data.ChatUID;
-        state.chatMessages[chatUID] = [];
-        for(var i = 0; i < chat.Lines.length; i++) {
-            var line = chat.Lines[i];
-            var parsedDate = new Date(line.Dated);
 
-            var isLink = false;
-            if(line.Message.indexOf("<link>") != -1) {
-                isLink = true;
+        if(state.chatMessages[chatUID] == null || state.chatMessages[chatUID].length <= 0) {
+            state.chatMessages[chatUID] = [];
+            
+            for(var i = 0; i < chat.Lines.length; i++) {
+                var line = chat.Lines[i];
+                var parsedDate = new Date(line.Dated);
+
+                var isLink = false;
+                if(line.Message.indexOf("<link>") != -1) {
+                    isLink = true;
+                }
+                state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
             }
 
-            state.chatMessages[chatUID].push({ code:line.OperatorIndex, msg:line.Message, date: getDate(parsedDate), isLink});
-        }
-        
-        state.chatMessages = Copy(state.chatMessages);
-        state.currentChatMessages = Copy(state.chatMessages[chatUID]);
-        state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
-            Copy(state.chatPreSurveys[chatNum]) :
-            [];
-        services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+            state.chatMessages = Copy(state.chatMessages);
+            state.currentChatMessages = Copy(state.chatMessages[chatUID]);
+            state.currentChatPreSurveys = typeof(state.chatPreSurveys[chatNum]) !== "undefined" ?
+                Copy(state.chatPreSurveys[chatNum]) :
+                [];
 
-        services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
+            services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
+            services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
+        }
     });
 
     
@@ -180,6 +225,9 @@
          var msg = e;
 
          state.chatPreSurveys[msg.Header] = msg.Data;
+         state.chatPreSurveys = Copy(state.chatPreSurveys);
+
+
          var hasCurrentChat = Object.keys(state.currentChat).length != 0;
          if(hasCurrentChat) {
              if(state.currentChat.Number == msg.Header) {
@@ -271,9 +319,9 @@
         var chat = state.chats.find(v => v.Number == chatNum);
 
         var chatObject = {
-            "code" : 1,
-            "date" : getDate(new Date()),
-            "msg" : message.Data
+            code : 1,
+            date : getDate(new Date()),
+            msg : message.Data
         }
         if(state.chatMessages[chat.ChatUID] == null) {state.chatMessages[chat.ChatUID] = [];}
         state.chatMessages[chat.ChatUID].push(chatObject);
@@ -288,5 +336,54 @@
         hooks.Call(events.Connection.ChatMessage, {Header:chatNum, Data:message.Data});
     });
 
+    hooks.Register(events.Connection.ListeningClient, (data) => {
+        var info = data.Header.split(":");
+        var chatNumber = info[0];
+        var chatuid = info[1];
+
+        var chat = state.chats.find(x => x.ChatUID == chatuid);
+
+        if(state.chatMessages[chatuid] == null) {
+            connection.GetPreviousChat(chat.SiteKey, chatuid);
+        } else {
+
+            if(chat.TalkingToClientConnection == state.currentConnectionId || chat.BeingMonitoredByYou) {return;}
+
+            state.chatMessages[chatuid].push({
+                date: new Date(),
+                code: 1,
+                msg: data.Data
+            });
+            state.chatMessages = Copy(state.chatMessages);
+        }
+    });
+    
+    hooks.Register(events.Connection.ListeningVisitor, (data) => {
+        var info = data.Header.split(":");
+        var chatNumber = info[0];
+        var chatuid = info[1];
+
+        var chat = state.chats.find(x => x.ChatUID == chatuid);
+
+        if(state.chatMessages[chatuid] == null) {
+            connection.GetPreviousChat(chat.SiteKey, chatuid);
+        } else {
+            if(chat.TalkingToClientConnection == state.currentConnectionId || chat.BeingMonitoredByYou) {return;}
+
+            hooks.Call(events.Connection.ChatMessage, {Header:chatNumber, Data:data.Data});
+        }
+    });
+
+    hooks.Register(events.Connection.PreviousChat, (e) => {
+        var chat = state.chats.find(x => x.ChatUID == e.Data.ChatUID);
+
+        if(chat) {
+            state.chatPreSurveys[chat.Number] = e.Data.PreChatSurvey;
+            state.chatPreSurveys = Copy(state.chatPreSurveys);
+
+            state.chatMessages[chat.ChatUID] = e.Data.Lines;
+            state.chatMessages = Copy(state.chatMessages);
+        }
+    });
 
 })(woServices);

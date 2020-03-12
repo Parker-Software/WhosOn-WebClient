@@ -203,12 +203,12 @@
                 return users;
             },
             ValidDepartments() {
-                if(this.ShowAvailableOnly) return this.Departments.filter(x => x.Status == 0);
-                else return this.Departments;
+                if(this.ShowAvailableOnly) {return this.Departments.filter(x => x.Status == 0);}
+                else {return this.Departments;}
             },
             ValidSkills() {
-                if(this.ShowAll == false) return this.Skills.filter(x => x.Status == 0);
-                else return this.Skills;
+                if(this.ShowAll == false) {return this.Skills.filter(x => x.Status == 0);}
+                else {return this.Skills;}
             },
             ValidSearchUsers() {
                 return this.ValidUsers.filter(x => 
@@ -267,7 +267,7 @@
                     var skill = skills[i];
                     results[i] = skill;
 
-                    var usersWithSkill = state.users.filter(x => x.Skills.split(',').indexOf(skill.Name) != -1);
+                    var usersWithSkill = state.users.filter(x => x.Skills.split(",").indexOf(skill.Name) != -1);
 
                     results[i].Count = usersWithSkill.length;
                     var online = usersWithSkill.filter(x => x.Status == 0);
@@ -329,13 +329,13 @@
                 finalMessage = finalMessage.replace(/%Name%/g, state.currentChat.Name);
 
                 if (this.Dialogues.ShowUser)
-                        connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);
+                        {connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);}
 
                 if (this.Dialogues.ShowDepartment)
-                        connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");
+                        {connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");}
 
                 if (this.Dialogues.ShowSkills)
-                        connection.TransferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");
+                        {connection.TransferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");}
 
                 
                 this.Dialogues.ShowUser = false;
@@ -388,7 +388,6 @@
             },
             SendToAll() {
                 var usersToSendTo = state.users.map(x => x.Connection);
-                this.UnSelectAll();
                 connection.TransferChat(state.currentChat.Number, usersToSendTo, "");
                 this.close();
             },
