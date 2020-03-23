@@ -280,8 +280,18 @@
         var data = acceptedChat.Data;
         var split = data.split(":");
         var chatId = split[0];
-        
         store.commit("chatAccepted", chatId);
+    });
+
+    hooks.Register(events.Connection.ForcedChatAccept, (forcedChat) => {
+        var data = forcedChat.Data;
+        var split = data.split(":");
+        var number = split[0];
+        var chat = state.chats.find(x => x.Number == number);
+
+        services.WhosOnConn.AcceptChat(number);
+        hooks.Call(events.ChatItem.AcceptClicked, {ChatId:chat.ChatUID, Number:number})
+
     });
 
     
