@@ -134,8 +134,10 @@
 
             hooks.Register(events.Connection.ChatChanged, (e) => {
                 if(this.chat.ChatUID == e.Data.ChatUID) {
-                    if(this.$store.state.currentChatMessages.length <= 0 || (
-                        this.$store.state.currentChatMessages.length == 1 && this.$store.state.currentChatMessages[0].code == 99)) {
+                    if(
+                        this.$store.state.currentChatMessages.length <= 0 || 
+                        (this.$store.state.currentChatMessages.length == 1 && this.$store.state.currentChatMessages[0].code == 99)
+                    ) {
                             if (this.InputArea() && this.InputArea().innerText == "") {
                                 var finalGreetings = this.$store.state.settings.Greeting;
                                 var currentTime = new Date();
@@ -145,6 +147,11 @@
                                 this.InputArea().innerText = finalGreetings;
                                 this.InputArea().focus();
                             }
+                    } else {
+                        if (this.InputArea()) {
+                            this.InputArea().innerText = "";
+                            this.InputArea().focus();
+                        }
                     }
                 }
             });

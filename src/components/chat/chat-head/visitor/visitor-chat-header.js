@@ -221,7 +221,10 @@
                 if(this.AquireBtn() != null) {this.AquireBtn().setAttribute("disabled", true);}
             },
             CloseClicked(e) {
-                var currentSiteWrapUpRequired = state.sites[state.currentChat.SiteKey].WrapUp.Required;
+                var currentSiteWrapUpRequired = 
+                    state.sites[state.currentChat.SiteKey].WrapUp.Required &&
+                    state.sites[state.currentChat.SiteKey].WrapUp.Enabled;
+                    
                 if(currentSiteWrapUpRequired == false || (currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted)) 
                 {
                     hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
