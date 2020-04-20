@@ -61,7 +61,13 @@
             hooks.Call(events.Connection.NewChat, chat);
         } else {
             var oldChat = state.chats.find((v) => v.ChatUID == data.ChatUID);
-            if(oldChat != null) {services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);}
+            if(oldChat != null) {
+                var chat = services.ChatFactory.FromChatChangedOld(data, oldChat, state.sites, state.users);
+
+                if(state.currentChat.ChatUID == chat.ChatUID) {
+                    state.currentChat = chat;
+                }
+            }
             else {
                 var site = state.sites[data.SiteKey];
                 var chat = services.ChatFactory.FromChatChangedNew(data, {
