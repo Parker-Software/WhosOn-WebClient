@@ -361,6 +361,7 @@
             BeingMonitoredByYou() {
                 return this.chat.BeingMonitoredByYou || false;
             },
+
             ValidSurveys() {
                 var valid = [];
                 for(var i = 0; i < this.surveys.length; i++) {
@@ -373,6 +374,7 @@
                 }
                 return valid;
             },
+
             GroupedMessages() {
                 var grouped = [];
                 for(var i = 0; i < this.messages.length; i++) {
@@ -390,6 +392,12 @@
                         isWhisper: message.isWhisper || false,
                         Name: name
                     };
+
+                    if(groupedMessage.isWhisper && this.chat.BeingMonitoredByYou == false) {
+                        groupedMessage.Name = this.chat.Monitoredby;
+                    }
+                    
+
                     var currentTime = messageGrouper.MessageDateToDate(message.date || message.Dated);
 
                     if(message.isLink == undefined || message.isLink == false) { 
