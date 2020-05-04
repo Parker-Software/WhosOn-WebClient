@@ -162,7 +162,7 @@
             methods: {
                 hideAll() {
                     this.showChat = false;
-                    this.showTeam = false,
+                    this.showTeam = false;
                     this.showOptions = false;
                     this.showSites = false;
                     this.showMonitorAll = false;
