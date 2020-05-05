@@ -9,7 +9,7 @@
         Connection: {
             Connected: "ConnectionConnected",
             Disconnected: "ConnectionDisconnected",
-            Error: "ConnectionError",
+            ConnectionError: "ConnectionError",
             CurrentChatClosed: "CurrentChatClosed",
             NewChat: "NewChat",
             LoggedIn: "connected",

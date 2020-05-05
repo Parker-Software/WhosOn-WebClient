@@ -23,7 +23,6 @@ woServices.Add("DefaultState", function(){
         currentChat: {},
         currentChatSite: {},
         currentConnectionId: null,
-        currentChatSite: {},
         preRenderedChats: [],
         currentChatMessages: [],
         currentChatPreSurveys: [],
