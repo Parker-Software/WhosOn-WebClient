@@ -61,6 +61,7 @@
             Clicked() {
                 this.$emit("Clicked", this.chat);
             },
+
             AddZero(string) {
                 if(Number(string) < 10) {string = String("0"+string);}
                 return string;

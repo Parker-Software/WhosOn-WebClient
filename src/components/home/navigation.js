@@ -73,6 +73,18 @@
                                 <span class="nav-label">Chats</span>
                             </a>
                         </li>
+                        <li v-if="$store.state.rights.RespondToMissedChats" @click="OnNavButtonClicked('missedchats')" id="missedchatsNavButton" @mouseover="hoverSideBar(true,'missedchats')" @mouseleave="hoverSideBar(false, 'missedchats')">
+                            <a>
+                                <span class="icon">
+                                    <span v-if="$store.state.missedChats.length > 0" class="menu-status away">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
+                                    <i class="fas fa-comment-exclamation"></i>
+                                </span>
+                                <br>
+                                <span class="nav-label">Missed Chats</span>
+                            </a>
+                        </li>
                         <li @click="OnNavButtonClicked('team')" id="usersNavButton" @mouseover="hoverSideBar(true,'team')" @mouseleave="hoverSideBar(false, 'team')">
                             <a>
                                 <span class="icon">
@@ -204,6 +216,7 @@
                             this.showSites = false;
                             break;
                     }
+
                     if (state) {
                         this.SideBar().classList.remove("is-hidden");
                     }
@@ -242,6 +255,7 @@
                 this.UsersBtn().firstChild.classList.remove("is-active");
                 this.OptionsBtn().firstChild.classList.remove("is-active");
                 this.SitesBtn().firstChild.classList.remove("is-active");
+                this.MissedChatsBtn().firstChild.classList.remove("is-active");
                 if (this.MonitorAllBtn()) {this.MonitorAllBtn().firstChild.classList.remove("is-active");}
             },
             online() {
@@ -273,6 +287,9 @@
             },
             SitesBtn() {
                 return document.getElementById("sitesNavButton");
+            },
+            MissedChatsBtn() {
+                return document.getElementById("missedchatsNavButton");
             },
             StatusPopout() {
                 return document.getElementById("statusPopout");
@@ -338,6 +355,14 @@
                         this.showTeam = false;     
                         this.SideBar().classList.add("is-hidden");
                         this.OptionsBtn().firstChild.classList.add("is-active");
+                        break;
+                    case "missedchats":
+                        this.UnselectAll();              
+                        hooks.Call(navEvents.MissedChatsClicked);
+                        this.showChats = false;
+                        this.showTeam = false;     
+                        this.SideBar().classList.add("is-hidden");
+                        this.MissedChatsBtn().firstChild.classList.add("is-active");
                         break;
                 }
             }

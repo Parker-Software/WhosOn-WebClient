@@ -35,6 +35,7 @@ woServices.Add("DefaultState", function(){
         chatMessages: {},
         chatPreSurveys: {},
         uploadedFiles: [],
+        missedChats: [],
         settings: {
             Theme: 0,
             AutoAwayEnabled: true,

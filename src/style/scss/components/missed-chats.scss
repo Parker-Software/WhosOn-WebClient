@@ -1,0 +1,48 @@
+.missed-chats {
+    left: 0;
+    width: calc(100% - 60px);
+
+    padding: 5px;
+    padding-bottom: 0;
+
+    .searchField {
+        width: calc(100% - 30px);
+        display: inline-block;
+    }
+
+    .field {
+        margin-bottom: 0;
+    }
+
+    input{
+        line-height: 1;
+        height:1.5rem;
+        font-size: 0.8rem;
+        background-color: transparent;
+    }
+
+    .icon {
+        height: 1.5rem !important;
+        width: 1.5rem !important;
+    }
+
+    
+    i
+    {   
+        &.fa-search {
+            color:$ThemeChatText;
+        }
+    }
+
+    .gridBtn {
+        float: left;
+        font-size: 0.35rem;
+        border: none !important;
+        outline: none !important;
+
+        span {
+            color: $ThemeToolbarHover;
+        }
+    }
+  }
+  
