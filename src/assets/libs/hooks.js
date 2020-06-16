@@ -80,7 +80,8 @@
             TeamClicked: "navigation.TeamClicked",
             OptionsClicked: "navigation.OptionsClicked",
             MonitorClicked: "navigation.MonitorClicked",
-            SitesClicked: "navigation.SitesClicked"
+            SitesClicked: "navigation.SitesClicked",
+            MissedChatsClicked: "navigation.MissedChatsClicked"
         },
         Team: {
             UserClicked: "team.userClicked",

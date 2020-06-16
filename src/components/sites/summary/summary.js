@@ -69,6 +69,7 @@
                         }
 
                         var date = new Date(monthlySummary.Date);
+
                         if(this.SameDay(date, this.UnixToDate(this.selectedDate))) {
                             var data = monthlySummary.Data.split("|");
                             summary = {

@@ -17,7 +17,7 @@ function Find(obj, predicate) {
 }
 
 function YNToBool(variable) {
-    return variable == "Y" ? true : false;
+    return variable.toLowerCase() == "y" ? true : false;
 }
 
 function IniExtraction(ini) {
