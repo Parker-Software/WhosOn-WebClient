@@ -73,10 +73,10 @@
                                 <span class="nav-label">Chats</span>
                             </a>
                         </li>
-                        <li v-if="$store.state.rights.RespondToMissedChats" @click="OnNavButtonClicked('missedchats')" id="missedchatsNavButton" @mouseover="hoverSideBar(true,'missedchats')" @mouseleave="hoverSideBar(false, 'missedchats')">
+                        <li v-if="$store.state.rights.RespondToMissedChats" @click="OnNavButtonClicked('missedchats')" id="missedchatsNavButton" @mouseover="hoverSideBar(true,'missedchats')" @mouseleave="hoverSideBar(false, 'sidebar')">
                             <a>
                                 <span class="icon">
-                                    <span v-if="$store.state.missedChats.length > 0" class="menu-status away">
+                                    <span v-if="$store.state.missedChats.filter(x => x.MissedResponseStarted == false).length > 0" class="menu-status away">
                                         <i class="fas fa-circle"></i>
                                     </span>
                                     <i class="fas fa-comment-exclamation"></i>
@@ -187,9 +187,12 @@
                     this.OnNavButtonClicked(this.focus);
                 }
             },
+
             hoverSideBar: function (state, el) {    
                 if(el == "sidebar") {
-                    if(this.isTablet() && state == false) {this.SideBar().classList.add("is-hidden");}
+                    if(this.isTablet() && state == false) {
+                        this.SideBar().classList.add("is-hidden");
+                    }
                     return;
                 }
 
@@ -222,33 +225,40 @@
                     }
                 } 
             },
+
             isTablet: () => {
              return window.matchMedia("(max-width: 1024px)").matches;
             },
+
             isHidden: function (el) {
                 var style = window.getComputedStyle(el);
                 return (style.display === "none")
             },
+
             setToOnline() {
                 hooks.Call(events.Home.StatusChanged, "online");
                 this.$store.state.statusCanChangeAutomatically = true;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
+
             setToBusy() {
                 hooks.Call(events.Home.StatusChanged, "busy");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
+
             setToBRB() {
                 hooks.Call(events.Home.StatusChanged, "brb");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
+
             setToAway() {
                 hooks.Call(events.Home.StatusChanged, "away");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
+
             UnselectAll() {
                 this.StatusBtn().firstChild.classList.remove("is-active");
                 this.ChatBtn().firstChild.classList.remove("is-active");
@@ -258,48 +268,63 @@
                 this.MissedChatsBtn().firstChild.classList.remove("is-active");
                 if (this.MonitorAllBtn()) {this.MonitorAllBtn().firstChild.classList.remove("is-active");}
             },
+
             online() {
                 return document.getElementById("online");
             },
+
             busy() {
                 return document.getElementById("busy");
             },
+
             brb() {
                 return document.getElementById("brb");
             },
+
             away() {
                 return document.getElementById("away");
             },
+
             StatusBtn() {
                 return document.getElementById("myStatusNavButton");
             },
+
             ChatBtn() {
                 return document.getElementById("chatsNavButton");
             },
+
             UsersBtn() {
                 return document.getElementById("usersNavButton");
             },
+
             OptionsBtn() {
                 return document.getElementById("optionsNavButton");
             },
+
             MonitorAllBtn() {
                 return document.getElementById("monitorNavButton");
             },
+
             SitesBtn() {
                 return document.getElementById("sitesNavButton");
             },
+
             MissedChatsBtn() {
                 return document.getElementById("missedchatsNavButton");
             },
+
             StatusPopout() {
                 return document.getElementById("statusPopout");
             },
+
             SideBar() {
                 return document.getElementById("sideBar");
             },
+
             ToggleStatus() {
                 this.StatusPopout().classList.toggle("is-hidden");
             },
+            
             OnNavButtonClicked(status) {
                 hooks.Call(navEvents.ButtonClicked, status);  
                 this.focus = status;        

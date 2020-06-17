@@ -69,49 +69,6 @@
     }
   }
 
-  .chat-header-icons {
-    margin-top: -4px;
-    font-size: 0.5rem;
-    a {
-      &:hover {
-        i {
-          color: $ThemeRoundButtonHover;
-          &.white {
-            color: $ThemeRoundButtonHoverText;
-          }
-        }
-      }
-    }
-    i {
-      color: $ThemeRoundButtonFill;
-      padding-left: 2px;
-    }
-
-    .white {
-      color: $ThemeRoundButtonText;
-    }
-
-    
-
-    button {
-      outline: none;
-      border: none;
-      margin: 0;
-      padding: 0;
-      color: $ThemeToolbarText;
-      font-size: 0.5rem;
-      cursor: pointer;
-      background-color: transparent;
-      width: 35px;
-      height: 35px;
-    }
-
-    button[disabled] {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-  }
-
   .tabs {
     margin-left: 10px;
     margin-right: 10px;
@@ -148,5 +105,51 @@
   @include desktop {
     width: calc(100% - (#{$activechats-width} + #{$sidebar-width}));
     left:$activechats-width;
+  }
+}
+
+
+
+
+.chat-header-icons {
+  margin-top: -4px;
+  font-size: 0.5rem;
+  a {
+    &:hover {
+      i {
+        color: $ThemeRoundButtonHover;
+        &.white {
+          color: $ThemeRoundButtonHoverText;
+        }
+      }
+    }
+  }
+  i {
+    color: $ThemeRoundButtonFill;
+    padding-left: 2px;
+  }
+
+  .white {
+    color: $ThemeRoundButtonText;
+  }
+
+  
+
+  button {
+    outline: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: $ThemeToolbarText;
+    font-size: 0.5rem;
+    cursor: pointer;
+    background-color: transparent;
+    width: 35px;
+    height: 35px;
+  }
+
+  button[disabled] {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }

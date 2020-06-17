@@ -392,6 +392,31 @@
             self.Socket.Send("StopListening");
         }
 
+        RespondingToMissedChat(chatid) {
+            var self = this;
+
+            self.Socket.Send("MissedChatResponding", [
+                chatid
+            ]);
+        }
+
+        RespondToMissedChat(chatid, text) {
+            var self = this;
+
+            self.Socket.Send("MissedChatResponded", [
+                chatid,
+                text
+            ]);
+        }
+
+        CancelResponseToMissedChat(chatid) {
+            var self = this;
+
+            self.Socket.Send("MissedChatRespondingCancel", [
+                chatid
+            ]);
+        }
+
         Logout() {
             var self = this;
             self.Socket.Close();

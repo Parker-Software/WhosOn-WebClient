@@ -1,4 +1,7 @@
 (function(services){
+
+    var state = services.Store.state;
+
     Vue.component("missed-chat", {
         props: [
             "chat",
@@ -26,10 +29,17 @@
                     <div v-if="chat.Message" class="summary">
                         {{chat.Message}}
                     </div>
+                    <div v-if="chat.MissedResponseStarted" class="responding">
+                        {{RespondingUser}} Is Responding
+                    </div>
                 </div>
             </div>
         `,
         computed: {
+            RespondingUser() {
+                return state.users.find(x => x.Username == this.chat.MissedResponseStartedBy).Name;
+            },
+
             Time() {
                 let time = new Date(this.chat.Started);
                 return `${this.AddZero(time.getHours())}:${this.AddZero(time.getMinutes())}`;
