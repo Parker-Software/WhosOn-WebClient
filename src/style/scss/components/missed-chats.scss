@@ -1,12 +1,22 @@
+$respondingYellow: #DAA520;
+
+.missedchats {
+    height: calc(100vh - 32px);
+    width: calc(100% - 80px);
+    position: relative;
+}
+
 .missed-chats {
+
+
+
     left: 0;
-    width: calc(100% - 60px);
 
     padding: 5px;
     padding-bottom: 0;
 
     .searchField {
-        width: calc(100% - 30px);
+        width: 100%;
         display: inline-block;
     }
 
@@ -44,5 +54,23 @@
             color: $ThemeToolbarHover;
         }
     }
+
+    .responding {
+        color: $respondingYellow;
+        font-weight: bold;
+        font-size: 0.7rem;
+        position: absolute;
+        bottom: 5px;
+    }
+
+    .summary {
+        bottom: 25px !important;
+    }
   }
+
+  
+.response {
+    height: 150px;
+    padding: 10px;
+}
   

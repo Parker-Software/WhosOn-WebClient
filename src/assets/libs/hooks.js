@@ -68,7 +68,9 @@
             ChatAcquired: "chataquired",
             TransferConfirmed: "transferconfirmed",
             ListeningClient: "listenc",
-            ListeningVisitor: "listenv"
+            ListeningVisitor: "listenv",
+            MissedChat: "missedchat",
+            MissedChatClosed: "missedchatclosed"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"

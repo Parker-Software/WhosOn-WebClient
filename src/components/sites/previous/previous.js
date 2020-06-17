@@ -86,7 +86,10 @@
                 </div>
             </div>
         `,
+
         beforeCreate() {
+            console.log("Created");
+
             hooks.Register(events.Connection.PreviousChats, (chats) => {
                 this.selectedChat = null;
                 this.chats = chats.Data;
@@ -102,30 +105,38 @@
                 }
             });
         },
+
         methods: {
             OperatorSelectElem() {
                 return document.getElementById("FilterByOperator");
             },
+            
             DepartmentSelectElem() {
                 return document.getElementById("FilterByDept");
             },
+
             VistiorSelectElem() {
                 return document.getElementById("FilterByVisitor");
             },
+
             RatingSelectElem() {
                 return document.getElementById("FilterByRating");
             },
+
             SentimentSelectElem() {
                 return document.getElementById("FilterBySentiment");
             },
+
             ChatClicked(chat) {  
                 if(chat == this.selectedChat) {return;}
                 this.selectedChat = chat;
                 connection.GetPreviousChat(this.site, this.selectedChat.ChatUID);
             },
+
             ViewChatCloseClicked() {
                 this.selectedChat = null
             },
+
             Filter() {
                 var operatorFiltered = this.FilterByOperator(this.chats, this.OperatorSelectElem().value);
                 var departmentFiltered = this.FilterByDepartment(operatorFiltered, this.DepartmentSelectElem().value);
@@ -134,6 +145,7 @@
                 var sentimentFiltered = this.FilterBySentiment(ratingFiltered, this.SentimentSelectElem().value);
                 this.groups = this.GroupChats(sentimentFiltered);
             },
+
             FilterByOperator(chats, operator) {
                 var results = [];
 
@@ -152,6 +164,7 @@
                 }
                 return results;
             },
+
             FilterByDepartment(chats, department) {
                 var results = [];
 
@@ -171,6 +184,7 @@
 
                 return results;
             },
+
             FilterByVisitor(chats, visitor) {
                 var results = [];
 
@@ -186,6 +200,7 @@
 
                 return results;
             },
+
             FilterByRating(chats, rating) {
                 var results = [];
 
@@ -203,6 +218,7 @@
 
                 return results;
             },
+
             FilterBySentiment(chats, sentiment) {
                 var results = [];
 
@@ -219,6 +235,7 @@
 
                 return results;
             },
+
             GroupChats(chats) {
                 var missed = [];
                 var notMissed = [];
@@ -244,6 +261,7 @@
                     },
                 ];
             },
+            
             GenerateSelectInfo() {
                 var results = {
                     operators: {},
