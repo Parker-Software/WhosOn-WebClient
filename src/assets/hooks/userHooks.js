@@ -117,8 +117,10 @@
     });
 
     hooks.Register(events.Socket.Closed, (e) => {
-        sessionStorage.clear();
-        store.commit("replaceEntireState", services.DefaultState());
+        if (connection.LoggedOut) {
+            sessionStorage.clear();
+            store.commit("replaceEntireState", services.DefaultState());
+        }
     });
 
     

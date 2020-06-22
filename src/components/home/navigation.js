@@ -265,7 +265,7 @@
                 this.UsersBtn().firstChild.classList.remove("is-active");
                 this.OptionsBtn().firstChild.classList.remove("is-active");
                 this.SitesBtn().firstChild.classList.remove("is-active");
-                this.MissedChatsBtn().firstChild.classList.remove("is-active");
+                if (this.MissedChatsBtn()) {this.MissedChatsBtn().firstChild.classList.remove("is-active");}
                 if (this.MonitorAllBtn()) {this.MonitorAllBtn().firstChild.classList.remove("is-active");}
             },
 
