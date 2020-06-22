@@ -10,6 +10,7 @@
             var self = this;
 
             self.Socket = services.Socket;
+            self.LoggedOut = false;
 
         
             hooks.Register(socketEvents.Opened, (e) => {
@@ -51,6 +52,8 @@
 
         Login(auth, displayName, department, phone, version, status, lang, platform, userName, password, apiKey) {
             var self = this;
+
+            self.LoggedOut = false;
 
             self.Socket.Send("login", [
                 auth, displayName, department, phone, version, status, lang, userName, password, platform, apiKey
@@ -419,6 +422,8 @@
 
         Logout() {
             var self = this;
+
+            self.LoggedOut = true;
             self.Socket.Close();
         }
 

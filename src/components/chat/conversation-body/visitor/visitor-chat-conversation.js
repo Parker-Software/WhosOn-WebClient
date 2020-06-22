@@ -14,6 +14,8 @@
         ],  
         watch: {
             chat() {
+                if(this.site == null) return;
+
                 switch(this.site.WrapUp.Show) {
                     case "From Start":
                             if (this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
