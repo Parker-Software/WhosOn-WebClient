@@ -147,9 +147,11 @@
                                 this.InputArea().innerText = finalGreetings;
                                 this.InputArea().focus();
                             }
+                            else {
+                                this.InputArea().innerText = "";
+                            }
                     } else {
                         if (this.InputArea()) {
-                            this.InputArea().innerText = "";
                             this.InputArea().focus();
                         }
                     }
