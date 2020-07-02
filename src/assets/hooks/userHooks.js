@@ -25,9 +25,11 @@
     });
 
     hooks.Register(events.Connection.UserInfo, (e) => {
+        if (state.userInfo == null || state.userName == e.Data.Username) {
         if(e.Data.User != null) {
             state.userInfo = e.Data.User;
         } else {state.userInfo = e.Data;}
+        }
 
         var split = state.userInfo.Rights.split("");
         state.rights.LoginToSettingsPortal = YNToBool(split[0]);
