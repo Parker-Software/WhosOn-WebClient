@@ -10,14 +10,27 @@
         template: `
         <div class="visitor-chat-tabs tabs">
             <ul>
-                <li id="conversationTab" class="chatTab is-active" @click="onTabClicked('conversation')"><a>Conversation</a></li>
+                <li 
+                    id="conversationTab"
+                    class="chatTab is-active"
+                    @click="onTabClicked('conversation')"
+                >
+                    <a>Conversation</a>
+                </li>
+                <li id="visitorTab"
+                    class="chatTab"
+                    @click="onTabClicked('visitor')"
+                >
+                    <a>Visitor</a>
+                </li>
+
                 <!--<li><a>Previous Chats</a></li>
-                <li><a>Visitor</a></li>
                 <li><a>Contact</a></li>-->
                 <li v-if="Object.keys($store.state.currentChatSite).length > 0 && $store.state.currentChatSite.CRM.Enabled && $store.state.currentChatSite.CRM.ShowClientForm" id="crmTab" class="chatTab" @click="onTabClicked('crm')"><a>CRM</a></li>
             </ul>
         </div>
         `,
+
         beforeCreate() {
             hooks.Register(events.Chat.ClickTab, (tab) => {
                 this.onTabClicked(tab);
@@ -31,15 +44,29 @@
                 }
             }, 100);
         },
+
         methods: {
             CRMTab() {
                 return document.getElementById("crmTab");
             },
+
+            ConversationTab() {
+                return document.querySelector(".visitor-chat-tabs #conversationTab");
+            },
+
+            VisitorTab() {
+                return document.querySelector(".visitor-chat-tabs #visitorTab");
+            },
+
             onTabClicked(tab) {
+                this.unSelectAll();
+                
                 switch(tab) {
                     case "conversation":
-                            this.unSelectAll();
-                            document.querySelector(".visitor-chat-tabs #conversationTab").classList.add("is-active");
+                            this.ConversationTab().classList.add("is-active");
+                        break;
+                    case "visitor":
+                            this.VisitorTab().classList.add("is-active");
                         break;
                     case "crm":
                             if(crmWindow == null) {crmWindow = window.open(state.crmURL, "Crm Form", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");}
@@ -56,6 +83,7 @@
 
                 hooks.Call(events.Chat.TabClicked, tab);
             },
+
             unSelectAll() {
                 var chatTabs = document.querySelectorAll(".visitor-chat-tabs .chatTab");
                 for(var i = 0; i < chatTabs.length; i++) {

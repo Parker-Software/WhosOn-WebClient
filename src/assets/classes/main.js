@@ -14,6 +14,7 @@
             var connection = services.WhosOnConn;
 
             connection.Connect(state.connectionAddress);
+            
             hooks.Register(events.Socket.Closed, (e) => {
                 connection.Connect(state.connectionAddress);
             });
@@ -23,7 +24,7 @@
                 connection.GetFiles();  
                 connection.GetCannedResponses();
                 connection.GetSkills();
-                //connection.StartVisitorEvents();
+                connection.StartVisitorEvents();
             });
 
             hooks.Register(connEvents.CurrentChats, (e) => {
