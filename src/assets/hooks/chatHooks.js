@@ -400,4 +400,15 @@
         }
     });
 
+
+    hooks.Register(events.Connection.VisitorDetails, (e) => {
+        let info = e.Header.split(":");
+        let chatId = info[3];
+
+        state.visitorDetail[chatId] = e.Data;
+
+        state.visitorDetail = Copy(state.visitorDetail);
+
+    });
+
 })(woServices);

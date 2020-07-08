@@ -1,0 +1,72 @@
+.visitorInfo {
+    padding: 10px;
+
+    height: calc(100% - 110px);
+    overflow: auto;
+
+    .info-header {
+        flex-direction: column;
+        font-size: 0.7rem;
+    }
+
+    .info-item {
+        
+        padding: 5px;
+        
+        padding-top: 2px;
+        padding-bottom: 2px;
+        width:100%;
+        min-height: 18px;
+        overflow:auto;
+
+        .fa-star {
+            color: gold;
+        }
+
+        .is-pulled-right {
+            //width: 70%;
+            word-break: break-all;
+        }
+    }
+
+    .info-item-label {
+        width: 120px;
+        overflow: hidden;
+    }
+
+    .info {
+        flex-direction: column;
+        font-size: 0.7rem;
+        padding: 5px;
+        
+        border-bottom: 1px solid $FaintBorder;
+    }
+
+    .info-pages-viewed {
+        padding: 5px;
+        font-size: 0.9rem;
+
+        th {
+            font-size: 0.7rem;
+            border: 0;
+            outline: 0;
+            color: $ThemeRoundButtonHover;
+        }
+
+        tr.page {
+            cursor: pointer;
+
+            &:hover {
+                color: $ThemeRoundButtonHover;
+            }
+        }
+
+        td {
+            font-size: 0.7rem;
+            border: 0;
+            outline: 0;
+            width: 50px;
+        }
+    }
+
+}

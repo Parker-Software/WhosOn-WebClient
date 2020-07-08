@@ -70,7 +70,8 @@
             ListeningClient: "listenc",
             ListeningVisitor: "listenv",
             MissedChat: "missedchat",
-            MissedChatClosed: "missedchatclosed"
+            MissedChatClosed: "missedchatclosed",
+            VisitorDetails: "visitdetailchat"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"
