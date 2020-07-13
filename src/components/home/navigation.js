@@ -67,6 +67,9 @@
                         <li @click="OnNavButtonClicked('chats')" id="chatsNavButton" @mouseover="hoverSideBar(true,'chats')" @mouseleave="hoverSideBar(false, 'chats')">
                             <a class="is-active">
                                 <span class="icon">
+                                    <span v-if="ChatNeedsResponse" class="menu-status away">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
                                     <i class="fas fa-comment-dots"></i>
                                 </span>
                                 <br>
@@ -159,21 +162,40 @@
             window.removeEventListener("resize", this.windowResize);
         },
         computed: {
+            
             setOnlineActive() {
                 var status = this.$store.state.currentStatus;
                 if (status === 0) {return "is-active";}
             },
+
             setBusyActive() {
                 var status = this.$store.state.currentStatus;
                 if (status === 1) {return "is-active";}
             },
+
             setBRBActive() {
                 var status = this.$store.state.currentStatus;
                 if (status === 2) {return "is-active";}
             },
+
             setAwayActive() {
                 var status = this.$store.state.currentStatus;
                 if (status === 3) {return "is-active";}
+            },
+
+            ChatNeedsResponse() {
+                var result = false;
+
+                Object.keys(this.$store.state.chatMessages).forEach(k => {
+                    let chatMessages = this.$store.state.chatMessages[k];
+
+                    let lastMessage = chatMessages[chatMessages.length - 1];
+                    if(lastMessage && lastMessage.code == 0) {
+                        result = true;
+                    }
+                });
+
+                return result;
             }
         },       
         methods: {            

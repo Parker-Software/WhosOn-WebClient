@@ -140,3 +140,20 @@ small {
 a:disabled {
     pointer-events: none !important;
 }
+
+
+
+.blink 
+{
+    animation: blinker 2s linear infinite;
+
+    border: 1px solid transparent;
+}
+  
+@keyframes blinker 
+{  
+    50%
+    {
+         border-color: red;
+    }
+}
