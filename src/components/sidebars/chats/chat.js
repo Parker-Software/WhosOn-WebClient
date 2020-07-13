@@ -44,7 +44,7 @@
         ],
         template: `
             <li @click="onClicked">
-                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat}" class="box status-border chat-info">
+                <div :class="{'is-selected':chat.IsActiveChat, 'beingMonitored':chat.BeingMonitoredByYou && chat.IsActiveChat, 'blink':WaitingResponse}" class="box status-border chat-info">
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
@@ -63,6 +63,17 @@
             MonitoredByWho() {
                 if(this.chat.Monitoredby == state.userInfo.Name) {return "You";}
                 else {return this.chat.Monitoredby;}
+            },
+
+            WaitingResponse() {
+                let chatMessages = this.$store.state.chatMessages[this.chat.ChatUID];
+
+                let lastMessage = chatMessages[chatMessages.length - 1];
+                if(lastMessage && lastMessage.code == 0) {
+                    return true;
+                }
+
+                return false;
             }
         },
         methods: {
