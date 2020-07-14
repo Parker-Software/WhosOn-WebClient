@@ -186,14 +186,21 @@
             ChatNeedsResponse() {
                 var result = false;
 
-                Object.keys(this.$store.state.chatMessages).forEach(k => {
-                    let chatMessages = this.$store.state.chatMessages[k];
+                for(let i = 0; i <  this.$store.state.chats.length; i++)
+                {
+                    let chat = this.$store.state.chats[i];
+                    let messages = this.$store.state.chatMessages[chat.ChatUID];
 
-                    let lastMessage = chatMessages[chatMessages.length - 1];
-                    if(lastMessage && lastMessage.code == 0) {
+                    if(messages) {
+                        let lastMessage = messages[messages.length - 1];
+                        if(lastMessage && lastMessage.code == 0) {
+                            result = true;
+                        }
+                    } else {
                         result = true;
                     }
-                });
+
+                }
 
                 return result;
             }
