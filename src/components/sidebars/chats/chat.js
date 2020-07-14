@@ -67,9 +67,13 @@
 
             WaitingResponse() {
                 let chatMessages = this.$store.state.chatMessages[this.chat.ChatUID];
-
-                let lastMessage = chatMessages[chatMessages.length - 1];
-                if(lastMessage && lastMessage.code == 0) {
+                
+                if(chatMessages) {
+                    let lastMessage = chatMessages[chatMessages.length - 1];
+                    if(lastMessage && lastMessage.code == 0) {
+                        return true;
+                    }
+                } else {
                     return true;
                 }
 

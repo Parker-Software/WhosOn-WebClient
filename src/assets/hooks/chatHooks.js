@@ -34,6 +34,18 @@
 
             state.activeChatCount = Object.keys(state.chats).length;
         }
+
+        
+
+        var reached = state.userInfo.MaxChats <= state.chats.length;
+
+        if(reached == false) {
+            connection.ChangeStatus("online");
+            state.statusCanChangeAutomatically = true;
+        } else {
+            connection.ChangeStatus("busy");
+            state.statusCanChangeAutomatically = false;
+        }
     });
 
     hooks.Register(events.Connection.ChatRequested, (e) => {
@@ -285,6 +297,16 @@
         var split = data.split(":");
         var chatId = split[0];
         store.commit("chatAccepted", chatId);
+
+        var reached = state.userInfo.MaxChats <= state.chats.length;
+
+        if(reached) {
+            connection.ChangeStatus("busy");
+            state.statusCanChangeAutomatically = false;
+        } else {
+            connection.ChangeStatus("online");
+            state.statusCanChangeAutomatically = true;
+        }
     });
 
     hooks.Register(events.Connection.ForcedChatAccept, (forcedChat) => {

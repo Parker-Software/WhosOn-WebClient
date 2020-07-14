@@ -71,11 +71,14 @@
             });
 
             hooks.Register(events.Inactivity.Active, () => {
-                if(state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("online");}
+                if (state.userInfo != null && state.statusCanChangeAutomatically)
+                {
+                    connection.ChangeStatus("online");
+                }
             });
 
             hooks.Register(events.Inactivity.Inactive, () => {
-                if(state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("away");}
+                if (state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("away");}
             });   
 
             hooks.Register(events.Inactivity.ShouldLogOut, () => {
