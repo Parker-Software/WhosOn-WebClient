@@ -30,7 +30,7 @@
         `,
         beforeCreate() {
             hooks.Register(events.Connection.PasswordChanged, (newPassword) => {
-                this.$store.state.password = newPassword;
+                this.$store.state.t = newPassword;
 
                 this.CurrentPassword().value = "";
                 this.NewPassword().value = "";
