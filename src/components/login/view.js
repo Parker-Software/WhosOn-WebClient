@@ -111,13 +111,13 @@
             });
 
             hooks.Register(connEvents.LoggedIn, () => {              
-                services.Store.commit("saveLoginDetails", { userName, password, department });
+                services.Store.commit("saveLoginDetails", { userName, t:password, department });
             });
 
             hooks.Register(connEvents.Connected, (e) => {
-                if(state.userName != null && state.userName != "" && state.password != null && state.password != "") {
+                if(state.userName != null && state.userName != "" && state.t != null && state.t != "") {
                     userName = state.userName;
-                    password = state.password;
+                    password = state.t;
                     department = state.department;
 
                     services.Authentication.Login(userName,
