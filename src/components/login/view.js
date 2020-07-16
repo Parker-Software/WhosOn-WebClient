@@ -155,7 +155,7 @@
             },
             resetPasswordRedirect() {
                 var sameServer = window.location.protocol + "//" + window.location.hostname + "/settings";
-                window.open((state.settingsPortalURL || sameServer) + "/ForgottenPassword.aspx", "Settings Portal Forgotten Password", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
+                window.open((state.settingsPortalAddress || sameServer) + "/ForgottenPassword.aspx", "Settings Portal Forgotten Password", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
             },
             createAccountRedirect() {
                 window.open("https://www.whoson.com/pricing", "Settings Portal Create Account", "alwaysRaised=yes,dependent=yes,resizable=no,scrollbars=no,width=700,height=800");
