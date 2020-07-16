@@ -142,6 +142,12 @@
                 self.showLoader = true;
                 var dataString = this.data.target.result;
                 var base64 = dataString.split("base64,")[1].trim();
+                
+                let key = `${state.userName}${state.time.toString()}`;
+                let t = CryptoJS.AES.decrypt(
+                    state.t,
+                    key
+                );
 
                 var soapContent = `<?xml version="1.0" encoding="utf-8"?>
                 <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -150,7 +156,7 @@
                       <Contents>${base64}</Contents>
                       <FileName>${self.file.name}</FileName>
                       <UserName>${state.userName}</UserName>
-                      <Password>${state.password}</Password>
+                      <Password>${t.toString(CryptoJS.enc.Utf8)}</Password>
                       <Domain>${self.domain}</Domain>
                     </DocumentWrite>
                   </soap:Body>

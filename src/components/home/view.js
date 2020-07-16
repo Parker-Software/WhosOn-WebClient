@@ -57,6 +57,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <changePassword />
                 </div>
             </section>
             `,
