@@ -63,17 +63,30 @@
             OptionsAsList() {
                 return this.options.Options.split("|");
             },
+
             OptionsAsTree() {
                 var options = new DOMParser().parseFromString(this.options.Options, "text/xml");
                 var rootItems = options.getElementsByTagName("Menu")[0].children[0].children;
-                var root = {
+
+                var actualRoot =   {
+                    ID: uuidv4(),
+                    Name: "Options",
                     children: []
                 };
+
+                var root = {
+                    children: [
+                      actualRoot
+                    ]
+                };
+
                 for(var i = 0; i < rootItems.length; i++) {
-                    OptionToTree(rootItems[i], root);
+                    OptionToTree(rootItems[i], actualRoot);
                 }
+
                 return root.children;
             },
+
             OptionsAsHyperLink() {
                 var split = this.options.Options.split("|");
                 return {
@@ -81,6 +94,7 @@
                     Caption: split[1]
                 }
             },
+
             isWrapUpComplete(){
                 return state.currentChat.WrapUpCompleted;
             }
@@ -181,6 +195,8 @@
             }
         }
     });
+
+    
     function OptionToTree(node, treeChild) {
         if(node.children.length > 0) {
             if(node.children[0].nodeName == "Name") {
