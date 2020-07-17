@@ -66,6 +66,13 @@
             },
 
             WaitingResponse() {
+                if (
+                    this.chat.TalkingToClientConnection != 0 &&
+                    this.chat.TalkingToClientConnection != this.$store.state.currentConnectionId
+                ) {
+                    return;
+                }
+
                 let chatMessages = this.$store.state.chatMessages[this.chat.ChatUID];
                 
                 if(chatMessages) {
