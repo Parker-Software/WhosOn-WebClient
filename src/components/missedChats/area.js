@@ -46,8 +46,38 @@
                         <br />
                         <br />
                         <div>
+                            <div v-if="CallbackNow.length > 0">
+                                <b class="previous-chats-title">Call Back Now: {{CallbackNow.length}}</b> 
+                                <br />
+                                <missed-chat 
+                                    v-for="item in CallbackNow" 
+                                    v-bind:key="item.id" 
+                                    class="now"
+                                    :chat="item" 
+                                    :selected="selectedChat == item" 
+                                    :callbackNow="true"
+                                    @Clicked="ChatClicked(item)"
+                                />
+                            </div>
+
+                            <div v-for="group in ChatsByDate(OtherCallbacks)" 
+                                v-if="tableView == false && group.collection.length > 0"
+                                class="group"
+                            >
+                                <b class="previous-chats-title">Call Back Waiting {{group.title}}: {{group.collection.length}}</b> 
+                                <br />
+                                <missed-chat 
+                                    v-for="item in group.collection" 
+                                    v-bind:key="item.id" 
+                                    :chat="item" 
+                                    :selected="selectedChat == item" 
+                                    @Clicked="ChatClicked(item)"
+                                />
+                            </div>
+
+
                             <!-- Grid View -->
-                            <div v-for="group in MissedChatsByDate" 
+                            <div v-for="group in ChatsByDate(MissedChats)" 
                                     v-if="tableView == false && group.collection.length > 0"
                                 class="group"
                             >
@@ -140,15 +170,49 @@
         },
 
         computed: {
-            MissedChatsByDate() {
+            MissedChats() {
+                return state.missedChats.filter(x => x.MissedWantsCallback == false);
+            },
+            
+            Callbacks() {
+                return state.missedChats.filter(x => x.MissedWantsCallback);
+            },
+
+            CallbackNow() {
+                return this.Callbacks.filter(x => new Date() >= new Date(x.MissedWantsCallbackOn));
+            },
+
+            OtherCallbacks() {
+                let now = this.CallbackNow;
+                return this.Callbacks.filter(x => now.indexOf(x) == -1);
+            },
+
+            Status() {
+                let count = state.missedChats.length;
+
+                if(count > 0) {
+                    let status = `Pending Missed Chats: ${count}`;
+
+                    if(this.Callbacks.length > 0) {
+                        status += ` (Call Backs: ${this.Callbacks.length})`;
+                    }
+
+                    return status;
+                } else {
+                    return "No Missed Chats";
+                }
+            }
+        },
+
+        methods: {
+            ChatsByDate(chats) {
                 let chatsByDate = {};
                 let current = new Date(); 
                 let yesterday = new Date();
                 yesterday.setDate(yesterday.getDate() - 1);
 
-                for(let i = 0; i < state.missedChats.length; i++) {
-                    let chat = state.missedChats[i];
-
+                for(let i = 0; i < chats.length; i++) {
+                    let chat = chats[i];
 
                     if(this.searchTerms && this.searchTerms.length > 0) {
                         var hasTerm = false;
@@ -173,8 +237,6 @@
                     let day = date.getDate();
 
                     let key = date.toDateString();
-                    chat.Site = state.sites[chat.SiteKey].Name;
-                
 
                     if(chatsByDate[key] == null) {
                         let title = key; 
@@ -210,18 +272,7 @@
                 return chatsByDate;
             },
 
-            Status() {
-                let count = state.missedChats.length;
 
-                if(count > 0) {
-                    return `Pending Missed Chats: ${count}`
-                } else {
-                    return "No Missed Chats";
-                }
-            }
-        },
-
-        methods: {
             ChatClicked(chat) {
                 if(chat == this.selectedChat) {return;}
                 this.selectedChat = chat;

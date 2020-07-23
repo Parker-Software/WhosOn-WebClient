@@ -79,8 +79,11 @@
                         <li v-if="$store.state.rights.RespondToMissedChats" @click="OnNavButtonClicked('missedchats')" id="missedchatsNavButton" @mouseover="hoverSideBar(true,'missedchats')" @mouseleave="hoverSideBar(false, 'sidebar')">
                             <a>
                                 <span class="icon">
-                                    <span v-if="$store.state.missedChats.filter(x => x.MissedResponseStarted == false).length > 0" class="menu-status away">
-                                        <i class="fas fa-circle"></i>
+                                    <span 
+                                        v-if="$store.state.missedChats.filter(x => x.MissedResponseStarted == false).length > 0"
+                                        class="menu-status" 
+                                        v-bind:class="{'brb': CallbackNow.length > 0, 'away': CallbackNow.length <= 0}">
+                                            <i class="fas fa-circle"></i>
                                     </span>
                                     <i class="fas fa-comment-exclamation"></i>
                                 </span>
@@ -203,6 +206,12 @@
                 }
 
                 return result;
+            },
+
+            CallbackNow() {
+                return this.$store.state.missedChats
+                    .filter(x => x.MissedWantsCallback)
+                    .filter(x => new Date() >= new Date(x.MissedWantsCallbackOn));
             }
         },       
         methods: {            

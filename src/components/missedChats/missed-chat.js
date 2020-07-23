@@ -5,7 +5,8 @@
     Vue.component("missed-chat", {
         props: [
             "chat",
-            "selected"
+            "selected",
+            "callbackNow"
         ],
         template: `
             <div class="chatCard missed" v-bind:class="{selected: selected}" v-on:click="Clicked">
@@ -20,10 +21,18 @@
                     </div>
                     <div>
                         <div>
-                            <b>{{chat.Site}}</b>
+                            <b>{{Site}}</b>
                         </div>
-                        <div>
+                        <div v-if="chat.MissedWantsCallback == false">
                             <b><span class="dept">{{chat.Email}}</span></b>
+                        </div>
+                        <div v-if="chat.MissedWantsCallback">
+                            <div style="float:left;">
+                                <b><span class="dept">{{chat.Phone}}</span></b>
+                            </div>
+                            <div style="float:right;">
+                                <i class="fas fa-phone"></i>
+                            </div>
                         </div>
                     </div>
                     <div v-if="chat.Message" class="summary">
@@ -36,6 +45,10 @@
             </div>
         `,
         computed: {
+            Site() {
+                return state.sites[this.chat.SiteKey].Name;
+            },
+
             RespondingUser() {
                 return state.users.find(x => x.Username == this.chat.MissedResponseStartedBy).Name;
             },

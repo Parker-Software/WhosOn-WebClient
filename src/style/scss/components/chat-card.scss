@@ -84,12 +84,22 @@
     }
 
     &.missed {
-        -webkit-box-shadow: 0px 0px 0px 1px indianred;;
-        -moz-box-shadow: 0px 0px 0px 1px indianred;;
-        box-shadow: 0px 0px 0px 1px indianred;;
+        -webkit-box-shadow: 0px 0px 0px 1px indianred;
+        -moz-box-shadow: 0px 0px 0px 1px indianred;
+        box-shadow: 0px 0px 0px 1px indianred;
 
         .card-status {
             background-color: indianred;
+        }
+    }
+
+    &.now {
+        -webkit-box-shadow: 0px 0px 0px 1px gold;
+        -moz-box-shadow: 0px 0px 0px 1px gold;
+        box-shadow: 0px 0px 0px 1px gold;
+
+        .card-status {
+            background-color: gold;
         }
     }
 
