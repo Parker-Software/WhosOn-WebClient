@@ -15,6 +15,7 @@
                 selectedTab: ""
             }
         },
+
         template: `
             <div class="chat-area sites-area">
                 <div v-if="Object.keys(site).length > 0">
@@ -27,6 +28,7 @@
                                     <small>{{site.Domain}}</small>
                                 </div>
                                 <div class="chat-header-icons is-pulled-right">
+                                    <input ref="calendar" type="date" v-model="SelectedDate">
                                     <button id="moveBackBtn" class="has-tooltip-left" data-tooltip="View Previous Day" v-on:click="MoveBack">
                                         <span class="fa-stack fa-2x">
                                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -81,6 +83,7 @@
                 </div>
             </div>
         `,
+
         beforeCreate() {
             hooks.Register(events.Sites.Clicked, (site) => {
                 if(site == this.site.SiteKey) {return;}
@@ -104,14 +107,44 @@
                 this.chats = chats.Data;
             });
         },
+
+        watch: {
+            selectedDate: function(newV, oldV) {
+                let date = this.UnixToDate(newV);
+                connection.GetPreviousChats(
+                    this.site.SiteKey,
+                    `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+                );
+            }
+        },
+
         computed: {
+            Calendar() {
+                return this.$refs.calendar;
+            },
+
             Today() {
                 return new Date();
             },
+
             CanSeeSummary() {
                 return this.$store.state.rights.ViewDailySummary;
+            },
+
+            SelectedDate: {
+                get: function() {
+                    return this.FormatDate(
+                        this.UnixToDate(this.selectedDate)
+                    );
+                },
+
+                set: function(val) {
+                    let date = new Date(val);
+                    this.selectedDate = Math.floor(date.getTime() / 1000);
+                }
             }
         },
+
         methods: {
             SelectedTab() {
                 if(this.selectedTab == "") {
@@ -124,44 +157,60 @@
                     return this.selectedTab;
                 }
             },
+
             Tabs() {
                 return document.querySelectorAll(".sites-area .tabs li");
             },
+
             TabClicked(tab) {
                 this.selectedTab = tab;
             },
+
             SameDay(date1, date2) {
                 return  date1.getFullYear() == date2.getFullYear() &&
                         date1.getMonth() == date2.getMonth() &&
                         date1.getDate() == date2.getDate();
             },
+
             IsToday(unix) {
                 var date = this.UnixToDate(unix);
                 return this.SameDay(date, this.Today);
             },
+
             IsYesterday(unix) {
                 var date = this.UnixToDate(unix);
                 return  date.getFullYear() == this.Today.getFullYear() &&
                         date.getMonth() == this.Today.getMonth() &&
                         date.getDate() == this.Today.getDate() - 1;
             },
+
             MoveBack() {
                 var date = this.UnixToDate(this.selectedDate);
                 date.setDate(date.getDate() - 1);
                 this.selectedDate = Math.floor(date.getTime() / 1000);
-
-                connection.GetPreviousChats(this.site.SiteKey, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
             },
+
             MoveForward() {
                 var date = this.UnixToDate(this.selectedDate);
                 date.setDate(date.getDate() + 1);
                 this.selectedDate = Math.floor(date.getTime() / 1000);
-
-
-                connection.GetPreviousChats(this.site.SiteKey, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
             },
+            
             UnixToDate(UNIX_timestamp) {
                 return new Date(UNIX_timestamp * 1000);
+            },
+
+            FormatDate(date) {
+                let month = this.AddZero(date.getMonth()+1);
+                let day = this.AddZero(date.getDate());
+
+
+                return `${date.getFullYear()}-${month}-${day}`;
+            },
+
+            AddZero(string) {
+                if(Number(string) < 10) {string = String("0"+string);}
+                return string;
             }
         }
     });
