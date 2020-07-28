@@ -104,6 +104,8 @@
                 var element = document.getElementById("homeActiveChats");
                 var wrapper = document.getElementById("active-chats-wrapper");
                 if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == state.currentConnectionId) {
+                    var inputArea = document.getElementById("inputArea");
+                    if (inputArea != null) inputArea.innerText = "";
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
                     element.classList.toggle("show");   
                     wrapper.classList.toggle("opacity");
