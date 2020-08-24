@@ -5,13 +5,16 @@
     var state = services.Store.state;
 
     hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {
-        services.WhosOnConn.CloseChat(chatNum);               
-        state.chats.forEach(function(chat){
-            if (chat.TalkingTo == state.userName && chat.ChatUID != state.currentChat.ChatUID) {
-                hooks.Call(events.ChatItem.AcceptClicked, {"Number": chat.Number, "ChatId": chat.ChatUID});
-            }
-        })
+        services.WhosOnConn.CloseChat(chatNum);
+        state.currentChat = {};
 
+        setTimeout(function() {
+            state.chats.forEach(function(chat){
+                if (chat.Number != chatNum && chat.TalkingToClientConnection == state.currentConnectionId) {
+                    hooks.Call(events.ChatItem.AcceptClicked, {"Number": chat.Number, "ChatId": chat.ChatUID});
+                }
+            });
+        }, 200);
     });
 
     hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {

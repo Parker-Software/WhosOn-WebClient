@@ -50,7 +50,7 @@
                 </div>
                 <div class="column is-full" style="padding-top:0.5rem;">
                     <div id="inputArea" v-bind:class="{'beingMonitored':monitoring}" class="textarea" contenteditable="true" placeholder="Enter your reply"
-                        style="resize: none;" v-on:keydown="OnKeyDown" @focus="ShowingEmojiMenu = false"
+                        style="resize: none;" v-on:keydown="OnKeyDown" v-on:keyup="OnKeyUp" @focus="ShowingEmojiMenu = false"
                         v-bind:contenteditable="!disabled" v-bind:disabled="disabled">
                     </div>
                 </div>
@@ -133,28 +133,38 @@
             });
 
             hooks.Register(events.Connection.ChatChanged, (e) => {
-                if(this.chat.ChatUID == e.Data.ChatUID) {
-                    if(
-                        this.$store.state.currentChatMessages.length <= 0 || 
-                        (this.$store.state.currentChatMessages.length == 1 && this.$store.state.currentChatMessages[0].code == 99)
-                    ) {
-                            if (this.InputArea() && this.InputArea().innerText == "") {
-                                var finalGreetings = this.$store.state.settings.Greeting;
-                                var currentTime = new Date();
-                                finalGreetings = finalGreetings.replace(/%TimeOfDay%/g, `${currentTime.getHours() < 12 ? "Morning" : "Afternoon"}`);
-                                finalGreetings = finalGreetings.replace(/%Name%/g, this.$store.state.currentChat.Name);
-                                finalGreetings = finalGreetings.replace(/%MyName%/g, this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName);
-                                this.InputArea().innerText = finalGreetings;
-                                this.InputArea().focus();
-                            }
-                            else {
-                                this.InputArea().innerText = "";
-                            }
+                if(this.chat.ChatUID == e.Data.ChatUID && this.InputArea()) {
+
+                    let hasPreviousChatInput = this.chat.SavedInputText;
+
+                    if(hasPreviousChatInput) {
+                        this.InputArea().innerText = hasPreviousChatInput;
+
                     } else {
-                        if (this.InputArea()) {
-                            this.InputArea().focus();
+                        let greetings = this.$store.state.settings.Greeting;
+                        var currentTime = new Date();
+                        greetings = greetings.replace(/%TimeOfDay%/g, `${currentTime.getHours() < 12 ? "Morning" : "Afternoon"}`);
+                        greetings = greetings.replace(/%Name%/g, this.$store.state.currentChat.Name);
+                        greetings = greetings.replace(/%MyName%/g, this.$store.state.userInfo !== null ? this.$store.state.userInfo.Name : this.$store.state.userName);
+                        
+                        let opMessage = this.$store.state.currentChatMessages.find(x => x.code != 99 && x.code != 0);
+
+                        if(
+                            this.$store.state.currentChatMessages.length <= 0 || 
+                            opMessage == null
+                        ) {
+                                if (this.InputArea().innerText == "") {
+                                    this.InputArea().innerText = greetings;
+                                }
+                                else {
+                                    this.InputArea().innerText = "";
+                                }
                         }
+
                     }
+                   
+
+                    this.InputArea().focus();
                 }
             });
         },
@@ -241,6 +251,12 @@
                     }
                 }
             },
+
+            OnKeyUp(event) {
+                var text = this.InputArea().innerText.trim();
+                let chat = this.$store.state.chats.find(x => x.ChatUID == this.chat.ChatUID);
+                chat.SavedInputText = text;
+            }
         }
     });
 })(woServices);

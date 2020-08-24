@@ -39,7 +39,7 @@
 
         var reached = state.userInfo.MaxChats <= state.chats.length;
 
-        if(reached == false) {
+        if(state.userInfo.MaxChats == 0 || reached == false) {
             connection.ChangeStatus("online");
             state.statusCanChangeAutomatically = true;
         } else {
@@ -300,7 +300,7 @@
 
         var reached = state.userInfo.MaxChats <= state.chats.length;
 
-        if(reached) {
+        if(state.userInfo.MaxChats != 0 && reached) {
             connection.ChangeStatus("busy");
             state.statusCanChangeAutomatically = false;
         } else {
@@ -310,14 +310,22 @@
     });
 
     hooks.Register(events.Connection.ForcedChatAccept, (forcedChat) => {
+        
         var data = forcedChat.Data;
         var split = data.split(":");
         var number = split[0];
         var chat = state.chats.find(x => x.Number == number);
 
-        services.WhosOnConn.AcceptChat(number);
-        hooks.Call(events.ChatItem.AcceptClicked, {ChatId:chat.ChatUID, Number:number})
 
+        var validCurrentChat = state.currentChat != null && Object.keys(state.currentChat).length > 0;
+
+        if(chat != null) {
+            if(validCurrentChat == false) {
+                hooks.Call(events.ChatItem.AcceptClicked, {ChatId:chat.ChatUID, Number:number});
+            } else {
+                services.WhosOnConn.AcceptChat(number);
+            }
+        }
     });
 
     
