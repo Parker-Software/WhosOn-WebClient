@@ -156,9 +156,6 @@
                                 if (this.InputArea().innerText == "") {
                                     this.InputArea().innerText = greetings;
                                 }
-                                else {
-                                    this.InputArea().innerText = "";
-                                }
                         }
 
                     }

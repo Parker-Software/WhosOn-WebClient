@@ -35,9 +35,8 @@
             state.activeChatCount = Object.keys(state.chats).length;
         }
 
-        
-
-        var reached = state.userInfo.MaxChats <= state.chats.length;
+        var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
+        var reached = state.userInfo.MaxChats <= yourChats.length;
 
         if(state.userInfo.MaxChats == 0 || reached == false) {
             connection.ChangeStatus("online");
@@ -298,7 +297,8 @@
         var chatId = split[0];
         store.commit("chatAccepted", chatId);
 
-        var reached = state.userInfo.MaxChats <= state.chats.length;
+        var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
+        var reached = state.userInfo.MaxChats <= yourChats.length;
 
         if(state.userInfo.MaxChats != 0 && reached) {
             connection.ChangeStatus("busy");
