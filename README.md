@@ -1,3 +1,6 @@
+# Dev Note
+Don't put any new content in the index.html since it will not be updated til an install.
+
 # Introduction 
 WhosOn Webclient proof of concept.  Uses vuejs and websockets.
 

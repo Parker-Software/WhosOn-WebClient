@@ -88,7 +88,6 @@
         `,
 
         beforeCreate() {
-            console.log("Created");
 
             hooks.Register(events.Connection.PreviousChats, (chats) => {
                 this.selectedChat = null;

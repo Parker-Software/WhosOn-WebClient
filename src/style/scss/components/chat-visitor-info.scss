@@ -1,7 +1,7 @@
 .visitorInfo {
     padding: 10px;
 
-    height: calc(100% - 110px);
+    /*height: calc(100% - 110px);*/
     overflow: auto;
 
     .info-header {
@@ -30,7 +30,6 @@
     }
 
     .info-item-label {
-        width: 120px;
         overflow: hidden;
     }
 
