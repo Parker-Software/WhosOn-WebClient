@@ -111,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="selectedChat != null" class="view-previous-chats">
+                <div v-if="selectedChat != null" class="view-previous-chats view-missed-chats">
                     <missed-view-chat 
                         :site="selectedChat.SiteKey" 
                         :detail="chatDetail"
