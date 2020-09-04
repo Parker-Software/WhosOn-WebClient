@@ -30,7 +30,7 @@
                                 </span>
                             </p>
 
-                            <!-- <button v-if="tableView == false"  v-on:click="ViewChangeClicked" href="#" class="has-tooltip-left gridBtn" data-tooltip="Change to grid or card view">
+                            <button v-if="tableView == false"  v-on:click="ViewChangeClicked" href="#" class="has-tooltip-left gridBtn" data-tooltip="Change to grid or card view">
                                 <span class="fa-stack fa-2x">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fas fa-list fa-stack-1x fa-inverse white"></i>
@@ -41,72 +41,102 @@
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fas fa-th fa-stack-1x fa-inverse white"></i>
                                 </span>
-                            </button> -->
+                            </button>
                         </div>
                         <br />
                         <br />
                         <div>
-                            <div v-if="CallbackNow.length > 0">
-                                <b class="previous-chats-title">Call Back Now: {{CallbackNow.length}}</b> 
-                                <br />
-                                <missed-chat 
-                                    v-for="item in CallbackNow" 
-                                    v-bind:key="item.id" 
-                                    class="now"
-                                    :chat="item" 
-                                    :selected="selectedChat == item" 
-                                    :callbackNow="true"
-                                    @Clicked="ChatClicked(item)"
-                                />
-                            </div>
-
-                            <div v-for="group in ChatsByDate(OtherCallbacks)" 
-                                v-if="tableView == false && group.collection.length > 0"
-                                class="group"
-                            >
-                                <b class="previous-chats-title">Call Back Waiting {{group.title}}: {{group.collection.length}}</b> 
-                                <br />
-                                <missed-chat 
-                                    v-for="item in group.collection" 
-                                    v-bind:key="item.id" 
-                                    :chat="item" 
-                                    :selected="selectedChat == item" 
-                                    @Clicked="ChatClicked(item)"
-                                />
-                            </div>
-
 
                             <!-- Grid View -->
-                            <div v-for="group in ChatsByDate(MissedChats)" 
-                                    v-if="tableView == false && group.collection.length > 0"
-                                class="group"
-                            >
-                                <b class="previous-chats-title">{{group.title}}: {{group.collection.length}}</b> 
-                                <br />
-                                <missed-chat 
-                                    v-for="item in group.collection" 
-                                    v-bind:key="item.id" 
-                                    :chat="item" 
-                                    :selected="selectedChat == item" 
-                                    @Clicked="ChatClicked(item)"
-                                />
+                            <div v-if="tableView == false">
+                                <div 
+                                    v-if="CallbackNow.length > 0"
+                                >
+                                    <b class="previous-chats-title">Call Back Now: {{CallbackNow.length}}</b> 
+                                    <br />
+                                    <missed-chat 
+                                        v-for="item in CallbackNow" 
+                                        v-bind:key="item.id" 
+                                        class="now"
+                                        :chat="item" 
+                                        :selected="selectedChat == item" 
+                                        :callbackNow="true"
+                                        @Clicked="ChatClicked(item)"
+                                    />
+                                </div>
+
+                                <div v-for="group in ChatsByDate(OtherCallbacks)" 
+                                    v-if="group.collection.length > 0"
+                                    class="group"
+                                >
+                                    <b class="previous-chats-title">Call Back Waiting {{group.title}}: {{group.collection.length}}</b> 
+                                    <br />
+                                    <missed-chat 
+                                        v-for="item in group.collection" 
+                                        v-bind:key="item.id" 
+                                        :chat="item" 
+                                        :selected="selectedChat == item" 
+                                        @Clicked="ChatClicked(item)"
+                                    />
+                                </div>
+
+
+                                <div v-for="group in ChatsByDate(MissedChats)" 
+                                    v-if="group.collection.length > 0"
+                                    class="group"
+                                >
+                                    <b class="previous-chats-title">{{group.title}}: {{group.collection.length}}</b> 
+                                    <br />
+                                    <missed-chat 
+                                        v-for="item in group.collection" 
+                                        v-bind:key="item.id" 
+                                        :chat="item" 
+                                        :selected="selectedChat == item" 
+                                        @Clicked="ChatClicked(item)"
+                                    />
+                                </div>
                             </div>
 
                             <!-- Table View -->
                             <div v-if="tableView">
-                                <table>
-                                    <thead>
-                                        <th>Visitor Name</th>
-                                        <th>Time</th>
-                                        <th>Site</th>
-                                        <th>Call Back</th>
-                                        <th>Email Address</th>
-                                        <th>Telephone</th>
-                                        <th>Is Responding</th>
-                                        <th>Summary</th>
-                                        <th>Location</th>
-                                    </thead>
-                                </table>
+                                <div 
+                                    v-if="CallbackNow.length > 0"
+                                >
+                                    <b class="previous-chats-title">Call Back Now: {{CallbackNow.length}}</b> 
+                                    <br />
+                                    <missed-chat-table 
+                                        :chats="CallbackNow" 
+                                        :selected="selectedChat"
+                                        @Clicked="ChatClicked" 
+                                    />
+                                </div>
+
+                                <div v-for="group in ChatsByDate(OtherCallbacks)" 
+                                    v-if="group.collection.length > 0"
+                                    class="group"
+                                >
+                                    <b class="previous-chats-title">Call Back Waiting {{group.title}}: {{group.collection.length}}</b> 
+                                    <br />
+                                    <missed-chat-table 
+                                        :chats="group.collection"  
+                                        :selected="selectedChat"
+                                        @Clicked="ChatClicked" 
+                                    />
+                                </div>
+
+
+                                <div v-for="group in ChatsByDate(MissedChats)" 
+                                    v-if="group.collection.length > 0"
+                                    class="group"
+                                >
+                                    <b class="previous-chats-title">{{group.title}}: {{group.collection.length}}</b> 
+                                    <br />
+                                    <missed-chat-table 
+                                        :chats="group.collection"  
+                                        :selected="selectedChat"
+                                        @Clicked="ChatClicked" 
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,6 +298,8 @@
                         chatsByDate[key].collection.push(chat);
                     }
                 }
+
+                console.log(chatsByDate);
 
                 return chatsByDate;
             },
