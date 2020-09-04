@@ -29,9 +29,7 @@
             });
 
             hooks.Register(events.Connection.Error, (error) => {
-                if(this.Elem().style.display = "block") {
-                    alert(error.Data);
-                }
+                console.error(error);
             });
         },
 
