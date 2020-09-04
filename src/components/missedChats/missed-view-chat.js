@@ -22,7 +22,7 @@
                 <div class="info-header">
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Site: </div>
-                        <div class="is-pulled-right"> <b>{{chat.Site}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{Site}}</b> </div>
                     </div>
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Visitor Name: </div>
@@ -177,6 +177,10 @@
         },
 
         computed: {
+            Site() {
+                return this.$store.state.sites[this.site].Name;
+            },
+
             Location() {
                 return this.chat.Location.split("-")[0];
             },
@@ -256,7 +260,7 @@
             },
 
             InputArea() {
-                return document.querySelector("view-missed-chats .textarea");
+                return document.querySelector(".view-missed-chats .textarea");
             },
 
             ElemSize() {
