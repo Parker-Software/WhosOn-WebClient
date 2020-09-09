@@ -1,7 +1,6 @@
 (function (services) {
 
-    var hooks = services.Hooks;
-    var events = services.HookEvents;
+    let connection = services.WhosOnConn;
 
     Vue.component("viewChat", {
         props: [
@@ -159,6 +158,19 @@
                             <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                         </span>
                     </button>
+
+                    <button 
+                        v-if="chat.Channel" 
+                        v-on:click="Reopen"
+                        class="tooltip" 
+                        data-tooltip="Reopen Chat"
+                    >
+                        <span class="fa-stack fa-2x">
+                            <i class="fas fa-circle fa-stack-2x"></i>
+                            <i class="fas fa-trash-restore fa-stack-1x fa-inverse white"></i>
+                        </span>
+                    </button>
+
                     <!--<button class="tooltip" data-tooltip="Email Transcript">
                         <span class="fa-stack fa-2x">
                             <i class="fas fa-circle fa-stack-2x"></i>
@@ -350,6 +362,10 @@
             PageClicked(page) {
                 var site = this.$store.state.sites[this.site];
                 window.open(`https://${site.Domain}`);
+            },
+
+            Reopen() {
+                connection.OpenSoftChat(this.chat.ChatUID, this.site);
             }
         }
     });
