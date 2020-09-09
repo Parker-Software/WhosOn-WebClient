@@ -19,7 +19,8 @@
             ipaddress,
             sessionId,
             waitedSecs,
-            monitoredby) {
+            monitoredby,
+            channel) {
             
             //Raw Data From Server
             this.ChatUID = chatId; 
@@ -38,6 +39,7 @@
             this.SessionID = sessionId;
             this.WaitedSecs = waitedSecs;
             this.Monitoredby = monitoredby;
+            this.Channel = channel;
 
             this.SiteName = "";
             this.TalkingTo = "";
@@ -73,7 +75,8 @@
                                     rawchat.VisitorIPAddress,
                                     rawchat.VisitorSessionId,
                                     rawchat.WaitedSecs,
-                                    rawchat.Monitoredby);
+                                    rawchat.Monitoredby,
+                                    rawchat.Channel);
 
                 
                 AddAdditionalChatInfo(chat, sites, operators);
@@ -100,7 +103,8 @@
                 rawChat.VisitorIPAddress,
                 rawChat.VisitorSessionID,
                 rawChat.WaitedSecs,
-                rawChat.Monitoredby);
+                rawChat.Monitoredby,
+                rawChat.Channel);
                 
 
             AddAdditionalChatInfo(chat, sites, operators);
@@ -124,6 +128,7 @@
             chat.VisitorSessionID = rawChat.VisitorSessionID;
             chat.WaitedSecs = rawChat.WaitedSecs;
             chat.Monitoredby = rawChat.Monitoredby;
+            chat.Channel = rawChat.Channel;
 
             AddAdditionalChatInfo(chat, sites, operators);
 

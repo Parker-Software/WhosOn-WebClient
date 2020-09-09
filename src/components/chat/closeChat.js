@@ -21,10 +21,18 @@
         services.WhosOnConn.StopMonitoringChat(chatNum);   
     });
 
+    hooks.Register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {
+
+        console.log("Soft Close Chat");
+        services.WhosOnConn.SoftCloseChat(chatNum);   
+        state.currentChat = {};
+    });
+
     Vue.component("chatModal", {
         data: () => {
             return {
-                Close: false
+                Close: false,
+                Soft: false
             }
         },
         template: `
@@ -55,6 +63,7 @@
             CurrentChat() {
                 return services.Store.state.currentChat;
             },
+
             getVisitorName() {
                var visitorName = state.currentChat.Name;
                if(visitorName == null) {return;}
@@ -64,24 +73,37 @@
         beforeCreate() { 
             hooks.Register(events.Chat.CloseChatClicked, () => {
                 this.ModalElem().classList.add("is-active");
+
+                this.Soft = false;
                 this.Close = true;
             });
 
-            // hooks.Register(events.Chat.StopMonitoringChatClicked, () => {
-            //     this.ModalElem().classList.add("is-active");
-            //     this.Close = false;
-            // });
+            hooks.Register(events.Chat.SoftCloseChatClicked, () => {
+                this.ModalElem().classList.add("is-active");
+                this.Close = false;
+                this.Soft = true;
+            });
         },
         methods: {
       
             ModalElem() {
                 return document.getElementById("chatModal");
             },
+
             Yes() {
+
                 this.ModalElem().classList.remove("is-active");   
-                if(this.Close) {hooks.Call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);}
-                else {hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);}
+                if(this.Close) {
+                    hooks.Call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);
+                }
+                else if(this.Close == false && this.Soft) {
+                    hooks.Call(events.ChatModal.SoftCloseChatConfirmed, this.CurrentChat.Number);
+                }
+                else if(this.Close == false && this.Soft == false) {
+                    hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);
+                }
             },
+
             No() {
                 this.ModalElem().classList.remove("is-active");
             }

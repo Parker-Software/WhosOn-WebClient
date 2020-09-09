@@ -17,7 +17,7 @@
                 >
                     <a>Conversation</a>
                 </li>
-                <li id="visitorTab"
+                <li v-if="CurrentChat.Channel == null" id="visitorTab"
                     class="chatTab"
                     @click="onTabClicked('visitor')"
                 >
@@ -43,6 +43,12 @@
                     if(this.CRMTab() != null) {this.CRMTab().classList.remove("is-active");}
                 }
             }, 100);
+        },
+
+        computed: {
+            CurrentChat() {
+                return this.$store.state.currentChat;
+            }
         },
 
         methods: {

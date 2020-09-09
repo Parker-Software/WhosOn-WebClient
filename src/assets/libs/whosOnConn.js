@@ -420,6 +420,24 @@
             ]);
         }
 
+        SoftCloseChat(connId) {
+            var self = this;
+
+            self.Socket.Send("SOFTCLOSECHAT", [
+                connId
+            ]);
+        }
+
+        OpenSoftChat(chatId, siteKey) {
+            var self = this;
+
+            self.Socket.Send("UNCLOSECHAT", [
+                chatId,
+                siteKey,
+                "Y"
+            ]);
+        }
+
         Logout() {
             var self = this;
 

@@ -107,6 +107,7 @@
             SendMessage: "home.chat.SendMessage",
             ChatLeft: "home.chat.ChatLeft",
             CloseChatClicked: "home.chat.CloseChatClicked",
+            SoftCloseChatClicked: "home.chat.SoftCloseChatClicked",
             PreChatSurveysLoaded: "home.chat.PreChatSurveysLoaded",
             ScrollChat: "home.chat.ScrollChat",
             TabClicked: "home.chat.TabClicked",
@@ -135,7 +136,8 @@
         },
         ChatModal: {
             CloseChatConfirmed: "chatModal.CloseChatConfirmed",
-            StopMonitoringChatConfirmed: "chatModal.StopMonitoringChatConfirmed"
+            StopMonitoringChatConfirmed: "chatModal.StopMonitoringChatConfirmed",
+            SoftCloseChatConfirmed: "chatModal.SoftCloseChatConfirmed"
         },
         FileUploader: {
             FileItemClicked: "fileuploader.FileItemClicked",

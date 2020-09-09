@@ -154,6 +154,10 @@
             hooks.Register(events.Sites.Clicked, (site) => {
                 this.OnNavButtonClicked("sites");
             });
+
+            hooks.Register(events.Connection.ChatAccepted, () => {
+                this.OnNavButtonClicked("chats");
+            });
         },
         mounted() {
             this.$nextTick(function() {
