@@ -16,11 +16,15 @@
     hooks.Register(events.Connection.ChatClosed, (e) => {
         var data = e.Data;
         var chat = state.chats.find((v) => v.ChatUID == data);
+        var myChat = false;
+
         if(chat != null) {
             if(state.currentChat.ChatUID == chat.ChatUID) {
                 hooks.Call(events.Connection.CurrentChatClosed);
                 state.currentChat.Closed = true;
             }
+
+            myChat = chat.TalkingToClientConnection == state.currentConnectionId;
 
             Object.keys(state.chatMessages).forEach((v) => {
                 if(v == chat.Number)
@@ -37,6 +41,8 @@
 
         var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
         var reached = state.userInfo.MaxChats <= yourChats.length;
+
+        if(myChat == false) return;
 
         if(state.userInfo.MaxChats == 0 || reached == false) {
             connection.ChangeStatus("online");
@@ -295,6 +301,10 @@
         var data = acceptedChat.Data;
         var split = data.split(":");
         var chatId = split[0];
+        var chat = state.chats.find(x => x.ChatUID == chatId);
+
+        chat.TalkingToClientConnection = state.currentConnectionId;
+
         store.commit("chatAccepted", chatId);
 
         var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
