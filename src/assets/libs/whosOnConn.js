@@ -437,6 +437,24 @@
                 "Y"
             ]);
         }
+        
+        ChangeStatusOfUser(connId, status) {
+            var self = this;
+
+            self.Socket.Send("SetStatus", [
+                connId,
+                status
+            ]);
+        }
+
+        KickOtherOperator(connId, message) {
+            var self = this;
+
+            self.Socket.Send("KickClient", [
+                connId,
+                message
+            ]);
+        }
 
         Logout() {
             var self = this;
