@@ -55,7 +55,7 @@
                         <div class="media-content">
                             <div class="content">
                                 <p class="chat-info-item"><strong>{{chat.Name}}</strong></p>
-                                <p v-if="chat.Channel != 'chat'" class="chat-info-item"><small>{{chat.Channel}}</small></p>
+                                <p v-if="chat.Channel" class="chat-info-item"><small>{{chat.Channel}}</small></p>
                                 <p v-else class="chat-info-item"><small>{{chat.Location}}</small></p>
                                 <p class="chat-info-item"><small><strong>{{chat.SiteName}}</strong></small></p>
                                 <p class="chat-info-item"><small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}} <span v-if="chat.QueuePos > 0">(Queued)</span></strong></small></p>
