@@ -70,6 +70,7 @@
                     </div>
                 </div>
             </div>
+            
             <canned-responses
                 :showing="ShowCannedResponses"
                 :selectedResponse="SelectedCannedResponse"
@@ -77,6 +78,7 @@
                 v-on:Clicked="CannedResponseClicked"
             >
             </canned-responses>
+
             <visitor-conversation-interaction
                 :id="ChatInteractionId"
                 :site="site" 
