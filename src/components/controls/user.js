@@ -77,11 +77,22 @@
                 classes[(this.collectionGroup || "userItem") + "-" +  this.user.Username] = true;
                 return classes;
             },
+
             visitorLetter(){
                 var name = this.user.Name;
-                if(name === undefined) {return;}
-                return name.charAt(0).toUpperCase();
+                if(name) {
+                    var split = name.split(' ');
+                    var characters = name.charAt(0).toUpperCase();
+
+                    if(split.length > 1) {
+                        characters += split[1].charAt(0).toUpperCase();
+                    } 
+
+                    return characters;
+                }
+                return;
             },
+            
             setBackgroundColor() {
                 var name = this.user.Name;
                 if(name === undefined) {return;}              
@@ -92,6 +103,7 @@
             Elem() {
                 return document.getElementsByClassName(`${this.collectionGroup || "userItem"}-${this.user.Username}`)[0];
             },
+
             Clicked() {
                 this.$emit("Clicked", this.user);
             }

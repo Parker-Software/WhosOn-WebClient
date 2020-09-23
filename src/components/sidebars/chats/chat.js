@@ -11,9 +11,15 @@
         var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
         var string = "";
-        if(minutes > 0)  {string += `${minutes} Mins`;}
 
-        return `${string} ${seconds} Seconds`;
+        if(hours > 0) {
+            string = `${hours} Hours ${minutes} Mins`;
+        } else {
+            if(minutes > 0)  {string += `${minutes} Mins`;}
+            string = `${string} ${seconds} Seconds`;
+        }
+
+        return string;
     }
 
     var chatWaitingTimer = setInterval(() => {
@@ -49,7 +55,8 @@
                         <div class="media-content">
                             <div class="content">
                                 <p class="chat-info-item"><strong>{{chat.Name}}</strong></p>
-                                <p class="chat-info-item"><small>{{chat.Location}}</small></p>
+                                <p v-if="chat.Channel" class="chat-info-item"><small>{{chat.Channel}}</small></p>
+                                <p v-else class="chat-info-item"><small>{{chat.Location}}</small></p>
                                 <p class="chat-info-item"><small><strong>{{chat.SiteName}}</strong></small></p>
                                 <p class="chat-info-item"><small><strong  :class="{'chat-waiting-warning':chat.WaitingWarning}">{{chat.Status}} <span v-if="chat.QueuePos > 0">(Queued)</span></strong></small></p>
                                 <p class="chat-info-item"><small v-if="chat.Monitoredby != null"><strong>Monitored By {{MonitoredByWho}}</strong></small></p>                            

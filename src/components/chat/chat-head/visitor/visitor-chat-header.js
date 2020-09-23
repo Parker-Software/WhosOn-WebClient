@@ -39,37 +39,56 @@
                             </p>
                             <p class="chat-header-item monitor-label"><small v-if="BeingMonitoredByYou"><strong>Monitoring</strong></small></p>
                             <p class="chat-header-item"><small>{{chat.SiteName}}</small></p>
-                            <p class="chat-header-item"><small>{{chat.Location}}</small></p>
+                            <p v-if="chat.Channel" class="chat-header-item"><small>{{chat.Channel}}</small></p>
+                            <p v-else class="chat-header-item"><small>{{chat.Location}}</small></p>
                             <p class="chat-header-item"><small>{{visitorsEmail}}</small></p>
                         </div>
                     </div>
                 </div>        
                 <div class="customColumn column is-tablet">
                     <div class="chat-header-icons is-pulled-right">
+
+                        <button 
+                            v-if="BeingMonitoredByYou == false && chat.Channel != null"
+                            id="softCloseChatBtn"
+                            class="has-tooltip-left"
+                            data-tooltip="Soft close this chat"
+                            v-on:click="SoftCloseClicked"
+                        >
+                            <span class="fa-stack fa-2x">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-hourglass-half fa-stack-1x fa-inverse white"></i>
+                            </span>
+                        </button>
+
                         <button v-if="BeingMonitoredByYou" id="stopMonitoringChatBtn" class="has-tooltip-left" data-tooltip="Stop Monitoring" v-on:click="StopMonitoringClicked">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                             </span>
                         </button>
+
                         <button v-if="BeingMonitoredByYou" id="aquireChatBtn" class="has-tooltip-left" data-tooltip="Aquire Chat" v-on:click="AquireChatClicked">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="far fa-stack-1x fa-inverse white fa-handshake"></i>
                             </span>
                         </button>
+
                         <button v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="has-tooltip-left" data-tooltip="Close this chat" v-on:click="CloseClicked">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                             </span>
                         </button>
+
                         <button v-if="BeingMonitoredByYou == false && acquired == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="has-tooltip-left" data-tooltip="Show transfer list">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
                             </span>
                         </button>
+
                         <!--
                         <button href="#" class="has-tooltip-left" data-tooltip="Request monitor">
                             <span class="fa-stack fa-2x">
@@ -187,39 +206,55 @@
             CloseBtn() {
                 return document.getElementById("closeChatBtn");
             },
+
             StopMonitoringBtn() {
                 return document.getElementById("stopMonitoringChatBtn");
             },
+
             TransferBtn() {
                 return document.getElementById("transferBtn");
             },
+
             AquireBtn() {
                 return document.getElementById("aquireChatBtn");
             },
+
             DisableCloseChatButton() {
                 if(this.CloseBtn() != null) {this.CloseBtn().setAttribute("disabled", true);}
             },
+
             EnableCloseChatButton() {
                 if(this.CloseBtn() != null) {this.CloseBtn().removeAttribute("disabled");}
             },
+
             EnableStopMonitoringButton() {
                 if(this.StopMonitoringBtn() != null) {this.StopMonitoringBtn().removeAttribute("disabled");}
             },
+
             DisableStopMonitoringButton() {
                 if(this.StopMonitoringBtn() != null) {this.StopMonitoringBtn().setAttribute("disabled", true);}
             },
+
             DisableTransferButton() {
                 if(this.TransferBtn() != null) {this.TransferBtn().setAttribute("disabled", true);}
             },
+
             EnableTransferButton() {
                 if(this.TransferBtn() != null)  {this.TransferBtn().removeAttribute("disabled");}
             },
+
             EnableAquireButton() {
                 if(this.AquireBtn() != null)  {this.AquireBtn().removeAttribute("disabled");}
             },
+
             DisableAquireButton() {
                 if(this.AquireBtn() != null) {this.AquireBtn().setAttribute("disabled", true);}
             },
+            
+            SoftCloseClicked() {
+                hooks.Call(chatEvents.SoftCloseChatClicked, state.currentChat.Number);
+            },
+
             CloseClicked(e) {
                 var currentSiteWrapUpRequired = 
                     state.sites[state.currentChat.SiteKey].WrapUp.Required &&
@@ -232,12 +267,15 @@
                     hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
                 }
             },
+
             TransferClicked(e) {
                 hooks.Call(chatEvents.TransferClicked);
             },
+
             StopMonitoringClicked(e) {
                 hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, state.currentChat.Number);                
             },
+
             AquireChatClicked(e) {
                 state.aquiringChatFrom = state.currentChat.TalkingTo;
                 connection.AquireChat(state.currentChat.Number);

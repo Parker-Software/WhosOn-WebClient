@@ -1,4 +1,5 @@
 (function(services){
+    var connection = services.WhosOnConn;
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var state = services.Store.state;
@@ -15,7 +16,7 @@
         template: `
             <div class="columns chat-header team-chat-header">
                 <div class="is-narrow column no-gap-right is-tablet">
-                    <div v-if="user.HasPhoto == false" v-bind:class="VisitorLetter.toLowerCase()" class="badge">
+                    <div v-if="user.HasPhoto == false" v-bind:class="VisitorLetter[0].toLowerCase()" class="badge">
                         {{VisitorLetter}}
                         <div class="status online-user" v-if="user.Status == 0 && Connected"></div>
                         <div class="status busy-user" v-if="user.Status == 1 && Connected"></div>
@@ -41,7 +42,27 @@
                                     <span v-if="user.Closed">(Closed)</span> 
                                 </strong>
                             </p>
-                            <p class="chat-header-item"><small>{{FullStatus}}</small></p>
+                            <p class="chat-header-item">
+                                <select 
+                                    ref="statusSelect" 
+                                    v-if="ImTeamLeader &&
+                                          Connected
+                                        "
+                                    v-bind:value="user.Status"
+                                    v-on:change="OnStatusChanged" 
+                                >
+                                    <option value="0">Online</option>
+                                    <option value="1">Busy</option>
+                                    <option value="2">Be right back</option>
+                                    <option value="3">Away</option>
+                                </select>
+                                
+                                <small 
+                                    v-else
+                                >
+                                    {{FullStatus}}
+                                </small>
+                            </p>
                             <p class="chat-header-item"><small>{{user.Dept}} <span v-if="user.Skills">({{user.Skills}})</span></small></p>
                             <p class="chat-header-item"><small>{{user.Email}}</small></p>
                         </div>
@@ -53,6 +74,12 @@
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
+                            </span>
+                        </button>
+                        <button v-if="ImTeamLeader" v-bind:disabled="Connected == false" class="has-tooltip-left" data-tooltip="Force logout for this user" v-on:click="Kick">
+                            <span class="fa-stack fa-2x">
+                                <i class="fas fa-circle fa-stack-2x"></i>
+                                <i class="fas fa-sign-out-alt fa-stack-1x fa-inverse white"></i>
                             </span>
                         </button>
                     </div>             
@@ -73,10 +100,35 @@
             });
         },
         computed: {
-            VisitorLetter(){
-                if(this.user.Name === undefined) {return;}
-                return this.user.Name.charAt(0).toUpperCase();
+            MyUserName() {
+                return this.$store.state.userName;
             },
+
+            MyUser() {
+                return this.$store.state.userInfo;
+            },
+
+            ImTeamLeader() {
+                return  this.MyUser.TeamLeader &&
+                        this.MyUserName != this.user.Username &&
+                        this.MyUser.GroupID == this.user.GroupID;
+            },
+
+            VisitorLetter(){
+                var name = this.user.Name;
+                if(name) {
+                    var split = name.split(' ');
+                    var characters = name.charAt(0).toUpperCase();
+
+                    if(split.length > 1) {
+                        characters += split[1].charAt(0).toUpperCase();
+                    } 
+
+                    return characters;
+                }
+                return;
+            },
+
             FullStatus() {
                 var statuses = {
                     0: "Online",
@@ -88,16 +140,36 @@
 
                 return statuses[this.user.Status];
             },
+
             Photo() {
                 return `data:image/png;base64, ${this.user.Photo}`;
+            },
+
+            StatusSelect() {
+                return this.$refs.statusSelect;
             }
         },
         methods: {        
             CloseClicked(e) {
                 hooks.Call(events.Team.CloseChatClicked);
             },
+
             TransferClicked(e) {
                 hooks.Call(chatEvents.TransferClicked);
+            },
+
+            OnStatusChanged(e) {
+                connection.ChangeStatusOfUser(
+                    this.user.Connection,
+                    this.StatusSelect.value
+                );
+            },
+
+            Kick() {
+                connection.KickOtherOperator(
+                    this.user.Connection,
+                    ""
+                );
             }
         }
     });

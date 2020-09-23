@@ -3,6 +3,7 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
+    var state = services.Store.state;
 
     Vue.component("previousChats", {
         props: [
@@ -88,7 +89,6 @@
         `,
 
         beforeCreate() {
-            console.log("Created");
 
             hooks.Register(events.Connection.PreviousChats, (chats) => {
                 this.selectedChat = null;
@@ -104,6 +104,20 @@
                     this.chatDetail = chat.Data;
                 }
             });
+        },
+
+        computed: {
+            MyUser() {
+                return state.userInfo;
+            },
+
+            MyUserName() {
+                return state.userName;
+            },
+
+            CanViewOthersChats() {
+                return this.MyUser.Admin || this.MyUser.Supervisor || this.MyUser.TeamLeader;
+            }
         },
 
         methods: {
@@ -239,9 +253,19 @@
             GroupChats(chats) {
                 var missed = [];
                 var notMissed = [];
-
+                
                 for(var i = 0; i < chats.length; i++) {
                     var chat = chats[i];
+                    
+                    if(this.CanViewOthersChats == false) {
+                        var users = chat.TakenByUsers.split(',');
+                        var iTookChat = users.indexOf(this.MyUserName);
+
+                        if(iTookChat == -1) continue;
+                    }
+                    
+
+
 
                     if(chat.Missed) {
                         missed.push(chat);

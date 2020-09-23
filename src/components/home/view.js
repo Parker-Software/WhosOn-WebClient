@@ -151,6 +151,12 @@
                     this.showNoActiveChats();
                 });
 
+                hooks.Register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {    
+                    this.hideAll();
+                    this.showChat = true;
+                    this.showNoActiveChats();
+                });
+
                 hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum => {
                     this.hideAll();
                     this.showChat = true;

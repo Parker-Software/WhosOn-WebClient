@@ -17,7 +17,8 @@
                         <span class="timeBetween">{{Time}}</span>
                     </div>
                     <div class="location">
-                        {{chat.Location}}
+                        <span v-if="chat.Channel">{{chat.Channel}}</span>
+                        <span v-else>{{chat.Location}}</span>
                     </div>
                     <div v-if="chat.Missed == false">
                         <div>
@@ -50,6 +51,17 @@
             Time() {
                 var start = new Date(this.chat.StartTime);
                 var finish = new Date(this.chat.FinishTime);
+
+                    
+                var startOffset = start.getTimezoneOffset();
+                startOffset = Math.abs(startOffset / 60);
+                start.setHours(start.getHours() - startOffset);
+
+
+                var finishOffset = finish.getTimezoneOffset();
+                finishOffset = Math.abs(finishOffset / 60);
+                finish.setHours(finish.getHours() - finishOffset);
+
                 if(start.getHours() == finish.getHours() && start.getMinutes() == finish.getMinutes()) {
                     return `${this.AddZero(finish.getHours())}:${this.AddZero(finish.getMinutes())}`;
                 }

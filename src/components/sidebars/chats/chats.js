@@ -34,13 +34,29 @@
                 }
             },
         computed: {          
+
             chatsGroupedAndSorted: function () {
-                const result = {};
-                const mychats = [];
-                const waiting = [];
-                const queued = [];
-                const other = [];
+                let result = {};
+                let mychats = [];
+                let waiting = [];
+                let queued = [];
+                let other = [];
+
+                let sorter = function(chatA, chatB) {
+                    let sortIdx = 0;
                 
+                    if(chatB.Channel == null && chatA.Channel) {
+                        sortIdx = 1;
+                    } else if (chatB.Channel && chatA.Channel == null) {
+                        sortIdx = -1;
+                    }
+    
+                    return sortIdx;
+                }
+                
+                if(state.chats.length > 1) {
+                    state.chats.sort(sorter);
+                }
                 
                 state.chats.forEach(chat => {
                     if (chat.TalkingToClientConnection == 0) {

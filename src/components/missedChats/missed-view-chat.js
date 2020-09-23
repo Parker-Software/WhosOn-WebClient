@@ -22,7 +22,7 @@
                 <div class="info-header">
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Site: </div>
-                        <div class="is-pulled-right"> <b>{{chat.Site}}</b> </div>
+                        <div class="is-pulled-right"> <b>{{Site}}</b> </div>
                     </div>
                     <div class="info-item">
                         <div class="is-pulled-left info-item-label"> Visitor Name: </div>
@@ -177,6 +177,10 @@
         },
 
         computed: {
+            Site() {
+                return this.$store.state.sites[this.site].Name;
+            },
+
             Location() {
                 return this.chat.Location.split("-")[0];
             },
@@ -240,23 +244,23 @@
         },
         methods: {
             Elem() {
-                return document.querySelector(".view-previous-chats");
+                return document.querySelector(".view-missed-chats");
             },
 
             ContentElem() {
-                return document.querySelector(".view-previous-chats .content");
+                return document.querySelector(".view-missed-chats .content");
             },
 
             ResponseElem() {
-                return document.querySelector(".view-previous-chats .response");
+                return document.querySelector(".view-missed-chats .response");
             },
 
             ActionsElem() {
-                return document.querySelector(".view-previous-chats .actions");
+                return document.querySelector(".view-missed-chats .actions");
             },
 
             InputArea() {
-                return document.querySelector(".view-previous-chats .textarea");
+                return document.querySelector(".view-missed-chats .textarea");
             },
 
             ElemSize() {
@@ -264,8 +268,8 @@
             },
 
             HeaderSize() {
-                var info = document.querySelector(".view-previous-chats .info-header");
-                var tabs = document.querySelector(".view-previous-chats .convo-tabs");
+                var info = document.querySelector(".view-missed-chats .info-header");
+                var tabs = document.querySelector(".view-missed-chats .convo-tabs");
                 return info.offsetHeight + tabs.offsetHeight;
             },
 
@@ -279,7 +283,7 @@
             
 
             UnSelectAllTabs() {
-                var tabs = document.querySelectorAll(".view-previous-chats .tab");
+                var tabs = document.querySelectorAll(".view-missed-chats .tab");
                 for(var i =0; i < tabs.length; i++) {
                     tabs[i].classList.remove("is-active");
                 }
@@ -346,10 +350,10 @@
 
                 switch(val) {
                     case "convo":
-                        document.querySelector(".view-previous-chats .convo").classList.add("is-active");
+                        document.querySelector(".view-missed-chats .convo").classList.add("is-active");
                         break;
                     case "visitor":
-                        document.querySelector(".view-previous-chats .visitor").classList.add("is-active");
+                        document.querySelector(".view-missed-chats .visitor").classList.add("is-active");
                         break;
                 }
             },
