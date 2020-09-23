@@ -81,3 +81,11 @@ steps:
     PathtoPublish: '$(build.artifactstagingdirectory)'
     ArtifactName: 'drop'
 
+- task: GitTag@5
+  inputs:
+    workingdir: '$(SYSTEM.DEFAULTWORKINGDIRECTORY)'
+    tagUser: 
+    tagEmail: 
+    tag: '$(build.buildNumber)'
+    useLightweightTags: true
+
