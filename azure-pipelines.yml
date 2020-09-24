@@ -11,6 +11,9 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  system_accesstoken: $(System.AccessToken)
+
 steps:
 - task: NodeTool@0
   inputs:
