@@ -5,7 +5,6 @@
 
     hooks.Register(hook.Connection.ChatMessage, (e) => {
         var msg = e;
-        console.log(msg);
         var chatBelongingTo = state.chats.find((v) => v.Number == msg.Header);
         if(chatBelongingTo == null) {
             return;

@@ -4,7 +4,8 @@
             Opened: "socket.Opened",
             Closed: "socket.Closed",
             Message: "socket.Message",
-            Error: "socket.Error"
+            Error: "socket.Error",
+            AckTimer: "socket.AckTimerElapsed"
         },
         Connection: {
             Connected: "ConnectionConnected",
@@ -71,7 +72,9 @@
             ListeningVisitor: "listenv",
             MissedChat: "missedchat",
             MissedChatClosed: "missedchatclosed",
-            VisitorDetails: "visitdetailchat"
+            VisitorDetails: "visitdetailchat",
+            Ack: "ack",
+            AckFailed: "ack.failed"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"

@@ -73,7 +73,7 @@
             hooks.Register(events.Inactivity.Active, () => {
                 if (state.userInfo != null && state.statusCanChangeAutomatically)
                 {
-                    connection.ChangeStatus("online");
+                   if(woServices.Store.state.currentStatus != 0) connection.ChangeStatus("online");
                 }
             });
 

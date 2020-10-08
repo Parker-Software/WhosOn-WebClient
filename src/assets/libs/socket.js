@@ -45,6 +45,14 @@
                 "Command": `${cmdName}`,
                 "Parameters" : params
             };
+
+
+            self.Ack = false;
+            if(self.AckTimer != null) clearTimeout(self.AckTimer);
+            self.AckTimer = setTimeout(function() {
+                self.Hooks.Call(self.SocketEvents.AckTimer);
+            }, 30000);
+
             self._socket.send(JSON.stringify(msg));
         }
 
