@@ -1,0 +1,36 @@
+.ackFailed {
+    a {
+        &:hover {
+          i {
+            color: $ThemeRoundButtonHover;
+            &.white {
+              color: $ThemeRoundButtonHoverText;
+            }
+          }
+        }
+      }
+      i {
+        color: $ThemeRoundButtonFill;
+        padding-left: 2px;
+      }
+    
+      .white {
+        color: $ThemeRoundButtonText;
+      }
+    
+      
+    
+      button {
+        outline: none;
+        border: none;
+        color: $ThemeToolbarText;
+        cursor: pointer;
+        background-color: $ThemeRoundButtonFill;
+        height: 35px;
+      }
+    
+      button[disabled] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+}

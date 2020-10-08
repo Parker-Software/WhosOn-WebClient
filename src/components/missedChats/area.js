@@ -299,8 +299,6 @@
                     }
                 }
 
-                console.log(chatsByDate);
-
                 return chatsByDate;
             },
 

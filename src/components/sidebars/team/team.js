@@ -79,13 +79,6 @@
             });
         },
 
-        watch: {
-            showGroupMembers: (val) => {
-                console.log("Show Group Members");
-                console.log(val);
-            }
-        },
-
         computed: {
             Users() {
                 let self = this;
@@ -104,9 +97,6 @@
                 }
 
                 if(self.User && self.User.GroupID && self.showGroupMembers) {
-                    console.log("ONLY SHOW " + self.User.GroupID);
-
-
                     users = users.filter(
                         x => parseInt(x.GroupID) == parseInt(self.User.GroupID)
                     );
