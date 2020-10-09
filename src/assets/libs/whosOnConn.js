@@ -11,6 +11,7 @@
 
             self.Socket = services.Socket;
             self.LoggedOut = false;
+            self.SupportsAck = false;
 
         
             hooks.Register(socketEvents.Opened, (e) => {
@@ -42,6 +43,18 @@
 
             hooks.Register(socketEvents.Error, (e) => {
                 hooks.Call(serverEvents.Disconnected, e);
+            });
+
+            hooks.Register(serverEvents.Ack, () => {
+                self.SupportsAck = true;
+                self.Socket.Ack = true;
+            });
+
+            hooks.Register(socketEvents.AckTimer, () => {
+                if(self.SupportsAck && self.Socket.Ack == false) { 
+                    console.error("There seems to be an issue with the connection to the server.");
+                    hooks.Call(serverEvents.AckFailed);
+                }
             });
         }
 

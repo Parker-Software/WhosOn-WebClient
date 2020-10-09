@@ -22,8 +22,6 @@
     });
 
     hooks.Register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {
-
-        console.log("Soft Close Chat");
         services.WhosOnConn.SoftCloseChat(chatNum);   
         state.currentChat = {};
     });

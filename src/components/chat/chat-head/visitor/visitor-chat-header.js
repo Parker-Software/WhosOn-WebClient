@@ -257,13 +257,19 @@
 
             CloseClicked(e) {
                 var currentSiteWrapUpRequired = 
-                    state.sites[state.currentChat.SiteKey].WrapUp.Required &&
-                    state.sites[state.currentChat.SiteKey].WrapUp.Enabled;
+                    this.currentSite.WrapUp.Required &&
+                    this.currentSite.WrapUp.Enabled;
                     
-                if(currentSiteWrapUpRequired == false || (currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted)) 
+                if 
+                (
+                    currentSiteWrapUpRequired == false ||
+                    (currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted)
+                ) 
                 {
                     hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
-                } else {
+                } 
+                else 
+                {
                     hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
                 }
             },

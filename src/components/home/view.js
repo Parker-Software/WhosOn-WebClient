@@ -59,6 +59,7 @@
                     </div>
 
                     <changePassword />
+                    <ackFailed />
                 </div>
             </section>
             `,
