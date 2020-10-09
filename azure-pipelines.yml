@@ -82,6 +82,7 @@ steps:
     ArtifactName: 'drop'
 
 - task: GitTag@5
+  enabled: false
   inputs:
     workingdir: '$(SYSTEM.DEFAULTWORKINGDIRECTORY)'
     tagUser: 
