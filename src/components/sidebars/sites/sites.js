@@ -41,6 +41,11 @@
                 this.allSites = e.Data.Sites;
                 this.sites = this.allSites;
             });
+
+            hooks.Register(events.Connection.UserSitesNew, (e) => {
+                this.allSites = e.Data.Sites;
+                this.sites = this.allSites;
+            });
         },
         methods: {
             SearchElem() {
