@@ -18,6 +18,7 @@
             CurrentUserRights: "rights",
             UserInfo: "user",
             UserSites: "sites",
+            UserSitesNew: "sitesdata",
             CurrentUsersOnline: "clients",
             CurrentChats: "chatting",
             MissedChats: "missedchats",

@@ -26,7 +26,16 @@
 
                 <!--<li><a>Previous Chats</a></li>
                 <li><a>Contact</a></li>-->
-                <li v-if="Object.keys($store.state.currentChatSite).length > 0 && $store.state.currentChatSite.CRM.Enabled && $store.state.currentChatSite.CRM.ShowClientForm" id="crmTab" class="chatTab" @click="onTabClicked('crm')"><a>CRM</a></li>
+                <li 
+                    v-if="Object.keys($store.state.currentChatSite).length > 0 &&
+                        $store.state.currentChatSite.CRM.Enabled &&
+                        $store.state.currentChatSite.CRM.ShowClientForm"
+                    id="crmTab"
+                    class="chatTab"
+                    @click="onTabClicked('crm')"
+                >
+                        <a>CRM</a>
+                </li>
             </ul>
         </div>
         `,
