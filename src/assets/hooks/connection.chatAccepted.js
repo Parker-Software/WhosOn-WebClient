@@ -25,5 +25,7 @@
             connection.ChangeStatus("online");
             state.statusCanChangeAutomatically = true;
         }
+
+        connection.GetVisitorDetail(chat.SiteKey, chat.IPAddress, chat.SessionID, chat.ChatUID);
     });
 })(woServices);
