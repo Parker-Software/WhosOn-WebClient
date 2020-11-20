@@ -343,9 +343,6 @@
                     this.InputArea().innerText = "";
                 } else if(event.ctrlKey == false) {
                     this.$emit("Typing", event, text);
-                    if(this.hasSuggestion) {
-                        this.InputArea().innerText = "";
-                    }
                 }
             },
 
