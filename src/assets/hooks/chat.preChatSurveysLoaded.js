@@ -8,7 +8,7 @@
         var userName = state.userName;
         var visitorName = state.currentChat.Name;
         var email;
-        var hasEmail = state.currentChatPreSurveys.find((v) => v.Name == "Email");
+        var hasEmail = state.currentChatPreSurveys.find((v) => v.BuiltInField == "email address");
         if(hasEmail != null) {
             email = hasEmail.Value;
         }
