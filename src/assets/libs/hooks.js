@@ -71,7 +71,10 @@
             ListeningVisitor: "listenv",
             MissedChat: "missedchat",
             MissedChatClosed: "missedchatclosed",
-            VisitorDetails: "visitdetailchat"
+            Status: "status",
+            VisitorDetails: "visitdetailchat",
+            Ack: "ack",
+            AckFailed: "ack.failed"
         },
         Login: {
             SubmitClicked: "login.SubmitClicked"

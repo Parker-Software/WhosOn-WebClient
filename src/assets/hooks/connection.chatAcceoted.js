@@ -18,12 +18,14 @@
         var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
         var reached = state.userInfo.MaxChats <= yourChats.length;
 
-        if(state.userInfo.MaxChats != 0 && reached) {
-            connection.ChangeStatus("busy");
-            state.statusCanChangeAutomatically = false;
-        } else {
-            connection.ChangeStatus("online");
-            state.statusCanChangeAutomatically = true;
+        if (state.currentStatus <= 1) {
+            if(state.userInfo.MaxChats != 0 && reached) {
+                connection.ChangeStatus("busy");
+                state.statusCanChangeAutomatically = false;
+            } else {
+                connection.ChangeStatus("online");
+                state.statusCanChangeAutomatically = true;
+            }
         }
     });
 })(woServices);
