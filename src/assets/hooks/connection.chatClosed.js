@@ -36,13 +36,16 @@
 
         if(myChat == false) return;
 
-        if(state.userInfo.MaxChats == 0 || reached == false) {
-            connection.ChangeStatus("online");
-            state.statusCanChangeAutomatically = true;
-        } else {
-            connection.ChangeStatus("busy");
-            state.statusCanChangeAutomatically = false;
+        if (woServices.Store.state.currentStatus <= 1) {
+            if(state.userInfo.MaxChats == 0 || reached == false) {
+                connection.ChangeStatus("online");
+                state.statusCanChangeAutomatically = true;
+            } else {
+                connection.ChangeStatus("busy");
+                state.statusCanChangeAutomatically = false;
+            }
         }
+        
     });
 
 })(woServices);

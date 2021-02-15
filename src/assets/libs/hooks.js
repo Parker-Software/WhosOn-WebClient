@@ -73,6 +73,7 @@
             ListeningVisitor: "listenv",
             MissedChat: "missedchat",
             MissedChatClosed: "missedchatclosed",
+            Status: "status",
             VisitorDetails: "visitdetailchat",
             Ack: "ack",
             AckFailed: "ack.failed"
