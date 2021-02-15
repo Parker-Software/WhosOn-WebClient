@@ -18,7 +18,7 @@
         var yourChats = state.chats.filter(x => x.TalkingToClientConnection == state.currentConnectionId);
         var reached = state.userInfo.MaxChats <= yourChats.length;
 
-        if (woServices.Store.state.currentStatus <= 1) {
+        if (state.currentStatus <= 1) {
             if(state.userInfo.MaxChats != 0 && reached) {
                 connection.ChangeStatus("busy");
                 state.statusCanChangeAutomatically = false;

@@ -5,10 +5,8 @@
     var hook = services.HookEvents;
 
     hooks.Register(hook.Connection.Status, (e) => {
-        var newState = e.Data;
-
-        if (woServices.Store.state.currentStatus != newState) {
-            woServices.Store.state.currentStatus = e.Data;
+        if (state.currentStatus != e.Data) {
+            state.currentStatus = e.Data;
             if (e.Data != 0) state.statusCanChangeAutomatically = false;
         }
     });

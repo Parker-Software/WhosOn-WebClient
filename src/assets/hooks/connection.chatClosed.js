@@ -36,7 +36,7 @@
 
         if(myChat == false) return;
 
-        if (woServices.Store.state.currentStatus <= 1) {
+        if (state.currentStatus <= 1) {
             if(state.userInfo.MaxChats == 0 || reached == false) {
                 connection.ChangeStatus("online");
                 state.statusCanChangeAutomatically = true;
