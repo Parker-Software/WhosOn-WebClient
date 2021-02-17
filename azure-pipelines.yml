@@ -8,6 +8,7 @@ name: $(Major).$(Minor)$(rev:.r).$(BuildID)
 variables:
   system_accesstoken: $(System.AccessToken)
 
+container:
 trigger:
 - build
 
@@ -86,6 +87,8 @@ steps:
 
 - task: GitTag@5
   enabled: false
+  env:
+    SYSTEM_ACCESSTOKEN: $(System.AccessToken)
   inputs:
     workingdir: '$(SYSTEM.DEFAULTWORKINGDIRECTORY)'
     tagUser: 
