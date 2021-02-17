@@ -5,6 +5,9 @@
 
 name: $(Major).$(Minor)$(rev:.r).$(BuildID)
 
+variables:
+  system_accesstoken: $(System.AccessToken)
+
 trigger:
 - build
 
