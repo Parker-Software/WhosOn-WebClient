@@ -41,16 +41,6 @@
                 console.log("Error Occured");
             });
 
-            hooks.Register(connEvents.NewChat, (chatInfo) => {
-                if (state.settings.ShowNotifications == false) {return;}
-
-                if(notification != null) {notification.close();}
-                notification = services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
-                    window.focus();
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
-                });
-            });
-
             hooks.Register(events.Chat.MessageFromWaitingChat, (info) => {
                 if (state.settings.ShowNotifications == false) {return;}
 
@@ -65,9 +55,7 @@
                 if (state.settings.ShowNotifications == false) {return;}
 
                 if(notification != null) {notification.close();}
-                notification = services.Notifications.CreateNotification("Chat Transfered", "", () => {
-
-                });
+                notification = services.Notifications.CreateNotification("Chat Transfered", "");
             });
 
             hooks.Register(events.Inactivity.Active, () => {
