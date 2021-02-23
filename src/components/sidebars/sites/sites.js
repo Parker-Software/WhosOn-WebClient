@@ -28,7 +28,7 @@
                     </div>
                     <div>   
                         <ul v-if="sites.length > 0">
-                            <site v-for="site of sites" :site="site">
+                            <site v-for="site of sites" :site="site" v-bind:key="site.SiteKey">
                             </site>
                         </ul>  
                         <small class="noSites" v-if="sites.length <= 0"> No Sites </small>

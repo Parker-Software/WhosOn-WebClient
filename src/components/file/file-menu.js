@@ -46,6 +46,7 @@
                                 :size="item.Size"
                                 :who="item.CreatedByUser"
                                 :isPinned="item.Pinned"
+                                :key="item.HashedFileName"
                                 @Clicked="ItemClicked">
                             </file-item>
                         </table>

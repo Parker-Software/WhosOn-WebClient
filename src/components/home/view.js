@@ -9,12 +9,17 @@
         data: () => {
             return {
                 showChat: true,
+                showClosedChat: false,
                 showTeam: false,
                 showOptions: false,
                 showSites: false,
                 showMonitorAll: false,
                 showMissedChats: false,
                 chat: {
+                    showNoActiveChats: true,
+                    showActiveChats: false
+                },
+                closedChats: {
                     showNoActiveChats: true,
                     showActiveChats: false
                 },
@@ -32,8 +37,12 @@
                     <div class="main-view customColumn" id="page-content">                   
                         <div class="content-body">
                             <div v-bind:class="{'is-hidden': !showChat}" class="main-view-chats" id="Chats">                              
-                                <chattingArea :show="chat.showActiveChats" :chat="$store.state.currentChat"></chattingArea>
+                                <chattingArea :show="chat.showActiveChats" :chat="$store.state.currentChat" :closedChatView="false"></chattingArea>
                                 <noChatsArea :show="chat.showNoActiveChats"></noChatsArea>
+                            </div>
+                            <div v-bind:class="{'is-hidden': !showClosedChat}" class="main-view-closedChats" id="ClosedChats">                              
+                                <chattingArea :show="closedChats.showActiveChats" :chat="$store.state.currentClosedChat" :closedChatView="true"></chattingArea>
+                                <noClosedChatsArea :show="closedChats.showNoActiveChats"></noClosedChatsArea>
                             </div>
                             <div v-bind:class="{'is-hidden': !showTeam}" id="Team" class="team-view">                            
                                 <chattingArea :show="team.showActiveChats" :user="$store.state.selectedOperatorToOperatorUser"></chattingArea>
@@ -77,6 +86,14 @@
                     if(alreadyViewing == false) {
                         this.hideAll();
                         this.showChat = true;
+                    }
+                });
+
+                hooks.Register(navEvents.ClosedChatsClicked, (e) => {
+                    var alreadyViewing = document.getElementById("closedChatsNavButton").firstChild.classList.contains("is-active");
+                    if (alreadyViewing == false) {
+                        this.hideAll();
+                        this.showClosedChat = true;
                     }
                 });
 
@@ -140,13 +157,30 @@
                     }
                 });
 
+                
+                hooks.Register(events.Chat.WrapUpNotCompleted, (wrapupinfo) => {
+                    if (wrapupinfo.IsFocused) {
+                        this.hideAll();
+                        this.showClosedChat = true;
+                        this.showClosedChats();
+                        this.showNoActiveChats();
+                    }
+                });
+
+
                 hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => {
                     this.hideAll();
                     this.showChat = true;
                     this.showActiveChats();
                 });
 
-                hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {    
+                hooks.Register(events.ChatItem.ClosedChatClicked, (chatUID) => {
+                    this.hideAll();
+                    this.showClosedChat = true;
+                    this.showClosedChats();
+                });
+
+                hooks.Register(events.Chat.CloseChatFinalised, (chatNum) => {    
                     this.hideAll();
                     this.showChat = true;
                     this.showNoActiveChats();
@@ -183,6 +217,7 @@
             methods: {
                 hideAll() {
                     this.showChat = false;
+                    this.showClosedChat = false;
                     this.showTeam = false;
                     this.showOptions = false;
                     this.showSites = false;
@@ -196,6 +231,14 @@
                 showNoActiveChats() {
                     this.chat.showActiveChats = false;
                     this.chat.showNoActiveChats = true;
+                },
+                showClosedChats() {
+                    this.closedChats.showActiveChats = true;
+                    this.closedChats.showNoActiveChats = false;
+                },
+                showNoClosedChats() {
+                    this.closedChats.showActiveChats = false;
+                    this.closedChats.showNoActiveChats = true;
                 },
                 showTeamActiveChats() {
                     this.team.showNoActiveChats = false;

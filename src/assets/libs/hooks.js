@@ -85,6 +85,7 @@
             ButtonClicked: "navigation.ButtonClicked",
             MyStatusClicked: "navigation.MyStatusClicked",
             ChatsClicked: "navigation.ChatsClicked",
+            ClosedChatsClicked: "navigation.ClosedChatsClicked",
             TeamClicked: "navigation.TeamClicked",
             OptionsClicked: "navigation.OptionsClicked",
             MonitorClicked: "navigation.MonitorClicked",
@@ -130,14 +131,19 @@
             ChatTransfered: "home.chat.ChatTransfered",
             WrapUpClicked: "home.chat.WrapUpClicked",
             WrapUpNotCompleted: "home.chat.WrapUpNotCompleted",
+            CloseChatFinalised: "home.chat.CloseChatFinalised",
             AquireChatClicked: "home.chat.AquireChatClicked",
             CannedResponses : {
                 Clicked: "chat.cannedResponses.Clicked"
             }
         },
+        ClosedChat: {
+            CloseChatClicked: "home.closedchat.CloseChatClicked"
+        },
         ChatItem: {
             AcceptClicked: "chatItem.AcceptClicked",
-            MonitorClicked: "chatItem.MonitorClicked"
+            MonitorClicked: "chatItem.MonitorClicked",
+            ClosedChatClicked: "chatItem.ClosedChatClicked",
         },
         ChatModal: {
             CloseChatConfirmed: "chatModal.CloseChatConfirmed",

@@ -15,6 +15,7 @@
                     :item="item"
                     :treeId="treeId"
                     :itemKey="itemKey"
+                    v-bind:key="item[itemKey]"
                     @make-folder="makeFolder"
                     @add-item="addItem"
                     @TreeItemClicked="ItemClicked"

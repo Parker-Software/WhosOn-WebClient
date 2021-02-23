@@ -2,11 +2,11 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var chatEvents = events.Chat;
-    var state = services.Store.state;
 
     Vue.component("chatWrapUp", {    
         props: [
-            "options"
+            "options",
+            "chat"
         ],  
 
         data: () => {
@@ -26,8 +26,10 @@
             <div class="wrapup-content" v-if="isWrapUpComplete">
                 <h2>Wrap Up Complete</h2>
                 <p><strong>{{SelectedValue}}</strong></p>
+                <span v-if="!chat.Closed">
                 <br>
                 <span><a class="button is-option is-small is-fullwidth" v-on:click="CloseChat">Close</a></span>
+                </span>
             </div>               
             <div class="wrapup-content" v-if="isWrapUpComplete == false">
                 <h2>{{options.Message}}</h2>    
@@ -96,19 +98,24 @@
             },
 
             isWrapUpComplete(){
-                return state.currentChat.WrapUpCompleted;
+                return this.chat.WrapUpCompleted;
             }
         },
         methods: {
-            Clicked(e,item) {
-                hooks.Call(events.Chat.WrapUpClicked);
+            CompleteWrapup() {
                 this.isCompleted = true;
-                this.SelectedValue = item
                 services.WhosOnConn.CompleteWrapUp(
-                    state.currentChat.SiteKey,
-                    state.currentChat.ChatUID,
+                    this.chat.SiteKey,
+                    this.chat.ChatUID,
                     this.SelectedValue);
-                state.currentChat.WrapUpCompleted = true;
+
+                this.chat.WrapUpCompleted = true;
+                hooks.Call(events.Chat.WrapUpCompleted, {"ChatUID": this.chat.ChatUID, "Value": this.SelectedValue});
+            },
+
+            Clicked(e,item) {                
+                this.SelectedValue = item
+                this.CompleteWrapup();
             },
 
             SelectClicked(e) {
@@ -116,7 +123,7 @@
             },
 
             CloseChat(){               
-                hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
+                hooks.Call(chatEvents.CloseChatClicked, this.chat.Number);
             },
 
             AllTreeItems() {
@@ -141,13 +148,7 @@
             },
 
             treeSelectButtonClicked(){
-                hooks.Call(events.Chat.WrapUpClicked);
-                this.isCompleted = true;
-                services.WhosOnConn.CompleteWrapUp(
-                    state.currentChat.SiteKey,
-                    state.currentChat.ChatUID,
-                    this.SelectedValue);
-                state.currentChat.WrapUpCompleted = true;
+                this.CompleteWrapup();
             },
 
             GetTreeItemById(item) {
@@ -191,7 +192,7 @@
             },
 
             HyperLinkClicked(e, item) {
-                state.currentChat.WrapUpCompleted = true;              
+                this.chat.WrapUpCompleted = true;              
             }
         }
     });

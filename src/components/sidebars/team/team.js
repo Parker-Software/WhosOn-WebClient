@@ -1,3 +1,4 @@
+//@ts-check
 (function(services){
     var connection = services.WhosOnConn;
     var hooks = services.Hooks;
@@ -55,6 +56,7 @@
                         <ul class="user-list-team">
                             <user 
                                 v-for="user of Users"
+                                v-bind:key="user.Username"
                                 collectionGroup="team"
                                 v-bind:class="{'unanswered': user.UnAnswered != null && user.UnAnswered}"
                                 :user="user"

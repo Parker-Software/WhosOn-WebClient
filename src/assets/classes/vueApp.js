@@ -16,6 +16,14 @@
         }
     }
 
+    Vue.config.errorHandler = function(err, vm, info) {
+        rg4js('send', {
+          error: err,
+          customData: [{ info: info }]
+        });
+        console.error(err);
+      };
+
     var vue = new VueApp();
     services.Add("Vue", vue);
 })(woServices);
