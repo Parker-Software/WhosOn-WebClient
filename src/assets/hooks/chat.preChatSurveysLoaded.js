@@ -13,8 +13,7 @@
             email = hasEmail.Value;
         }
         
-
-        state.crmURL = `https://azurecrm.whoson.com/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=https://dev3.whoson.com/whosoncharts/`;
+        state.crmURL = `https://azurecrm.whoson.com/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=${state.webChartsURL}`;
         hooks.Call(hook.Chat.CRMIFrameChangedSrc, state.crmURL);
     });
 
