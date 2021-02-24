@@ -5,11 +5,14 @@ const del = require("del");
 const sass = require("gulp-sass");
 const concat = require("gulp-concat");
 const browsersync = require("browser-sync").create();
+const uglify = require("gulp-uglify-es").default;
+const gulpif = require("gulp-if");
+const sourcemaps = require("gulp-sourcemaps");
 
 var buildFolder = "./dist" 
 var build = 'dev';
 var version = '1.0.0';
-
+var minify = false;
 
 function setVersion(){
   if(Object.entries(args).length > 0){ 
@@ -53,15 +56,16 @@ function lintjs() {
     .pipe(eslint.failAfterError());
 }
 
+var urls = {
+  style: "assets/css/style.css",
+  vue: "assets/vendor/vue.js",
+  vuex: "assets/vendor/vuex.js",
+  libs: "assets/js/libs.js",
+  componenets: "assets/js/components.js",
+  main: "assets/js/main.js"
+} // base urls
+
 function html() {
-  var urls = {
-    style: "assets/css/style.css",
-    vue: "assets/vendor/vue.js",
-    vuex: "assets/vendor/vuex.js",
-    libs: "assets/js/libs.js",
-    componenets: "assets/js/components.js",
-    main: "assets/js/main.js"
-  }
 
   var baseURL = {
     staging: "https://cdn.whoson.com/webclient/staging_v1",
@@ -79,6 +83,8 @@ function html() {
     .pipe(replace('$style', urls['style']))
     .pipe(replace('$vueLib', urls['vue']))
     .pipe(replace('$vuexLib', urls['vuex']))
+    .pipe(replace('$lodashLib', urls['loadash']))
+    .pipe(replace('$vuexpersistLib', urls['vuexpersist']))
     .pipe(replace('$libs', urls['libs']))
     .pipe(replace('$connection', "assets/js/connectionSettings.js"))
     .pipe(replace('$components', urls['componenets']))
@@ -97,14 +103,20 @@ function packLibs(){
   "./src/assets/classes/store.js",
   "./src/assets/classes/chatFactory.js",
   "./src/assets/hooks/**/*.js"])
-  .pipe(replace('$version', version))
-  .pipe(concat("libs.js"))
+  .pipe(sourcemaps.init())
+    .pipe(replace('$version', version))
+    .pipe(concat("libs.js"))
+    .pipe(gulpif(minify, uglify()))
+  .pipe(sourcemaps.write("./maps"))
   .pipe(dest(buildFolder + "/assets/js/"))
 }
 
 function packComponents(){
   return src("./src/components/**/*.js")
-  .pipe(concat("components.js"))
+  .pipe(sourcemaps.init())
+    .pipe(concat("components.js"))
+    .pipe(gulpif(minify, uglify()))
+    .pipe(sourcemaps.write("./maps"))
   .pipe(dest(buildFolder + "/assets/js/"))
 }
 
@@ -115,7 +127,10 @@ function moveConnectionSettings() {
 
 function moveJS() {
   return src(["./src/assets/classes/vueApp.js", "./src/assets/classes/authentication.js", "./src/assets/classes/main.js", "./src/assets/classes/stateManager.js"])  
+  .pipe(sourcemaps.init())
   .pipe(concat("main.js"))
+  .pipe(gulpif(minify, uglify()))
+  .pipe(sourcemaps.write("./maps"))
   .pipe(dest(buildFolder + "/assets/js/"))
 }
 
@@ -164,6 +179,9 @@ function setCDN(){
   console.log("<--- Starting CDN Build --->");
   buildFolder = './cdn';
   build = 'cdn';
+  urls.vue = "assets/vendor/vue.min.js";
+  urls.vuex = "assets/vendor/vuex.min.js";
+  minify = true;
   return src('.');
 }
 
@@ -171,6 +189,9 @@ function setPROD(){
   console.log("<--- Starting Production Build --->");
   buildFolder = './prod';
   build = 'prod';
+  urls.vue = "assets/vendor/vue.min.js";
+  urls.vuex = "assets/vendor/vuex.min.js";
+  minify = true;
   return src('.');
 }
 

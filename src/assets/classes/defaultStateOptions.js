@@ -44,6 +44,8 @@ woServices.Add("DefaultState", function(){
 
         currentChatSite: {},
 
+        currentClosedChat: {},
+
         currentConnectionId: null,
 
         preRenderedChats: [],
@@ -65,6 +67,8 @@ woServices.Add("DefaultState", function(){
         visitorDetail: {},
 
         chats: [],
+
+        chatsClosed: [],
 
         chatMessages: {},
 

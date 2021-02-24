@@ -1,0 +1,22 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "vue@2.6.12",
+      "destination": "src\\assets\\vendor",
+      "files": [
+        "vue.js",
+        "vue.min.js"
+      ]
+    },
+    {
+      "library": "vuex@3.6.2",
+      "destination": "src\\assets\\vendor",
+      "files": [
+        "vuex.js",
+        "vuex.min.js"
+      ]
+    }
+  ]
+}

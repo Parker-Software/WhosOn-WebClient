@@ -2,13 +2,17 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
     var chatEvents = events.Chat;
+    var closedChatEvents = events.ClosedChat;
     var state = services.Store.state;
     var connection = services.WhosOnConn;
 
     Vue.component("visitor-chat-header", {       
-        props: [
-            "chat"
-        ],
+        props: {
+            closedChatView: {
+                type: Boolean,
+                default: false
+            }
+        },
         data: () => {
             return {
                 acquired: false
@@ -19,9 +23,9 @@
                 <div class="customColumn is-narrow column no-gap-right is-tablet">
                     <div v-bind:class="setBackgroundColor" class="badge">
                         {{visitorLetter}}
-                        <div class="status online-user" v-if="chat.Closed == false"></div>
-                        <div class="status" v-if="chat.Closed"></div>
-                        <div class="status" v-if="chat.Closed == false && acquired"></div>
+                        <div class="status online-user" v-if="Chat.Closed == false"></div>
+                        <div class="status" v-if="Chat.Closed"></div>
+                        <div class="status" v-if="Chat.Closed == false && acquired"></div>
                     </div>         
                 </div>
                 <div class="customColumn column is-tablet">
@@ -29,18 +33,18 @@
                         <div class="content">
                             <p class="chat-header-item">
                                 <strong v-if="BeingMonitoredByYou == false" class="has-text-weight-medium">
-                                    {{chat.Name}} 
-                                    <span v-if="chat.Closed">(Closed)</span> 
-                                    <span v-if="chat.Closed == false && acquired">(Acquired)</span> 
+                                    {{Chat.Name}} 
+                                    <span v-if="Chat.Closed">(Closed)</span> 
+                                    <span v-if="Chat.Closed == false && acquired">(Acquired)</span> 
                                 </strong>
                                 <strong v-if="BeingMonitoredByYou">
-                                    {{chat.Name}} Chatting to {{chat.TalkingTo}}
+                                    {{Chat.Name}} Chatting to {{Chat.TalkingTo}}
                                 </strong>
                             </p>
                             <p class="chat-header-item monitor-label"><small v-if="BeingMonitoredByYou"><strong>Monitoring</strong></small></p>
-                            <p class="chat-header-item"><small>{{chat.SiteName}}</small></p>
-                            <p v-if="chat.Channel" class="chat-header-item"><small>{{chat.Channel}}</small></p>
-                            <p v-else class="chat-header-item"><small>{{chat.Location}}</small></p>
+                            <p class="chat-header-item"><small>{{Chat.SiteName}}</small></p>
+                            <p v-if="Chat.Channel" class="chat-header-item"><small>{{Chat.Channel}}</small></p>
+                            <p v-else class="chat-header-item"><small>{{Chat.Location}}</small></p>
                             <p class="chat-header-item"><small>{{visitorsEmail}}</small></p>
                         </div>
                     </div>
@@ -49,7 +53,7 @@
                     <div class="chat-header-icons is-pulled-right">
 
                         <button 
-                            v-if="BeingMonitoredByYou == false && chat.Channel != null"
+                            v-if="BeingMonitoredByYou == false && Chat.Channel != null"
                             id="softCloseChatBtn"
                             class="has-tooltip-left"
                             data-tooltip="Soft close this chat"
@@ -75,14 +79,14 @@
                             </span>
                         </button>
 
-                        <button v-if="BeingMonitoredByYou == false" id="closeChatBtn" class="has-tooltip-left" data-tooltip="Close this chat" v-on:click="CloseClicked">
+                        <button v-if="BeingMonitoredByYou == false && closedChatView == false" id="closeChatBtn" class="has-tooltip-left" data-tooltip="Close this chat" v-on:click="CloseClicked">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-times fa-stack-1x fa-inverse white"></i>
                             </span>
                         </button>
 
-                        <button v-if="BeingMonitoredByYou == false && acquired == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="has-tooltip-left" data-tooltip="Show transfer list">
+                        <button v-if="BeingMonitoredByYou == false && acquired == false && closedChatView == false" id="transferBtn" data-show="quickview" data-target="quickviewDefault" v-on:click="TransferClicked" class="has-tooltip-left" data-tooltip="Show transfer list">
                             <span class="fa-stack fa-2x">
                                 <i class="fas fa-circle fa-stack-2x"></i>
                                 <i class="fas fa-users fa-stack-1x fa-inverse white"></i>
@@ -164,12 +168,11 @@
         },
         computed: {
             visitorsEmail() {
-                var surveys = woServices.Store.state.currentChatPreSurveys;
-                if(surveys.length <= 0) {return "";}
+                if(this.Survey.length <= 0) {return "";}
 
-                for(var i = 0; i < surveys.length; i++)
+                for(var i = 0; i < this.Survey.length; i++)
                 {
-                    var survey = surveys[i];
+                    var survey = this.Survey[i];
                     if(survey.BuiltInField == "email address")
                     {
                         return survey.Value;
@@ -178,26 +181,31 @@
                 return "";
             },
             BeingMonitoredByYou() {
-                return state.currentChat.BeingMonitoredByYou;
+                return this.Chat.BeingMonitoredByYou;
             },
             currentSite() {
                 var site = null;
-                if(Object.keys(state.currentChat).length > 0) {
-                    site = state.sites[state.currentChat.SiteKey];
+                if(Object.keys(this.Chat).length > 0) {
+                    site = state.sites[this.Chat.SiteKey];
                 }
 
                 return site;
             },
-            currentChat() {
+            Survey() {
+                if (this.closedChatView) return state.currentClosedChat.PreSurvey || [];
+                return state.currentChatPreSurveys || [];
+            },
+            Chat() {
+                if (this.closedChatView) return state.currentClosedChat;
                 return state.currentChat;
             },
             visitorLetter(){
-                var name = state.currentChat.Name;
+                var name = this.Chat.Name;
                 if(name === undefined) {return;}
                 return name.charAt(0).toUpperCase();
             },
             setBackgroundColor() {
-                var name = state.currentChat.Name;
+                var name = this.Chat.Name;
                 if(name === undefined) {return;}              
                 return name.charAt(0).toLowerCase();
             }
@@ -252,25 +260,15 @@
             },
             
             SoftCloseClicked() {
-                hooks.Call(chatEvents.SoftCloseChatClicked, state.currentChat.Number);
+                hooks.Call(chatEvents.SoftCloseChatClicked, this.Chat.Number);
             },
 
             CloseClicked(e) {
-                var currentSiteWrapUpRequired = 
-                    this.currentSite.WrapUp.Required &&
-                    this.currentSite.WrapUp.Enabled;
-                    
-                if 
-                (
-                    currentSiteWrapUpRequired == false ||
-                    (currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted)
-                ) 
-                {
-                    hooks.Call(chatEvents.CloseChatClicked, state.currentChat.Number);
-                } 
-                else 
-                {
-                    hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
+                if (this.closedChatView) {
+                    hooks.Call(closedChatEvents.CloseChatClicked, this.Chat.ChatUID);
+                    state.currentClosedChat = null;
+                } else {
+                    hooks.Call(chatEvents.CloseChatClicked, this.Chat.Number);
                 }
             },
 
@@ -279,12 +277,12 @@
             },
 
             StopMonitoringClicked(e) {
-                hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, state.currentChat.Number);                
+                hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.Chat.Number);                
             },
 
             AquireChatClicked(e) {
-                state.aquiringChatFrom = state.currentChat.TalkingTo;
-                connection.AquireChat(state.currentChat.Number);
+                state.aquiringChatFrom = this.Chat.TalkingTo;
+                connection.AquireChat(this.Chat.Number);
             }
         }
     });

@@ -4,12 +4,13 @@
     var events = services.HookEvents;
     var navEvents = events.Navigation;
     var connection = services.WhosOnConn;
-    var state = services.state;
+    var state = services.Store.state;
 
     Vue.component("navigation", {
         data: () => {
             return {
                 showChats: true,
+                showClosedChats: false,
                 showTeam: false,
                 showSites: false,
                 showMonitorAll: false,
@@ -20,6 +21,7 @@
              <div class="wo-sidebar customColumn">
                 <div id="sideBar" class="view-container view-container-hover is-hidden" @mouseover="hoverSideBar(true, 'sidebar')" @mouseleave="hoverSideBar(false, 'sidebar')"> 
                         <chats v-bind:class="{'is-hidden': showChats == false}"></chats>
+                        <closedChats v-bind:class="{'is-hidden': showClosedChats == false}"></closedChats>
                         <team v-bind:class="{'is-hidden': showTeam == false}"></team>
                         <sites v-bind:class="{'is-hidden': showSites == false}"></sites>
                 </div>
@@ -74,6 +76,18 @@
                                 </span>
                                 <br>
                                 <span class="nav-label">Chats</span>
+                            </a>
+                        </li>
+                        <li @click="OnNavButtonClicked('closedChats')" id="closedChatsNavButton" @mouseover="hoverSideBar(true,'closedChats')" @mouseleave="hoverSideBar(false, 'closedChats')">
+                            <a>
+                                <span class="icon">
+                                    <span v-if="ClosedChatNeedsResponse" class="menu-status away">
+                                        <i class="fas fa-circle"></i>
+                                    </span>
+                                    <i class="fas fa-comment-check"></i>
+                                </span>
+                                <br>
+                                <span class="nav-label">Closed Chats</span>
                             </a>
                         </li>
                         <li v-if="$store.state.rights.RespondToMissedChats" @click="OnNavButtonClicked('missedchats')" id="missedchatsNavButton" @mouseover="hoverSideBar(true,'missedchats')" @mouseleave="hoverSideBar(false, 'sidebar')">
@@ -158,6 +172,12 @@
             hooks.Register(events.Connection.ChatAccepted, () => {
                 this.OnNavButtonClicked("chats");
             });
+
+            hooks.Register(events.Chat.WrapUpNotCompleted, (wrapup) => {
+                if (wrapup.IsFocused) {
+                    this.OnNavButtonClicked('closedChats');
+                }
+            })
         },
         mounted() {
             this.$nextTick(function() {
@@ -212,6 +232,19 @@
                 return result;
             },
 
+            ClosedChatNeedsResponse() {
+                for(let i = 0; i <  state.chatsClosed.length; i++)
+                {
+                    let chatClosed = state.chatsClosed[i];
+                    let site = state.sites[chatClosed.SiteKey];
+                    if (site != null && site.WrapUp.Show != "" && chatClosed.WrapUpCompleted == false) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+
             CallbackNow() {
                 return this.$store.state.missedChats
                     .filter(x => x.MissedWantsCallback)
@@ -242,21 +275,31 @@
                     switch (el) {
                         case "chats":
                             this.showChats = true;
+                            this.showClosedChats = false;
+                            this.showTeam = false;
+                            this.showSites = false;
+                            break;
+                        case "closedChats":
+                            this.showChats = false;
+                            this.showClosedChats = true;
                             this.showTeam = false;
                             this.showSites = false;
                             break;
                         case "team":
                             this.showChats = false;
+                            this.showClosedChats = false;
                             this.showTeam = true;
                             this.showSites = false;
                             break;
                         case "sites":
                             this.showChats = false;
+                            this.showClosedChats = false;
                             this.showTeam = false;
                             this.showSites = true;
                             break;
                         default:
                             this.showChats = false;
+                            this.showClosedChats = false;
                             this.showTeam = false;
                             this.showSites = false;
                             break;
@@ -304,6 +347,7 @@
             UnselectAll() {
                 this.StatusBtn().firstChild.classList.remove("is-active");
                 this.ChatBtn().firstChild.classList.remove("is-active");
+                this.ClosedChatsBtn().firstChild.classList.remove("is-active");
                 this.UsersBtn().firstChild.classList.remove("is-active");
                 this.OptionsBtn().firstChild.classList.remove("is-active");
                 this.SitesBtn().firstChild.classList.remove("is-active");
@@ -333,6 +377,10 @@
 
             ChatBtn() {
                 return document.getElementById("chatsNavButton");
+            },
+
+            ClosedChatsBtn() {
+                return document.getElementById("closedChatsNavButton");
             },
 
             UsersBtn() {
@@ -368,6 +416,11 @@
             },
             
             OnNavButtonClicked(status) {
+                rg4js('trackEvent', {
+                    type: 'pageView',
+                    path: '/' + status
+                  });
+
                 hooks.Call(navEvents.ButtonClicked, status);  
                 this.focus = status;        
                 if(this.isHidden(this.StatusPopout()) == false && status != "status") {this.ToggleStatus();}
@@ -380,16 +433,28 @@
                         hooks.Call(navEvents.ChatsClicked);
                         this.showChats = true;
                         this.showTeam = false;
-                        this.showSites = false;      
+                        this.showSites = false;    
+                        this.showClosedChats = false;  
                         this.SideBar().classList.remove("is-hidden"); 
                         this.ChatBtn().firstChild.classList.add("is-active");
+                        break;
+                    case "closedChats":
+                        this.UnselectAll();
+                        hooks.Call(navEvents.ClosedChatsClicked);
+                        this.showChats = false;
+                        this.showTeam = false;
+                        this.showSites = false;      
+                        this.showClosedChats = true;
+                        this.SideBar().classList.remove("is-hidden");
+                        this.ClosedChatsBtn().firstChild.classList.add("is-active");
                         break;
                     case "team":
                         this.UnselectAll();                        
                         hooks.Call(navEvents.TeamClicked);
                         this.showChats = false;
                         this.showTeam = true;     
-                        this.showSites = false;                
+                        this.showSites = false;   
+                        this.showClosedChats = false;             
                         this.SideBar().classList.remove("is-hidden");   
                         this.UsersBtn().firstChild.classList.add("is-active");
                         break;
@@ -400,7 +465,7 @@
                         this.showTeam = false;     
                         this.showSites = false;   
                         this.showMonitorAll = true;       
-                        
+                        this.showClosedChats = false;
                         this.SideBar().classList.add("is-hidden");
                         this.MonitorAllBtn().firstChild.classList.add("is-active");
                         break;
@@ -412,6 +477,7 @@
                         this.showChats = false;
                         this.showTeam = false; 
                         this.showSites = true; 
+                        this.showClosedChats = false;
                         this.SideBar().classList.remove("is-hidden");     
                         this.SitesBtn().firstChild.classList.add("is-active");  
                         break;
@@ -419,7 +485,8 @@
                         this.UnselectAll();               
                         hooks.Call(navEvents.OptionsClicked);   
                         this.showChats = false;
-                        this.showTeam = false;     
+                        this.showTeam = false; 
+                        this.showClosedChats = false;    
                         this.SideBar().classList.add("is-hidden");
                         this.OptionsBtn().firstChild.classList.add("is-active");
                         break;
@@ -427,7 +494,8 @@
                         this.UnselectAll();              
                         hooks.Call(navEvents.MissedChatsClicked);
                         this.showChats = false;
-                        this.showTeam = false;     
+                        this.showTeam = false;    
+                        this.showClosedChats = false; 
                         this.SideBar().classList.add("is-hidden");
                         this.MissedChatsBtn().firstChild.classList.add("is-active");
                         break;

@@ -1,5 +1,14 @@
-
 (function(services) {
+    var storageHelper = {
+        // persist the current state
+        saveState(state) {
+            var previousSettings = JSON.parse(sessionStorage.getItem("woClient"));
+            previousSettings.previousAcceptedChats = state.previousAcceptedChats;
+            previousSettings.chatsClosed = state.chatsClosed;
+            sessionStorage.setItem("woClient", JSON.stringify(previousSettings));
+        }
+    }
+
     services.Add("Store", new Vuex.Store({
         state: services.DefaultState(),
         mutations: {
@@ -20,6 +29,7 @@
                     state.t = t.toString(CryptoJS.enc.Utf8);
                     state.department = settings.department;
                     state.previousAcceptedChats = settings.previousAcceptedChats || [];
+                    state.chatsClosed = settings.chatsClosed || [];
                 }
             },
 
@@ -28,9 +38,11 @@
                     state.previousAcceptedChats.push(chatId);
                 }
 
-                var previousSettings = JSON.parse(sessionStorage.getItem("woClient"));
-                previousSettings.previousAcceptedChats = state.previousAcceptedChats;
-                sessionStorage.setItem("woClient", JSON.stringify(previousSettings));
+                storageHelper.saveState(state);
+            },
+
+            chatClosed(state, chatId) {
+                storageHelper.saveState(state);                
             },
 
             saveLoginDetails(state, loginDetails) {
@@ -51,8 +63,14 @@
                     t: t.toString(),
                     time,
                     department : loginDetails.department,
-                    previousAcceptedChats: state.previousAcceptedChats || []
-                }))
+                    previousAcceptedChats: state.previousAcceptedChats || [],
+                    chatsClosed: state.chatsClosed || []
+                }));
+
+                rg4js('setUser', {
+                    identifier: state.userName,
+                    isAnonymous: false
+                  });
             },
 
             replaceEntireState(state, newState) {
