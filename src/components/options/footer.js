@@ -14,6 +14,7 @@
             Save() {
                 hooks.Call(events.Options.SaveClicked);
                 services.WhosOnConn.ClientOptions(this.$store.state.settings);
+                this.$store.dispatch('storeSettings');
             },
             Cancel() {
                 hooks.Call(events.Options.CancelClicked);
