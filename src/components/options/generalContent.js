@@ -27,6 +27,10 @@
                 <label for="enableVisitorPopups"><small>Show popup noficiations for new visitors</small></label>
             </div>-->
             <div class="field">
+                <input id="enableAwayOnStartup" type="checkbox" v-model="$store.state.settings.StartAway" name="enableAwayOnStartup" class="switch is-rounded">
+                <label for="enableAwayOnStartup"><small>Set my status to away on start up</small></label>
+            </div>
+            <div class="field">
                 <input id="enableAutoAway" type="checkbox" v-model="$store.state.settings.AutoAwayEnabled" name="enableAutoAway" class="switch is-rounded">
                 <label for="enableAutoAway"><small>Auto away after <input type="text" v-model="$store.state.settings.AutoAwayMins" class="inlineTextBox" /> minutes of inactivity</small></label>
             </div>

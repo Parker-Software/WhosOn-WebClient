@@ -17,13 +17,23 @@
         Login(userName, password, dept) {
             var self = this;
 
+            var loginStatus = 0;
+            if (self._state.currentStatus && self._state.currentStatus > 0) {
+                loginStatus = self._state.currentStatus;
+                self._state.statusCanChangeAutomatically = false;
+            } else if (self._state.settings.StartAway) {
+                loginStatus = 3;
+                self._state.currentStatus = 3;
+                self._state.statusCanChangeAutomatically = false;
+            }
+
             self._connection.Login(
                 "",
                 "",
                 dept,
                 "",
                 self._version,
-                "0",
+                loginStatus,
                 self._lang,
                 self._platform,
                 userName,
