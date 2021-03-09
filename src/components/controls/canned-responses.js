@@ -39,7 +39,7 @@
                 </div>  
                 <tree @ItemClicked="CannedResponseClicked" :treeId="Id" itemKey="Subject" v-if="IsSearching == false" :data="$store.state.cannedResponsesTree"></tree>
                 <ul v-if="IsSearching" id="fileItems" class="search-list">
-                    <tree-search-item :treeId="Id"  @ItemClicked="SearchedCannedResponseClicked" v-for="item in FilteredCannedResponse" :item="item">
+                    <tree-search-item :treeId="Id"  @ItemClicked="SearchedCannedResponseClicked" v-for="item in FilteredCannedResponse" :item="item" v-bind:key="item.CannedID">
                     </tree-search-item>
                 </ul>
             </div>

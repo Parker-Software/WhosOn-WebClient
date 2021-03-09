@@ -6,23 +6,30 @@
     const messageGrouper = services.MessageGrouper;
 
     Vue.component("visitor-chat-conversation", {   
-        props: [
-            "chat",
-            "surveys",
-            "messages",
-            "site"
-        ],  
+        props: {
+            chat: {},
+            surveys: {},
+            messages: {},
+            site: {},
+            closedChatView: {
+                type: Boolean,
+                default: false
+            }
+        },  
         watch: {
             chat() {
                 if(this.site == null) return;
-
-                switch(this.site.WrapUp.Show) {
-                    case "From Start":
-                            if (this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
-                        break;
-                    default:
-                        this.ShowWrapUp = false;
-                        console.log(`Wrap up not accounted for - ${this.site.WrapUp.Show}`);
+                if(this.closedChatView) {
+                    if (this.site.WrapUp.Show != "") this.ShowWrapUp = true;
+                } else {
+                    switch(this.site.WrapUp.Show) {
+                        case "From Start":
+                                if (this.chat.WrapUpCompleted == false)  {this.ShowWrapUp = true;}
+                            break;
+                        default:
+                            this.ShowWrapUp = false;
+                            console.log(`Wrap up not accounted for - ${this.site.WrapUp.Show}`);
+                    }
                 }
             }
         },
@@ -55,7 +62,7 @@
                         chat != null &&
                         chat.BeingMonitoredByYou == false"
                 >
-                    <chatWrapUp :options="site.WrapUp"></chatWrapUp>
+                    <chatWrapUp :options="site.WrapUp" :chat="chat"></chatWrapUp>
                 </div>
                 <div class="active-chat" id="Conversation">
                     <div class="columns">
@@ -79,7 +86,7 @@
             >
             </canned-responses>
 
-            <visitor-conversation-interaction
+            <visitor-conversation-interaction v-if="!closedChatView"
                 :id="ChatInteractionId"
                 :site="site" 
                 :chat="chat" 
@@ -186,8 +193,10 @@
                 this.ScrollChat();
             });
 
-            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
-                this.ShowWrapUp = true
+            hooks.Register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
+                if (this.chat.ChatUID == notCompleted.ChatUID) {
+                    this.ShowWrapUp = true
+                }
             });
 
             hooks.Register(events.ChatModal.CloseChatConfirmed, (e) => {
@@ -283,13 +292,15 @@
 
             ScrollChat() {
                 var scroller = document.getElementById(this.ChatScrollerId);
-                setTimeout(() => {
-                    scroller.scrollBy({
-                        top: scroller.scrollHeight,
-                        left: 0,
-                        behavior: "smooth"
-                    });
-                }, 100);
+                if (scroller) {
+                    setTimeout(() => {
+                        scroller.scrollBy({
+                            top: scroller.scrollHeight,
+                            left: 0,
+                            behavior: "smooth"
+                        });
+                    }, 100);
+                }
             },
 
             Split() {

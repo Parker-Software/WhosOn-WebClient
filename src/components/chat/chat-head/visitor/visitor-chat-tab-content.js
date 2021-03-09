@@ -12,6 +12,12 @@
             };
         },
 
+        props: {
+            closedChatView: {
+                type: Boolean,
+                default: false
+            }
+        },
 
         template: `
             <div style="width:100%; height:100%">
@@ -20,10 +26,11 @@
 
                 <visitor-chat-conversation 
                     v-show="tabSelected == null || tabSelected == 'conversation'"
-                    :chat="$store.state.currentChat" 
+                    :chat="Chat" 
                     :site="CurrentSite" 
-                    :surveys="$store.state.currentChatPreSurveys" 
-                    :messages="$store.state.currentChatMessages"
+                    :surveys="Survey" 
+                    :messages="Messages"
+                    :closedChatView="closedChatView"
                 />
 
                 <visitor-info 
@@ -46,15 +53,38 @@
 
         computed: {
 
+            Chat() {
+                if (this.closedChatView) return state.currentClosedChat;
+                return state.currentChat;
+            },
+
+            Messages() {
+                if (this.Chat.ChatUID == state.currentChat.ChatUID) {
+                    return state.currentChatMessages;
+                }
+                return this.Chat.Messages || [];
+            },
+
+            Survey() {
+                if (this.Chat.ChatUID == state.currentChat.ChatUID) {
+                    return state.currentChatPreSurveys;
+                }
+                return this.Chat.PreSurveys || [];
+            },
+
             CurrentSite() {
-                if(Object.keys(state.currentChat).length > 0) {
-                    return state.sites[state.currentChat.SiteKey];
+                if(Object.keys(this.Chat).length > 0) {
+                    return state.sites[this.Chat.SiteKey];
                 }
                 return null;
             },
 
             VisitorInfo() {
-                return state.visitorDetail[state.currentChat.ChatUID];
+                if (this.closedChatView) {
+                    return this.Chat.VisitorDetail;
+                } else {
+                    return state.visitorDetail[this.Chat.ChatUID];
+                }
             }
 
         }

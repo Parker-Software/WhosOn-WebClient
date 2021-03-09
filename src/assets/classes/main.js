@@ -4,8 +4,6 @@
 
     class Main {
         constructor() {
-            var self = this;
-
             var hooks = services.Hooks;
             var connEvents = services.HookEvents.Connection;
             var events = services.HookEvents;
@@ -41,16 +39,6 @@
                 console.log("Error Occured");
             });
 
-            hooks.Register(connEvents.NewChat, (chatInfo) => {
-                if (state.settings.ShowNotifications == false) {return;}
-
-                if(notification != null) {notification.close();}
-                notification = services.Notifications.CreateNotification("WhosOn Chat Request", `Visitor ${chatInfo.Name} on ${chatInfo.SiteName} wants to chat`, () => {
-                    window.focus();
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chatInfo.Number, "ChatId": chatInfo.ChatUID });
-                });
-            });
-
             hooks.Register(events.Chat.MessageFromWaitingChat, (info) => {
                 if (state.settings.ShowNotifications == false) {return;}
 
@@ -65,9 +53,7 @@
                 if (state.settings.ShowNotifications == false) {return;}
 
                 if(notification != null) {notification.close();}
-                notification = services.Notifications.CreateNotification("Chat Transfered", "", () => {
-
-                });
+                notification = services.Notifications.CreateNotification("Chat Transfered", "");
             });
 
             hooks.Register(events.Inactivity.Active, () => {
@@ -96,15 +82,17 @@
                 var chat = state.chats.find(x => x.Number == chatNum);
                 if(notification != null) {notification.close();}
 
-            
-
                 notification = services.Notifications.CreateNotification("Transfer Request", msg || `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
                     hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });
 
-            hooks.Register(events.Chat.WrapUpNotCompleted, () => {
+            hooks.Register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
                 if(notification != null) {notification.close();}
+                if (notCompleted.IsFocused) {
+                    hooks.Call(events.Navigation.ClosedChatsClicked, notCompleted);
+                    return;
+                }
                 notification = services.Notifications.CreateNotification("Chat Wrapup Required", "Please complete wrapup to close the chat", () => {
                     hooks.Call(events.Chat.WrapUpClicked);
                 });
@@ -126,5 +114,5 @@
         }
     }
 
-    var main = new Main();
+    _ = new Main();
 })(woServices);

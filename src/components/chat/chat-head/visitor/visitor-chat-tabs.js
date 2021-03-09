@@ -7,6 +7,12 @@
     var crmWindowChecker = null;
 
     Vue.component("visitor-chat-tabs", {
+        props: {
+            closedChatView: {
+                type: Boolean,
+                default: false
+            }
+        },
         template: `
         <div class="visitor-chat-tabs tabs">
             <ul>

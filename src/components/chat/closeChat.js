@@ -6,7 +6,21 @@
 
     hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {
         services.WhosOnConn.CloseChat(chatNum);
+        var thisChat = state.currentChat;
         state.currentChat = {};
+
+        var currentSite = state.sites[thisChat.SiteKey];
+
+        var currentSiteWrapUpRequired = 
+        currentSite.WrapUp.Required &&
+        currentSite.WrapUp.Enabled;
+
+        if (currentSiteWrapUpRequired && !thisChat.WrapUpCompleted) {
+            state.currentClosedChat = thisChat;
+            hooks.Call(events.Chat.WrapUpNotCompleted, {ChatUID: thisChat.ChatUID, IsFocused: true});
+        } else {
+            hooks.Call(events.Chat.CloseChatFinalised, {});
+        }
 
         setTimeout(function() {
             state.chats.forEach(function(chat){

@@ -44,6 +44,8 @@ woServices.Add("DefaultState", function(){
 
         currentChatSite: {},
 
+        currentClosedChat: {},
+
         currentConnectionId: null,
 
         preRenderedChats: [],
@@ -66,6 +68,8 @@ woServices.Add("DefaultState", function(){
 
         chats: [],
 
+        chatsClosed: [],
+
         chatMessages: {},
 
         chatPreSurveys: {},
@@ -86,6 +90,7 @@ woServices.Add("DefaultState", function(){
             ShowAutoResponse: true,
             ShowEmoji: true,
             ShowOtherUsersChats: true,
+            StartAway: false,
             UILang: "en",
             Greeting: "Good %TimeOfDay% %Name%. My name is %MyName% how can I help you?",
             TransferMessage: "Please pick up the chat session for visitor %Name%.",
