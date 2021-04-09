@@ -9,10 +9,10 @@
     var password;
     var department;
 
-    Vue.component(state.loginViewNameSSO, {
+    Vue.component(state.loginViewName, {
         template:
         `
-        <div v-bind:id="$store.state.loginViewNameSSO" class="view">           
+        <div v-bind:id="$store.state.loginViewName" class="view">           
             <div class="header" id="app-header">
                 <div class="has-text-centered">
                     <h1 class="is-size-6-half has-text-weight-medium">WhosOn Login</h1>
@@ -28,51 +28,31 @@
                     <form>
                         <div class="field">
                             <div class="control">
-                                <label>Username or Email Address:</label>
-                                <select name="savedUsername" id="savedUsernameInput" class="input" v-if="!firstTime">
-
-                                </select>
-          
-                                    <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" required>          
-                                    
+                                <label>Username:</label>
+                                <input v-on:keyup.enter="onSubmit" class="input" type="text" id="userNameInput" autofocus="" name="username" required>
                             </div>
                         </div>
 
-                        <div class="field" v-if="serverVisible">
-                            <div class="control">
-                                <label>Server:</label>
-                                <input v-on:keyup.enter="onSubmit" class="input" id="serverInput">
-                            </div>
-                        </div>                        
-
-                        <div class="field" v-if="authVisible">
-                            <div class="control">
-                                <label>Authentication string:</label>
-                                <input v-on:keyup.enter="onSubmit" class="input" id="authInput">
-                            </div>
-                        </div>                        
-
-
-                        <div class="field" v-if="passwordVisible">
+                        <div class="field">
                             <div class="control">
                                 <label>Password:</label>
                                 <input v-on:keyup.enter="onSubmit" class="input" type="password" id="passwordInput">
                             </div>
                         </div>                        
-                        <input type="button" class="button is-block btn" v-on:click="onSubmit" value="Next">                        
+                        <input type="button" class="button is-block btn" v-on:click="onSubmit" value="Login">                        
                     </form>
                     <div class="notification is-danger wo-error is-hidden"></div>
                 </div>
                 <div class="field has-text-left" style="padding-left:20px;">
-                    <input id="RememberMe" type="checkbox" name="RememberMe" :checked="rememberMe" class="switch is-rounded">
+                    <input id="RememberMe" type="checkbox" name="RememberMe" class="switch is-rounded"
+                        checked="checked">
                     <label for="RememberMe">Keep me signed in</label>
                 </div>
                 <!--
                 <div class="field has-text-left" style="padding-left:20px;">
                     <input id="advSettings" type="checkbox" name="advSettings" class="switch is-rounded" v-on:change="toggleAdvancedSettings">
                     <label for="advSettings">Advanced settings</label>
-                </div>
-                -->
+                </div> -->
                 <!-- toggle is-hidden  -->
                 <div class="box advSettings" id="advSettingsBox" style="visibility: hidden;">  
                     <div class="field">
@@ -99,19 +79,19 @@
             hooks.Register(connEvents.MessageFromServer, (e) => {
 
                 var errorMessage;
-                var usernameInput = document.getElementById("userNameInput");           
-                var passwordInput = document.getElementById("passwordInput");
+                var username = document.getElementById("userNameInput");           
+                var password = document.getElementById("passwordInput");
                
 
                 switch(e.Data)
                 {
                     case "No username specified.":
                         errorMessage = "Please enter your username." 
-                        usernameInput.classList.toggle("is-danger");
+                        username.classList.toggle("is-danger");
                     break;
                     case "No password specified.":
                         errorMessage = "Please enter your password."
-                        passwordInput.classList.toggle("is-danger");
+                        password.classList.toggle("is-danger");
                     break;                    
                     case "Invalid credentials entered. Please check your login details.":
                         errorMessage = e.Data;
@@ -121,48 +101,21 @@
                     break;
                 }
 
-                if (errorMessage != null) {
-                    if (passwordInput) passwordInput.value = "";                  
+                if (errorMessage != null)
+                {
+                    document.getElementById("passwordInput").value = "";                  
                     var woError = document.getElementsByClassName("wo-error")[0];
                     woError.innerText = e.Data;
                     woError.classList.remove("is-hidden"); 
-                } else {
-                    console.log(e.Data);
                 }
-            });
-
-            // handle instance when open id is enabled
-            hooks.Register(connEvents.OpenIdOn, (e) => {
-                // please wait event
-            });
-
-            hooks.Register(connEvents.OpenIdAuth, (e) => {
-                services.Store.commit("saveLoginDetails", { userName, openid: 2 });
-                window.location = e.Data;
-            });
-
-            // handle instance when open id is not enabled
-            hooks.Register(connEvents.OpenIdOff, (e) => {
-                // show password
-                this.passwordVisible = true;
             });
 
             hooks.Register(connEvents.LoggedIn, () => {              
                 services.Store.commit("saveLoginDetails", { userName, t:password, department });
-                if (this.rememberMe)
-                {
-                    localStorage.setItem('rememberUsername', null);
-                }
-                else
-                {
-                    localStorage.setItem('rememberUsername', userName);
-                }
             });
 
             hooks.Register(connEvents.Connected, (e) => {
-                
-                if(state.userName != null && state.userName != "") {
-                    if (state.t != null && state.t != "") {
+                if(state.userName != null && state.userName != "" && state.t != null && state.t != "") {
                     userName = state.userName;
                     password = state.t;
                     department = state.department;
@@ -170,60 +123,30 @@
                     services.Authentication.Login(userName,
                         password,
                         department);
-                    } else if (state.openid != null) {
-                        userName = state.userName;
-                        // returning openid state
-                        if (this.QueryString.get("openid")) {
-                            services.Authentication.Login(userName, 
-                                "whoson-openid-token:" + window.location.search,
-                                department);
-                        }
-                    }
-                } else {
-                    var remember = localStorage.getItem('rememberUsername');
-                    if (remember) {
-                        this.rememberMe = true;
-                        document.getElementById("userNameInput").value = remember;
-                        this.onSubmit();
-                    }
                 }
             });
         },
-        data: function(){ return {
-            firstTime: true,
-            serverVisible: false,
-            authVisible: false,
-            passwordVisible: false,
-            rememberMe: false,
-        }},
         computed: {
             CurrentYear() {
                 return new Date().getFullYear();
-            },
-            QueryString() {
-                return new URLSearchParams(window.location.search);
             }
         },
         methods: {
             onSubmit() {
+                userName = document.getElementById("userNameInput").value;
+                password = document.getElementById("passwordInput").value;              
+                department = document.getElementById("departmentInput").value;
+                
+                var list = document.getElementsByTagName("input");
+               
+                for (let index = 0; index < list.length; index++) {
+                    list[index].classList.remove("is-danger");                    
+                }
+                var woError = document.getElementsByClassName("wo-error")[0];            
+                woError.classList.add("is-hidden");
 
-                if (this.passwordVisible) {
-                    password = document.getElementById("passwordInput").value;
-                    department = document.getElementById("departmentInput").value;
-                    services.Authentication.Login(userName, password, department);
-                } else {
-                    userName = document.getElementById("userNameInput").value;
-
-                    if (userName.indexOf('\\') > 0 || userName.indexOf("@") > 0) {
-                        // check with discovery service first
-                        services.Authentication.DiscoverUser(userName);
-                    } else {
-                        // directly trigger the open id service
-                        services.Authentication.CheckOpenId(userName);
-                    }
-                }                         
+                services.Authentication.Login(userName, password, department);
             },
-
             toggleAdvancedSettings() {
                 var advSettingsToggle = document.getElementById("advSettings");
                 var advSettingsArea = document.getElementById("advSettingsBox");

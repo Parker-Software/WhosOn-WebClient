@@ -73,6 +73,11 @@
             ]);
         }
 
+        CheckOpenId(userName) {
+            var self = this;
+            self.Socket.Send("openidcheck", [userName, window.location.origin]);
+        }
+
         AcceptChat(chatNum) {
             var self = this;
             self.Socket.Send("Chat", [

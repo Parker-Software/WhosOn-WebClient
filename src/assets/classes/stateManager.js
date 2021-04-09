@@ -5,7 +5,7 @@
             var socketEvents = services.HookEvents.Socket;
             var connEvents = services.HookEvents.Connection;
             var homeView = document.getElementById(services.Store.state.homeViewName);
-            var loginView = document.getElementById(services.Store.state.loginViewName);
+            var loginView = document.getElementById(services.Store.state.loginViewNameSSO);
             var connectingView = document.getElementById(services.Store.state.connectingViewName);
             
             loginView.style.display = "none";

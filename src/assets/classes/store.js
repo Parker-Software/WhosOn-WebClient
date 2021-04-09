@@ -90,6 +90,9 @@
                     state.previousAcceptedChats = settings.previousAcceptedChats || [];
                     state.chatsClosed = settings.chatsClosed || [];
                     state.statusCanChangeAutomatically = settings.statusCanChangeAutomatically;
+                    state.openid = settings.openid;
+                    state.server = settings.server;
+                    state.auth = settings.auth;
                 }
             },
 
@@ -111,17 +114,28 @@
             },
 
             saveLoginDetails(state, loginDetails) {
-                state.userName = loginDetails.userName;
-                state.t = loginDetails.t;
-                state.department = loginDetails.department;
-
+                let t = "";
                 let time = Date.now();
-                
-                let key = `${loginDetails.userName}${time.toString()}`;
-                let t = CryptoJS.AES.encrypt(
-                    loginDetails.t,
-                    key
-                );
+                state.userName = loginDetails.userName;
+                state.server = loginDetails.server;
+                state.auth = loginDetails.auth;
+
+                if (loginDetails.t) {
+                    // password auth
+                    state.t = loginDetails.t;
+                    state.department = loginDetails.department;
+
+                    let key = `${loginDetails.userName}${time.toString()}`;
+                    t = CryptoJS.AES.encrypt(
+                        loginDetails.t,
+                        key
+                    );
+
+                } else {
+                    // openid
+                    state.t = "";
+                    state.openid = loginDetails.openid;
+                }
 
                 sessionStorage.setItem("woClient", JSON.stringify({
                     userName : loginDetails.userName,
@@ -132,7 +146,12 @@
                     chatsClosed: state.chatsClosed || [],
                     currentStatus: state.currentStatus,
                     statusCanChangeAutomatically: state.statusCanChangeAutomatically,
+                    server: state.server,
+                    auth: state.auth,
+                    openid: state.openid
                 }));
+
+                state.settings.RememberLogin = loginDetails.RememberLogin;
 
                 rg4js('setUser', {
                     identifier: state.userName,

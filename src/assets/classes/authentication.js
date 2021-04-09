@@ -42,6 +42,20 @@
             )
         }
 
+        CheckOpenId(username) {
+            this._connection.CheckOpenId(username);
+        }
+
+        DiscoverUser(username) {
+            if (false) {
+                // discovery service available
+            } else {
+                // discovery service unavailable
+                this._connection.CheckOpenId(username);
+            }
+            
+        }
+
         LogOut() {
 
         }

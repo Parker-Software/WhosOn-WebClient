@@ -94,7 +94,8 @@ woServices.Add("DefaultState", function(){
             UILang: "en",
             Greeting: "Good %TimeOfDay% %Name%. My name is %MyName% how can I help you?",
             TransferMessage: "Please pick up the chat session for visitor %Name%.",
-            ListenModeActive: false
+            ListenModeActive: false,
+            RememberLogin: false,
         },
 
         rights: {
@@ -135,6 +136,7 @@ woServices.Add("DefaultState", function(){
         settingsPortalAddress: null,
 
         loginViewName: "loginview",
+        loginViewNameSSO: "loginviewsso",
         homeViewName: "homeview",
         connectingViewName: "connectingview"
     };
