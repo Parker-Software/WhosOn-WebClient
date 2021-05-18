@@ -27,13 +27,15 @@
                 Vue.set(item, "children", [])
                 this.addItem(item)
             },
+
             addItem: function (item) {
                 item.children.push({
                 name: "new stuff"
               })
             },
-            ItemClicked(item, event) {
-                this.$emit("ItemClicked", item, event);
+
+            ItemClicked(item, path, event) {
+                this.$emit("ItemClicked", item, path, event);
             }
         }
     });

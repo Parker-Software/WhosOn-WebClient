@@ -139,10 +139,10 @@
                 }
             },
 
-            TreeItemClicked(item) {
+            TreeItemClicked(item, path, event) {
                 this.UnSelectAllTreeItems();
                 this.GetTreeItemById(item).classList.add("selected");
-                this.SelectedValue = item.Name;
+                this.SelectedValue = path;
                 var button = this.GetTreeButton();
                 button.disabled = false;
             },
@@ -206,6 +206,12 @@
                     Name: node.children[0].textContent,
                     children: []
                 };
+
+                if(treeChild) {
+                    child.parent = treeChild;
+                }
+
+
                 treeChild.children.push(child);
 
                 if(node.children.length > 1) {
