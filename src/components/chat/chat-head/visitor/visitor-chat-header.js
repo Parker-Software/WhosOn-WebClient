@@ -53,7 +53,7 @@
                     <div class="chat-header-icons is-pulled-right">
 
                         <button 
-                            v-if="BeingMonitoredByYou == false && Chat.Channel != null"
+                            v-if="BeingMonitoredByYou == false && Chat.Channel != null && Chat.Channel != 'Chat'"
                             id="softCloseChatBtn"
                             class="has-tooltip-left"
                             data-tooltip="Soft close this chat"
