@@ -5,7 +5,7 @@
         props: [
             "item",
             "treeId",
-            "itemKey",
+            "itemKey"
         ],
         template: `
             <li>
@@ -28,8 +28,7 @@
                         @make-folder="$emit('make-folder', $event)"
                         @add-item="$emit('add-item', $event)"
                         @TreeItemClicked="ClickedForParent"
-                        >
-                    </tree-item>
+                    />
                 </ul>
             </li>
         `,
@@ -42,20 +41,40 @@
             isFolder: function () {
                 return this.item.children && this.item.children.length
             },
+
             IsOpen: function () {
                 return this.isOpen ? "<i class='fas fa-chevron-down'></i>" : "<i class='fas fa-chevron-right'></i>";
             }
         },
+        
         methods: {
             Clicked(event) {
                 if (this.isFolder) {
                     this.isOpen = !this.isOpen
                 }
-                this.$emit("TreeItemClicked", this.item, event);
+
+                let path = this.item[this.itemKey];
+                if(this.item.parent) {
+                    path = this.GetPath(this.item, path);
+                }
+
+                this.$emit("TreeItemClicked", this.item, path, event);
             },
+
+            GetPath(item, route) {
+                let parent = item.parent;
+                if(parent) {
+                    route = `${parent.Name} > ${route}`;
+                    route = this.GetPath(parent, route);
+                }
+
+                return route;
+            },
+
             ClickedForParent(item, event) {
                 this.$emit("TreeItemClicked", item, event);
             },
+
             makeFolder: function () {
                 if (!this.isFolder) {
                     this.$emit("make-folder", this.item)
