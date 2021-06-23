@@ -4,7 +4,7 @@
     var hook = services.HookEvents;
 
 
-    hooks.Register(hook.Chat.RequestedFileUpload, () => {
+    hooks.register(hook.Chat.RequestedFileUpload, () => {
         state.currentChatMessages.push({
             code: 1,
             msg: "File Upload Request Sent.",
@@ -12,7 +12,7 @@
             isLink: false
         });
 
-        hooks.Call(hook.Chat.ScrollChat);
+        hooks.call(hook.Chat.ScrollChat);
     });
 
 })(woServices);

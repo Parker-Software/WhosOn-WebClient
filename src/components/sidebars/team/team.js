@@ -6,7 +6,7 @@
     var state = services.Store.state;
     
 
-    hooks.Register(events.Connection.OperatorTyping, (e) => {
+    hooks.register(events.Connection.OperatorTyping, (e) => {
         var user = state.users.find(x => x.Connection == e.Data);
         if (user) {
             user.IsTyping = true;
@@ -14,7 +14,7 @@
         }
     });
 
-    hooks.Register(events.Connection.OperatorTypingStopped, (e) => {
+    hooks.register(events.Connection.OperatorTypingStopped, (e) => {
         var user = state.users.find(x => x.Connection == e.Data);
         if (user) {
             user.IsTyping = false;
@@ -71,13 +71,13 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Team.CloseChatClicked, () => {
+            hooks.register(events.Team.CloseChatClicked, () => {
                 this.$store.state.selectedOperatorToOperatorUser = null;
             });
 
-            hooks.Register(events.Team.NotificationClicked, (user) => {
+            hooks.register(events.Team.NotificationClicked, (user) => {
                 this.$store.state.selectedOperatorToOperatorUser = user;
-                hooks.Call(events.Team.UserClicked, user);
+                hooks.call(events.Team.UserClicked, user);
             });
         },
 
@@ -105,7 +105,7 @@
                 }
 
                 setTimeout(() => {
-                    hooks.Call(events.Home.UserImagesNeedUpdating);
+                    hooks.call(events.Home.UserImagesNeedUpdating);
                 }, 100);
 
                 return users;
@@ -129,7 +129,7 @@
                 if (this.$store.state.rights.ChatToOtherOperators == false && this.$store.state.operatorMessages[user.Username] == null) {return;}
 
                 this.$store.state.selectedOperatorToOperatorUser = user;
-                hooks.Call(events.Team.UserClicked, user);
+                hooks.call(events.Team.UserClicked, user);
             },
 
             Selected(user) {

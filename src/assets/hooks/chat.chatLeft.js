@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Chat.ChatLeft, (num) => {
+    hooks.register(hook.Chat.ChatLeft, (num) => {
         state.currentChat = {};
 
         var chat = state.chats.find(x => x.Number == num);

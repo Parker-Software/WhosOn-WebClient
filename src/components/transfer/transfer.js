@@ -152,11 +152,11 @@
         </div>
         `,
         beforeCreate() {
-            hooks.Register(events.Chat.TransferClicked, () => {
+            hooks.register(events.Chat.TransferClicked, () => {
                 this.Show = !this.Show;
             });
 
-            hooks.Register(events.Connection.CurrentChatClosed, () => {
+            hooks.register(events.Connection.CurrentChatClosed, () => {
                 this.Hide();
             });
         },    
@@ -312,7 +312,7 @@
                     this.SearchResult = [];
                     this.SearchText = "";
                 }
-                hooks.Call(events.Home.UserImagesNeedUpdating);
+                hooks.call(events.Home.UserImagesNeedUpdating);
             },
             Hide() {
                 this.ShowAvailableOnly = false;
@@ -322,20 +322,20 @@
                 this.SelectedTab = "users";
                 this.SearchResult = [];
                 this.SearchText = "";
-                hooks.Call(events.Home.UserImagesNeedUpdating);
+                hooks.call(events.Home.UserImagesNeedUpdating);
             },    
             Transfer() {   
                 var finalMessage = this.$store.state.settings.TransferMessage;
                 finalMessage = finalMessage.replace(/%Name%/g, state.currentChat.Name);
 
                 if (this.Dialogues.ShowUser)
-                        {connection.TransferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);}
+                        {connection.transferChat(state.currentChat.Number, [this.SelectedUser.Connection], finalMessage);}
 
                 if (this.Dialogues.ShowDepartment)
-                        {connection.TransferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");}
+                        {connection.transferChatToDept(state.currentChat.Number, this.SelectedDepartment.Name, "");}
 
                 if (this.Dialogues.ShowSkills)
-                        {connection.TransferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");}
+                        {connection.transferChatToSkill(state.currentChat.Number, this.SelectedSkill.ID, "");}
 
                 
                 this.Dialogues.ShowUser = false;
@@ -371,7 +371,7 @@
             },
             TabClicked(tab) {
                 this.SelectedTab = tab;
-                hooks.Call(events.Home.UserImagesNeedUpdating);
+                hooks.call(events.Home.UserImagesNeedUpdating);
                 
                 if(tab == "users") {
                     this.SelectedUser = null;
@@ -381,14 +381,14 @@
             },
             OnlyAvailable(e) {
                 this.ShowAvailableOnly = e.srcElement.checked;
-                hooks.Call(events.Home.UserImagesNeedUpdating);
+                hooks.call(events.Home.UserImagesNeedUpdating);
             },
             ShowAllSkills(e) {
                 this.ShowAll = e.srcElement.checked;
             },
             SendToAll() {
                 var usersToSendTo = state.users.map(x => x.Connection);
-                connection.TransferChat(state.currentChat.Number, usersToSendTo, "");
+                connection.transferChat(state.currentChat.Number, usersToSendTo, "");
                 this.close();
             },
         }

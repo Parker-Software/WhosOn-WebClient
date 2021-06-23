@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.CurrentVisitorUploadedFile, (e) => {
+    hooks.register(hook.Connection.CurrentVisitorUploadedFile, (e) => {
         var chatBelongingTo = state.chats.find((v) => v.Number == e.Header);
         if(chatBelongingTo == null) {return;}
 
@@ -19,7 +19,7 @@
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatId) {
                 state.currentChatMessages = Copy(state.chatMessages[chatId]);
-                hooks.Call(hook.Chat.ScrollChat, "");
+                hooks.call(hook.Chat.ScrollChat, "");
             }
         }
     });

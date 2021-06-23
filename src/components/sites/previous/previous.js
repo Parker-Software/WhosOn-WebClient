@@ -90,7 +90,7 @@
 
         beforeCreate() {
 
-            hooks.Register(events.Connection.PreviousChats, (chats) => {
+            hooks.register(events.Connection.PreviousChats, (chats) => {
                 this.selectedChat = null;
                 this.chats = chats.Data;
                 
@@ -98,7 +98,7 @@
                 this.Filter();
             });
 
-            hooks.Register(events.Connection.PreviousChat, (chat) => {
+            hooks.register(events.Connection.PreviousChat, (chat) => {
                 if(this.selectedChat != null && chat.Data.ChatUID == this.selectedChat.ChatUID)
                 {
                     this.chatDetail = chat.Data;
@@ -144,7 +144,7 @@
             ChatClicked(chat) {  
                 if(chat == this.selectedChat) {return;}
                 this.selectedChat = chat;
-                connection.GetPreviousChat(this.site, this.selectedChat.ChatUID);
+                connection.getPreviousChat(this.site, this.selectedChat.ChatUID);
             },
 
             ViewChatCloseClicked() {

@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.PreviousChat, (e) => {
+    hooks.register(hook.Connection.PreviousChat, (e) => {
         var chat = state.chats.find(x => x.ChatUID == e.Data.ChatUID);
 
         if(chat) {

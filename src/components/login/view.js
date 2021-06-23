@@ -76,7 +76,7 @@
         </div>
         `,
         beforeCreate() {
-            hooks.Register(connEvents.MessageFromServer, (e) => {
+            hooks.register(connEvents.MessageFromServer, (e) => {
 
                 var errorMessage;
                 var username = document.getElementById("userNameInput");           
@@ -110,19 +110,25 @@
                 }
             });
 
-            hooks.Register(connEvents.LoggedIn, () => {              
-                services.Store.commit("saveLoginDetails", { userName, t:password, department });
+            hooks.register(connEvents.LoggedIn, () => {        
+                services.Store.commit("saveLoginDetails", { userName, department });
             });
 
-            hooks.Register(connEvents.Connected, (e) => {
-                if(state.userName != null && state.userName != "" && state.t != null && state.t != "") {
+            hooks.register(connEvents.Connected, (e) => {
+                if(state.userName != null &&
+                    state.userName != "" &&
+                    state.t != null &&
+                    state.t != ""
+                ) 
+                {
                     userName = state.userName;
-                    password = state.t;
+                    var token = state.t;
                     department = state.department;
 
-                    services.Authentication.Login(userName,
-                        password,
-                        department);
+                    services.Authentication.LoginAsSession(
+                        userName,
+                        token
+                    );
                 }
             });
         },

@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.UserChanged, (e) => {
+    hooks.register(hook.Connection.UserChanged, (e) => {
         var changedUser = e.Data;
         var user = state.users.find((v) => v.Username == changedUser.Username);
         if(user != null) {
@@ -18,11 +18,11 @@
             if(user.Username == state.userName) {
                 state.currentStatus = user.Status;
             }
-            hooks.Call(hook.Home.UserImagesNeedUpdating);
+            hooks.call(hook.Home.UserImagesNeedUpdating);
         } else {
             changedUser.HasPhoto = true;
             state.users.push(changedUser);
-            services.WhosOnConn.GetUserPhoto(changedUser.Username);
+            services.WhosOnConn.getUserPhoto(changedUser.Username);
         }
     });
     

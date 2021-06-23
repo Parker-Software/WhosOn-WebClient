@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
     
-    hooks.Register(hook.Connection.UserSites, (e) => {
+    hooks.register(hook.Connection.UserSites, (e) => {
         var sites = {};
         for (var index = 0; index < e.Data.Sites.length; index++)
         {
@@ -12,7 +12,7 @@
         state.sites = sites; 
     });
 
-    hooks.Register(hook.Connection.UserSitesNew, (e) => {
+    hooks.register(hook.Connection.UserSitesNew, (e) => {
         var sites = {};
         for (var index = 0; index < e.Data.Sites.length; index++)
         {

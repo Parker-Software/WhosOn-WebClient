@@ -4,8 +4,8 @@
     var events = services.HookEvents;
     var state = services.Store.state;
 
-    hooks.Register(events.ChatModal.CloseChatConfirmed, (chatNum) => {
-        services.WhosOnConn.CloseChat(chatNum);
+    hooks.register(events.ChatModal.CloseChatConfirmed, (chatNum) => {
+        services.WhosOnConn.closeChat(chatNum);
         var thisChat = state.currentChat;
         state.currentChat = {};
 
@@ -17,26 +17,26 @@
 
         if (currentSiteWrapUpRequired && !thisChat.WrapUpCompleted) {
             state.currentClosedChat = thisChat;
-            hooks.Call(events.Chat.WrapUpNotCompleted, {ChatUID: thisChat.ChatUID, IsFocused: true});
+            hooks.call(events.Chat.WrapUpNotCompleted, {ChatUID: thisChat.ChatUID, IsFocused: true});
         } else {
-            hooks.Call(events.Chat.CloseChatFinalised, {});
+            hooks.call(events.Chat.CloseChatFinalised, {});
         }
 
         setTimeout(function() {
             state.chats.forEach(function(chat){
                 if (chat.Number != chatNum && chat.TalkingToClientConnection == state.currentConnectionId) {
-                    hooks.Call(events.ChatItem.AcceptClicked, {"Number": chat.Number, "ChatId": chat.ChatUID});
+                    hooks.call(events.ChatItem.AcceptClicked, {"Number": chat.Number, "ChatId": chat.ChatUID});
                 }
             });
         }, 200);
     });
 
-    hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
-        services.WhosOnConn.StopMonitoringChat(chatNum);   
+    hooks.register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
+        services.WhosOnConn.stopMonitoringChat(chatNum);   
     });
 
-    hooks.Register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {
-        services.WhosOnConn.SoftCloseChat(chatNum);   
+    hooks.register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {
+        services.WhosOnConn.softCloseChat(chatNum);   
         state.currentChat = {};
     });
 
@@ -83,14 +83,14 @@
             }
         },
         beforeCreate() { 
-            hooks.Register(events.Chat.CloseChatClicked, () => {
+            hooks.register(events.Chat.CloseChatClicked, () => {
                 this.ModalElem().classList.add("is-active");
 
                 this.Soft = false;
                 this.Close = true;
             });
 
-            hooks.Register(events.Chat.SoftCloseChatClicked, () => {
+            hooks.register(events.Chat.SoftCloseChatClicked, () => {
                 this.ModalElem().classList.add("is-active");
                 this.Close = false;
                 this.Soft = true;
@@ -106,13 +106,13 @@
 
                 this.ModalElem().classList.remove("is-active");   
                 if(this.Close) {
-                    hooks.Call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);
+                    hooks.call(events.ChatModal.CloseChatConfirmed, this.CurrentChat.Number);
                 }
                 else if(this.Close == false && this.Soft) {
-                    hooks.Call(events.ChatModal.SoftCloseChatConfirmed, this.CurrentChat.Number);
+                    hooks.call(events.ChatModal.SoftCloseChatConfirmed, this.CurrentChat.Number);
                 }
                 else if(this.Close == false && this.Soft == false) {
-                    hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);
+                    hooks.call(events.ChatModal.StopMonitoringChatConfirmed, this.CurrentChat.Number);
                 }
             },
 

@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.ChatAcquired, (e) => {
+    hooks.register(hook.Connection.ChatAcquired, (e) => {
         var split = e.Data.split(":");
         var chatNumber = split[0];
         var opName = split[1];
@@ -19,7 +19,7 @@
 
             state.chatMessages[chat.ChatUID].push(msg)
             state.currentChatMessages.push(msg);
-            hooks.Call(hook.Chat.ScrollChat);
+            hooks.call(hook.Chat.ScrollChat);
         }
     });
 

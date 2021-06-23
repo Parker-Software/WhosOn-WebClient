@@ -365,7 +365,7 @@
             },
 
             Reopen() {
-                connection.OpenSoftChat(this.chat.ChatUID, this.site);
+                connection.openSoftChat(this.chat.ChatUID, this.site);
             }
         }
     });

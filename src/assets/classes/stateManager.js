@@ -12,24 +12,24 @@
             connectingView.style.display = "block"; 
             homeView.style.display = "none";
 
-            hooks.Register(connEvents.LoggedIn, () => { 
+            hooks.register(connEvents.LoggedIn, () => { 
                 loginView.style.display = "none";   
                 connectingView.style.display = "none"; 
                 homeView.style.display = "block";
             });
 
-            hooks.Register(socketEvents.Opened, (e) => {
+            hooks.register(socketEvents.Opened, (e) => {
                 connectingView.style.display = "none";                  
                 loginView.style.display = "block";
             });
 
-            hooks.Register(socketEvents.Error, (e) => {
+            hooks.register(socketEvents.Error, (e) => {
                 homeView.style.display = "none";
                 loginView.style.display = "none";   
                 connectingView.style.display = "flex"; 
             }); 
             
-            hooks.Register(socketEvents.Closed, (e) => {
+            hooks.register(socketEvents.Closed, (e) => {
                 homeView.style.display = "none";
                 loginView.style.display = "none"; 
                 connectingView.style.display = "flex"; 

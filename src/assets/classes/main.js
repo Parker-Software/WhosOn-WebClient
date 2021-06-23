@@ -4,6 +4,7 @@
 
     class Main {
         constructor() {
+            
             var hooks = services.Hooks;
             var connEvents = services.HookEvents.Connection;
             var events = services.HookEvents;
@@ -11,67 +12,59 @@
             var state = services.Store.state;
             var connection = services.WhosOnConn;
 
-            connection.Connect(state.connectionAddress);
+            connection.connect(state.connectionAddress);
             
-            hooks.Register(events.Socket.Closed, (e) => {
-                connection.Connect(state.connectionAddress);
+            hooks.register(events.Socket.Closed, (e) => {
+                connection.connect(state.connectionAddress);
             });
 
-            hooks.Register(connEvents.LoggedIn, (e) => {
-                connection.StartCurrentVisitorTotalsEvents();
-                connection.GetFiles();  
-                connection.GetCannedResponses();
-                connection.GetSkills();
-                connection.StartVisitorEvents();
-            });
-
-            hooks.Register(connEvents.CurrentChats, (e) => {
+            hooks.register(connEvents.CurrentChats, (e) => {
                 for(var i = 0; i < state.previousAcceptedChats.length; i++) {
                     var chatId = state.previousAcceptedChats[i];
                     var chat = state.chats.find(x => x.ChatUID == chatId);
                     if(chat != null && chat.TalkingToClientConnection == 0) {
-                        hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
+                        hooks.call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                     }
                 }
             });
 
-            hooks.Register(connEvents.Error, (e) => {
+            hooks.register(connEvents.Error, (e) => {
                 console.log("Error Occured");
             });
 
-            hooks.Register(events.Chat.MessageFromWaitingChat, (info) => {
+            hooks.register(events.Chat.MessageFromWaitingChat, (info) => {
                 if (state.settings.ShowNotifications == false) {return;}
 
                 if(notification != null) {notification.close();}
                 notification = services.Notifications.CreateNotification(`Chat With ${info.name}`, info.msg.Data, () => {
                     window.focus();
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
+                    hooks.call(events.ChatItem.AcceptClicked, { "Number": info.chat.Number, "ChatId": info.chat.ChatUID });
                 });
             });
 
-            hooks.Register(events.Chat.ChatTransfered, (num) => {
+            hooks.register(events.Chat.ChatTransfered, (num) => {
                 if (state.settings.ShowNotifications == false) {return;}
 
                 if(notification != null) {notification.close();}
                 notification = services.Notifications.CreateNotification("Chat Transfered", "");
             });
 
-            hooks.Register(events.Inactivity.Active, () => {
+            hooks.register(events.Inactivity.Active, () => {
                 if (state.userInfo != null && state.statusCanChangeAutomatically)
                 {
-                   if(woServices.Store.state.currentStatus != 0) connection.ChangeStatus("online");
+                   if(woServices.Store.state.currentStatus != 0) connection.changeStatus("online");
                 }
             });
 
-            hooks.Register(events.Inactivity.Inactive, () => {
-                if (state.userInfo != null && state.statusCanChangeAutomatically) {connection.ChangeStatus("away");}
+            hooks.register(events.Inactivity.Inactive, () => {
+                if (state.userInfo != null && state.statusCanChangeAutomatically) {connection.changeStatus("away");}
             });   
 
-            hooks.Register(events.Inactivity.ShouldLogOut, () => {
-                connection.Logout();
+            hooks.register(events.Inactivity.ShouldLogOut, () => {
+                connection.logout();
             });
 
-            hooks.Register(connEvents.ChatTransfered, (data) => {
+            hooks.register(connEvents.ChatTransfered, (data) => {
                 if (state.settings.ShowNotifications == false) {return;}
 
                 var split = data.Data.split(":");
@@ -83,27 +76,27 @@
                 if(notification != null) {notification.close();}
 
                 notification = services.Notifications.CreateNotification("Transfer Request", msg || `User ${fromUser.Name} would like to transfer a chat with ${chat.Name}`, () => {
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
+                    hooks.call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID });
                 });
             });
 
-            hooks.Register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
+            hooks.register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
                 if(notification != null) {notification.close();}
                 if (notCompleted.IsFocused) {
-                    hooks.Call(events.Navigation.ClosedChatsClicked, notCompleted);
+                    hooks.call(events.Navigation.ClosedChatsClicked, notCompleted);
                     return;
                 }
                 notification = services.Notifications.CreateNotification("Chat Wrapup Required", "Please complete wrapup to close the chat", () => {
-                    hooks.Call(events.Chat.WrapUpClicked);
+                    hooks.call(events.Chat.WrapUpClicked);
                 });
             });
 
-            hooks.Register(events.Connection.UserInfo, () => {
+            hooks.register(events.Connection.UserInfo, () => {
                 services.Inactivity.Start(state.settings);
             });
 
 
-            hooks.Register(events.Connection.SiteVisitors, (e) => {
+            hooks.register(events.Connection.SiteVisitors, (e) => {
                 Object.keys(e.Data.Current).forEach((k) => {
                     var site = e.Data.Current[k];
                     services.Store.state.sitesVisitors[site.SiteKey] = site.Visitors;

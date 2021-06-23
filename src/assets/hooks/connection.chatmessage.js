@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.ChatMessage, (e) => {
+    hooks.register(hook.Connection.ChatMessage, (e) => {
         var msg = e;
         var chatBelongingTo = state.chats.find((v) => v.Number == msg.Header);
         if(chatBelongingTo == null) {
@@ -11,7 +11,7 @@
         }
 
         if (chatBelongingTo.TalkingToClientConnection == 0) {
-            hooks.Call(
+            hooks.call(
                 hook.Chat.MessageFromWaitingChat,
                 {
                     name:chatBelongingTo.Name,
@@ -45,7 +45,7 @@
 
             if (chatId == state.currentChat.ChatUID) 
             {
-                hooks.Call(
+                hooks.call(
                     hook.Chat.SuggestionFromServer,
                     suggestion
                 );
@@ -71,7 +71,7 @@
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatId) {
                 state.currentChatMessages = Copy(state.chatMessages[chatId]);
-                hooks.Call(hook.Chat.ScrollChat);
+                hooks.call(hook.Chat.ScrollChat);
             }
         }
     }); 

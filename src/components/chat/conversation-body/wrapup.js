@@ -104,13 +104,13 @@
         methods: {
             CompleteWrapup() {
                 this.isCompleted = true;
-                services.WhosOnConn.CompleteWrapUp(
+                services.WhosOnConn.completeWrapUp(
                     this.chat.SiteKey,
                     this.chat.ChatUID,
                     this.SelectedValue);
 
                 this.chat.WrapUpCompleted = true;
-                hooks.Call(events.Chat.WrapUpCompleted, {"ChatUID": this.chat.ChatUID, "Value": this.SelectedValue});
+                hooks.call(events.Chat.WrapUpCompleted, {"ChatUID": this.chat.ChatUID, "Value": this.SelectedValue});
             },
 
             Clicked(e,item) {                
@@ -123,7 +123,7 @@
             },
 
             CloseChat(){               
-                hooks.Call(chatEvents.CloseChatClicked, this.chat.Number);
+                hooks.call(chatEvents.CloseChatClicked, this.chat.Number);
             },
 
             AllTreeItems() {

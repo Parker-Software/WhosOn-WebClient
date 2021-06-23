@@ -21,7 +21,7 @@
             </li>
         `,
         beforeCreate() {
-            hooks.Register(events.Sites.Clicked, () => {
+            hooks.register(events.Sites.Clicked, () => {
                 this.selected = false;
             });
         },
@@ -32,7 +32,7 @@
         },
         methods: {
             Clicked() {
-                hooks.Call(events.Sites.Clicked, this.site.SiteKey);
+                hooks.call(events.Sites.Clicked, this.site.SiteKey);
                 this.selected = !this.selected;
                 this.$emit("Clicked", this.site.SiteKey);
             }

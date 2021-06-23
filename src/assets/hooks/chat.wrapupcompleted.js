@@ -4,7 +4,7 @@
     var events = services.HookEvents;
     var store = services.Store;
 
-    hooks.Register(events.Chat.WrapUpCompleted, (chatdata) => {
+    hooks.register(events.Chat.WrapUpCompleted, (chatdata) => {
         var thisChat = state.chats.find((v) => v.ChatUID == chatdata.ChatUID);
         if (!thisChat) thisChat = state.chatsClosed.find((v) => v.ChatUID == chatdata.ChatUID);
         if (thisChat) {

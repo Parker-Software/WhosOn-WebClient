@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
+    hooks.register(hook.ChatModal.StopMonitoringChatConfirmed, (chatNum) => {
         var chat = state.chats.find((v) => v.Number == chatNum);
         if (chat != null) {
             chat.BeingMonitoredByYou = false;

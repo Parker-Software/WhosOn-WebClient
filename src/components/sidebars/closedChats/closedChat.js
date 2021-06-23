@@ -44,7 +44,7 @@
             onClicked() {
                 var element = document.getElementById("homeClosedChats");
                 var wrapper = document.getElementById("closed-chats-wrapper");
-                hooks.Call(events.ChatItem.ClosedChatClicked, { "ChatId": this.chat.ChatUID});
+                hooks.call(events.ChatItem.ClosedChatClicked, { "ChatId": this.chat.ChatUID});
                 state.currentClosedChat = this.chat;
                 element.classList.toggle("show");   
                 wrapper.classList.toggle("opacity");            

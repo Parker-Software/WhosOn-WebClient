@@ -47,7 +47,7 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Chat.ClickTab, (tab) => {
+            hooks.register(events.Chat.ClickTab, (tab) => {
                 this.onTabClicked(tab);
             });
 
@@ -102,7 +102,7 @@
                     if(this.CRMTab() != null) {this.CRMTab().classList.remove("is-active");}
                 }
 
-                hooks.Call(events.Chat.TabClicked, tab);
+                hooks.call(events.Chat.TabClicked, tab);
             },
 
             unSelectAll() {

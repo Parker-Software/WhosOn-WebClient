@@ -4,7 +4,7 @@
     var hook = services.HookEvents;
 
     
-    hooks.Register(hook.Connection.PreChatSurvey, (e) => {
+    hooks.register(hook.Connection.PreChatSurvey, (e) => {
         var chatInfo = e.Header.split(":");
         e.Header = chatInfo[3]; //[chatInfo[0], chatInfo[1], chatInfo[2], chatInfo[4], chatInfo[3]].join(":"); 
 
@@ -19,7 +19,7 @@
              if(state.currentChat.Number == msg.Header) {
                  state.currentChatPreSurveys = Copy(state.chatPreSurveys[msg.Header]);
              }
-             hooks.Call(hook.Chat.PreChatSurveysLoaded);
+             hooks.call(hook.Chat.PreChatSurveysLoaded);
          }   
      });
 })(woServices);

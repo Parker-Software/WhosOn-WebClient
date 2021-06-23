@@ -3,13 +3,13 @@
     var hooks = services.Hooks;
     var events = services.HookEvents;
 
-    hooks.Register(events.Connection.Status, (e) => {
+    hooks.register(events.Connection.Status, (e) => {
         if (services.Store.state.currentStatus != e.Data) {
             services.Store.commit("statusChanged", e.Data);
         }
     });
 
-    hooks.Register(events.Home.StatusChanged, (status) => {
+    hooks.register(events.Home.StatusChanged, (status) => {
         var newStatus = -1;
         switch(status) {
             case "online":
@@ -74,18 +74,12 @@
                 state.previousAcceptedChats = [];
                 storageHelper.loadSettings(state);
                 var previousSettings = sessionStorage.getItem("woClient");
+
                 if (previousSettings) {
                     var settings = JSON.parse(previousSettings);
-
-                    let key = `${settings.userName}${settings.time.toString()}`;
-                    let t = CryptoJS.AES.decrypt(
-                        settings.t,
-                        key
-                    );
-                    
                     state.currentStatus = settings.currentStatus;
                     state.userName = settings.userName;
-                    state.t = t.toString(CryptoJS.enc.Utf8);
+                    state.t = settings.t;
                     state.department = settings.department;
                     state.previousAcceptedChats = settings.previousAcceptedChats || [];
                     state.chatsClosed = settings.chatsClosed || [];
@@ -112,21 +106,13 @@
 
             saveLoginDetails(state, loginDetails) {
                 state.userName = loginDetails.userName;
-                state.t = loginDetails.t;
                 state.department = loginDetails.department;
 
-                let time = Date.now();
-                
-                let key = `${loginDetails.userName}${time.toString()}`;
-                let t = CryptoJS.AES.encrypt(
-                    loginDetails.t,
-                    key
-                );
+                if(loginDetails.t != null) state.t = loginDetails.t;
 
                 sessionStorage.setItem("woClient", JSON.stringify({
                     userName : loginDetails.userName,
-                    t: t.toString(),
-                    time,
+                    t: state.t,
                     department : loginDetails.department,
                     previousAcceptedChats: state.previousAcceptedChats || [],
                     chatsClosed: state.chatsClosed || [],

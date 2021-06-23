@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
     
-    hooks.Register(hook.Chat.PreChatSurveysLoaded, () => {
+    hooks.register(hook.Chat.PreChatSurveysLoaded, () => {
         var currentChat = state.currentChat;
         var userName = state.userName;
         var visitorName = state.currentChat.Name;
@@ -14,7 +14,7 @@
         }
         
         state.crmURL = `${state.azureCrmEndpoint}/api/Auth?servername=${state.serverUID}&domain=${currentChat.Domain}&source=client&operator=${userName}&id=${currentChat.ChatUID}&name=${visitorName}&emailaddress=${email}&webchartsurl=${state.webChartsURL}`;
-        hooks.Call(hook.Chat.CRMIFrameChangedSrc, state.crmURL);
+        hooks.call(hook.Chat.CRMIFrameChangedSrc, state.crmURL);
     });
 
 })(woServices);

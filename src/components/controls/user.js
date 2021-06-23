@@ -4,7 +4,7 @@
     var connEvents = events.Connection;
     var state = services.Store.state;
 
-    hooks.Register(events.Home.UserImagesNeedUpdating, () => {
+    hooks.register(events.Home.UserImagesNeedUpdating, () => {
         setTimeout(function() {
             for(var i = 0; i < state.users.length; i++) {
                 var user = state.users[i];
@@ -19,7 +19,7 @@
         }, 100);
     });
 
-    hooks.Register(connEvents.UserPhoto, (e) => {
+    hooks.register(connEvents.UserPhoto, (e) => {
         var user = e.Header;
         var data = e.Data;
 
@@ -33,7 +33,7 @@
             }
         } 
         state.users = Copy(state.users);
-        hooks.Call(events.Home.UserImagesNeedUpdating);
+        hooks.call(events.Home.UserImagesNeedUpdating);
     });
 
     Vue.component("user", {

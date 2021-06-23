@@ -4,14 +4,14 @@
     var hook = services.HookEvents;
     var connection = services.WhosOnConn;
 
-    hooks.Register(hook.Connection.ListeningClient, (data) => {
+    hooks.register(hook.Connection.ListeningClient, (data) => {
         var info = data.Header.split(":");
         var chatuid = info[1];
 
         var chat = state.chats.find(x => x.ChatUID == chatuid);
 
         if(state.chatMessages[chatuid] == null) {
-            connection.GetPreviousChat(chat.SiteKey, chatuid);
+            connection.getPreviousChat(chat.SiteKey, chatuid);
         } else {
 
             if(chat.TalkingToClientConnection == state.currentConnectionId || chat.BeingMonitoredByYou) {return;}

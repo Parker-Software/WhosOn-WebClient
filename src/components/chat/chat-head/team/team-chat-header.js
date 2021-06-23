@@ -87,7 +87,7 @@
             </div>
         `,
         beforeCreate() {
-            hooks.Register(events.Connection.UserDisconnecting, (e) => {
+            hooks.register(events.Connection.UserDisconnecting, (e) => {
                 var userConn = e.Data;
                 if(userConn == this.user.Connection) {
                     this.Connected = false;
@@ -95,7 +95,7 @@
                 }
             });
 
-            hooks.Register(events.Team.OtherUserClicked, (user) => {
+            hooks.register(events.Team.OtherUserClicked, (user) => {
                 this.Connected = true;
             });
         },
@@ -151,22 +151,22 @@
         },
         methods: {        
             CloseClicked(e) {
-                hooks.Call(events.Team.CloseChatClicked);
+                hooks.call(events.Team.CloseChatClicked);
             },
 
             TransferClicked(e) {
-                hooks.Call(chatEvents.TransferClicked);
+                hooks.call(chatEvents.TransferClicked);
             },
 
             OnStatusChanged(e) {
-                connection.ChangeStatusOfUser(
+                connection.changeStatusOfUser(
                     this.user.Connection,
                     this.StatusSelect.value
                 );
             },
 
             Kick() {
-                connection.KickOtherOperator(
+                connection.kickOtherOperator(
                     this.user.Connection,
                     ""
                 );

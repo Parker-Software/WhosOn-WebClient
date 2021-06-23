@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.ChatRequested, (e) => {
+    hooks.register(hook.Connection.ChatRequested, (e) => {
         var data = e.Data;
         var info = data.split(":");
         var chatNum = info[0];

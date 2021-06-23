@@ -4,8 +4,8 @@
     var store = services.Store;
     var connection = services.WhosOnConn;
 
-    hooks.Register(hook.Socket.Closed, (e) => {
-        if (connection.LoggedOut) {
+    hooks.register(hook.Socket.Closed, (e) => {
+        if (connection.loggedOut) {
             sessionStorage.clear();
             store.commit("replaceEntireState", services.DefaultState());
         }

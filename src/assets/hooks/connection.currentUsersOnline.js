@@ -3,13 +3,12 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.CurrentUsersOnline, (e) => {
+    hooks.register(hook.Connection.CurrentUsersOnline, (e) => {
         var users = e.Data.Clients;
-
         for(var i = 0; i < users.length; i++) {
             var client = users[i];
             client.HasPhoto = true;
-            services.WhosOnConn.GetUserPhoto(client.Username);
+            services.WhosOnConn.getUserPhoto(client.Username);
         }
 
         state.users = users; 
