@@ -4,7 +4,7 @@
     var hook = services.HookEvents;
 
     
-    hooks.Register(hook.Connection.MonitoredWhisper, (whisper) => {
+    hooks.register(hook.Connection.MonitoredWhisper, (whisper) => {
         var info = whisper.Header.split(":");
         var chatNum = info[0];
         var opName = info[1];
@@ -25,7 +25,7 @@
         if(hasCurrentChat) {
             if(state.currentChat.ChatUID == chatBelongingTo.ChatUID) {
                 state.currentChatMessages = Copy(state.chatMessages[chatBelongingTo.ChatUID]);
-                hooks.Call(hook.Chat.ScrollChat);
+                hooks.call(hook.Chat.ScrollChat);
             }
         }
     });

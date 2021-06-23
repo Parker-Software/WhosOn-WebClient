@@ -85,25 +85,25 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Sites.Clicked, (site) => {
+            hooks.register(events.Sites.Clicked, (site) => {
                 if(site == this.site.SiteKey) {return;}
                 this.site = this.$store.state.sites[site];
 
                 var date = this.UnixToDate(this.selectedDate);
-                connection.GetPreviousChats(site, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
+                connection.getPreviousChats(site, `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`);
 
-                if(this.$store.state.rights.ViewDailySummary) {connection.GetMonthlySummary(site);}
+                if(this.$store.state.rights.ViewDailySummary) {connection.getMonthlySummary(site);}
             });
 
-            hooks.Register(events.Connection.DailySummary, (e) => {
+            hooks.register(events.Connection.DailySummary, (e) => {
                 this.dailySummary = e.Data.DaySummary;
             });
 
-            hooks.Register(events.Connection.MonthSummary, (summary) => {
+            hooks.register(events.Connection.MonthSummary, (summary) => {
                 this.monthlySummary = summary.Data.Days;
             });
 
-            hooks.Register(events.Connection.PreviousChats, (chats) => {
+            hooks.register(events.Connection.PreviousChats, (chats) => {
                 this.chats = chats.Data;
             });
         },
@@ -111,7 +111,7 @@
         watch: {
             selectedDate: function(newV, oldV) {
                 let date = this.UnixToDate(newV);
-                connection.GetPreviousChats(
+                connection.getPreviousChats(
                     this.site.SiteKey,
                     `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
                 );

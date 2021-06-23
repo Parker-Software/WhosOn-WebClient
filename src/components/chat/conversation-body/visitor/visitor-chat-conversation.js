@@ -113,28 +113,28 @@
             this.Height = this.ChatHeight();
         },
         beforeCreate() {
-            hooks.Register(events.Connection.VisitorTyping, (e) => {
+            hooks.register(events.Connection.VisitorTyping, (e) => {
                 if(state.currentChat.Number == e.Data) {
                     this.ShowTypingStatus = true;
                     this.TypingName = state.currentChat.Name;
                 }
             });
         
-            hooks.Register(events.Connection.VisitorTypingOff, (e) => {
+            hooks.register(events.Connection.VisitorTypingOff, (e) => {
                 if(state.currentChat.Number == e.Data) {
                     this.ShowTypingStatus = false;
                     this.TypingName = "";
                 }
             });
 
-            hooks.Register(events.Connection.ChatMessage, (e) => { 
+            hooks.register(events.Connection.ChatMessage, (e) => { 
                 if(state.currentChat.Number == e.Header) {
                     this.ShowTypingStatus = false;
                     this.TypingName = "";
                 }
             });
 
-            hooks.Register(events.Connection.MonitoredOperatorTyping, (e) => {
+            hooks.register(events.Connection.MonitoredOperatorTyping, (e) => {
                 var msg = e;
                 var info = msg.Data.split(":");
                 var chatNum = info[0];
@@ -145,7 +145,7 @@
                 }
             });
 
-            hooks.Register(events.Connection.MonitoredOperatorTypingOff, (e) => {
+            hooks.register(events.Connection.MonitoredOperatorTypingOff, (e) => {
                 var msg = e;
                 var info = msg.Data.split(":");
                 var chatNum = info[0];
@@ -156,7 +156,7 @@
                 }
             });
 
-            hooks.Register(events.Connection.MonitoredVisitorTyping, (e) => {
+            hooks.register(events.Connection.MonitoredVisitorTyping, (e) => {
                 var msg = e;
                 var info = msg.Data.split(":");
                 var chatNum = info[0];
@@ -167,7 +167,7 @@
                 }
             });
 
-            hooks.Register(events.Connection.MonitoredVisitorTypingOff, (e) => {
+            hooks.register(events.Connection.MonitoredVisitorTypingOff, (e) => {
                 var msg = e;
                 var info = msg.Data.split(":");
                 var chatNum = info[0];
@@ -178,32 +178,32 @@
                 }
             });
 
-            hooks.Register(events.ChatItem.AcceptClicked, (e) => {
+            hooks.register(events.ChatItem.AcceptClicked, (e) => {
                 this.InteractionDisabled = false; 
                 this.HasSuggestion = false;
 
                 this.Height = this.ChatHeight();
             });
 
-            hooks.Register(events.Chat.ScrollChat, (e) => {
+            hooks.register(events.Chat.ScrollChat, (e) => {
                 this.ScrollChat();
             });
 
-            hooks.Register(events.Connection.CurrentChat, (e) =>{
+            hooks.register(events.Connection.CurrentChat, (e) =>{
                 this.ScrollChat();
             });
 
-            hooks.Register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
+            hooks.register(events.Chat.WrapUpNotCompleted, (notCompleted) => {
                 if (this.chat.ChatUID == notCompleted.ChatUID) {
                     this.ShowWrapUp = true
                 }
             });
 
-            hooks.Register(events.ChatModal.CloseChatConfirmed, (e) => {
+            hooks.register(events.ChatModal.CloseChatConfirmed, (e) => {
                 this.InteractionDisabled = true;
             });
 
-            hooks.Register(events.ChatItem.MonitorClicked, (e) => {
+            hooks.register(events.ChatItem.MonitorClicked, (e) => {
                 this.HasSuggestion = false;
                 this.InteractionDisabled = false;
 
@@ -213,7 +213,7 @@
                 this.ScrollChat();
             });
 
-            hooks.Register(events.Connection.CurrentChatClosed, () => {
+            hooks.register(events.Connection.CurrentChatClosed, () => {
                 this.InteractionDisabled = true;
 
                 if(this.chat == null || this.site == null) {return;}
@@ -230,15 +230,15 @@
                 }
             });
 
-            hooks.Register(events.Navigation.ChatsClicked, () => {
+            hooks.register(events.Navigation.ChatsClicked, () => {
                 if(this.chat != null) {this.ScrollChat();}
             })
 
-            hooks.Register(events.Chat.SuggestionFromServer, (msg) => {
+            hooks.register(events.Chat.SuggestionFromServer, (msg) => {
                 this.HasSuggestion = true;
             });
 
-            hooks.Register(events.Connection.ChatAcquired, (e) => {
+            hooks.register(events.Connection.ChatAcquired, (e) => {
                 this.InteractionDisabled = true;
             });
 
@@ -270,7 +270,7 @@
             CannedResponseClicked(evnt) {
                 this.HasSuggestion = true;
                 this.SelectedCannedResponse = evnt.item;
-                hooks.Call(events.Chat.CannedResponses.Clicked, evnt);
+                hooks.call(events.Chat.CannedResponses.Clicked, evnt);
             },
 
             ChatHeight() {
@@ -319,7 +319,7 @@
                     eventArgs.Text = eventArgs.Text.substring(0, idx);
 
                     var url =  `${state.webChartsURL}document.aspx?f=${eventArgs.AttachedFile.HashedFileName}`;
-                    connection.SendFile(eventArgs.ChatNumber, eventArgs.AttachedFile.FileName, url);
+                    connection.sendFile(eventArgs.ChatNumber, eventArgs.AttachedFile.FileName, url);
                     var msg = {code:1, msg:`<link><name>${eventArgs.AttachedFile.FileName}</name><url>${url}</url></link>`, date: getDate(new Date()), isLink: true};
                     
                     if(this.$store.state.chatMessages[eventArgs.ChatId] == null) {this.$store.state.chatMessages[eventArgs.ChatId] = [];}
@@ -345,29 +345,29 @@
 
                 this.$store.state.currentChatMessages.push(chat);
 
-                if(eventArgs.Whisper != true) {connection.SendMessage(eventArgs.ChatNumber, eventArgs.Text);}
-                else {connection.Whisper(eventArgs.To, eventArgs.ChatNumber, eventArgs.Text);}
+                if(eventArgs.Whisper != true) {connection.sendMessage(eventArgs.ChatNumber, eventArgs.Text);}
+                else {connection.whisper(eventArgs.To, eventArgs.ChatNumber, eventArgs.Text);}
                 this.ScrollChat();
 
                 this.SendingTypingStatus = false;
-                connection.StopTypingStatus(state.currentChat.Number);
+                connection.stopTypingStatus(state.currentChat.Number);
             },
 
             Typing(event, text) {
                 if(this.HasSuggestion) {
                     this.HasSuggestion = false;
                     this.SelectedCannedResponse = null;
-                    hooks.Call(events.Chat.SuggestionNotUsed);
+                    hooks.call(events.Chat.SuggestionNotUsed);
                 } else {
                     clearTimeout(this.TypingTimer);
                     this.TypingTimer = setTimeout(() => {
                         this.SendingTypingStatus = false;
-                        connection.StopTypingStatus(state.currentChat.Number);
+                        connection.stopTypingStatus(state.currentChat.Number);
                     }, 1000);
 
                     if(this.SendingTypingStatus == false) {
                         this.SendingTypingStatus = true;
-                        connection.SendTypingStatus(state.currentChat.Number);
+                        connection.sendTypingStatus(state.currentChat.Number);
                     } 
                 }
             }

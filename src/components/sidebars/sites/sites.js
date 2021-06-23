@@ -37,12 +37,12 @@
             </div>
         `,
         beforeCreate() {
-            hooks.Register(events.Connection.UserSites, (e) => {
+            hooks.register(events.Connection.UserSites, (e) => {
                 this.allSites = e.Data.Sites;
                 this.sites = this.allSites;
             });
 
-            hooks.Register(events.Connection.UserSitesNew, (e) => {
+            hooks.register(events.Connection.UserSitesNew, (e) => {
                 this.allSites = e.Data.Sites;
                 this.sites = this.allSites;
             });

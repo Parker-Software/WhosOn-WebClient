@@ -1,6 +1,7 @@
 const { src, dest, series, watch, parallel } = require("gulp");
 const replace = require('gulp-replace');
 const eslint = require("gulp-eslint");
+const babel = require("gulp-babel");
 const del = require("del");
 const sass = require("gulp-sass");
 const concat = require("gulp-concat");
@@ -62,7 +63,8 @@ var urls = {
   vuex: "assets/vendor/vuex.js",
   libs: "assets/js/libs.js",
   componenets: "assets/js/components.js",
-  main: "assets/js/main.js"
+  main: "assets/js/main.js",
+  whoson: "assets/js/whoson.js"
 } // base urls
 
 function html() {
@@ -86,6 +88,7 @@ function html() {
     .pipe(replace('$lodashLib', urls['loadash']))
     .pipe(replace('$vuexpersistLib', urls['vuexpersist']))
     .pipe(replace('$libs', urls['libs']))
+    .pipe(replace('$whoson', urls['whoson']))
     .pipe(replace('$connection', "assets/js/connectionSettings.js"))
     .pipe(replace('$components', urls['componenets']))
     .pipe(replace('$main', urls['main']))
@@ -98,16 +101,37 @@ function moveFavIcon(){
 }
 
 function packLibs(){
-  return src(["./src/assets/libs/**/*.js",
-  "./src/assets/classes/defaultStateOptions.js",
-  "./src/assets/classes/store.js",
-  "./src/assets/classes/chatFactory.js",
-  "./src/assets/hooks/**/*.js"])
+  return src([
+    "./src/assets/libs/**/*.js",
+    "./src/assets/classes/defaultStateOptions.js",
+    "./src/assets/classes/store.js",
+    "./src/assets/classes/chatFactory.js",
+    "./src/assets/hooks/**/*.js",
+  ])
   .pipe(sourcemaps.init())
     .pipe(replace('$version', version))
     .pipe(concat("libs.js"))
     .pipe(gulpif(minify, uglify()))
   .pipe(sourcemaps.write("./maps"))
+  .pipe(dest(buildFolder + "/assets/js/"))
+}
+
+
+function packWhosOnLib() {
+  return src([
+    "./node_modules/@parkersoftware/whoson-lib/**/*.js"
+  ])
+  .pipe(replace("global", "window"))
+  .pipe(concat("whoson.js"))
+  .pipe(replace(/^Object\.defineProperty\([\s\n\rn"_,-{}.]*\);/gmi, ""))
+  .pipe(replace(/^var [\s\n\rn"_,-{}.]* require\([\s\n\rn"_,-{}.]*\);/gmi, ""))
+  .pipe(replace(/^module.exports[\s\n\rn"_,-{}\.]*;/gmi, ""))
+  .pipe(replace(/^exports.[\s\n\rn"_,-{}.]*;/gmi, ""))
+  .pipe(replace(/EventDrivenSocket_1.EventDrivenSocket/, "EventDrivenSocket"))
+  .pipe(replace(/^require\([\s\n\r"'_,-{}.\/\.]*\);/gmi, ""))
+  .pipe(babel({
+    presets: ["@babel/preset-env"]
+  }))
   .pipe(dest(buildFolder + "/assets/js/"))
 }
 
@@ -126,7 +150,11 @@ function moveConnectionSettings() {
 }
 
 function moveJS() {
-  return src(["./src/assets/classes/vueApp.js", "./src/assets/classes/authentication.js", "./src/assets/classes/main.js", "./src/assets/classes/stateManager.js"])  
+  return src(["./src/assets/classes/vueApp.js",
+  "./src/assets/classes/authentication.js",
+  "./src/assets/classes/main.js",
+  "./src/assets/classes/stateManager.js"
+  ])  
   .pipe(sourcemaps.init())
   .pipe(concat("main.js"))
   .pipe(gulpif(minify, uglify()))
@@ -166,9 +194,9 @@ function watchFiles() {
   }
 
 exports.default = series(clean, scss, lintjs, [moveFavIcon, moveImages,moveFonts, moveVendor, setVersion,
-  packLibs, packComponents, moveJS, moveConnectionSettings], html);
+  packLibs, packWhosOnLib, packComponents, moveJS, moveConnectionSettings], html);
 exports.cdn = series(setCDN, clean, scss, lintjs, [moveImages ,moveFonts, moveVendor, setVersion,
-  packLibs, packComponents, moveJS]);
+  packLibs, packWhosOnLib, packComponents, moveJS]);
 exports.prod = series(setPROD, clean, [moveFavIcon, moveConnectionSettings], html);
 exports.stage =  series(setStaging, clean, [moveFavIcon, moveConnectionSettings], html);
 exports.monitor = parallel(watchFiles, browserSync);

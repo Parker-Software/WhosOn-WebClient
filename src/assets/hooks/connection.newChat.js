@@ -5,7 +5,7 @@
 
     var notification;
 
-    hooks.Register(hook.Connection.NewChat, (chat) => {
+    hooks.register(hook.Connection.NewChat, (chat) => {
         if (state.settings.ShowNotifications == false) 
             return;
 
@@ -19,7 +19,7 @@
                 `Visitor ${chat.Name} on ${chat.SiteName} wants to chat`,
                 () => {
                     window.focus();
-                    hooks.Call(hook.ChatItem.AcceptClicked,
+                    hooks.call(hook.ChatItem.AcceptClicked,
                         { 
                             "Number": chat.Number,
                             "ChatId": chat.ChatUID

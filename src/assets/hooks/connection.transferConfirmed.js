@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.TransferConfirmed, (e) => {
+    hooks.register(hook.Connection.TransferConfirmed, (e) => {
         var chat = state.chats.find(x => Number(x.Number) == Number(e.Data));
 
         if(chat) {
@@ -17,7 +17,7 @@
             state.currentChatMessages.push(msg);
     
             state.aquiringChatFrom = "";
-            hooks.Call(hook.Chat.ScrollChat);
+            hooks.call(hook.Chat.ScrollChat);
         }
     });
 })(woServices);

@@ -73,7 +73,7 @@
             </section>
             `,
             beforeCreate() {
-                hooks.Register(navEvents.MissedChatsClicked, (e) => {
+                hooks.register(navEvents.MissedChatsClicked, (e) => {
                     var alreadyViewing = document.getElementById("missedchatsNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         this.hideAll();
@@ -81,7 +81,7 @@
                     }
                 });
 
-                hooks.Register(navEvents.ChatsClicked, (e) => {
+                hooks.register(navEvents.ChatsClicked, (e) => {
                     var alreadyViewing = document.getElementById("chatsNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         this.hideAll();
@@ -89,7 +89,7 @@
                     }
                 });
 
-                hooks.Register(navEvents.ClosedChatsClicked, (e) => {
+                hooks.register(navEvents.ClosedChatsClicked, (e) => {
                     var alreadyViewing = document.getElementById("closedChatsNavButton").firstChild.classList.contains("is-active");
                     if (alreadyViewing == false) {
                         this.hideAll();
@@ -98,7 +98,7 @@
                 });
 
 
-                hooks.Register(navEvents.TeamClicked, (e) => {
+                hooks.register(navEvents.TeamClicked, (e) => {
                     var alreadyViewing = document.getElementById("usersNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         this.hideAll();
@@ -106,7 +106,7 @@
                     }
                 });              
 
-                hooks.Register(events.Team.UserClicked, (user) => {
+                hooks.register(events.Team.UserClicked, (user) => {
                     this.hideAll();
                     this.showTeam = true;
                     this.showTeamActiveChats();
@@ -115,25 +115,25 @@
                         this.selectedOperatorToOperatorUser = this.$store.state.users.find(x => x.Username == user.Username);
                         delete this.$store.state.operatorMessages[user.Username.toLowerCase()];
                         this.$store.state.currentOperatorChatMessages = [];
-                        connection.GetClientChat(user.Username, 0);
-                        hooks.Call(events.Team.OtherUserClicked, user);
+                        connection.getClientChat(user.Username, 0);
+                        hooks.call(events.Team.OtherUserClicked, user);
                     }
                 });
 
                 
-                hooks.Register(events.Team.CloseChatClicked, () => {
+                hooks.register(events.Team.CloseChatClicked, () => {
                     delete this.$store.state.operatorMessages[this.selectedOperatorToOperatorUser.Username.toLowerCase()];
                     this.selectedOperatorToOperatorUser = null;
                     this.showTeamNoActiveChats();
                     this.$store.state.currentOperatorChatMessages = [];
                 });
 
-                hooks.Register(navEvents.OptionsClicked, (e) => {
+                hooks.register(navEvents.OptionsClicked, (e) => {
                     this.hideAll();
                     this.showOptions = true;
                 });
 
-                hooks.Register(navEvents.MonitorClicked, (e) => {
+                hooks.register(navEvents.MonitorClicked, (e) => {
                     this.hideAll();
                     this.showMonitorAll = true;
 
@@ -143,13 +143,13 @@
                         var messages = this.$store.state.chatMessages[chat.ChatUID];
 
                         if(messages == null || messages.length <= 0) {
-                            connection.GetPreviousChat(chat.SiteKey, chat.ChatUID);
+                            connection.getPreviousChat(chat.SiteKey, chat.ChatUID);
                         }
 
                     }
                 });
 
-                hooks.Register(navEvents.SitesClicked, (e) => {
+                hooks.register(navEvents.SitesClicked, (e) => {
                     var alreadyViewing = document.getElementById("sitesNavButton").firstChild.classList.contains("is-active");
                     if(alreadyViewing == false) {
                         this.hideAll();
@@ -158,7 +158,7 @@
                 });
 
                 
-                hooks.Register(events.Chat.WrapUpNotCompleted, (wrapupinfo) => {
+                hooks.register(events.Chat.WrapUpNotCompleted, (wrapupinfo) => {
                     if (wrapupinfo.IsFocused) {
                         this.hideAll();
                         this.showClosedChat = true;
@@ -168,50 +168,50 @@
                 });
 
 
-                hooks.Register(events.ChatItem.AcceptClicked, (chatInfo) => {
+                hooks.register(events.ChatItem.AcceptClicked, (chatInfo) => {
                     this.hideAll();
                     this.showChat = true;
                     this.showActiveChats();
                 });
 
-                hooks.Register(events.ChatItem.ClosedChatClicked, (chatUID) => {
+                hooks.register(events.ChatItem.ClosedChatClicked, (chatUID) => {
                     this.hideAll();
                     this.showClosedChat = true;
                     this.showClosedChats();
                 });
 
-                hooks.Register(events.Chat.CloseChatFinalised, (chatNum) => {    
+                hooks.register(events.Chat.CloseChatFinalised, (chatNum) => {    
                     this.hideAll();
                     this.showChat = true;
                     this.showNoActiveChats();
                 });
 
-                hooks.Register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {    
+                hooks.register(events.ChatModal.SoftCloseChatConfirmed, (chatNum) => {    
                     this.hideAll();
                     this.showChat = true;
                     this.showNoActiveChats();
                 });
 
-                hooks.Register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum => {
+                hooks.register(events.ChatModal.StopMonitoringChatConfirmed, (chatNum => {
                     this.hideAll();
                     this.showChat = true;
                     this.showNoActiveChats();
                 }));
                 
-                hooks.Register(events.Chat.ChatLeft, (chatNum) => {    
+                hooks.register(events.Chat.ChatLeft, (chatNum) => {    
                     this.hideAll();
                     this.showChat = true;
                     this.showNoActiveChats();
                 });
 
-                hooks.Register(events.ChatItem.MonitorClicked, (chatNum) => {
+                hooks.register(events.ChatItem.MonitorClicked, (chatNum) => {
                     this.hideAll();
                     this.showChat = true;
                     this.showActiveChats();
                 });
 
-                hooks.Register(events.Home.StatusChanged, (status) => {
-                   services.WhosOnConn.ChangeStatus(status);
+                hooks.register(events.Home.StatusChanged, (status) => {
+                   services.WhosOnConn.changeStatus(status);
                 });
             },
             methods: {

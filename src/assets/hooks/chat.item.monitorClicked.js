@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.ChatItem.MonitorClicked, (chatInfo) => {
+    hooks.register(hook.ChatItem.MonitorClicked, (chatInfo) => {
         var foundChat;
         Object.keys(state.chats).forEach(key => {
             var chat = state.chats[key];
@@ -26,11 +26,11 @@
 
             if (state.chatPreSurveys[foundChat.Number] != null) {
                 state.currentChatPreSurveys = Copy(state.chatPreSurveys[chatInfo.Number]);
-                hooks.Call(hook.Chat.PreChatSurveysLoaded);
+                hooks.call(hook.Chat.PreChatSurveysLoaded);
             } else {
                 state.currentChatPreSurveys = [];
             }
-            hooks.Call(hook.Chat.ClickTab, "conversation");
-        } else {services.WhosOnConn.MonitorChat(chatInfo.Number);}
+            hooks.call(hook.Chat.ClickTab, "conversation");
+        } else {services.WhosOnConn.monitorChat(chatInfo.Number);}
     });
 })(woServices);

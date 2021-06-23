@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.MonitoredChat, (info) => {
+    hooks.register(hook.Connection.MonitoredChat, (info) => {
         var monitoredChat = info.Data;
 
         Object.keys(state.chats).forEach(key => {
@@ -37,7 +37,7 @@
                     state.chatPreSurveys[chat.Number].push({Name: survey.FieldName, Value: survey.FieldValue});
                 }
                 state.currentChatPreSurveys = Copy(state.chatPreSurveys[chat.Number]);
-                hooks.Call(hook.Chat.PreChatSurveysLoaded);
+                hooks.call(hook.Chat.PreChatSurveysLoaded);
             }
         });
     });

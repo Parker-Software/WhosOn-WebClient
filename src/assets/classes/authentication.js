@@ -15,31 +15,47 @@
 
 
         Login(userName, password, dept) {
-            var self = this;
-
             var loginStatus = 0;
-            if (self._state.currentStatus && self._state.currentStatus > 0) {
-                loginStatus = self._state.currentStatus;
-                self._state.statusCanChangeAutomatically = false;
-            } else if (self._state.settings.StartAway) {
+            if (this._state.currentStatus && this._state.currentStatus > 0) {
+                loginStatus = this._state.currentStatus;
+                this._state.statusCanChangeAutomatically = false;
+            } else if (this._state.settings.StartAway) {
                 loginStatus = 3;
-                self._state.currentStatus = 3;
-                self._state.statusCanChangeAutomatically = false;
+                this._state.currentStatus = 3;
+                this._state.statusCanChangeAutomatically = false;
             }
 
-            self._connection.Login(
+            this._connection.login(
                 "",
                 "",
                 dept,
                 "",
-                self._version,
+                this._version,
                 loginStatus,
-                self._lang,
-                self._platform,
+                this._lang,
+                this._platform,
                 userName,
                 password,
-                self._key
-            )
+                this._key
+            );
+        }
+
+        LoginAsSession(userName, token) {
+            var loginStatus = 0;
+            if (this._state.currentStatus && this._state.currentStatus > 0) {
+                loginStatus = this._state.currentStatus;
+                this._state.statusCanChangeAutomatically = false;
+            } else if (this._state.settings.StartAway) {
+                loginStatus = 3;
+                this._state.currentStatus = 3;
+                this._state.statusCanChangeAutomatically = false;
+            }
+
+            this._connection.authenticateBySession(
+                userName,
+                token,
+                this._key
+            );
         }
 
         LogOut() {

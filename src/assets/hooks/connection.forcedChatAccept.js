@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.ForcedChatAccept, (forcedChat) => {
+    hooks.register(hook.Connection.ForcedChatAccept, (forcedChat) => {
         var data = forcedChat.Data;
         var split = data.split(":");
         var number = split[0];
@@ -12,9 +12,9 @@
 
         if(chat != null) {
             if(validCurrentChat == false) {
-                hooks.Call(hook.ChatItem.AcceptClicked, {ChatId:chat.ChatUID, Number:number});
+                hooks.call(hook.ChatItem.AcceptClicked, {ChatId:chat.ChatUID, Number:number});
             } else {
-                services.WhosOnConn.AcceptChat(number);
+                services.WhosOnConn.acceptChat(number);
             }
         }
     });

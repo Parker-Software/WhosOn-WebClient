@@ -24,11 +24,11 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Connection.PasswordChanged, (newPassword) => {
+            hooks.register(events.Connection.PasswordChanged, (newPassword) => {
                 location.reload();
             });
 
-            hooks.Register(events.Connection.Error, (error) => {
+            hooks.register(events.Connection.Error, (error) => {
                 console.error(error);
             });
         },
@@ -60,7 +60,7 @@
                     return;
                 }
 
-                services.WhosOnConn.ChangePassword(
+                services.WhosOnConn.changePassword(
                     this.$store.state.userName, 
                     this.CurrentPassword().value,
                     this.NewPassword().value);

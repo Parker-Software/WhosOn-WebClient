@@ -1,8 +1,4 @@
 (function(services) {
-
-    var hooks = services.Hooks;
-    var events = services.HookEvents;
-
     class Inactivity {
         constructor() {
             var self = this;
@@ -13,6 +9,7 @@
 
         Start(settings) {
             var self = this;
+
             self.Reset(settings);
             document.onclick = (e) => {
                 self.Reset(settings);
@@ -41,15 +38,15 @@
         }
 
         Active() {
-            hooks.Call(events.Inactivity.Active);
+            services.Hooks.call(services.HookEvents.Inactivity.Active);
         }
 
         SetToAway() {
-            hooks.Call(events.Inactivity.Inactive);
+            services.Hooks.call(services.HookEvents.Inactivity.Inactive);
         }
 
         Logout() {
-            hooks.Call(events.Inactivity.ShouldLogOut);
+            services.Hooks.call(services.HookEvents.Inactivity.ShouldLogOut);
         }
     }
     

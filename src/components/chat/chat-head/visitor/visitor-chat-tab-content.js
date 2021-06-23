@@ -45,7 +45,7 @@
         beforeCreate() {
             let self = this;
 
-            hooks.Register(events.Chat.TabClicked, (tab) => {
+            hooks.register(events.Chat.TabClicked, (tab) => {
                 self.tabSelected = tab;
             });
 

@@ -6,7 +6,7 @@
 
     var notification;
 
-    hooks.Register(events.Connection.OperatorChat, (e) => {
+    hooks.register(events.Connection.OperatorChat, (e) => {
         var userName = e.Header.toLowerCase();
         var exists = state.operatorMessages[userName];
         var reversed = e.Data.reverse();
@@ -16,12 +16,12 @@
             }
         } else {
             state.operatorMessages[userName] = reversed;
-            hooks.Call(events.Team.MessagedAdded);
+            hooks.call(events.Team.MessagedAdded);
         }
         state.currentOperatorChatMessages = state.operatorMessages[userName];
     });
 
-    hooks.Register(events.Connection.FromOperator, (e) => {
+    hooks.register(events.Connection.FromOperator, (e) => {
         var userConn = e.Header;
         var text = e.Data;
 
@@ -60,7 +60,7 @@
                     createNotification();
                 }
 
-                hooks.Call(events.Team.MessagedAdded);
+                hooks.call(events.Team.MessagedAdded);
             }
         }
 
@@ -72,13 +72,13 @@
                     text, () => {
                     window.focus();
                     notification.close();
-                    hooks.Call(events.Team.NotificationClicked, user);
+                    hooks.call(events.Team.NotificationClicked, user);
             });
         }
     });
 
 
-    hooks.Register(events.Connection.OperatorLink, (e) => {
+    hooks.register(events.Connection.OperatorLink, (e) => {
         var userConn = e.Header;
         var text = e.Data;
         
@@ -91,7 +91,7 @@
                 isLink: true
             });
             
-            hooks.Call(events.Team.MessagedAdded);
+            hooks.call(events.Team.MessagedAdded);
         }
     });
 
@@ -163,47 +163,47 @@
             </div>
         `,
         beforeCreate() {
-            hooks.Register(events.Connection.OperatorTyping, (e) => {
+            hooks.register(events.Connection.OperatorTyping, (e) => {
                 if(e.Data == this.user.Connection) {
                     this.ShowTypingStatus = true;
                     this.TypingName = this.user.Name;
                 }
             });
 
-            hooks.Register(events.Connection.OperatorTypingStopped, (e) => {
+            hooks.register(events.Connection.OperatorTypingStopped, (e) => {
                 if(e.Data == this.user.Connection) {
                     this.ShowTypingStatus = false;
                     this.TypingName = "";
                 }
             });
 
-            hooks.Register(events.Connection.OperatorChat, (e) => {
+            hooks.register(events.Connection.OperatorChat, (e) => {
                 if(e.Data.length <= 0) {this.ShowGetPreviousLines = false;}
             });
 
-            hooks.Register(events.Team.OtherUserClicked, (user) => {
+            hooks.register(events.Team.OtherUserClicked, (user) => {
                 this.SearchText = "";
                 if (this.SearchElem() != null) {this.SearchElem().value = "";}
                 this.ShowGetPreviousLines = true;
                 this.InteractionDisabled = false;
             });
 
-            hooks.Register(events.Team.MessagedAdded, () => {
+            hooks.register(events.Team.MessagedAdded, () => {
                 this.ShowGetPreviousLines = true;
                 this.ScrollChat();
             });
 
-            hooks.Register(events.Chat.CannedResponsesClicked, (type) => {
+            hooks.register(events.Chat.CannedResponsesClicked, (type) => {
                 if (type != "team") {return;}
                 this.Split();
             });
 
-            hooks.Register(events.Chat.CannedResponsesClosed, (type) => {
+            hooks.register(events.Chat.CannedResponsesClosed, (type) => {
                 if (type != "team") {return;}
                 this.Normal();
             });
 
-            hooks.Register(events.Connection.UserDisconnecting, (e) => {
+            hooks.register(events.Connection.UserDisconnecting, (e) => {
                 var userConn = e.Data;
                 if(userConn == this.user.Connection) {
                     this.InteractionDisabled = true;
@@ -253,7 +253,7 @@
             
             CannedResponseClicked(evnt) {
                 this.SelectedCannedResponse = evnt.item;
-                hooks.Call(events.Team.CannedResponses.Clicked, evnt);
+                hooks.call(events.Team.CannedResponses.Clicked, evnt);
             },
 
             CannedResponsesClicked() {
@@ -268,7 +268,7 @@
             GetPreviousLines() {
                 if (this.messages.length > 0) {
                     var lastMessage = this.messages[0];
-                    connection.GetClientChat(this.user.Username, lastMessage.ID, this.SearchText);
+                    connection.getClientChat(this.user.Username, lastMessage.ID, this.SearchText);
                 }
             },
 
@@ -280,15 +280,15 @@
                 var txt = this.SearchElem().value;
                 if(txt.length > 0) {
                     this.SearchText = txt;
-                    connection.GetClientChat(this.user.Username, 0, this.SearchText);
+                    connection.getClientChat(this.user.Username, 0, this.SearchText);
                 } else {
                     this.SearchText = "";
-                    connection.GetClientChat(this.user.Username, 0);
+                    connection.getClientChat(this.user.Username, 0);
                 }
             },
 
             SendFileToOperator(fileName, url) {
-               connection.SendFileToOperator(this.user.Connection, fileName, url);
+               connection.sendFileToOperator(this.user.Connection, fileName, url);
                 var msg = {
                     ID: 0,
                     MyLine: true,
@@ -306,7 +306,7 @@
                     eventArgs.Text = eventArgs.Text.substring(0, idx);
                     var url =  `${state.webChartsURL}document.aspx?f=${eventArgs.AttachedFile.HashedFileName}`;
 
-                    connection.SendFileToOperator(this.user.Connection, eventArgs.AttachedFile.FileName, url);
+                    connection.sendFileToOperator(this.user.Connection, eventArgs.AttachedFile.FileName, url);
                     var msg = {
                         ID: 0,
                         MyLine: true,
@@ -325,11 +325,11 @@
                     isLink: false
                 });
 
-                connection.SendToOperator(this.user.Connection, eventArgs.Text);
+                connection.sendToOperator(this.user.Connection, eventArgs.Text);
                 this.ScrollChat();
 
                 this.SendingTypingStatus = false;
-                connection.StopTypingStatus(this.user.Connection);
+                connection.stopTypingStatus(this.user.Connection);
 
                 var user = this.$store.state.users.find(x => x.Username == this.user.Username);
                 user.UnAnswered = false;
@@ -340,12 +340,12 @@
                 clearTimeout(this.TypingTimer);
                 this.TypingTimer = setTimeout(() => {
                     this.SendingTypingStatus = false;
-                    connection.StopOperatorTypingStatus(this.user.Connection);
+                    connection.stopOperatorTypingStatus(this.user.Connection);
                 }, 1000);
 
                 if(this.SendingTypingStatus == false) {
                     this.SendingTypingStatus = true;
-                    connection.SendOperatorTypingStatus(this.user.Connection);
+                    connection.sendOperatorTypingStatus(this.user.Connection);
                 } 
             },
         },

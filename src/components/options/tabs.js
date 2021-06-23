@@ -47,7 +47,7 @@
                         this.AboutElem().classList.add("is-active");
                         break;
                 }
-                hooks.Call(events.Options.TabClicked, tab);
+                hooks.call(events.Options.TabClicked, tab);
             },
             GeneralElem() {
                 return document.getElementById("optionsGeneralTab");

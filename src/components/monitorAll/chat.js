@@ -56,7 +56,7 @@
             }, 50);
         },
         created() {
-            hooks.Register(events.Connection.PreviousChat, (e) => {
+            hooks.register(events.Connection.PreviousChat, (e) => {
                 var chat = this.$store.state.chats.find(x => x.ChatUID == e.Data.ChatUID);
         
                 if(chat && chat.ChatUID == this.chat.ChatUID) {
@@ -65,7 +65,7 @@
                 }
             });
 
-            hooks.Register(events.Connection.ListeningClient, (data) => {
+            hooks.register(events.Connection.ListeningClient, (data) => {
                 var info = data.Header.split(":");
                 var chatNumber = info[0];
                 var chatuid = info[1];
@@ -77,7 +77,7 @@
                 }
             });
 
-            hooks.Register(events.Connection.ListeningVisitor, (data) => {
+            hooks.register(events.Connection.ListeningVisitor, (data) => {
                 var info = data.Header.split(":");
                 var chatNumber = info[0];
                 var chatuid = info[1];

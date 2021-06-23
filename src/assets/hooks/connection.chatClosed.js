@@ -5,7 +5,7 @@
     var connection = services.WhosOnConn;
     var store = services.Store;
 
-    hooks.Register(hook.Connection.ChatClosed, (e) => {
+    hooks.register(hook.Connection.ChatClosed, (e) => {
         var data = e.Data;
         var chat = state.chats.find((v) => v.ChatUID == data);
         
@@ -13,7 +13,7 @@
 
         if(chat != null) {            
             if(state.currentChat.ChatUID == chat.ChatUID) {
-                hooks.Call(hook.Connection.CurrentChatClosed);
+                hooks.call(hook.Connection.CurrentChatClosed);
                 state.currentChat.Closed = true;
             }
 
@@ -51,10 +51,10 @@
 
         if (state.currentStatus <= 1) {
             if(state.userInfo.MaxChats == 0 || reached == false) {
-                connection.ChangeStatus("online");
+                connection.changeStatus("online");
                 state.statusCanChangeAutomatically = true;
             } else {
-                connection.ChangeStatus("busy");
+                connection.changeStatus("busy");
                 state.statusCanChangeAutomatically = false;
             }
         }

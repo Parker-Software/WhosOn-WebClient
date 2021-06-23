@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.LoggedIn, (e) => {
+    hooks.register(hook.Connection.LoggedIn, (e) => {
         state.appTitle = e.Data.AppTitle;
         state.serverBuild = e.Data.ServerBuild;
         state.registeredUser = e.Data.RegisteredUser;

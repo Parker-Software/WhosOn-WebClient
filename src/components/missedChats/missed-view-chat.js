@@ -324,14 +324,14 @@
 
             Close() {
                 this.text = [];
-                connection.CancelResponseToMissedChat(this.chat.ChatUID);
+                connection.cancelResponseToMissedChat(this.chat.ChatUID);
                 this.responding = false;
                 this.$emit("CloseClicked");
             },
 
             Send() {
                 var text = this.text.join('\n');
-                connection.RespondToMissedChat(this.chat.ChatUID, text);
+                connection.respondToMissedChat(this.chat.ChatUID, text);
 
                 this.text = [];
                 this.responding = false;
@@ -368,7 +368,7 @@
                 var text = this.InputArea().innerText.trim();
 
                 if(this.responding == false) {
-                    connection.RespondingToMissedChat(this.chat.ChatUID);
+                    connection.respondingToMissedChat(this.chat.ChatUID);
                     this.responding = true;
                 }
 

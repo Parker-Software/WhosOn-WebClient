@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.CurrentChat, (e) => {
+    hooks.register(hook.Connection.CurrentChat, (e) => {
         var chatInfo = e.Header.split(":");
         var siteKey = chatInfo[0];
         var ip = chatInfo[1];
@@ -34,8 +34,8 @@
                 Copy(state.chatPreSurveys[chatNum]) :
                 [];
 
-            services.WhosOnConn.StopTypingStatus(state.currentChat.Number);
-            services.WhosOnConn.GetVisitorDetail(siteKey, ip, sessId, chatId);
+            services.WhosOnConn.stopTypingStatus(state.currentChat.Number);
+            services.WhosOnConn.getVisitorDetail(siteKey, ip, sessId, chatId);
         }
     });
 

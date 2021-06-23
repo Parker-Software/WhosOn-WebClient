@@ -107,7 +107,7 @@
                     
                         if(state.currentChat.BeingMonitoredByYou == false && state.currentChat.Closed && currentSiteWrapUpRequired && state.currentChat.WrapUpCompleted == false) 
                     {
-                        hooks.Call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
+                        hooks.call(chatEvents.WrapUpNotCompleted, state.currentChat.Number);
                         return;
                     }
                 }
@@ -117,11 +117,11 @@
                 if(this.chat.TalkingToClientConnection == 0 || this.chat.TalkingToClientConnection  == state.currentConnectionId) {
                     var inputArea = document.getElementById("inputArea");
                     if (inputArea != null) inputArea.innerText = "";
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
+                    hooks.call(events.ChatItem.AcceptClicked, { "Number": this.chat.Number, "ChatId": this.chat.ChatUID});
                     element.classList.toggle("show");   
                     wrapper.classList.toggle("opacity");
                 } else if (this.chat.TalkingToClientConnection !== state.currentConnectionId) {
-                    if(state.rights.MonitorChats) {hooks.Call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });}
+                    if(state.rights.MonitorChats) {hooks.call(events.ChatItem.MonitorClicked, {"Number": this.chat.Number, "ChatId": this.chat.ChatUID });}
                     element.classList.toggle("show");   
                     wrapper.classList.toggle("opacity");
                 }

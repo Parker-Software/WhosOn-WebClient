@@ -4,7 +4,7 @@
     var hook = services.HookEvents;
     var connection = services.WhosOnConn;
 
-    hooks.Register(hook.Connection.UserInfo, (e) => {
+    hooks.register(hook.Connection.UserInfo, (e) => {
         if (state.userInfo == null || state.userName == e.Data.Username) {
         if(e.Data.User != null) {
             state.userInfo = e.Data.User;
@@ -45,7 +45,7 @@
 
 
         if(state.settings.ListenModeActive) {
-            connection.StartListening();
+            connection.startListening();
         }
     });
     

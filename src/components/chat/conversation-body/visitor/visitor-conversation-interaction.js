@@ -135,33 +135,33 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Connection.CurrentChatClosed, (e) => {
+            hooks.register(events.Connection.CurrentChatClosed, (e) => {
                 this.ShowingEmojiMenu = false;
                 this.ShowingCannedResponses = false;
                 this.ShowingFiles = false
             });
 
-            hooks.Register(events.Chat.CannedResponsesClosed, () => {
+            hooks.register(events.Chat.CannedResponsesClosed, () => {
                 this.ShowingCannedResponses = false;
             });
 
-            hooks.Register(events.Chat.PickAFileClosed, () => {
+            hooks.register(events.Chat.PickAFileClosed, () => {
                 this.ShowingFiles = false
             });
 
-            hooks.Register(events.ChatItem.AcceptClicked, (e) => {
+            hooks.register(events.ChatItem.AcceptClicked, (e) => {
                 this.AttachedFile = null;
             });
 
-           hooks.Register(events.Connection.MonitoredChat, (e) => {
+           hooks.register(events.Connection.MonitoredChat, (e) => {
                 this.AttachedFile = null;
             });
 
-            hooks.Register(events.ChatItem.MonitorClicked, (e) => {
+            hooks.register(events.ChatItem.MonitorClicked, (e) => {
                 this.AttachedFile = null;
             });
 
-            hooks.Register(events.Chat.SuggestionFromServer, (suggestion) => {
+            hooks.register(events.Chat.SuggestionFromServer, (suggestion) => {
                 if(this.InputArea().innerHTML.length > 0) return;
 
 
@@ -177,7 +177,7 @@
                 this.InputArea().focus();
             });
             
-            hooks.Register(events.Chat.CannedResponses.Clicked, (e) => {
+            hooks.register(events.Chat.CannedResponses.Clicked, (e) => {
                 var {item, event} = e;
                 var content = item.Content;
                 if(item.Attachments != "") {
@@ -191,7 +191,7 @@
                 this.InputArea().focus();
             });
 
-            hooks.Register(events.Connection.ChatChanged, (e) => {
+            hooks.register(events.Connection.ChatChanged, (e) => {
                 if 
                 (
                     this.chat.ChatUID == e.Data.ChatUID &&
@@ -281,17 +281,17 @@
                 this.ShowingFiles = !this.ShowingFiles;
                 this.ShowingEmojiMenu = false;
                 this.ShowingCannedResponses = false;
-                hooks.Call(events.Chat.SendFileClicked);
+                hooks.call(events.Chat.SendFileClicked);
             },
 
             RequestFileClicked() {
-                connection.RequestFile(state.currentChat.Number);
-                hooks.Call(events.Chat.RequestedFileUpload);
+                connection.requestFile(state.currentChat.Number);
+                hooks.call(events.Chat.RequestedFileUpload);
             },
 
             SendFile(fileName, url) {
                 this.ShowingFiles = false;
-                connection.SendFile(state.currentChat.Number,
+                connection.sendFile(state.currentChat.Number,
                     fileName,
                     url
                 );

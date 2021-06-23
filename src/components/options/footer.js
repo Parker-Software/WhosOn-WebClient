@@ -12,16 +12,16 @@
         `,
         methods: {
             Save() {
-                hooks.Call(events.Options.SaveClicked);
-                services.WhosOnConn.ClientOptions(this.$store.state.settings);
+                hooks.call(events.Options.SaveClicked);
+                services.WhosOnConn.clientOptions(this.$store.state.settings);
                 this.$store.dispatch('storeSettings');
             },
             Cancel() {
-                hooks.Call(events.Options.CancelClicked);
+                hooks.call(events.Options.CancelClicked);
             },
             Logout() {
-                hooks.Call(events.Options.LogoutClicked);
-                services.WhosOnConn.Logout();
+                hooks.call(events.Options.LogoutClicked);
+                services.WhosOnConn.logout();
             }
         }
     });

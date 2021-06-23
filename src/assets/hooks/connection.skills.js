@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.Skills, (e) => {
+    hooks.register(hook.Connection.Skills, (e) => {
         state.skills = [];
         Object.keys(e.Data).forEach(x => {
             var skill = e.Data[x];

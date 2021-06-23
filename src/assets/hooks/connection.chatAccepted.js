@@ -5,7 +5,7 @@
     var events = services.HookEvents;
     var connection = services.WhosOnConn;
 
-    hooks.Register(events.Connection.ChatAccepted, (acceptedChat) => {
+    hooks.register(events.Connection.ChatAccepted, (acceptedChat) => {
         var data = acceptedChat.Data;
         var split = data.split(":");
         var chatId = split[0];
@@ -20,14 +20,14 @@
 
         if (state.currentStatus <= 1) {
             if(state.userInfo.MaxChats != 0 && reached) {
-                connection.ChangeStatus("busy");
+                connection.changeStatus("busy");
                 state.statusCanChangeAutomatically = false;
             } else {
-                connection.ChangeStatus("online");
+                connection.changeStatus("online");
                 state.statusCanChangeAutomatically = true;
             }
         }
 
-        connection.GetVisitorDetail(chat.SiteKey, chat.IPAddress, chat.SessionID, chat.ChatUID);
+        connection.getVisitorDetail(chat.SiteKey, chat.IPAddress, chat.SessionID, chat.ChatUID);
     });
 })(woServices);

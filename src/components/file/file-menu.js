@@ -170,7 +170,7 @@
                             } else {
                                 self.showLoader = false;
                                 self.error = false;
-                                connection.GetFiles();
+                                connection.getFiles();
                                 self.$emit("Send", self.file.name, result);
                                 self.UploadFileInputElem().value = "";
                             }

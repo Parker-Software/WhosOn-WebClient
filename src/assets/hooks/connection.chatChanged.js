@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.ChatChanged, (e) => {
+    hooks.register(hook.Connection.ChatChanged, (e) => {
         var data = e.Data;
         var chat = null;
         var newChat = state.preRenderedChats[data.Number];
@@ -15,7 +15,7 @@
             state.chats.push(chat);
             state.activeChatCount = Object.keys(state.chats).length;
             Vue.delete(state.preRenderedChats, data.Number);
-            hooks.Call(hook.Connection.NewChat, chat);
+            hooks.call(hook.Connection.NewChat, chat);
         } else {
             if(existingChat != null) {
                 chat = services.ChatFactory.FromChatChangedOld(data, existingChat, state.sites, state.users);
@@ -30,7 +30,7 @@
                 }, state.sites, state.users);
                 state.chats.push(chat);
                 state.activeChatCount = Object.keys(state.chats).length;
-                hooks.Call(hook.Connection.NewChat, chat);
+                hooks.call(hook.Connection.NewChat, chat);
             }
         }
     });

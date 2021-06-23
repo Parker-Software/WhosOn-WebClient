@@ -23,11 +23,11 @@
         </div>
         `,  
         mounted() {
-            hooks.Call(events.Chat.ScrollChat);
+            hooks.call(events.Chat.ScrollChat);
             var images = document.getElementsByClassName("clickableImage");
             for(var i = 0; i < images.length; i++){
                 images[i].onload = function() {
-                    hooks.Call(events.Chat.ScrollChat);
+                    hooks.call(events.Chat.ScrollChat);
                 }
             }
         },

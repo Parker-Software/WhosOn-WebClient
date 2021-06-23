@@ -3,7 +3,7 @@
     var hooks = services.Hooks;
     var hook = services.HookEvents;
 
-    hooks.Register(hook.Connection.UploadedFiles, (e) => {
+    hooks.register(hook.Connection.UploadedFiles, (e) => {
         state.uploadedFiles = e.Data;
     });
     

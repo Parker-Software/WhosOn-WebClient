@@ -149,31 +149,31 @@
                 </aside>
         </div>`,
         beforeCreate() {
-            hooks.Register(events.Options.SaveClicked, () => {
+            hooks.register(events.Options.SaveClicked, () => {
                 this.OnNavButtonClicked("chats");
             });
 
-            hooks.Register(events.Options.CancelClicked, () => {
+            hooks.register(events.Options.CancelClicked, () => {
                 this.OnNavButtonClicked("chats");
             });
 
-            hooks.Register(events.Connection.PasswordChanged, () => {
+            hooks.register(events.Connection.PasswordChanged, () => {
                 this.OnNavButtonClicked("chats");
             });
 
-            hooks.Register(events.Team.NotificationClicked, (user) => {
+            hooks.register(events.Team.NotificationClicked, (user) => {
                 this.OnNavButtonClicked("team");
             });
 
-            hooks.Register(events.Sites.Clicked, (site) => {
+            hooks.register(events.Sites.Clicked, (site) => {
                 this.OnNavButtonClicked("sites");
             });
 
-            hooks.Register(events.Connection.ChatAccepted, () => {
+            hooks.register(events.Connection.ChatAccepted, () => {
                 this.OnNavButtonClicked("chats");
             });
 
-            hooks.Register(events.Chat.WrapUpNotCompleted, (wrapup) => {
+            hooks.register(events.Chat.WrapUpNotCompleted, (wrapup) => {
                 if (wrapup.IsFocused) {
                     this.OnNavButtonClicked('closedChats');
                 }
@@ -321,25 +321,25 @@
             },
 
             setToOnline() {
-                hooks.Call(events.Home.StatusChanged, "online");
+                hooks.call(events.Home.StatusChanged, "online");
                 this.$store.state.statusCanChangeAutomatically = true;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
 
             setToBusy() {
-                hooks.Call(events.Home.StatusChanged, "busy");
+                hooks.call(events.Home.StatusChanged, "busy");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
 
             setToBRB() {
-                hooks.Call(events.Home.StatusChanged, "brb");
+                hooks.call(events.Home.StatusChanged, "brb");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
 
             setToAway() {
-                hooks.Call(events.Home.StatusChanged, "away");
+                hooks.call(events.Home.StatusChanged, "away");
                 this.$store.state.statusCanChangeAutomatically = false;
                 this.StatusPopout().classList.toggle("is-hidden");
             },
@@ -421,7 +421,7 @@
                     path: '/' + status
                   });
 
-                hooks.Call(navEvents.ButtonClicked, status);  
+                hooks.call(navEvents.ButtonClicked, status);  
                 this.focus = status;        
                 if(this.isHidden(this.StatusPopout()) == false && status != "status") {this.ToggleStatus();}
                 switch (status) {
@@ -430,7 +430,7 @@
                         break;
                     case "chats":
                         this.UnselectAll();
-                        hooks.Call(navEvents.ChatsClicked);
+                        hooks.call(navEvents.ChatsClicked);
                         this.showChats = true;
                         this.showTeam = false;
                         this.showSites = false;    
@@ -440,7 +440,7 @@
                         break;
                     case "closedChats":
                         this.UnselectAll();
-                        hooks.Call(navEvents.ClosedChatsClicked);
+                        hooks.call(navEvents.ClosedChatsClicked);
                         this.showChats = false;
                         this.showTeam = false;
                         this.showSites = false;      
@@ -450,7 +450,7 @@
                         break;
                     case "team":
                         this.UnselectAll();                        
-                        hooks.Call(navEvents.TeamClicked);
+                        hooks.call(navEvents.TeamClicked);
                         this.showChats = false;
                         this.showTeam = true;     
                         this.showSites = false;   
@@ -460,7 +460,7 @@
                         break;
                     case "monitor":
                         this.UnselectAll();   
-                        hooks.Call(navEvents.MonitorClicked);
+                        hooks.call(navEvents.MonitorClicked);
                         this.showChats = false;
                         this.showTeam = false;     
                         this.showSites = false;   
@@ -470,10 +470,10 @@
                         this.MonitorAllBtn().firstChild.classList.add("is-active");
                         break;
                     case "sites":
-                        if(this.showSites == false) {connection.GetDailySummary();}
+                        if(this.showSites == false) {connection.getDailySummary();}
 
                         this.UnselectAll();  
-                        hooks.Call(navEvents.SitesClicked);   
+                        hooks.call(navEvents.SitesClicked);   
                         this.showChats = false;
                         this.showTeam = false; 
                         this.showSites = true; 
@@ -483,7 +483,7 @@
                         break;
                     case "options":
                         this.UnselectAll();               
-                        hooks.Call(navEvents.OptionsClicked);   
+                        hooks.call(navEvents.OptionsClicked);   
                         this.showChats = false;
                         this.showTeam = false; 
                         this.showClosedChats = false;    
@@ -492,7 +492,7 @@
                         break;
                     case "missedchats":
                         this.UnselectAll();              
-                        hooks.Call(navEvents.MissedChatsClicked);
+                        hooks.call(navEvents.MissedChatsClicked);
                         this.showChats = false;
                         this.showTeam = false;    
                         this.showClosedChats = false; 

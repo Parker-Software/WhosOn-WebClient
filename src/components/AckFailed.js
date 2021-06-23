@@ -34,7 +34,7 @@
         beforeCreate() {
             let self = this;
 
-            hooks.Register(hook.Connection.AckFailed, () => {
+            hooks.register(hook.Connection.AckFailed, () => {
                 self.show = true;
             });
         },

@@ -18,7 +18,7 @@
             this.GeneralContentElem().style.display = "block";
         },
         beforeCreate() {
-            hooks.Register(events.Options.TabClicked, (tab) => {
+            hooks.register(events.Options.TabClicked, (tab) => {
                 this.HideAll();
                 switch(tab) {
                     case "general":

@@ -117,44 +117,44 @@
             </div>
         `,
         beforeCreate() {
-            hooks.Register(events.ChatModal.CloseChatConfirmed, () => {
+            hooks.register(events.ChatModal.CloseChatConfirmed, () => {
                 this.DisableCloseChatButton();
                 this.DisableStopMonitoringButton();
                 this.DisableTransferButton();
                 this.DisableAquireButton();
             });
 
-            hooks.Register(events.Connection.CurrentChatClosed, () => {
+            hooks.register(events.Connection.CurrentChatClosed, () => {
                 this.DisableTransferButton();
                 this.DisableAquireButton();
             });
 
-            hooks.Register(events.ChatItem.AcceptClicked, (e) => {
+            hooks.register(events.ChatItem.AcceptClicked, (e) => {
                 this.EnableCloseChatButton();
                 this.EnableTransferButton();
             });
 
-            hooks.Register(events.Connection.MonitoredChat, () => {
+            hooks.register(events.Connection.MonitoredChat, () => {
                 this.EnableStopMonitoringButton();
                 this.EnableAquireButton();
             });
 
-            hooks.Register(events.ChatItem.MonitorClicked, () => {
+            hooks.register(events.ChatItem.MonitorClicked, () => {
                 setTimeout(() => {
                     this.EnableStopMonitoringButton();
                     this.EnableAquireButton();
                 }, 100);
             });
 
-            hooks.Register(events.Connection.TransferConfirmed, (e) => {
+            hooks.register(events.Connection.TransferConfirmed, (e) => {
                 var chat = this.$store.state.chats.find(x => Number(x.Number) == Number(e.Data));
                 if(chat) {
                     this.acquired = false;
-                    hooks.Call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID});
+                    hooks.call(events.ChatItem.AcceptClicked, { "Number": chat.Number, "ChatId": chat.ChatUID});
                 }
             });
 
-            hooks.Register(events.Connection.ChatAcquired, (e) => {
+            hooks.register(events.Connection.ChatAcquired, (e) => {
                 var split = e.Data.split(":");
                 var chatNumber = split[0];
                 var opName = split[1];
@@ -260,29 +260,29 @@
             },
             
             SoftCloseClicked() {
-                hooks.Call(chatEvents.SoftCloseChatClicked, this.Chat.Number);
+                hooks.call(chatEvents.SoftCloseChatClicked, this.Chat.Number);
             },
 
             CloseClicked(e) {
                 if (this.closedChatView) {
-                    hooks.Call(closedChatEvents.CloseChatClicked, this.Chat.ChatUID);
+                    hooks.call(closedChatEvents.CloseChatClicked, this.Chat.ChatUID);
                     state.currentClosedChat = null;
                 } else {
-                    hooks.Call(chatEvents.CloseChatClicked, this.Chat.Number);
+                    hooks.call(chatEvents.CloseChatClicked, this.Chat.Number);
                 }
             },
 
             TransferClicked(e) {
-                hooks.Call(chatEvents.TransferClicked);
+                hooks.call(chatEvents.TransferClicked);
             },
 
             StopMonitoringClicked(e) {
-                hooks.Call(events.ChatModal.StopMonitoringChatConfirmed, this.Chat.Number);                
+                hooks.call(events.ChatModal.StopMonitoringChatConfirmed, this.Chat.Number);                
             },
 
             AquireChatClicked(e) {
                 state.aquiringChatFrom = this.Chat.TalkingTo;
-                connection.AquireChat(this.Chat.Number);
+                connection.aquireChat(this.Chat.Number);
             }
         }
     });

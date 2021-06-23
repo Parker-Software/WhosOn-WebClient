@@ -31,7 +31,7 @@
             </tr>
             `,
         beforeCreate() { 
-            hooks.Register(events.FileUploader.FileItemClicked, (e) => {
+            hooks.register(events.FileUploader.FileItemClicked, (e) => {
                 if(this.Item() != null) {this.Item().classList.remove("is-active");}
             });
         },
@@ -41,7 +41,7 @@
             },
             Clicked() {
                 this.$emit("Clicked", this.hashedFileName);
-                hooks.Call(events.FileUploader.FileItemClicked, this.hashedFileName);
+                hooks.call(events.FileUploader.FileItemClicked, this.hashedFileName);
                 this.Item().classList.add("is-active");
             }
         },

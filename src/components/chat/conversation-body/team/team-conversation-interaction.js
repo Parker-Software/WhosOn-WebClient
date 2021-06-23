@@ -57,7 +57,7 @@
             </section>
         `,
         beforeCreate() {
-            hooks.Register(events.Team.CannedResponses.Clicked, (e) => {
+            hooks.register(events.Team.CannedResponses.Clicked, (e) => {
                 var {item, event} = e;
                 var content = item.Content;
                 if(item.Attachments != "") {
@@ -71,7 +71,7 @@
                 this.InputArea().focus();
             });
 
-            hooks.Register(events.Connection.UserDisconnecting, (e) => {
+            hooks.register(events.Connection.UserDisconnecting, (e) => {
                 var userConn = e.Data;
                 if(userConn == this.user.Connection) {
                     this.ShowingCannedResponses = false;

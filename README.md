@@ -7,6 +7,8 @@ WhosOn Webclient proof of concept.  Uses vuejs and websockets.
 # Getting Started
 Prerequisites: Visual Studio Code, NodeJS, NPM
 
+(You may need to do - `npm install --global windows-build-tools`)
+
 1. Clone the repo
 2. Open Terminal
 3. Run `npm install`

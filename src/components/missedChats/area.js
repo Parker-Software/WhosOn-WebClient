@@ -153,11 +153,11 @@
         `,
 
         beforeCreate() {
-            hooks.Register(events.Connection.MissedChats, (chats) => {
+            hooks.register(events.Connection.MissedChats, (chats) => {
                 state.missedChats = Copy(chats.Data.MissedChats);
             });
 
-            hooks.Register(events.Connection.MissedChat, (chat) => {
+            hooks.register(events.Connection.MissedChat, (chat) => {
                 var found = state.missedChats.find(x => x.ChatUID == chat.Data.ChatUID);
 
                 if(found == null) {
@@ -170,7 +170,7 @@
                 state.missedChats = Copy(state.missedChats);
             });
 
-            hooks.Register(events.Connection.MissedChatClosed, (chat) => {
+            hooks.register(events.Connection.MissedChatClosed, (chat) => {
                 var found = state.missedChats.find(x => x.ChatUID == chat.Data);
                 if(found != null) {
                     var idx = state.missedChats.indexOf(found);
@@ -181,7 +181,7 @@
                 state.missedChats = Copy(state.missedChats);
             });
 
-            hooks.Register(events.Connection.PreviousChat, (chat) => {
+            hooks.register(events.Connection.PreviousChat, (chat) => {
                 if(this.selectedChat != null && chat.Data.ChatUID == this.selectedChat.ChatUID)
                 {
                     this.chatDetail = chat.Data;
@@ -306,7 +306,7 @@
             ChatClicked(chat) {
                 if(chat == this.selectedChat) {return;}
                 this.selectedChat = chat;
-                connection.GetPreviousChat(this.selectedChat.SiteKey, this.selectedChat.ChatUID);
+                connection.getPreviousChat(this.selectedChat.SiteKey, this.selectedChat.ChatUID);
             },
 
             Search(txt) {

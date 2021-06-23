@@ -13,61 +13,33 @@ woServices.Add("DefaultState", function(){
         lang: "en",
 
         platform: "WebClient",
-
         key: "3yhqII6Zntve73GngYJQCbwADEKUty03",
-
         discoveryAddress: "https://discoveryfuncs.azurewebsites.net/api/Discover",
-
         webChartsURL: null,
-
         chatURL: null,
-
         userName: null,
-
         t: null,
-
         department: "dev",
-
         loggedIn: false,
-
         users: [],
-
         userInfo: null,
-
         currentStatus: 0,
-
         statusCanChangeAutomatically: true,
-
         aquiringChatFrom: "",
-
         currentChat: {},
-
         currentChatSite: {},
-
         currentClosedChat: {},
-
         currentConnectionId: null,
-
         preRenderedChats: [],
-
         currentChatMessages: [],
-
         currentChatPreSurveys: [],
-
         crmURL: null, 
-
         selectedOperatorToOperatorUser: null,
-
         currentOperatorChatMessages: [],
-
         operatorMessages: {},
-
         visitors: [],
-
         visitorDetail: {},
-
         chats: [],
-
         chatsClosed: [],
 
         chatMessages: {},
