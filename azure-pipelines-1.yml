@@ -13,7 +13,7 @@ steps:
 
 - task: mirror-git-repository-vsts-task@1
   inputs:
-    sourceGitRepositoryUri: 'https://parkersoftware@dev.azure.com/parkersoftware/WhosOn%202019/_git/WO-Webclient'
+    sourceGitRepositoryUri: 'https://dev.azure.com/parkersoftware/WhosOn%202019/_git/WO-Webclient'
     sourceGitRepositoryPersonalAccessToken: 'nahb4j56fv744wcijygalj6ousra54bu6wjkutsung6zjifdc3pa'
     destinationGitRepositoryUri: 'https://github.com/Parker-Software/WhosOn-WebClient.git'
     destinationGitRepositoryPersonalAccessToken: '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'
